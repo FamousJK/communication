@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <img src="Logo.png" alt="Connect Share Grow Logo" width="300">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>溝通與情感教育 | Communication Skills</title>
     <style>
         body { font-family: "Microsoft JhengHei", Arial, sans-serif; margin: 0; color: #333; line-height: 1.6; }
         
-        /* Top Utility Bar for Social Media */
-        .top-bar { background: #f8f9fa; padding: 10px 5%; display: flex; justify-content: flex-end; gap: 15px; font-size: 14px; }
+        /* Top Utility Bar */
+        .top-bar { background: #f8f9fa; padding: 10px 5%; display: flex; justify-content: flex-end; align-items: center; gap: 15px; font-size: 14px; }
         .top-bar a { color: #555; text-decoration: none; }
 
+        /* Language Dropdown */
+        .lang-picker { padding: 3px 8px; border-radius: 5px; border: 1px solid #ccc; background: white; cursor: pointer; font-size: 12px; }
+
         /* Navigation Menu */
-        nav { display: flex; justify-content: center; align-items: center; padding: 20px 5%; border-bottom: 1px solid #eee; position: sticky; top: 0; background: white; z-index: 1000; }
-        .nav-links { display: flex; list-style: none; gap: 30px; }
+        nav { display: flex; flex-direction: column; align-items: center; padding: 20px 5%; border-bottom: 1px solid #eee; position: sticky; top: 0; background: white; z-index: 1000; }
+        
+        /* Logo Styling */
+        .logo-box { margin-bottom: 15px; }
+        .logo-box img { width: 250px; height: auto; display: block; }
+
+        .nav-links { display: flex; list-style: none; gap: 30px; margin: 0; padding: 0; }
         .nav-links a { text-decoration: none; color: #444; font-weight: bold; transition: color 0.3s; }
         .nav-links a:hover { color: #8a78b5; }
 
@@ -30,7 +37,7 @@
 
         @media (max-width: 768px) {
             .hero { flex-direction: column; text-align: center; }
-            .nav-links { gap: 10px; font-size: 14px; }
+            .nav-links { gap: 15px; font-size: 14px; flex-wrap: wrap; justify-content: center; }
         }
     </style>
 </head>
@@ -41,11 +48,21 @@
         <a href="#">IG</a>
         <a href="#">YT</a>
         <a href="#">LinkedIn</a>
+        <select class="lang-picker" onchange="location = this.value;">
+            <option value="index.html" selected>中文 (繁體)</option>
+            <option value="index_simplified.html">中文 (简体)</option>
+            <option value="index_en.html">English</option>
+        </select>
     </div>
 
     <nav>
+        <div class="logo-box">
+            <a href="index.html">
+                <img src="Logo.png" alt="Connect Share Grow Logo">
+            </a>
+        </div>
         <ul class="nav-links">
-            <li><a href="#">主頁</a></li>
+            <li><a href="index.html">主頁</a></li>
             <li><a href="about.html">關於我們</a></li>
             <li><a href="#">溝通方法</a></li>
             <li><a href="#">教學資源</a></li>
