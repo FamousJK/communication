@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们 - 沟通的意义</title>
+    <style>
+        body { font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.8; color: #333; margin: 0; padding: 0; background: #fffdf5; }
+        
+        /* Top Utility Bar */
+        .top-bar { background: #f8f9fa; padding: 10px 5%; display: flex; justify-content: flex-end; align-items: center; gap: 15px; font-size: 14px; }
+        .top-bar a { color: #555; text-decoration: none; }
+        .lang-picker { padding: 3px 8px; border-radius: 5px; border: 1px solid #ccc; background: white; cursor: pointer; font-size: 12px; }
+
+        /* Navigation Menu */
+        nav { display: flex; flex-direction: column; align-items: center; padding: 20px 5%; border-bottom: 1px solid #eee; background: white; position: sticky; top: 0; z-index: 1000; }
+        .logo-box img { width: 250px; height: auto; margin-bottom: 15px; }
+        .nav-links { display: flex; list-style: none; gap: 30px; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: #444; font-weight: bold; transition: color 0.3s; }
+        .nav-links a:hover { color: #8a78b5; }
+
+        /* Content Container */
+        .container { max-width: 800px; margin: 50px auto; padding: 40px; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h1 { color: #5d4e8c; border-bottom: 2px solid #ffcc00; padding-bottom: 10px; }
+        h2 { color: #8a78b5; margin-top: 30px; }
+        p { margin-bottom: 20px; font-size: 1.1rem; }
+        .back-btn { display: inline-block; margin-top: 30px; text-decoration: none; color: #5d4e8c; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="#">FB</a> <a href="#">IG</a> <a href="#">YT</a> <a href="#">LinkedIn</a>
+        <select class="lang-picker" onchange="location = this.value;">
+            <option value="about_simplified.html" selected>中文 (简体)</option>
+            <option value="about.html">中文 (繁體)</option>
+            <option value="about_en.html">English</option>
+        </select>
+    </div>
+
+    <nav>
+        <div class="logo-box">
+            <a href="index_simplified.html">
+                <img src="Logo.png" alt="Connect Share Grow Logo">
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index_simplified.html">主页</a></li>
+            <li><a href="about_simplified.html">关于我们</a></li>
+            <li><a href="#">沟通方法</a></li>
+            <li><a href="#">教学资源</a></li>
+            <li><a href="#">联系我们</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>关于本课程：沟通的初衷</h1>
+        
+        <h2>为什么要建立这个课程？</h2>
+        <p>在快节奏的现代生活中，我们往往学会了说话，却忘记了如何“沟通”。建立这个平台的初衷，是希望提供一个温暖的空间，让大家重新学习如何表达需求，并同理他人的感受。</p>
+        
+        <h2>沟通的目的与意义</h2>
+        <p>沟通不仅是信息的传递，更是心灵的连结。通过有效的沟通，我们可以化解误会，将冲突转化为彼此理解的契机。</p>
+        
+        <h2>学习的益处</h2>
+        <p>参与本课程后，您将能够：<br>
+           1. 建立更和谐的家庭与社交关系。<br>
+           2. 在工作职场中更自信地表达意见。<br>
+           3. 提升情绪管理能力，减少无谓的争吵。</p>
+        
+        <h2>如何帮助有需要的人？</h2>
+        <p>我们特别关注那些在人际关系中感到孤立或面临沟通障碍的群体。通过简单易懂的工具（如非暴力沟通），我们帮助大家找回对话的勇气，改善心理健康与生活质量。</p>
+
+        <a href="index_simplified.html" class="back-btn">← 返回主页</a>
+    </div>
+
+</body>
+</html>
