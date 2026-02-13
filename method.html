@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>溝通技巧 - 聊天的方法</title>
+    <style>
+        body { font-family: "Microsoft JhengHei", Arial, sans-serif; line-height: 1.8; color: #333; margin: 0; padding: 0; background: #fffdf5; }
+        
+        .top-bar { background: #f8f9fa; padding: 10px 5%; display: flex; justify-content: flex-end; align-items: center; gap: 15px; font-size: 14px; }
+        .top-bar a { color: #555; text-decoration: none; }
+        .lang-picker { padding: 3px 8px; border-radius: 5px; border: 1px solid #ccc; background: white; cursor: pointer; font-size: 12px; }
+
+        nav { display: flex; flex-direction: column; align-items: center; padding: 20px 5%; border-bottom: 1px solid #eee; background: white; position: sticky; top: 0; z-index: 1000; }
+        .logo-box img { width: 250px; height: auto; margin-bottom: 15px; }
+        .nav-links { display: flex; list-style: none; gap: 30px; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: #444; font-weight: bold; transition: color 0.3s; }
+        .nav-links a:hover { color: #8a78b5; }
+
+        .container { max-width: 900px; margin: 50px auto; padding: 40px; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h1 { color: #5d4e8c; border-bottom: 2px solid #ffcc00; padding-bottom: 10px; text-align: center; }
+        .intro-text { text-align: center; font-size: 1.1rem; color: #666; margin-bottom: 40px; }
+        
+        .skill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .skill-card { background: #fff; border: 1px solid #eee; padding: 25px; border-radius: 12px; transition: transform 0.2s; }
+        .skill-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .skill-card h3 { color: #8a78b5; margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .skill-card p { font-size: 0.95rem; color: #555; }
+        
+        .back-btn { display: inline-block; margin-top: 30px; text-decoration: none; color: #5d4e8c; font-weight: bold; }
+
+        @media (max-width: 768px) { .skill-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="#">FB</a> <a href="#">IG</a>
+        <select class="lang-picker" onchange="location = this.value;">
+            <option value="methods.html" selected>中文 (繁體)</option>
+            <option value="methods_simplified.html">中文 (简体)</option>
+            <option value="methods_en.html">English</option>
+        </select>
+    </div>
+
+    <nav>
+        <div class="logo-box">
+            <a href="index.html"><img src="Logo.png" alt="Logo"></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">主頁</a></li>
+            <li><a href="about.html">關於我們</a></li>
+            <li><a href="methods.html">溝通技巧</a></li>
+            <li><a href="#">教學資源</a></li>
+            <li><a href="#">聯絡我們</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>聊天的方法：實用的溝通技巧</h1>
+        <p class="intro-text">溝通不只是說話，更是一門連結他人的藝術。掌握以下技巧，讓您的對話更有溫度。</p>
+
+        <div class="skill-grid">
+            <div class="skill-card">
+                <h3>👂 積極傾聽</h3>
+                <p>給予對方充分的關注。在對方說話時，避免打斷或急著給建議，透過點頭或簡單的回應（如「我了解」）讓對方感到被尊重。</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>❓ 開放式提問</h3>
+                <p>多使用「為什麼」或「如何」來引導對話。比起只能回答「是」或「不是」的問題，開放式提問能帶動更深層的分享。</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>🤝 同理心反應</h3>
+                <p>試著站在對方的角度思考。即使你不認同對方的觀點，也可以嘗試理解他們當下的心情，這能有效化解僵局。</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>😊 非語言訊息</h3>
+                <p>眼神交流、微笑以及放鬆的身姿，都能傳遞出「我願意與你對話」的訊號。肢體語言往往比說出來的話更有影響力。</p>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-btn">← 返回主頁</a>
+    </div>
+
+</body>
+</html>
