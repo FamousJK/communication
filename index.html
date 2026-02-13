@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
-    <title>My First Website</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>溝通與情感教育 | Communication Skills</title>
+    <style>
+        body { font-family: "Microsoft JhengHei", Arial, sans-serif; margin: 0; color: #333; line-height: 1.6; }
+        
+        /* Top Utility Bar for Social Media */
+        .top-bar { background: #f8f9fa; padding: 10px 5%; display: flex; justify-content: flex-end; gap: 15px; font-size: 14px; }
+        .top-bar a { color: #555; text-decoration: none; }
+
+        /* Navigation Menu */
+        nav { display: flex; justify-content: center; align-items: center; padding: 20px 5%; border-bottom: 1px solid #eee; position: sticky; top: 0; background: white; z-index: 1000; }
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links a { text-decoration: none; color: #444; font-weight: bold; transition: color 0.3s; }
+        .nav-links a:hover { color: #8a78b5; }
+
+        /* Hero Section */
+        .hero { background-color: #fff9e6; display: flex; align-items: center; padding: 60px 10%; min-height: 400px; }
+        .hero-text { flex: 1; }
+        .hero-text h1 { font-size: 2.5rem; color: #5d4e8c; margin-bottom: 20px; }
+        .hero-text p { font-size: 1.2rem; margin-bottom: 30px; }
+        .btn { background: #ffcc00; color: #333; padding: 12px 25px; text-decoration: none; border-radius: 50px; font-weight: bold; }
+
+        .hero-image { flex: 1; text-align: right; }
+        .hero-image img { max-width: 100%; border-radius: 20px; }
+
+        @media (max-width: 768px) {
+            .hero { flex-direction: column; text-align: center; }
+            .nav-links { gap: 10px; font-size: 14px; }
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello World👋</h1>
-    <p>This is my first website hosted on GitHub!</p>
+
+    <div class="top-bar">
+        <a href="#">FB</a>
+        <a href="#">IG</a>
+        <a href="#">YT</a>
+        <a href="#">LinkedIn</a>
+    </div>
+
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#">主頁</a></li>
+            <li><a href="#">關於我們</a></li>
+            <li><a href="#">溝通方法</a></li>
+            <li><a href="#">教學資源</a></li>
+            <li><a href="#">最新消息</a></li>
+            <li><a href="#">聯絡我們</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-text">
+            <h1>善言善聽：<br>開啟心與心的溝通</h1>
+            <p>透過非暴力溝通與情感教育，幫助學校、家長與孩子建立更深層的連結。</p>
+            <a href="#" class="btn">立即了解課程</a>
+        </div>
+        <div class="hero-image">
+            <img src="https://via.placeholder.com/500x350/ffe680/5d4e8c?text=Communication+Education" alt="Communication Education">
+        </div>
+    </section>
+
 </body>
 </html>
