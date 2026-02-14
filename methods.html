@@ -9,7 +9,9 @@
             --primary-purple: #5d4e8c;
             --accent-purple: #8a78b5;
             --warm-yellow: #ffcc00;
-            --success-green: #2e7d32; /* New green for the border */
+            --glow-yellow: rgba(255, 204, 0, 0.6);
+            --success-green: #2e7d32;
+            --glow-green: rgba(46, 125, 50, 0.6);
             --text-dark: #333;
         }
 
@@ -38,11 +40,11 @@
 
         .nav-container { background: white; padding: 12px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: center; }
         .nav-links { display: flex; list-style: none; gap: 35px; margin: 0; padding: 0; }
-        .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.1rem; transition: 0.3s; }
+        .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.2rem; transition: 0.3s; }
 
         .container { 
-            max-width: 1100px; 
-            margin: 60px auto; 
+            max-width: 1200px; 
+            margin: 80px auto; 
             padding: 0 40px; 
             position: relative; 
         }
@@ -50,49 +52,50 @@
         .skill-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            column-gap: 120px; 
-            row-gap: 120px; 
+            column-gap: 130px; 
+            row-gap: 140px; 
         }
         
-        /* 4 Background Boxes with Yellow Border */
+        /* The 4 Background Boxes - Yellow Glow */
         .skill-card { 
             background: #fff; 
-            border: 2px solid var(--warm-yellow); /* Yellow Border Added */
-            padding: 40px; 
+            border: 2px solid var(--warm-yellow);
+            padding: 45px; 
             border-radius: 200px; 
-            box-shadow: 0 4px 25px rgba(0,0,0,0.05);
+            box-shadow: 0 0 15px var(--glow-yellow); /* Glow Effect */
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 220px;
+            min-height: 240px;
             z-index: 1;
             transition: all 0.3s ease;
         }
-        .skill-card:hover { transform: scale(1.02); box-shadow: 0 8px 30px rgba(255, 204, 0, 0.2); }
+        .skill-card:hover { transform: scale(1.03); box-shadow: 0 0 25px var(--warm-yellow); }
 
-        /* 5th Box: Centered with Green Border */
+        /* The 5th Box - Green Glow, Higher Position, Plate Background */
         .skill-card.center-box {
             position: absolute;
             left: 50%;
-            top: 50%;
+            top: 47%; /* Moved up from 50% to sit higher */
             transform: translate(-50%, -50%); 
-            width: 380px;       
-            height: 210px;      
-            padding: 25px;      
+            width: 400px;       
+            height: 230px;      
+            padding: 30px;      
             z-index: 10;        
-            background: #ffffff;
-            border: 3px solid var(--success-green); /* Green Border Added */
-            box-shadow: 0 15px 50px rgba(46, 125, 50, 0.2); /* Soft green glow */
+            background: #ffffff; /* Same background as others */
+            border: 3px solid var(--success-green);
+            box-shadow: 0 0 20px var(--glow-green); /* Green Glow Effect */
         }
         
-        .skill-card h3 { color: var(--primary-purple); font-size: 1.5rem; margin-bottom: 5px; margin-top: 0; }
-        .skill-card p { font-size: 1rem; color: #444; line-height: 1.5; margin: 0; }
+        /* Increased Font Sizes */
+        .skill-card h3 { color: var(--primary-purple); font-size: 1.8rem; margin-bottom: 10px; margin-top: 0; }
+        .skill-card p { font-size: 1.2rem; color: #333; line-height: 1.6; margin: 0; font-weight: 500; }
         
-        .back-btn { display: inline-block; margin-top: 60px; padding: 12px 60px; background: var(--primary-purple); color: white; text-decoration: none; border-radius: 50px; font-weight: bold; transition: 0.3s; }
+        .back-btn { display: inline-block; margin-top: 80px; padding: 15px 70px; background: var(--primary-purple); color: white; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.2rem; transition: 0.3s; }
 
         @media (max-width: 900px) { 
-            .skill-grid { grid-template-columns: 1fr; row-gap: 20px; } 
+            .skill-grid { grid-template-columns: 1fr; row-gap: 30px; } 
             .skill-card.center-box { 
                 position: relative; 
                 transform: none; 
@@ -101,10 +104,9 @@
                 width: 100%; 
                 height: auto; 
                 margin-top: 20px;
-                border-width: 2px;
+                box-shadow: 0 0 15px var(--glow-green);
             }
-            .skill-card { border-radius: 50px; min-height: auto; padding: 30px 20px; }
-            .hero-banner h1 { font-size: 2.5rem; }
+            .skill-card { border-radius: 50px; min-height: auto; padding: 35px 25px; }
         }
     </style>
 </head>
@@ -138,22 +140,22 @@
         <div class="skill-grid">
             <div class="skill-card">
                 <h3>👂 積極傾聽</h3>
-                <p>給予對方充分的關注。在對方說話時，避免打斷或急著給建議，透過點頭或簡單的回應（如「我了解」）讓對方感到被尊重。</p>
+                <p>給予對方充分的關注。在對方說話時，避免打斷或急著給建議，讓對方感到被尊重。</p>
             </div>
 
             <div class="skill-card">
                 <h3>❓ 開放式提問</h3>
-                <p>多使用「為什麼」或「如何」來引導對話。比起只能回答「是」或「不是」的問題，開放式提問能帶動更深層的分享。</p>
+                <p>多使用「為什麼」或「如何」來引導對話。開放式提問能帶動更深層的分享。</p>
             </div>
 
             <div class="skill-card">
                 <h3>🤝 同理心反應</h3>
-                <p>試著站在對方的角度思考。即使你不認同對方的觀點，也可以嘗試理解他們當下的心情，這能有效化解僵局。</p>
+                <p>試著站在對方的角度思考。即使你不認同觀點，也可以嘗試理解他們當下的心情。</p>
             </div>
 
             <div class="skill-card">
                 <h3>😊 非語言訊息</h3>
-                <p>眼神交流、微笑以及放鬆的身姿，都能傳遞出「我願意與你對話」的訊號。肢體語言往往比說出來的話更有影響力。</p>
+                <p>眼神交流、微笑以及放鬆的身姿，都能傳遞出「我願意與你對話」的訊號。</p>
             </div>
             
             <div class="skill-card center-box">
