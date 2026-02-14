@@ -5,37 +5,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>溝通技巧 - 聊天的方法</title>
     <style>
-        body { font-family: "Microsoft JhengHei", Arial, sans-serif; line-height: 1.8; color: #333; margin: 0; padding: 0; background: #fffdf5; }
-        
-        .top-bar { background: #f8f9fa; padding: 10px 5%; display: flex; justify-content: flex-end; align-items: center; gap: 15px; font-size: 14px; }
-        .top-bar a { color: #555; text-decoration: none; }
-        .lang-picker { padding: 3px 8px; border-radius: 5px; border: 1px solid #ccc; background: white; cursor: pointer; font-size: 12px; }
+        :root {
+            --primary-purple: #5d4e8c;
+            --accent-purple: #8a78b5;
+            --warm-yellow: #ffcc00;
+            --text-dark: #333;
+        }
 
-        nav { display: flex; flex-direction: column; align-items: center; padding: 20px 5%; border-bottom: 1px solid #eee; background: white; position: sticky; top: 0; z-index: 1000; }
-        .logo-box img { width: 250px; height: auto; margin-bottom: 15px; }
-        .nav-links { display: flex; list-style: none; gap: 30px; margin: 0; padding: 0; }
-        .nav-links a { text-decoration: none; color: #444; font-weight: bold; transition: color 0.3s; }
-        .nav-links a:hover { color: #8a78b5; }
-
-        .container { max-width: 900px; margin: 50px auto; padding: 40px; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        h1 { color: #5d4e8c; border-bottom: 2px solid #ffcc00; padding-bottom: 10px; text-align: center; }
-        .intro-text { text-align: center; font-size: 1.1rem; color: #666; margin-bottom: 40px; }
+        body { font-family: "Microsoft JhengHei", Arial, sans-serif; line-height: 1.8; color: var(--text-dark); margin: 0; padding: 0; background: #fffdf5; }
         
-        .skill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .skill-card { background: #fff; border: 1px solid #eee; padding: 25px; border-radius: 12px; transition: transform 0.2s; }
-        .skill-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .skill-card h3 { color: #8a78b5; margin-top: 0; display: flex; align-items: center; gap: 10px; }
-        .skill-card p { font-size: 0.95rem; color: #555; }
-        
-        .back-btn { display: inline-block; margin-top: 30px; text-decoration: none; color: #5d4e8c; font-weight: bold; }
+        /* Top Bar */
+        .top-bar { background: var(--primary-purple); padding: 10px 5%; display: flex; justify-content: flex-end; align-items: center; gap: 15px; font-size: 14px; }
+        .top-bar a { color: white; text-decoration: none; opacity: 0.8; }
+        .lang-picker { padding: 4px 10px; border-radius: 5px; border: none; background: rgba(255,255,255,0.2); color: white; cursor: pointer; }
 
-        @media (max-width: 768px) { .skill-grid { grid-template-columns: 1fr; } }
+        /* Hero Banner (Matching Index) */
+        .hero-banner {
+            background: linear-gradient(rgba(93, 78, 140, 0.6), rgba(93, 78, 140, 0.6)), 
+                        url('https://images.unsplash.com/photo-1521791136064-7986c2923216?auto=format&fit=crop&q=80&w=1500'); 
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+
+        /* Header 1 - Increased Size */
+        .hero-banner h1 { 
+            font-size: 4.5rem; /* Large size matching your homepage preference */
+            margin: 10px 0;
+            text-shadow: 3px 3px 12px rgba(0,0,0,0.5);
+            font-weight: bold;
+        }
+
+        .hero-banner p {
+            font-size: 1.6rem;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(8px);
+        }
+
+        /* Nav Links */
+        .nav-container {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+        }
+        .nav-links { display: flex; list-style: none; gap: 40px; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.2rem; }
+
+        /* Content Container */
+        .container { max-width: 1100px; margin: 60px auto; padding: 0 40px; }
+        
+        /* Skill Cards */
+        .skill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .skill-card { 
+            background: #fff; 
+            border: 1px solid #eee; 
+            padding: 35px; /* More padding for larger text */
+            border-radius: 15px; 
+            transition: transform 0.2s; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-bottom: 5px solid var(--warm-yellow);
+        }
+        .skill-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        
+        /* Box Titles - Increased Size */
+        .skill-card h3 { 
+            color: var(--primary-purple); 
+            margin-top: 0; 
+            font-size: 1.8rem; /* Bigger Title */
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+        }
+        
+        /* Box Content - Increased Size */
+        .skill-card p { 
+            font-size: 1.2rem; /* Bigger Text for readability */
+            color: #555; 
+            line-height: 1.6;
+        }
+        
+        .back-btn { 
+            display: inline-block; 
+            margin-top: 50px; 
+            padding: 12px 30px;
+            background: var(--primary-purple);
+            color: white;
+            text-decoration: none; 
+            border-radius: 50px;
+            font-weight: bold; 
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) { 
+            .skill-grid { grid-template-columns: 1fr; } 
+            .hero-banner h1 { font-size: 3rem; }
+        }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
-        <a href="#">FB</a> <a href="#">IG</a>
+        <a href="#">FB</a> <a href="#">IG</a> <a href="#">YT</a>
         <select class="lang-picker" onchange="location = this.value;">
             <option value="methods.html" selected>中文 (繁體)</option>
             <option value="methods_simplified.html">中文 (简体)</option>
@@ -43,8 +127,12 @@
         </select>
     </div>
 
-    <nav>
+    <header class="hero-banner">
+        <h1>聊天的方法</h1>
+        <p>實用的溝通技巧</p>
+    </header>
 
+    <div class="nav-container">
         <ul class="nav-links">
             <li><a href="index.html">主頁</a></li>
             <li><a href="about.html">關於我們</a></li>
@@ -52,12 +140,9 @@
             <li><a href="#">教學資源</a></li>
             <li><a href="#">聯絡我們</a></li>
         </ul>
-    </nav>
+    </div>
 
     <div class="container">
-        <h1>聊天的方法：實用的溝通技巧</h1>
-        <p class="intro-text">溝通不只是說話，更是一門連結他人的藝術。掌握以下技巧，讓您的對話更有溫度。</p>
-
         <div class="skill-grid">
             <div class="skill-card">
                 <h3>👂 積極傾聽</h3>
@@ -80,12 +165,12 @@
             </div>
             
             <div class="skill-card">
-                <h3>✅ 還有...</h3>
-                <p>以上都是幾個基本的聊天技巧，想要解鎖更多聊天技巧，快點聯係我和我的團隊了解一下❤️。</p>
+                <h3>❤️ 還有...</h3>
+                <p>以上都是幾個基本的聊天技巧，想要解鎖更多聊天技巧，快點聯係我和我的團隊了解一下。</p>
             </div>
         </div>
 
-        <a href="index.html" class="back-btn">← 返回主頁</a>
+        <center><a href="index.html" class="back-btn">← 返回主頁</a></center>
     </div>
 
 </body>
