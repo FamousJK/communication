@@ -33,97 +33,59 @@
             padding: 10px 20px;
         }
 
-        .hero-banner h1 { 
-            font-size: 4rem; 
-            margin: 0;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-            font-weight: bold;
-        }
+        .hero-banner h1 { font-size: 4rem; margin: 0; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); font-weight: bold; }
+        .hero-banner p { font-size: 1.4rem; background: rgba(0, 0, 0, 0.3); padding: 5px 25px; border-radius: 50px; backdrop-filter: blur(5px); margin-top: 10px; }
 
-        .hero-banner p {
-            font-size: 1.4rem;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 5px 25px;
-            border-radius: 50px;
-            backdrop-filter: blur(5px);
-            margin-top: 10px;
-        }
-
-        .nav-container {
-            background: white;
-            padding: 12px 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-        }
+        .nav-container { background: white; padding: 12px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: center; }
         .nav-links { display: flex; list-style: none; gap: 35px; margin: 0; padding: 0; }
-        .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.1rem; transition: 0.3s; }
-        .nav-links a:hover { color: var(--warm-yellow); }
+        .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.1rem; }
 
-        .container { max-width: 1100px; margin: 40px auto; padding: 0 40px; }
+        .container { max-width: 1100px; margin: 60px auto; padding: 0 40px; position: relative; }
         
-        /* Grid setup */
         .skill-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            gap: 25px; 
+            gap: 40px; /* Increased gap to allow space for the middle overlap */
         }
         
+        /* Oval Card Styling */
         .skill-card { 
             background: #fff; 
-            border: 1px solid #eee; 
-            padding: 30px; 
-            border-radius: 15px; 
-            transition: transform 0.2s; 
+            border: 2px solid #eee; 
+            padding: 40px 50px; 
+            border-radius: 100px; /* Turns boxes into Ovals */
+            transition: all 0.3s ease; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-left: 6px solid var(--warm-yellow);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        .skill-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .skill-card:hover { transform: translateY(-5px); border-color: var(--warm-yellow); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
         
-        /* Centering the 5th card */
+        /* The Overlapping 5th Card */
         .skill-card:last-child {
             grid-column: 1 / span 2;
             justify-self: center;
-            width: 50%; 
+            width: 450px; /* Specific width for the middle oval */
+            margin-top: -80px; /* This pulls it UP to overlap the others */
+            z-index: 10; /* Ensures it sits ON TOP of the other 4 */
+            background: #fffdf5;
+            border: 3px solid var(--warm-yellow);
         }
         
-        .skill-card h3 { 
-            color: var(--primary-purple); 
-            font-size: 1.8rem; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            margin-top: 0;
-        }
+        .skill-card h3 { color: var(--primary-purple); font-size: 1.6rem; margin-bottom: 10px; }
+        .skill-card p { font-size: 1.1rem; color: #444; line-height: 1.6; margin: 0; }
         
-        .skill-card p { 
-            font-size: 1.25rem; 
-            color: #444; 
-            line-height: 1.7;
-        }
-        
-        .back-btn { 
-            display: inline-block; 
-            margin-top: 40px; 
-            padding: 12px 45px;
-            background: var(--primary-purple);
-            color: white;
-            text-decoration: none; 
-            border-radius: 50px;
-            font-weight: bold; 
-            font-size: 1.1rem;
-            transition: 0.3s;
-        }
-        .back-btn:hover { background: var(--accent-purple); transform: scale(1.05); }
+        .back-btn { display: inline-block; margin-top: 60px; padding: 12px 45px; background: var(--primary-purple); color: white; text-decoration: none; border-radius: 50px; font-weight: bold; }
 
+        /* Mobile Adjustments - Stack them normally on small screens */
         @media (max-width: 768px) { 
-            .skill-grid { grid-template-columns: 1fr; } 
+            .skill-grid { grid-template-columns: 1fr; gap: 20px; } 
+            .skill-card { border-radius: 30px; padding: 30px; }
+            .skill-card:last-child { width: 100%; margin-top: 0; grid-column: span 1; }
             .hero-banner h1 { font-size: 2.5rem; }
-            .hero-banner { height: 180px; }
-            .skill-card:last-child { width: 100%; grid-column: span 1; }
         }
     </style>
 </head>
@@ -157,27 +119,27 @@
         <div class="skill-grid">
             <div class="skill-card">
                 <h3>👂 積極傾聽</h3>
-                <p>給予對方充分的關注。在對方說話時，避免打斷或急著給建議，透過點頭或簡單的回應讓對方感到被尊重。</p>
+                <p>給予對方充分的關注。避免打斷或急著給建議，讓對方感到被尊重。</p>
             </div>
 
             <div class="skill-card">
                 <h3>❓ 開放式提問</h3>
-                <p>多使用「為什麼」或「如何」來引導對話。比起只能回答「是」或「不是」的問題，開放式提問能帶動更深層的分享。</p>
+                <p>多使用「為什麼」或「如何」，比起是非題，更能帶動深層的分享。</p>
             </div>
 
             <div class="skill-card">
                 <h3>🤝 同理心反應</h3>
-                <p>試著站在對方的角度思考。即使你不認同對方的觀點，也可以嘗試理解他們當下的心情，這能有效化解僵局。</p>
+                <p>嘗試理解對方的心情。即使不認同觀點，也能化解對話僵局。</p>
             </div>
 
             <div class="skill-card">
                 <h3>😊 非語言訊息</h3>
-                <p>眼神交流、微笑以及放鬆的身姿，都能傳遞出「我願意與你對話」的訊號。肢體語言往往比說出來的話更有影響力。</p>
+                <p>眼神交流與微笑，傳遞出「我願意與你對話」的溫暖訊號。</p>
             </div>
             
             <div class="skill-card">
-                <h3>❤️ 還有...</h3>
-                <p>以上都是幾個基本的聊天技巧，想要解鎖更多聊天技巧，快點聯係我和我的團隊了解一下。</p>
+                <h3>❤️ 建立連結</h3>
+                <p>掌握這些核心技巧，能讓您在日常交流中輕鬆建立更深的情感連結。歡迎聯繫我們的團隊了解更多！</p>
             </div>
         </div>
 
