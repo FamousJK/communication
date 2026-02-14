@@ -11,7 +11,7 @@
             --warm-yellow: #ffcc00;
             --glow-yellow: rgba(255, 204, 0, 0.5);
             --success-green: #2e7d32;
-            --glow-green: rgba(46, 125, 50, 0.5);
+            --glow-green: rgba(46, 125, 50, 0.6);
             --text-dark: #333;
         }
 
@@ -56,39 +56,51 @@
             row-gap: 160px; 
         }
         
-        /* Box Shape Adjustment: Matching the Photo */
+        /* Photo-style Box Shape */
         .skill-card { 
             background: #fff; 
             border: 3px solid var(--warm-yellow);
             padding: 40px 50px; 
-            border-radius: 40px; /* Softer, elongated corner style from photo */
-            box-shadow: 0 0 25px var(--glow-yellow); 
+            border-radius: 45px; 
+            box-shadow: 0 0 20px var(--glow-yellow); 
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 220px;
-            width: 100%;
+            min-height: 240px;
             z-index: 1;
-            box-sizing: border-box;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Smooth bouncy transition */
         }
 
-        /* 5th Box: Absolute Centering + HIGHER position */
+        /* The "Pop" effect when pointing mouse */
+        .skill-card:hover { 
+            transform: translateY(-15px) scale(1.05); 
+            box-shadow: 0 0 40px var(--warm-yellow);
+            z-index: 5;
+            cursor: pointer;
+        }
+
+        /* 5th Box: Centered, Green, Higher (42%) */
         .skill-card.center-box {
             position: absolute;
             left: 50%;
-            top: 42%; /* Moved higher again */
+            top: 42%; 
             transform: translate(-50%, -50%); 
-            width: 420px;       
-            min-height: 220px;      
+            width: 440px;       
+            min-height: 240px;      
             z-index: 10;        
             background: #ffffff;
             border: 4px solid var(--success-green);
             box-shadow: 0 0 30px var(--glow-green);
-            border-radius: 40px;
+            border-radius: 45px;
+        }
+
+        .skill-card.center-box:hover {
+            /* We use translate -50%, -55% to make it pop "up" specifically while centered */
+            transform: translate(-50%, -55%) scale(1.06); 
+            box-shadow: 0 0 50px var(--glow-green);
         }
         
-        /* Font Sizes */
         .skill-card h3 { color: var(--primary-purple); font-size: 2rem; margin-bottom: 12px; margin-top: 0; }
         .skill-card p { font-size: 1.3rem; color: #333; line-height: 1.7; margin: 0; font-weight: 500; }
         
@@ -104,6 +116,7 @@
                 width: 100%; 
                 margin-top: 20px;
             }
+            .skill-card.center-box:hover { transform: scale(1.03); }
             .skill-card { border-radius: 30px; padding: 35px 25px; }
         }
     </style>
