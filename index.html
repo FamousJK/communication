@@ -3,129 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>交流中的表達與理解 | 善言善聽</title>
+    <title>聊天的方法 - 首頁</title>
     <style>
         :root {
             --primary-purple: #5d4e8c;
             --accent-purple: #8a78b5;
             --warm-yellow: #ffcc00;
-            --text-dark: #333;
+            --text-dark: #222;
         }
 
         body { font-family: "Microsoft JhengHei", Arial, sans-serif; line-height: 1.8; color: var(--text-dark); margin: 0; padding: 0; background: #fffdf5; }
+
+        /* Top Bar with Logo on Left */
+        .top-bar { 
+            background: var(--primary-purple); 
+            padding: 8px 5%; 
+            display: flex; 
+            justify-content: space-between; /* This pushes logo left and links right */
+            align-items: center; 
+            font-size: 14px; 
+        }
         
-        /* Top Bar */
-        .top-bar { background: var(--primary-purple); padding: 10px 5%; display: flex; justify-content: flex-end; align-items: center; gap: 15px; font-size: 14px; }
-        .top-bar a { color: white; text-decoration: none; opacity: 0.8; }
+        /* Shrunken Logo */
+        .logo-container img {
+            height: 40px; /* Shrunk height */
+            width: auto;
+            display: block;
+        }
+
+        .top-bar-links { display: flex; gap: 15px; align-items: center; }
+        .top-bar-links a { color: white; text-decoration: none; opacity: 0.8; }
         .lang-picker { padding: 4px 10px; border-radius: 5px; border: none; background: rgba(255,255,255,0.2); color: white; cursor: pointer; }
 
-        /* Hero Banner */
+        /* Hero Banner - Same size as Methods Page */
         .hero-banner {
-            background: linear-gradient(rgba(93, 78, 140, 0.55), rgba(93, 78, 140, 0.55)), 
-                        url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=1500'); 
+            background: linear-gradient(rgba(93, 78, 140, 0.75), rgba(93, 78, 140, 0.75)), 
+                        url('banner-main.jpg'); 
             background-size: cover;
             background-position: center;
-            height: 600px; /* Increased height to accommodate the moved-down logo */
+            height: 220px; /* Matched to Method page */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             color: white;
-            padding: 0 20px;
+            padding: 10px 20px;
         }
 
-        /* Logo Styling - Moving it down slightly with margin-top */
-        .logo-box img { 
-            width: 250px; 
-            margin-top: 40px; /* Moves logo down a bit */
-            margin-bottom: 25px;
-            background: rgba(255,255,255,0.9); /* Kept background for logo clarity */
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
+        .hero-banner h1 { font-size: 4rem; margin: 0; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); font-weight: bold; }
+        .hero-banner p { font-size: 1.4rem; background: rgba(0, 0, 0, 0.3); padding: 5px 25px; border-radius: 50px; backdrop-filter: blur(5px); margin-top: 10px; }
 
-        /* Header 1 - The Main Title */
-        .hero-banner h1 { 
-            font-size: 6.5rem; /* Increased size as requested */
-            margin: 15px 0;
-            text-shadow: 3px 3px 12px rgba(0,0,0,0.5); /* Shadow added for readability */
-            letter-spacing: 4px;
-            font-weight: bold;
-        }
-
-        /* Subtitle with Soft Glow Background */
-        .hero-banner p {
-            font-size: 1.6rem;
-            max-width: 850px;
-            background: rgba(0, 0, 0, 0.4); /* Soft Dark Glow */
-            padding: 12px 35px;
-            border-radius: 50px;
-            backdrop-filter: blur(8px); /* Frosted glass effect */
-            margin-bottom: 40px;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
-        }
-
-        /* Navigation Bar */
-        .nav-container {
-            background: white;
-            padding: 20px 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .nav-links { display: flex; list-style: none; gap: 40px; justify-content: center; margin: 0; padding: 0; }
-        .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.2rem; transition: 0.3s; }
+        /* Navigation */
+        .nav-container { background: white; padding: 12px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: center; }
+        .nav-links { display: flex; list-style: none; gap: 35px; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.3rem; transition: 0.3s; }
         .nav-links a:hover { color: var(--warm-yellow); }
 
-        /* Welcome Section */
-        .welcome-section { max-width: 1000px; margin: 80px auto; padding: 0 40px; text-align: center; }
-        .welcome-section h2 { font-size: 2.5rem; color: var(--primary-purple); margin-bottom: 20px; }
-        .welcome-section p { font-size: 1.2rem; color: #666; max-width: 750px; margin: 0 auto; }
+        /* Content Area */
+        .container { max-width: 1000px; margin: 80px auto; padding: 0 40px; text-align: center; }
+        .welcome-section h2 { font-size: 2.5rem; color: var(--primary-purple); }
+        .welcome-section p { font-size: 1.4rem; color: #444; margin-bottom: 40px; }
 
-        .btn-main {
-            display: inline-block;
-            margin-top: 40px;
-            padding: 15px 45px;
-            background: var(--warm-yellow);
-            color: #333;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.3rem;
-            transition: 0.3s;
+        .cta-btn { 
+            display: inline-block; 
+            padding: 20px 60px; 
+            background: var(--primary-purple); 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 60px; 
+            font-weight: bold; 
+            font-size: 1.5rem; 
+            transition: 0.3s; 
+            box-shadow: 0 10px 20px rgba(93, 78, 224, 0.2);
         }
-        .btn-main:hover { transform: scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .cta-btn:hover { background: var(--accent-purple); transform: translateY(-5px); }
 
-        @media (max-width: 768px) {
-            .hero-banner h1 { font-size: 2.8rem; }
-            .hero-banner p { font-size: 1.2rem; }
-            .nav-links { gap: 15px; font-size: 1rem; flex-wrap: wrap; }
+        @media (max-width: 900px) {
+            .hero-banner h1 { font-size: 2.5rem; }
+            .nav-links { gap: 15px; font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
-        <a href="#">FB</a> <a href="#">IG</a> <a href="#">YT</a> <a href="#">LinkedIn</a>
-        <select class="lang-picker" onchange="location = this.value;">
-            <option value="index.html" selected>中文 (繁體)</option>
-            <option value="index_simplified.html">中文 (简体)</option>
-            <option value="index_en.html">English</option>
-        </select>
+        <div class="logo-container">
+            <img src="logo.png" alt="Logo">
+        </div>
+        <div class="top-bar-links">
+            <a href="#">FB</a> <a href="#">IG</a> <a href="#">YT</a>
+            <select class="lang-picker" onchange="location = this.value;">
+                <option value="index.html" selected>中文 (繁體)</option>
+                <option value="index_en.html">English</option>
+            </select>
+        </div>
     </div>
 
     <header class="hero-banner">
-        <div class="logo-box">
-            <a href="index.html">
-                <img src="Logo.png" alt="Connect Share Grow">
-            </a>
-        </div>
-        <h1>交流中的表達與理解</h1>
-        <p>透過非暴力溝通與情感教育，建立深層的心靈連結</p>
-        <a href="methods.html" class="btn-main">探索溝通技巧</a>
+        <h1>聊天的方法</h1>
+        <p>用心溝通，讓連結更深刻</p>
     </header>
 
     <div class="nav-container">
@@ -134,16 +111,17 @@
             <li><a href="about.html">關於我們</a></li>
             <li><a href="methods.html">溝通技巧</a></li>
             <li><a href="#">教學資源</a></li>
-            <li><a href="#">最新消息</a></li>
             <li><a href="#">聯絡我們</a></li>
         </ul>
     </div>
 
-    <section class="welcome-section">
-        <h2>開啟心與心的對話</h2>
-        <p>我們致力於幫助學校、家長與孩子，在日常對話中尋找更多的理解與關愛。溝通不只是表達，更是讓彼此的需求被聽見。
-        </p>
-    </section>
+    <div class="container">
+        <section class="welcome-section">
+            <h2>歡迎來到聊天實驗室</h2>
+            <p>在這裡，我們探索語言的魅力，學習如何透過對話建立更深的人際關係。</p>
+            <a href="methods.html" class="cta-btn">立即學習溝通技巧</a>
+        </section>
+    </div>
 
 </body>
 </html>
