@@ -32,25 +32,33 @@
         .nav-links { display: flex; list-style: none; gap: 40px; margin: 0; padding: 0; }
         .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.2rem; }
 
-        /* Overlapping Layout */
+        /* Story Layout Container */
         .story-container { 
-            max-width: 1100px; 
+            max-width: 1200px; 
             margin: 80px auto; 
             padding: 0 20px; 
             display: flex;
             flex-direction: column;
         }
 
+        /* EQUAL SIZE CARDS */
         .story-card {
             background: white;
-            padding: 45px 55px;
-            border-radius: 45px;
+            padding: 50px;
+            border-radius: 50px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.06);
             border: 4px solid var(--warm-yellow);
-            margin-bottom: -50px; /* The Overlap */
+            margin-bottom: -60px; /* Overlap amount */
             position: relative;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            max-width: 680px;
+            
+            /* The "Same Size" Secret */
+            width: 650px; 
+            height: 350px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-sizing: border-box;
             z-index: 1;
         }
 
@@ -61,19 +69,20 @@
             cursor: pointer;
         }
 
-        /* Alignment for the "Story" feel */
+        /* Staggered Alignment */
         .card-left { align-self: flex-start; }
         .card-right { align-self: flex-end; border-color: var(--accent-purple); }
         .card-final { align-self: center; border-color: #2e7d32; margin-top: 20px; }
 
         .story-card h2 { color: var(--primary-purple); font-size: 2.2rem; margin-top: 0; margin-bottom: 15px; font-weight: 800; }
         
-        /* Matching font sizes for P and LI */
+        /* Matching font sizes */
         .story-card p, .story-card ul li { 
             font-size: 1.4rem; 
             font-weight: 600; 
-            line-height: 1.7; 
+            line-height: 1.6; 
             color: #333;
+            margin: 0;
         }
         
         .story-card ul { padding-left: 25px; margin: 0; }
@@ -82,12 +91,16 @@
         .back-btn { 
             padding: 20px 80px; background: var(--primary-purple); color: white; 
             text-decoration: none; border-radius: 60px; font-weight: bold; font-size: 1.4rem;
-            transition: 0.3s;
         }
-        .back-btn:hover { background: var(--accent-purple); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
 
         @media (max-width: 850px) {
-            .story-card { margin-bottom: 30px; align-self: center; max-width: 100%; }
+            .story-card { 
+                width: 100%; 
+                height: auto; 
+                min-height: 350px; 
+                margin-bottom: 30px; 
+                align-self: center; 
+            }
         }
     </style>
 </head>
@@ -111,7 +124,7 @@
     <div class="story-container">
         <div class="story-card card-left">
             <h2>🌱 我們的初衷</h2>
-            <p>在快節奏的現代生活中，我們往往學會了說話，卻忘記了如何「溝通」。建立這個平台的初衷，是希望提供一個溫暖的空間，讓大家重新學習如何表達需求。</p>
+            <p>在快節奏的現代生活中，我們往往學會了說話，卻忘記了如何「溝通」。希望提供一個溫暖的空間，讓大家重新學習如何表達需求。</p>
         </div>
 
         <div class="story-card card-right">
@@ -128,9 +141,9 @@
             </ul>
         </div>
 
-        <div class="story-card card-right card-final">
+        <div class="story-card card-final">
             <h2>🤝 幫助有需要的人</h2>
-            <p>我們特別關注在人際關係中感到孤立的群體。透過對話與互動，找回連結的勇氣，讓自己變得更有安全感與自我肯定，進而提升自信心。</p>
+            <p>我們特別關注人際關係中感到孤立的群體。透過連結與互動，讓自己變得更有安全感與自我肯定，進而提升自信心。</p>
         </div>
     </div>
 
