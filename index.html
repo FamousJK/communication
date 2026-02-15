@@ -12,58 +12,96 @@
             --text-dark: #222;
         }
 
-        body { font-family: "Microsoft JhengHei", Arial, sans-serif; line-height: 1.8; color: var(--text-dark); margin: 0; padding: 0; background: #fffdf5; }
+        body { 
+            font-family: "Microsoft JhengHei", Arial, sans-serif; 
+            line-height: 1.8; 
+            color: var(--text-dark); 
+            margin: 0; 
+            padding: 0; 
+            background: #fffdf5; 
+        }
 
-        /* Top Bar with Logo on Left */
+        /* Top Bar: Logo on Left, Socials on Right */
         .top-bar { 
             background: var(--primary-purple); 
-            padding: 8px 5%; 
+            padding: 10px 5%; 
             display: flex; 
-            justify-content: space-between; /* This pushes logo left and links right */
+            justify-content: space-between; 
             align-items: center; 
-            font-size: 14px; 
         }
         
         /* Shrunken Logo */
         .logo-container img {
-            height: 40px; /* Shrunk height */
+            height: 45px; 
             width: auto;
             display: block;
         }
 
         .top-bar-links { display: flex; gap: 15px; align-items: center; }
-        .top-bar-links a { color: white; text-decoration: none; opacity: 0.8; }
-        .lang-picker { padding: 4px 10px; border-radius: 5px; border: none; background: rgba(255,255,255,0.2); color: white; cursor: pointer; }
+        .top-bar-links a { color: white; text-decoration: none; opacity: 0.8; font-size: 14px; }
 
-        /* Hero Banner - Same size as Methods Page */
+        /* Hero Banner: Same size as Methods Page */
         .hero-banner {
-            background: linear-gradient(rgba(93, 78, 140, 0.75), rgba(93, 78, 140, 0.75)), 
-                        url('banner-main.jpg'); 
+            /* IMPORTANT: Change 'bridge-people.jpg' to your actual filename in the repository */
+            background: linear-gradient(rgba(93, 78, 140, 0.6), rgba(93, 78, 140, 0.6)), 
+                        url('bridge-people.jpg'); 
             background-size: cover;
-            background-position: center;
-            height: 220px; /* Matched to Method page */
+            background-position: center 35%; /* Lifts the image up to show the people */
+            height: 220px; 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             color: white;
-            padding: 10px 20px;
         }
 
-        .hero-banner h1 { font-size: 4rem; margin: 0; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); font-weight: bold; }
-        .hero-banner p { font-size: 1.4rem; background: rgba(0, 0, 0, 0.3); padding: 5px 25px; border-radius: 50px; backdrop-filter: blur(5px); margin-top: 10px; }
+        .hero-banner h1 { 
+            font-size: 3.5rem; 
+            margin: 0; 
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5); 
+            font-weight: bold;
+        }
 
         /* Navigation */
-        .nav-container { background: white; padding: 12px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: center; }
-        .nav-links { display: flex; list-style: none; gap: 35px; margin: 0; padding: 0; }
-        .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.3rem; transition: 0.3s; }
+        .nav-container { 
+            background: white; 
+            padding: 15px 0; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            display: flex; 
+            justify-content: center; 
+        }
+        .nav-links { display: flex; list-style: none; gap: 40px; margin: 0; padding: 0; }
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--primary-purple); 
+            font-weight: bold; 
+            font-size: 1.2rem; 
+            transition: 0.3s;
+        }
         .nav-links a:hover { color: var(--warm-yellow); }
 
-        /* Content Area */
-        .container { max-width: 1000px; margin: 80px auto; padding: 0 40px; text-align: center; }
-        .welcome-section h2 { font-size: 2.5rem; color: var(--primary-purple); }
-        .welcome-section p { font-size: 1.4rem; color: #444; margin-bottom: 40px; }
+        /* Main Content */
+        .container { 
+            max-width: 1000px; 
+            margin: 80px auto; 
+            padding: 0 40px; 
+            text-align: center; 
+        }
+        
+        .welcome-section h2 { 
+            font-size: 2.8rem; 
+            color: var(--primary-purple); 
+            margin-bottom: 20px;
+        }
+        .welcome-section p { 
+            font-size: 1.5rem; 
+            color: #444; 
+            margin-bottom: 45px; 
+        }
 
         .cta-btn { 
             display: inline-block; 
@@ -71,17 +109,22 @@
             background: var(--primary-purple); 
             color: white; 
             text-decoration: none; 
-            border-radius: 60px; 
+            border-radius: 50px; 
             font-weight: bold; 
-            font-size: 1.5rem; 
+            font-size: 1.4rem; 
             transition: 0.3s; 
-            box-shadow: 0 10px 20px rgba(93, 78, 224, 0.2);
+            box-shadow: 0 10px 20px rgba(93, 78, 140, 0.2);
         }
-        .cta-btn:hover { background: var(--accent-purple); transform: translateY(-5px); }
+        .cta-btn:hover { 
+            background: var(--accent-purple); 
+            transform: translateY(-5px); 
+            box-shadow: 0 15px 25px rgba(93, 78, 140, 0.3);
+        }
 
         @media (max-width: 900px) {
             .hero-banner h1 { font-size: 2.5rem; }
-            .nav-links { gap: 15px; font-size: 1rem; }
+            .nav-links { gap: 20px; }
+            .nav-links a { font-size: 1rem; }
         }
     </style>
 </head>
@@ -93,16 +136,11 @@
         </div>
         <div class="top-bar-links">
             <a href="#">FB</a> <a href="#">IG</a> <a href="#">YT</a>
-            <select class="lang-picker" onchange="location = this.value;">
-                <option value="index.html" selected>中文 (繁體)</option>
-                <option value="index_en.html">English</option>
-            </select>
         </div>
     </div>
 
     <header class="hero-banner">
         <h1>聊天的方法</h1>
-        <p>用心溝通，讓連結更深刻</p>
     </header>
 
     <div class="nav-container">
@@ -117,9 +155,9 @@
 
     <div class="container">
         <section class="welcome-section">
-            <h2>歡迎來到聊天實驗室</h2>
-            <p>在這裡，我們探索語言的魅力，學習如何透過對話建立更深的人際關係。</p>
-            <a href="methods.html" class="cta-btn">立即學習溝通技巧</a>
+            <h2>溝通，從心開始</h2>
+            <p>用心聽，大聲說。在這裡我們一起探索提升關係的說話藝術。</p>
+            <a href="methods.html" class="cta-btn">探索溝通技巧</a>
         </section>
     </div>
 
