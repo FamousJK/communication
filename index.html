@@ -21,18 +21,18 @@
             background: #fffdf5; 
         }
 
-        /* Top Bar: Logo on Left, Socials on Right */
+        /* Top Bar: SLIM VERSION (Matches Methods & About) */
         .top-bar { 
             background: var(--primary-purple); 
-            padding: 10px 5%; 
+            padding: 8px 5%; /* Slim padding */
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
+            min-height: 45px;
         }
         
-        /* Shrunken Logo */
         .logo-container img {
-            height: 45px; 
+            height: 35px; /* Keeps the bar slim */
             width: auto;
             display: block;
         }
@@ -40,13 +40,13 @@
         .top-bar-links { display: flex; gap: 15px; align-items: center; }
         .top-bar-links a { color: white; text-decoration: none; opacity: 0.8; font-size: 14px; }
 
-        /* Hero Banner: MATCHES METHODS PAGE EXACTLY */
+        /* Hero Banner: Standardized to 220px */
         .hero-banner {
             background: linear-gradient(rgba(93, 78, 140, 0.6), rgba(93, 78, 140, 0.6)), 
                         url('bridge-people.jpg'); 
             background-size: cover;
             background-position: center 35%; 
-            height: 220px; /* Fixed height for consistency */
+            height: 220px; 
             display: flex;
             flex-direction: column;
             justify-content: center;
