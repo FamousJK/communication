@@ -9,189 +9,117 @@
             --primary-purple: #5d4e8c;
             --accent-purple: #8a78b5;
             --warm-yellow: #ffcc00;
-            --glow-yellow: rgba(255, 204, 0, 0.5);
-            --success-green: #2e7d32;
-            --glow-green: rgba(46, 125, 50, 0.6);
+            --glow-yellow: rgba(255, 204, 0, 0.4);
+            --soft-bg: #fffdf5;
             --text-dark: #222;
         }
 
-        body { font-family: "Microsoft JhengHei", Arial, sans-serif; line-height: 1.8; color: var(--text-dark); margin: 0; padding: 0; background: #fffdf5; }
-        
-        /* Consistent Top Bar with Logo */
-        .top-bar { 
-            background: var(--primary-purple); 
-            padding: 8px 5%; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-        }
+        body { font-family: "Microsoft JhengHei", Arial, sans-serif; line-height: 1.8; color: var(--text-dark); margin: 0; padding: 0; background: var(--soft-bg); overflow-x: hidden; }
+
+        /* Consistent Header */
+        .top-bar { background: var(--primary-purple); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
         .logo-container img { height: 45px; width: auto; }
-        .top-links { display: flex; gap: 15px; }
-        .top-links a { color: white; text-decoration: none; font-size: 14px; opacity: 0.8; }
+        .top-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
-        /* Matched Hero Banner */
         .hero-banner {
-            background: linear-gradient(rgba(93, 78, 140, 0.75), rgba(93, 78, 140, 0.75)), 
-                        url('bridge-people.jpg'); 
-            background-size: cover;
-            background-position: center 30%;
-            height: 220px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
+            background: linear-gradient(rgba(93, 78, 140, 0.7), rgba(93, 78, 140, 0.7)), url('bridge-people.jpg');
+            background-size: cover; background-position: center 30%; height: 220px;
+            display: flex; justify-content: center; align-items: center; color: white;
         }
-        .hero-banner h1 { font-size: 3.5rem; margin: 0; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .hero-banner h1 { font-size: 3.5rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
 
-        /* Navigation */
-        .nav-container { background: white; padding: 15px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: center; }
+        .nav-container { background: white; padding: 15px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: center; }
         .nav-links { display: flex; list-style: none; gap: 40px; margin: 0; padding: 0; }
         .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.2rem; }
 
-        /* Grid Layout matching Method Page */
-        .container { 
-            max-width: 1400px; 
-            margin: 30px auto; 
-            padding: 0 40px; 
-            position: relative; 
-        }
-        
-        .skill-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            column-gap: 160px; 
-            row-gap: 180px; 
-        }
-        
-        .skill-card { 
-            background: #fff; 
-            border: 4px solid var(--warm-yellow);
-            padding: 40px 50px; 
-            border-radius: 50px; 
-            box-shadow: 0 0 20px var(--glow-yellow); 
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            min-height: 300px; 
-            z-index: 1;
+        /* Story Layout Container */
+        .story-container { max-width: 1100px; margin: 60px auto; padding: 0 20px; position: relative; }
+
+        .story-card {
+            background: white;
+            padding: 40px;
+            border-radius: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            border: 3px solid var(--warm-yellow);
+            margin-bottom: -40px; /* This creates the overlap */
+            position: relative;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-sizing: border-box;
+            max-width: 700px;
+            z-index: 1;
         }
 
-        .skill-card:hover { 
-            transform: translateY(-15px) scale(1.05); 
-            box-shadow: 0 0 50px var(--warm-yellow);
-            z-index: 5;
+        /* Hover Effect: Pops up and glows */
+        .story-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px var(--glow-yellow);
+            z-index: 10;
         }
 
-        /* Centered Box: The Primary Goal */
-        .skill-card.center-box {
-            position: absolute;
-            left: 50%;
-            top: 38%; 
-            transform: translate(-50%, -50%); 
-            width: 520px; 
-            min-height: 280px;      
-            z-index: 10;        
-            background: #ffffff;
-            border: 5px solid var(--success-green);
-            box-shadow: 0 0 35px var(--glow-green);
-            border-radius: 50px;
-        }
+        /* Alignment shifts for visual interest */
+        .card-left { align-self: flex-start; }
+        .card-right { margin-left: auto; border-color: var(--accent-purple); }
+        .card-center { margin: 40px auto; max-width: 850px; border-color: #2e7d32; text-align: center; }
 
-        .skill-card.center-box:hover {
-            transform: translate(-50%, -55%) scale(1.06); 
-            box-shadow: 0 0 60px var(--glow-green);
-        }
-        
-        /* Big Bold Text Style */
-        .skill-card h3 { color: var(--primary-purple); font-size: 2.2rem; margin-bottom: 15px; font-weight: 800; }
-        .skill-card p { font-size: 1.4rem; color: #222; line-height: 1.6; font-weight: 600; margin: 0; }
-        .skill-card ul { text-align: left; font-size: 1.3rem; font-weight: 600; color: #222; display: inline-block; margin: 0 auto; }
-        
+        .story-card h2 { color: var(--primary-purple); font-size: 2rem; margin-top: 0; }
+        .story-card p { font-size: 1.3rem; font-weight: 500; }
+        .story-card ul { font-size: 1.2rem; font-weight: 500; text-align: left; display: inline-block; }
+
+        .back-btn-container { text-align: center; margin: 100px 0; }
         .back-btn { 
-            display: inline-block; 
-            margin: 140px 0 60px 0; 
-            padding: 20px 90px; 
-            background: var(--primary-purple); 
-            color: white; 
-            text-decoration: none; 
-            border-radius: 60px; 
-            font-weight: bold; 
-            font-size: 1.5rem; 
-            transition: 0.3s; 
+            padding: 18px 60px; background: var(--primary-purple); color: white; 
+            text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.3rem;
         }
 
-        @media (max-width: 900px) { 
-            .skill-grid { grid-template-columns: 1fr; row-gap: 40px; } 
-            .skill-card.center-box { position: relative; transform: none; left: auto; top: auto; width: 100%; margin-top: 20px; }
-            .skill-card h3 { font-size: 1.8rem; }
-            .skill-card p { font-size: 1.2rem; }
+        @media (max-width: 768px) {
+            .story-card { margin-left: 0; margin-right: 0; margin-bottom: 20px; max-width: 100%; }
         }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
-        <div class="logo-container">
-            <img src="logo.png" alt="Logo">
-        </div>
-        <div class="top-links">
-            <a href="#">FB</a> <a href="#">IG</a> <a href="#">YT</a>
-        </div>
+        <div class="logo-container"><img src="logo.png" alt="Logo"></div>
+        <div class="top-links"><a href="#">FB</a><a href="#">IG</a><a href="#">YT</a></div>
     </div>
 
-    <header class="hero-banner">
-        <h1>關於我們</h1>
-    </header>
+    <header class="hero-banner"><h1>關於我們</h1></header>
 
-    <div class="nav-container">
+    <nav class="nav-container">
         <ul class="nav-links">
             <li><a href="index.html">主頁</a></li>
             <li><a href="about.html">關於我們</a></li>
             <li><a href="methods.html">溝通技巧</a></li>
-            <li><a href="#">教學資源</a></li>
-            <li><a href="#">聯絡我們</a></li>
         </ul>
-    </div>
+    </nav>
 
-    <div class="container">
-        <div class="skill-grid">
-            <div class="skill-card">
-                <h3>🌱 建立初衷</h3>
-                <p>在快節奏的生活中，我們往往學會了說話，卻忘記了如何「溝通」。我們希望提供溫暖的空間，讓大家重新學習表達與同理。</p>
-            </div>
-
-            <div class="skill-card">
-                <h3>💎 目的與意義</h3>
-                <p>溝通不僅是訊息的傳遞，更是心靈的連結。透過有效的對話，我們可以將衝突轉化為彼此理解的契機。</p>
-            </div>
-
-            <div class="skill-card">
-                <h3>🚀 學習益處</h3>
-                <ul>
-                    <li>理解溝通四大流程</li>
-                    <li>建立和諧社交關係</li>
-                    <li>更自信地表達意見</li>
-                    <li>提升情緒管理能力</li>
-                </ul>
-            </div>
-
-            <div class="skill-card">
-                <h3>🤝 社會共融</h3>
-                <p>我們特別關注面臨溝通障礙的群體，幫助大家找回對話勇氣，建立自我肯定與自信心。</p>
-            </div>
-            
-            <div class="skill-card center-box">
-                <h3>✨ 溝通的初衷</h3>
-                <p>讓每一段對話都充滿溫度，透過與他人建立連結、理解與互動，讓自己變得更有安全感。</p>
-            </div>
+    <div class="story-container">
+        <div class="story-card card-left">
+            <h2>🌱 我們的初衷</h2>
+            <p>在快節奏的現代生活中，我們往往學會了說話，卻忘記了如何「溝通」。建立這個平台的初衷，是希望提供一個溫暖的空間，讓大家重新學習如何表達需求，並同理他人的感受。</p>
         </div>
 
-        <center><a href="index.html" class="back-btn">← 返回主頁</a></center>
+        <div class="story-card card-right">
+            <h2>💎 溝通的意義</h2>
+            <p>溝通不僅是訊息的傳遞，更是心靈的連結。透過有效的溝通，我們可以化解誤會，將衝突轉化為彼此理解的契機。</p>
+        </div>
+
+        <div class="story-card card-left">
+            <h2>🚀 學習的益處</h2>
+            <ul>
+                <li>理解溝通四大流程，建立社交關係。</li>
+                <li>在各種環境下更自信地表達意見。</li>
+                <li>提升情緒管理能力，減少無謂爭吵。</li>
+            </ul>
+        </div>
+
+        <div class="story-card card-center">
+            <h2>🤝 如何幫助有需要的人？</h2>
+            <p>我們特別關注在人際關係中感到孤立的群體。透過高效的聊天技術，幫助大家找回對話的勇氣，透過連結、理解與互動，讓自己變得更有安全感與自我肯定，進而提升自信心。</p>
+        </div>
+    </div>
+
+    <div class="back-btn-container">
+        <a href="index.html" class="back-btn">← 返回主頁</a>
     </div>
 
 </body>
