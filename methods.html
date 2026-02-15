@@ -44,7 +44,7 @@
 
         .container { 
             max-width: 1400px; 
-            margin: 30px auto; /* Reduced from 100px to move boxes up closer to banner */
+            margin: 30px auto; 
             padding: 0 40px; 
             position: relative; 
         }
@@ -70,13 +70,13 @@
             z-index: 1;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-sizing: border-box;
+            /* cursor: pointer; removed to keep default arrow */
         }
 
         .skill-card:hover { 
             transform: translateY(-15px) scale(1.05); 
             box-shadow: 0 0 50px var(--warm-yellow);
             z-index: 5;
-            cursor: pointer;
         }
 
         .skill-card.center-box {
