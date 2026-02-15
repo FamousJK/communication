@@ -40,20 +40,20 @@
         .top-bar-links { display: flex; gap: 15px; align-items: center; }
         .top-bar-links a { color: white; text-decoration: none; opacity: 0.8; font-size: 14px; }
 
-        /* Hero Banner: Same size as Methods Page */
+        /* Hero Banner: MATCHES METHODS PAGE EXACTLY */
         .hero-banner {
-            /* IMPORTANT: Change 'bridge-people.jpg' to your actual filename in the repository */
             background: linear-gradient(rgba(93, 78, 140, 0.6), rgba(93, 78, 140, 0.6)), 
                         url('bridge-people.jpg'); 
             background-size: cover;
-            background-position: center 35%; /* Lifts the image up to show the people */
-            height: 220px; 
+            background-position: center 35%; 
+            height: 220px; /* Fixed height for consistency */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             color: white;
+            padding: 10px 20px;
         }
 
         .hero-banner h1 { 
