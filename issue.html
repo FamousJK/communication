@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>常見問題 - 溝通中的挑戰</title>
+    <style>
+        :root {
+            --primary-purple: #5d4e8c;
+            --accent-purple: #8a78b5;
+            --warm-yellow: #ffcc00;
+            --issue-red: #d32f2f; /* Theme for Issues */
+            --glow-red: rgba(211, 47, 47, 0.4);
+            --text-dark: #222;
+        }
+
+        body { font-family: "Microsoft JhengHei", Arial, sans-serif; line-height: 1.8; color: var(--text-dark); margin: 0; padding: 0; background: #fffdf5; }
+
+        /* Top Bar */
+        .top-bar { 
+            background: var(--primary-purple); 
+            padding: 8px 5%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            min-height: 45px;
+            box-sizing: border-box;
+        }
+        
+        .logo-container img { height: 35px; width: auto; display: block; }
+        .top-bar-links { display: flex; gap: 15px; align-items: center; }
+        .top-bar-links a { color: white; text-decoration: none; opacity: 0.8; font-size: 14px; }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(rgba(93, 78, 140, 0.75), rgba(93, 78, 140, 0.75)), url('banner-issues.jpg'); 
+            background-size: cover;
+            background-position: center;
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .hero-banner h1 { font-size: 3.5rem; margin: 0; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); font-weight: bold; line-height: 1; }
+
+        /* Navigation with Dropdowns */
+        .nav-container { background: white; padding: 12px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: center; }
+        .nav-links { display: flex; list-style: none; gap: 35px; margin: 0; padding: 0; }
+        .nav-links li { position: relative; }
+        .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.2rem; transition: 0.3s; }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+            z-index: 1001;
+            border-radius: 8px;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .dropdown-content a { padding: 12px 16px; font-size: 1rem !important; text-align: center; font-weight: normal; }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* Content Grid */
+        .container { max-width: 1400px; margin: 30px auto; padding: 0 40px; position: relative; }
+        .skill-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 160px; row-gap: 180px; }
+        
+        .skill-card { 
+            background: #fff; 
+            border: 4px solid #ffa726; /* Orange Border for Issues */
+            padding: 50px 60px; 
+            border-radius: 50px; 
+            box-shadow: 0 0 20px rgba(255, 167, 38, 0.3); 
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            min-height: 300px; 
+            z-index: 1; 
+            transition: all 0.4s; 
+            box-sizing: border-box; 
+        }
+        .skill-card:hover { transform: translateY(-15px) scale(1.05); box-shadow: 0 0 50px #ffa726; z-index: 5; }
+
+        /* Center Box */
+        .skill-card.center-box { 
+            position: absolute; 
+            left: 50%; 
+            top: 38%; 
+            transform: translate(-50%, -50%); 
+            width: 520px; 
+            min-height: 280px; 
+            z-index: 10; 
+            background: #ffffff; 
+            border: 5px solid var(--issue-red); 
+            box-shadow: 0 0 35px var(--glow-red); 
+            border-radius: 50px; 
+        }
+        
+        .skill-card h3 { color: var(--primary-purple); font-size: 2.2rem; margin-bottom: 15px; margin-top: 0; font-weight: 800; }
+        .skill-card p { font-size: 1.4rem; color: #444; line-height: 1.6; margin: 0; font-weight: 600; }
+        
+        .back-btn { display: inline-block; margin: 140px 0 60px 0; padding: 20px 90px; background: var(--primary-purple); color: white; text-decoration: none; border-radius: 60px; font-weight: bold; font-size: 1.5rem; transition: 0.3s; }
+
+        @media (max-width: 900px) { .skill-grid { grid-template-columns: 1fr; row-gap: 40px; } .skill-card.center-box { position: relative; transform: none; left: auto; top: auto; width: 100%; margin-top: 20px; } }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="logo-container"><img src="logo.png" alt="Logo"></div>
+        <div class="top-bar-links"><a href="#">FB</a> <a href="#">IG</a> <a href="#">YT</a></div>
+    </div>
+
+    <header class="hero-banner"><h1>溝通的絆腳石</h1></header>
+
+    <nav class="nav-container">
+        <ul class="nav-links">
+            <li><a href="index.html">主頁</a></li>
+            <li class="dropdown">
+                <a href="#" style="cursor: default;">關於我們 ▼</a>
+                <div class="dropdown-content">
+                    <a href="about.html">我們的承諾</a>
+                    <a href="#">我們的服務</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="methods.html">聊天技巧 ▼</a>
+                <div class="dropdown-content">
+                    <a href="methods.html">聊天的方法</a>
+                    <a href="issue.html">常見問題</a>
+                </div>
+            </li>
+            <li><a href="#">學員見證</a></li>
+            <li><a href="#">聯絡我們</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="skill-grid">
+            <div class="skill-card">
+                <h3>🤐 陷入「尬聊」</h3>
+                <p>明明想聊天卻找不到話題，空氣突然安靜，讓雙方都感到巨大的壓力。</p>
+            </div>
+            <div class="skill-card">
+                <h3>🗣️ 只有我在說</h3>
+                <p>不小心變成單向輸出，忽略了對方的反應，導致對話失去互動與溫度。</p>
+            </div>
+            <div class="skill-card">
+                <h3>🙅 習慣性否定</h3>
+                <p>當對方分享時，下意識用「可是...」來回應，無形中澆熄了對方的熱情。</p>
+            </div>
+            <div class="skill-card">
+                <h3>📱 數位屏障</h3>
+                <p>過度依賴冷冰冰的文字，少了表情與語氣的傳遞，容易產生不必要的誤會。</p>
+            </div>
+            <div class="skill-card center-box">
+                <h3>💔 你也有這些困擾嗎？</h3>
+                <p>溝通問題往往來自細微的習慣。讓我們陪你找出核心原因，重建心靈的橋樑。</p>
+            </div>
+        </div>
+        <center><a href="index.html" class="back-btn">← 返回主頁</a></center>
+    </div>
+</body>
+</html>
