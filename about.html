@@ -21,12 +21,27 @@
         .logo-container img { height: 45px; width: auto; }
         .top-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
+        /* Hero Banner: MATCHES METHODS PAGE EXACTLY */
         .hero-banner {
-            background: linear-gradient(rgba(93, 78, 140, 0.7), rgba(93, 78, 140, 0.7)), url('bridge-people.jpg');
-            background-size: cover; background-position: center 30%; height: 220px;
-            display: flex; justify-content: center; align-items: center; color: white;
+            background: linear-gradient(rgba(93, 78, 140, 0.7), rgba(93, 78, 140, 0.7)), 
+                        url('bridge-people.jpg');
+            background-size: cover; 
+            background-position: center 30%; 
+            height: 220px; /* Standardized height */
+            display: flex; 
+            flex-direction: column; /* Center text vertically */
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
+            color: white;
+            padding: 10px 20px; /* Standardized padding */
         }
-        .hero-banner h1 { font-size: 3.5rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+        .hero-banner h1 { 
+            font-size: 3.5rem; 
+            margin: 0; 
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3); 
+            font-weight: bold;
+        }
 
         .nav-container { background: white; padding: 15px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: center; }
         .nav-links { display: flex; list-style: none; gap: 40px; margin: 0; padding: 0; }
@@ -44,7 +59,7 @@
         .story-row {
             display: flex;
             align-items: center;
-            justify-content: space-between; /* Keeps boxes at the far edges */
+            justify-content: space-between; 
             margin-bottom: -70px; 
             position: relative;
         }
@@ -71,7 +86,7 @@
             z-index: 20;
         }
 
-        /* Side Images - Custom Margins to "Slide" them toward the box */
+        /* Side Images */
         .side-image {
             width: 450px;
             height: 300px;
@@ -82,16 +97,14 @@
             flex-shrink: 0;
         }
 
-        /* When the box is on the Left, move photo to the Left toward it */
         .story-row .side-image {
-            margin-right: auto; /* Pushes photo to the left to meet the card */
-            margin-left: 20px;   /* Small gap from the card */
+            margin-right: auto; 
+            margin-left: 20px;   
         }
 
-        /* When the box is on the Right (reversed), move photo to the Right toward it */
         .row-reverse .side-image {
-            margin-left: auto;  /* Pushes photo to the right to meet the card */
-            margin-right: 20px; /* Small gap from the card */
+            margin-left: auto;  
+            margin-right: 20px; 
         }
 
         .side-image img { width: 100%; height: 100%; object-fit: cover; }
@@ -110,6 +123,7 @@
         .back-btn { padding: 18px 70px; background: var(--primary-purple); color: white; text-decoration: none; border-radius: 60px; font-weight: bold; font-size: 1.3rem; }
 
         @media (max-width: 1100px) {
+            .hero-banner h1 { font-size: 2.5rem; }
             .story-row, .row-reverse { flex-direction: column; margin-bottom: 30px; }
             .story-card { width: 100%; height: auto; min-height: 300px; }
             .side-image { width: 100%; height: 250px; margin: 20px 0 !important; }
@@ -123,7 +137,9 @@
         <div class="top-links"><a href="#">FB</a><a href="#">IG</a><a href="#">YT</a></div>
     </div>
 
-    <header class="hero-banner"><h1>關於我們</h1></header>
+    <header class="hero-banner">
+        <h1>關於我們</h1>
+    </header>
 
     <nav class="nav-container">
         <ul class="nav-links">
