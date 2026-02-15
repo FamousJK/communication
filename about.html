@@ -16,12 +16,11 @@
 
         body { font-family: "Microsoft JhengHei", Arial, sans-serif; line-height: 1.8; color: var(--text-dark); margin: 0; padding: 0; background: var(--soft-bg); overflow-x: hidden; }
 
-        /* Top Bar */
+        /* Consistent Header */
         .top-bar { background: var(--primary-purple); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
         .logo-container img { height: 45px; width: auto; }
         .top-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
-        /* Banner */
         .hero-banner {
             background: linear-gradient(rgba(93, 78, 140, 0.7), rgba(93, 78, 140, 0.7)), url('bridge-people.jpg');
             background-size: cover; background-position: center 30%; height: 220px;
@@ -29,80 +28,66 @@
         }
         .hero-banner h1 { font-size: 3.5rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
 
-        /* Nav */
         .nav-container { background: white; padding: 15px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: center; }
         .nav-links { display: flex; list-style: none; gap: 40px; margin: 0; padding: 0; }
         .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.2rem; }
 
-        /* Story Layout Container */
+        /* Overlapping Layout */
         .story-container { 
-            max-width: 1200px; 
-            margin: 60px auto; 
+            max-width: 1100px; 
+            margin: 80px auto; 
             padding: 0 20px; 
             display: flex;
             flex-direction: column;
-            gap: 20px;
-        }
-
-        /* Card Row for Parallel Effect */
-        .card-row {
-            display: flex;
-            gap: 20px;
-            justify-content: space-between;
-            flex-wrap: wrap;
         }
 
         .story-card {
             background: white;
-            padding: 40px;
-            border-radius: 40px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            padding: 45px 55px;
+            border-radius: 45px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
             border: 4px solid var(--warm-yellow);
+            margin-bottom: -50px; /* The Overlap */
             position: relative;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            flex: 1; /* Makes cards equal width in a row */
-            min-width: 450px;
-            min-height: 320px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            max-width: 680px;
+            z-index: 1;
         }
 
-        /* Hover Effect */
         .story-card:hover {
             transform: translateY(-15px) scale(1.03);
-            box-shadow: 0 20px 40px var(--glow-yellow);
-            z-index: 10;
+            box-shadow: 0 25px 50px var(--glow-yellow);
+            z-index: 20;
+            cursor: pointer;
         }
 
-        /* Color Variations */
-        .border-purple { border-color: var(--accent-purple); }
-        .border-green { border-color: #2e7d32; }
+        /* Alignment for the "Story" feel */
+        .card-left { align-self: flex-start; }
+        .card-right { align-self: flex-end; border-color: var(--accent-purple); }
+        .card-final { align-self: center; border-color: #2e7d32; margin-top: 20px; }
 
-        .story-card h2 { color: var(--primary-purple); font-size: 2.2rem; margin-top: 0; margin-bottom: 15px; }
+        .story-card h2 { color: var(--primary-purple); font-size: 2.2rem; margin-top: 0; margin-bottom: 15px; font-weight: 800; }
         
-        /* Unified Font Sizes */
-        .story-card p, .story-card li { 
+        /* Matching font sizes for P and LI */
+        .story-card p, .story-card ul li { 
             font-size: 1.4rem; 
             font-weight: 600; 
-            line-height: 1.6;
+            line-height: 1.7; 
+            color: #333;
         }
         
-        .story-card ul { 
-            margin: 0; 
-            padding-left: 25px; 
-        }
+        .story-card ul { padding-left: 25px; margin: 0; }
 
-        .back-btn-container { text-align: center; margin: 80px 0; }
+        .back-btn-container { text-align: center; margin: 120px 0 80px 0; }
         .back-btn { 
             padding: 20px 80px; background: var(--primary-purple); color: white; 
             text-decoration: none; border-radius: 60px; font-weight: bold; font-size: 1.4rem;
             transition: 0.3s;
         }
-        .back-btn:hover { background: var(--accent-purple); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .back-btn:hover { background: var(--accent-purple); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
 
-        @media (max-width: 900px) {
-            .story-card { min-width: 100%; }
+        @media (max-width: 850px) {
+            .story-card { margin-bottom: 30px; align-self: center; max-width: 100%; }
         }
     </style>
 </head>
@@ -124,31 +109,28 @@
     </nav>
 
     <div class="story-container">
-        <div class="card-row">
-            <div class="story-card">
-                <h2>🌱 我們的初衷</h2>
-                <p>在快節奏的現代生活中，我們往往學會了說話，卻忘記了如何「溝通」。建立這個平台的初衷，讓大家重新學習如何表達需求。</p>
-            </div>
-            <div class="story-card border-purple">
-                <h2>💎 溝通的意義</h2>
-                <p>溝通不僅是訊息的傳遞，更是心靈的連結。透過有效的溝通，將衝突轉化為彼此理解的契機。</p>
-            </div>
+        <div class="story-card card-left">
+            <h2>🌱 我們的初衷</h2>
+            <p>在快節奏的現代生活中，我們往往學會了說話，卻忘記了如何「溝通」。建立這個平台的初衷，是希望提供一個溫暖的空間，讓大家重新學習如何表達需求。</p>
         </div>
 
-        <div class="card-row">
-            <div class="story-card border-purple">
-                <h2>🚀 學習的益處</h2>
-                <ul>
-                    <li>理解溝通四大流程。</li>
-                    <li>在各種環境下更自信表達。</li>
-                    <li>提升情緒管理，減少爭吵。</li>
-                </ul>
-            </div>
+        <div class="story-card card-right">
+            <h2>💎 溝通的意義</h2>
+            <p>溝通不僅是訊息的傳遞，更是心靈的連結。透過有效的溝通，我們可以化解誤會，將衝突轉化為彼此理解的契機。</p>
+        </div>
 
-            <div class="story-card border-green">
-                <h2>🤝 如何幫助他人？</h2>
-                <p>我們關注在人際關係中感到孤立的群體。透過對話與互動，找回連結的勇氣，讓自己變得更有安全感與自信。</p>
-            </div>
+        <div class="story-card card-left">
+            <h2>🚀 學習的益處</h2>
+            <ul>
+                <li>理解溝通四大流程，建立和諧關係。</li>
+                <li>在各種環境下更自信地表達意見。</li>
+                <li>提升情緒管理能力，減少無謂爭吵。</li>
+            </ul>
+        </div>
+
+        <div class="story-card card-right card-final">
+            <h2>🤝 幫助有需要的人</h2>
+            <p>我們特別關注在人際關係中感到孤立的群體。透過對話與互動，找回連結的勇氣，讓自己變得更有安全感與自我肯定，進而提升自信心。</p>
         </div>
     </div>
 
