@@ -32,34 +32,34 @@
         .nav-links { display: flex; list-style: none; gap: 40px; margin: 0; padding: 0; }
         .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.2rem; }
 
-        /* Story Container with Image Support */
+        /* Story Container */
         .story-container { 
-            max-width: 1200px; 
-            margin: 60px auto; 
+            max-width: 1100px; /* Narrowed slightly to bring things inward */
+            margin: 40px auto; 
             padding: 0 20px; 
             display: flex;
             flex-direction: column;
-            position: relative;
         }
 
-        /* The Row Layout */
+        /* The Row Layout - Tightened */
         .story-row {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: -60px; /* Overlap effect */
+            justify-content: center; /* Center them to pull them toward each other */
+            gap: 30px; /* Reduced gap to bring photo closer to box */
+            margin-bottom: -70px; /* Overlap effect */
             position: relative;
         }
 
         /* Equal Size Cards */
         .story-card {
             background: white;
-            padding: 50px;
+            padding: 45px;
             border-radius: 50px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.06);
             border: 4px solid var(--warm-yellow);
-            width: 620px; 
-            height: 350px; 
+            width: 580px; /* Slightly narrowed for a snugger fit */
+            height: 340px; 
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -74,14 +74,15 @@
             z-index: 20;
         }
 
-        /* Side Images */
+        /* Side Images - Tightened */
         .side-image {
-            width: 450px;
-            height: 300px;
+            width: 400px;
+            height: 280px;
             border-radius: 40px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             z-index: 1;
+            flex-shrink: 0; /* Prevents image from squishing */
         }
 
         .side-image img {
@@ -95,30 +96,29 @@
         .border-purple { border-color: var(--accent-purple); }
         .border-green { border-color: #2e7d32; }
 
-        /* Text Styling */
-        .story-card h2 { color: var(--primary-purple); font-size: 2.2rem; margin-top: 0; margin-bottom: 15px; font-weight: 800; }
+        .story-card h2 { color: var(--primary-purple); font-size: 2.1rem; margin-top: 0; margin-bottom: 12px; font-weight: 800; }
         .story-card p, .story-card ul li { 
-            font-size: 1.4rem; 
+            font-size: 1.35rem; 
             font-weight: 600; 
-            line-height: 1.6; 
+            line-height: 1.5; 
             color: #333;
             margin: 0;
         }
         .story-card ul { padding-left: 25px; margin: 0; }
 
-        /* Final Centered Card */
-        .card-final-wrap { display: flex; justify-content: center; margin-top: 40px; width: 100%; }
+        /* Final Box */
+        .card-final-wrap { display: flex; justify-content: center; margin-top: 60px; width: 100%; }
 
         .back-btn-container { text-align: center; margin: 100px 0 80px 0; }
         .back-btn { 
-            padding: 20px 80px; background: var(--primary-purple); color: white; 
-            text-decoration: none; border-radius: 60px; font-weight: bold; font-size: 1.4rem;
+            padding: 18px 70px; background: var(--primary-purple); color: white; 
+            text-decoration: none; border-radius: 60px; font-weight: bold; font-size: 1.3rem;
         }
 
         @media (max-width: 1000px) {
-            .story-row, .row-reverse { flex-direction: column; margin-bottom: 40px; }
-            .story-card { width: 100%; height: auto; min-height: 300px; }
-            .side-image { width: 100%; height: 250px; margin-top: 20px; }
+            .story-row, .row-reverse { flex-direction: column; margin-bottom: 30px; gap: 15px; }
+            .story-card { width: 100%; height: auto; min-height: 280px; }
+            .side-image { width: 100%; height: 220px; }
         }
     </style>
 </head>
@@ -175,7 +175,7 @@
         </div>
 
         <div class="card-final-wrap">
-            <div class="story-card border-green" style="width: 800px; text-align: center;">
+            <div class="story-card border-green" style="width: 750px; text-align: center;">
                 <h2>🤝 幫助有需要的人</h2>
                 <p>我們特別關注人際關係中感到孤立的群體。透過連結與互動，讓自己變得更有安全感與自我肯定，進而提升自信心。</p>
             </div>
