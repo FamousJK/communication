@@ -16,6 +16,7 @@
 
         body { font-family: "Microsoft JhengHei", Arial, sans-serif; line-height: 1.8; color: var(--text-dark); margin: 0; padding: 0; background: var(--soft-bg); overflow-x: hidden; }
 
+        /* Top Bar */
         .top-bar { 
             background: var(--primary-purple); 
             padding: 8px 5%; 
@@ -30,6 +31,7 @@
         .top-links { display: flex; align-items: center; gap: 15px; }
         .top-links a { color: white; text-decoration: none; font-size: 14px; opacity: 0.8; }
 
+        /* Hero Banner */
         .hero-banner {
             background: linear-gradient(rgba(93, 78, 140, 0.7), rgba(93, 78, 140, 0.7)), url('about-us.jpg');
             background-size: cover; 
@@ -46,10 +48,39 @@
 
         .hero-banner h1 { font-size: 3.5rem; margin: 0; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); font-weight: bold; line-height: 1; }
 
+        /* Navigation & Dropdown Logic */
         .nav-container { background: white; padding: 15px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: center; }
         .nav-links { display: flex; list-style: none; gap: 40px; margin: 0; padding: 0; }
-        .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.3rem; }
+        .nav-links li { position: relative; }
+        .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.3rem; transition: 0.3s; }
+        .nav-links a:hover { color: var(--warm-yellow); }
 
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+            z-index: 1001;
+            border-radius: 8px;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .dropdown-content a {
+            color: var(--primary-purple) !important;
+            padding: 12px 16px;
+            display: block;
+            font-size: 1rem !important;
+            text-align: center;
+            font-weight: normal;
+        }
+
+        .dropdown-content a:hover { background-color: #f1f1f1; color: var(--warm-yellow) !important; }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* Story Grid */
         .story-container { max-width: 1250px; margin: 40px auto; padding: 0 20px; display: flex; flex-direction: column; }
         .story-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: -70px; position: relative; }
         .story-card { background: white; padding: 45px; border-radius: 50px; box-shadow: 0 15px 40px rgba(0,0,0,0.06); border: 4px solid var(--warm-yellow); width: 620px; height: 350px; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; z-index: 5; transition: all 0.4s; }
@@ -68,7 +99,7 @@
         .back-btn-container { text-align: center; margin: 100px 0 80px 0; }
         .back-btn { padding: 18px 70px; background: var(--primary-purple); color: white; text-decoration: none; border-radius: 60px; font-weight: bold; font-size: 1.3rem; }
 
-        @media (max-width: 1100px) { .hero-banner h1 { font-size: 2.5rem; } .story-row, .row-reverse { flex-direction: column; margin-bottom: 30px; } .story-card { width: 100%; height: auto; min-height: 300px; } .side-image { width: 100%; height: 250px; margin: 20px 0 !important; } }
+        @media (max-width: 1100px) { .hero-banner h1 { font-size: 2.5rem; } .story-row, .row-reverse { flex-direction: column; margin-bottom: 30px; } .story-card { width: 100%; height: auto; min-height: 300px; } .side-image { width: 100%; height: 250px; margin: 20px 0 !important; } .dropdown-content { position: static; transform: none; box-shadow: none; } }
     </style>
 </head>
 <body>
@@ -77,26 +108,32 @@
         <div class="top-links"><a href="#">FB</a><a href="#">IG</a><a href="#">YT</a></div>
     </div>
     <header class="hero-banner"><h1>關於我們</h1></header>
+    
     <nav class="nav-container">
         <ul class="nav-links">
             <li><a href="index.html">主頁</a></li>
-            <li><a>關於我們</a></li>
-                        <div class="dropdown-content">
-                <a href="about.html">我們的承諾</a>
-                <a href="#">我們的服務</a>
-                        </div>
-            <li><a href="methods.html">交流常見問題</a></li>
-            <li><a href="methods.html">溝通技巧</a></li>
-            <li><a href="methods.html">學員見證</a></li>
             
+            <li class="dropdown">
+                <a href="#" style="cursor: default;">關於我們 ▼</a>
+                <div class="dropdown-content">
+                    <a href="about.html">我們的承諾</a>
+                    <a href="#">我們的服務</a>
+                </div>
+            </li>
+
+            <li><a href="issue.html">常見問題</a></li>
+            <li><a href="methods.html">交流技巧</a></li>
+            <li><a href="#">學員見證</a></li>
         </ul>
     </nav>
+
     <div class="story-container">
         <div class="story-row"><div class="story-card"><h2>🌱 我們的初衷</h2><p>在快節奏的現代生活中，我們往往學會了說話，卻忘記了如何「溝通」。希望提供一個溫暖的空間，讓大家重新學習如何表達需求。</p></div><div class="side-image"><img src="about-intent.jpg" alt="Intention"></div></div>
         <div class="story-row row-reverse"><div class="story-card border-purple"><h2>💎 溝通的意義</h2><p>溝通不僅是訊息的傳遞，更是心靈的連結。透過有效的溝通，將衝突轉化為彼此理解的契機。</p></div><div class="side-image"><img src="about-purpose.jpg" alt="Purpose"></div></div>
         <div class="story-row"><div class="story-card"><h2>🚀 學習的益處</h2><ul><li>理解溝通四大流程。</li><li>在各種環境下更自信表達。</li><li>提升情緒管理，減少爭吵。</li></ul></div><div class="side-image"><img src="about-connect.jpg" alt="Connect"></div></div>
         <div class="card-final-wrap"><div class="story-card border-green" style="width: 620px; text-align: left;"><h2>🤝 幫助有需要的人</h2><p>我們特別關注人際關係中感到孤立的群體。透過連結與互動，讓自己變得更有安全感與自我肯定，進而提升自信心。</p></div></div>
     </div>
+    
     <div class="back-btn-container"><a href="index.html" class="back-btn">← 返回主頁</a></div>
 </body>
 </html>
