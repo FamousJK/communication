@@ -80,16 +80,16 @@
         .dropdown-content a:hover { background-color: #f1f1f1; color: var(--warm-yellow) !important; }
         .dropdown:hover .dropdown-content { display: block; }
 
-        /* Story Grid - spacing updated here */
+        /* Story Grid */
         .story-container { max-width: 1300px; margin: 40px auto; padding: 0 20px; display: flex; flex-direction: column; }
         
         .story-row { 
             display: flex; 
             align-items: center; 
-            justify-content: center; /* Center to allow gap to work evenly */
+            justify-content: center; 
             margin-bottom: -40px; 
             position: relative; 
-            gap: 100px; /* INCREASE THIS to move photo further from box */
+            gap: 60px; /* Reduced gap to fit smaller photos better */
         }
 
         .story-card { 
@@ -110,9 +110,10 @@
 
         .story-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 25px 50px var(--glow-yellow); z-index: 20; }
         
+        /* Fixed Photo Size (80% of original) */
         .side-image { 
-            width: 3800px; 
-            height: 2800px; 
+            width: 360px; 
+            height: 240px; 
             border-radius: 40px; 
             overflow: hidden; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
