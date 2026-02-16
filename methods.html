@@ -20,7 +20,7 @@
         /* Top Bar */
         .top-bar { background: var(--primary-purple); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
         .logo-container img { height: 30px; width: auto; }
-        .top-bar-links a { color: white; text-decoration: none; margin-left: 10px; font-size: 14px; opacity: 0.9; }
+        .top-bar-links a { color: white; text-decoration: none; margin-left: 10px; font-size: 14px; }
 
         /* Hero Banner */
         .hero-banner {
@@ -34,7 +34,7 @@
         .nav-links { display: flex; list-style: none; gap: 20px; margin: 0; padding: 15px; white-space: nowrap; justify-content: center; }
         .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; }
 
-        /* Responsive Grid */
+        /* Grid System */
         .container { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
         
         .skill-grid { 
@@ -56,12 +56,12 @@
             box-sizing: border-box;
         }
 
-        /* --- THE FIX: Order Logic --- */
+        /* --- THE FIX: Move to Bottom --- */
         .skill-card.center-box { 
             border-color: var(--success-green); 
             background: #f1f8f1;
             box-shadow: 0 5px 15px var(--glow-green);
-            order: -1; /* This forces the box to the TOP of the flex/grid container */
+            order: 1; /* Positive number pushes it to the bottom */
         }
 
         .skill-card h3 { color: var(--primary-purple); font-size: 1.6rem; margin-top: 0; }
@@ -80,7 +80,8 @@
             }
             .skill-card.center-box { 
                 grid-column: 1 / span 2; 
-                margin-bottom: 10px;
+                order: 2; /* Ensures it stays at the end of the grid too */
+                margin-top: 10px;
             }
             .skill-card:hover { transform: translateY(-5px); transition: 0.3s; }
         }
@@ -92,7 +93,7 @@
         <div class="top-bar-links"><a href="#">FB</a> <a href="#">IG</a> <a href="#">YT</a></div>
     </div>
 
-    <header class="hero-banner"><h1>聊天的方法</h1></header>
+    <header class="hero-banner"><h1>交流技巧</h1></header>
 
     <nav class="nav-container">
         <ul class="nav-links">
@@ -100,17 +101,11 @@
             <li><a href="about.html">關於我們</a></li>
             <li><a href="issue.html">溝通問題</a></li>
             <li><a href="methods.html">交流技巧</a></li>
-            <li><a href="#">聯絡我們</a></li>
         </ul>
     </nav>
 
     <div class="container">
         <div class="skill-grid">
-            <div class="skill-card center-box">
-                <h3>💡 還有...</h3>
-                <p>想要解鎖更多聊天技巧，快點聯係我和我的團隊了解一下 ❤️</p>
-            </div>
-
             <div class="skill-card">
                 <h3>👂 積極傾聽</h3>
                 <p>給予對方充分的關注。在對方說話時，避免打斷或急著給建議。</p>
@@ -129,6 +124,11 @@
             <div class="skill-card">
                 <h3>😊 非語言訊息</h3>
                 <p>眼神交流、微笑以及放鬆的身姿，都能傳遞出願意對話的訊號。</p>
+            </div>
+
+            <div class="skill-card center-box">
+                <h3>💡 還有...</h3>
+                <p>想要解鎖更多聊天技巧，快點聯係我和我的團隊了解一下 ❤️</p>
             </div>
         </div>
 
