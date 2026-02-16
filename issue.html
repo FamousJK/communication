@@ -22,7 +22,7 @@
             overflow-x: hidden; 
         }
 
-        /* Top Bar - Synced with Index */
+        /* Top Bar - Synced */
         .top-bar { 
             background: var(--primary-purple); 
             padding: 8px 5%; 
@@ -34,7 +34,7 @@
         .logo-container img { height: 30px; width: auto; display: block; }
         .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
-        /* Hero Banner - Synced Heights & Font Sizes with Index */
+        /* Hero Banner - Synced Heights & Font Sizes */
         .hero-banner {
             background: linear-gradient(rgba(93, 78, 140, 0.75), rgba(93, 78, 140, 0.75)), url('issue-question.jpg'); 
             background-size: cover;
@@ -54,7 +54,7 @@
             font-weight: bold;
         }
 
-        /* Nav - Synced with Index (Dropdown Restored) */
+        /* Nav - Synced */
         .nav-container { 
             background: white; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
@@ -147,7 +147,7 @@
         }
         .back-btn:hover { background: var(--accent-purple); transform: translateY(-2px); }
 
-        /* Desktop Adjustments */
+        /* Desktop Adjustments - FIXING THE CENTER ALIGNMENT */
         @media (min-width: 768px) {
             .hero-banner { height: 220px; }
             .hero-banner h1 { font-size: 3.5rem; }
@@ -161,7 +161,8 @@
             }
             .skill-card.center-box { 
                 grid-column: 1 / span 2; 
-                order: 0; 
+                justify-self: center; /* This centers the card in the double column row */
+                order: -1; 
             }
             .skill-card:hover { transform: translateY(-5px); transition: 0.3s; }
         }
