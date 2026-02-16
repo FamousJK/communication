@@ -3,57 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>交流技巧 - 聊天的方法</title>
+    <title>溝通問題 - 溝通中的挑戰</title>
     <style>
         :root {
             --primary-purple: #5d4e8c;
             --accent-purple: #8a78b5;
             --warm-yellow: #ffcc00;
-            --glow-yellow: rgba(255, 204, 0, 0.3);
-            --success-green: #2e7d32;
-            --glow-green: rgba(46, 125, 50, 0.15);
+            --issue-red: #d32f2f;
             --text-dark: #222;
         }
 
-        body { font-family: "Microsoft JhengHei", Arial, sans-serif; line-height: 1.6; color: var(--text-dark); margin: 0; padding: 0; background: #fffdf5; overflow-x: hidden; }
+        body { 
+            font-family: "Microsoft JhengHei", Arial, sans-serif; 
+            line-height: 1.6; 
+            color: var(--text-dark); 
+            margin: 0; padding: 0; 
+            background: #fffdf5; 
+            overflow-x: hidden; 
+        }
 
-        /* Top Bar - Synced */
-        .top-bar { background: var(--primary-purple); padding: 8px 5%; display: flex; justify-content: space-between; align-items: center; min-height: 45px; }
+        /* Top Bar - Synced with Index */
+        .top-bar { 
+            background: var(--primary-purple); 
+            padding: 8px 5%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            min-height: 45px;
+        }
         .logo-container img { height: 30px; width: auto; display: block; }
         .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
-        /* Hero Banner - Synced */
+        /* Hero Banner - Synced Heights & Font Sizes with Index */
         .hero-banner {
-            background: linear-gradient(rgba(93, 78, 140, 0.75), rgba(93, 78, 140, 0.75)), url('banner-methods.jpg'); 
-            background-size: cover; background-position: center; height: 180px; display: flex; justify-content: center; align-items: center; color: white; text-align: center;
+            background: linear-gradient(rgba(93, 78, 140, 0.75), rgba(93, 78, 140, 0.75)), url('issue-question.jpg'); 
+            background-size: cover;
+            background-position: center 35%; 
+            height: 180px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
         }
-        .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); font-weight: bold; }
+        .hero-banner h1 { 
+            font-size: 2.2rem; 
+            margin: 0; 
+            padding: 0 20px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5); 
+            font-weight: bold;
+        }
 
-        /* Nav - Synced with Dropdown */
-        .nav-container { background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; overflow-x: auto; }
-        .nav-links { display: flex; list-style: none; gap: 25px; margin: 0; padding: 15px 20px; justify-content: center; }
+        /* Nav - Synced with Index (Dropdown Restored) */
+        .nav-container { 
+            background: white; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            overflow-x: auto;
+        }
+        .nav-links { 
+            display: flex; 
+            list-style: none; 
+            gap: 25px; 
+            margin: 0; 
+            padding: 15px 20px; 
+            justify-content: center; 
+        }
         .nav-links li { position: relative; }
-        .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.1rem; white-space: nowrap; }
-        
-        .dropdown-content { display: none; position: absolute; background-color: white; min-width: 140px; box-shadow: 0px 8px 16px rgba(0,0,0,0.1); z-index: 1001; border-radius: 8px; top: 100%; left: 50%; transform: translateX(-50%); }
-        .dropdown-content a { color: var(--primary-purple) !important; padding: 12px 16px; display: block; font-size: 1rem !important; font-weight: normal; text-align: center; }
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--primary-purple); 
+            font-weight: bold; 
+            font-size: 1.1rem; 
+            white-space: nowrap;
+        }
+
+        /* Dropdown Styling */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 140px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+            z-index: 1001;
+            border-radius: 8px;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .dropdown-content a {
+            color: var(--primary-purple) !important;
+            padding: 12px 16px;
+            display: block;
+            font-size: 1rem !important;
+            font-weight: normal;
+            text-align: center;
+        }
         .dropdown:hover .dropdown-content { display: block; }
 
         /* Grid System */
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-        .skill-grid { display: flex; flex-direction: column; gap: 20px; align-items: center; }
-        .skill-card { background: #fff; border: 3px solid var(--warm-yellow); padding: 30px; border-radius: 30px; text-align: center; box-shadow: 0 5px 15px var(--glow-yellow); width: 100%; max-width: 600px; box-sizing: border-box; }
+        
+        .skill-grid { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+            align-items: center;
+        }
 
-        /* Green Box Logic */
-        .skill-card.center-box { border-color: var(--success-green); background: #f1f8f1; box-shadow: 0 5px 15px var(--glow-green); order: 1; }
+        .skill-card { 
+            background: #fff; 
+            border: 3px solid #ffa726; 
+            padding: 30px; 
+            border-radius: 30px; 
+            text-align: center; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
 
-        .skill-card h3 { color: var(--primary-purple); font-size: 1.6rem; margin-top: 0; }
-        .skill-card p { font-size: 1.1rem; color: #444; }
+        .skill-card.center-box { 
+            border-color: var(--issue-red); 
+            background: #fff5f5;
+            order: -1; 
+        }
+
+        .skill-card h3 { color: var(--primary-purple); font-size: 1.5rem; margin-top: 0; }
+        .skill-card p { font-size: 1rem; color: #555; margin-bottom: 0; }
 
         .back-btn-container { text-align: center; margin: 40px 0; }
-        .back-btn { display: inline-block; padding: 12px 50px; background: var(--primary-purple); color: white; text-decoration: none; border-radius: 50px; font-weight: bold; }
+        .back-btn { 
+            display: inline-block; 
+            padding: 12px 50px; 
+            background: var(--primary-purple); 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 50px; 
+            font-weight: bold; 
+            transition: 0.3s;
+        }
+        .back-btn:hover { background: var(--accent-purple); transform: translateY(-2px); }
 
-        /* Desktop Adjustments - THE CENTER FIX */
+        /* Desktop Adjustments */
         @media (min-width: 768px) {
             .hero-banner { height: 220px; }
             .hero-banner h1 { font-size: 3.5rem; }
@@ -67,9 +161,7 @@
             }
             .skill-card.center-box { 
                 grid-column: 1 / span 2; 
-                justify-self: center; /* 這裡確保它在 Grid 中間 */
-                order: 2; 
-                margin-top: 10px;
+                order: 0; 
             }
             .skill-card:hover { transform: translateY(-5px); transition: 0.3s; }
         }
@@ -88,7 +180,7 @@
         </div>
     </div>
 
-    <header class="hero-banner"><h1>溝通技巧</h1></header>
+    <header class="hero-banner"><h1>溝通的絆腳石</h1></header>
 
     <nav class="nav-container">
         <ul class="nav-links">
@@ -109,26 +201,29 @@
 
     <div class="container">
         <div class="skill-grid">
-            <div class="skill-card">
-                <h3>👂 積極傾聽</h3>
-                <p>給予對方充分的關注。在對方說話時，避免打斷或急著給建議。</p>
-            </div>
-            <div class="skill-card">
-                <h3>❓ 開放式提問</h3>
-                <p>多使用「為什麼」或「如何」來引導對話，能帶動更深層的分享。</p>
-            </div>
-            <div class="skill-card">
-                <h3>🤝 同理心反應</h3>
-                <p>試著站在對方的角度思考，理解他們當下的心情。</p>
-            </div>
-            <div class="skill-card">
-                <h3>😊 非語言訊息</h3>
-                <p>眼神交流、微笑以及放鬆的身姿，都能傳遞出願意對話的訊號。</p>
+            <div class="skill-card center-box">
+                <h3>💔 你也有這些困擾嗎？</h3>
+                <p>溝通問題往往來自細微的習慣。讓我們陪你找出核心原因，重建心靈的橋樑。</p>
             </div>
 
-            <div class="skill-card center-box">
-                <h3>💡 還有...</h3>
-                <p>想要解鎖更多聊天技巧，快點聯係我和我的團隊了解一下 ❤️</p>
+            <div class="skill-card">
+                <h3>🤐 陷入「尬聊」</h3>
+                <p>明明想聊天卻找不到話題，空氣突然安靜，讓雙方都感到巨大的壓力。</p>
+            </div>
+            
+            <div class="skill-card">
+                <h3>🗣️ 只有我在說</h3>
+                <p>不小心變成單向輸出，忽略了對方的反應，導致對話失去互動與溫度。</p>
+            </div>
+            
+            <div class="skill-card">
+                <h3>🙅 習慣性否定</h3>
+                <p>當對方分享時，下意識用「可是...」來回應，無形中澆熄了對方的熱情。</p>
+            </div>
+            
+            <div class="skill-card">
+                <h3>📱 數位屏障</h3>
+                <p>過度依賴冷冰冰的文字，少了表情與語氣的傳遞，容易產生不必要的誤會。</p>
             </div>
         </div>
 
