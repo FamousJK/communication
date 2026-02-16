@@ -17,114 +17,67 @@
 
         body { font-family: "Microsoft JhengHei", Arial, sans-serif; line-height: 1.6; color: var(--text-dark); margin: 0; padding: 0; background: #fffdf5; overflow-x: hidden; }
 
-        /* Top Bar - Synced with Index */
+        /* Top Bar - Synced */
         .top-bar { 
             background: var(--primary-purple); 
             padding: 8px 5%; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            min-height: 45px;
+            min-height: 45px; 
         }
         .logo-container img { height: 30px; width: auto; display: block; }
         .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
-        /* Hero Banner - Synced with Index */
+        /* Hero Banner - Synced */
         .hero-banner {
             background: linear-gradient(rgba(93, 78, 140, 0.75), rgba(93, 78, 140, 0.75)), url('banner-methods.jpg'); 
-            background-size: cover; 
-            background-position: center; 
+            background-size: cover; background-position: center; 
             height: 180px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            color: white;
-            text-align: center;
+            display: flex; justify-content: center; align-items: center; 
+            color: white; text-align: center;
         }
-        .hero-banner h1 { 
-            font-size: 2.2rem; 
-            margin: 0; 
-            padding: 0 20px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5); 
-            font-weight: bold;
-        }
+        .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); font-weight: bold; }
 
-        /* Nav - Synced with Index (Including Dropdown) */
+        /* Nav - Synced with Dropdown */
         .nav-container { 
             background: white; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            overflow-x: auto;
+            position: sticky; top: 0; z-index: 1000; 
+            overflow-x: auto; 
         }
         .nav-links { 
-            display: flex; 
-            list-style: none; 
-            gap: 25px; 
-            margin: 0; 
-            padding: 15px 20px; 
-            justify-content: center; 
+            display: flex; list-style: none; gap: 25px; margin: 0; padding: 15px 20px; justify-content: center; 
         }
         .nav-links li { position: relative; }
         .nav-links a { 
-            text-decoration: none; 
-            color: var(--primary-purple); 
-            font-weight: bold; 
-            font-size: 1.1rem; 
-            white-space: nowrap;
+            text-decoration: none; color: var(--primary-purple); 
+            font-weight: bold; font-size: 1.1rem; white-space: nowrap; 
         }
-
+        
         /* Dropdown Styling */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            min-width: 140px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
-            z-index: 1001;
-            border-radius: 8px;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
+        .dropdown-content { 
+            display: none; position: absolute; background-color: white; 
+            min-width: 140px; box-shadow: 0px 8px 16px rgba(0,0,0,0.1); 
+            z-index: 1001; border-radius: 8px; top: 100%; left: 50%; transform: translateX(-50%); 
         }
-        .dropdown-content a {
-            color: var(--primary-purple) !important;
-            padding: 12px 16px;
-            display: block;
-            font-size: 1rem !important;
-            font-weight: normal;
-            text-align: center;
-        }
+        .dropdown-content a { color: var(--primary-purple) !important; padding: 12px 16px; display: block; font-size: 1rem !important; font-weight: normal; text-align: center; }
         .dropdown:hover .dropdown-content { display: block; }
 
         /* Grid System */
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-        
-        .skill-grid { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 20px; 
-            align-items: center;
-        }
-
+        .skill-grid { display: flex; flex-direction: column; gap: 20px; align-items: center; }
         .skill-card { 
-            background: #fff; 
-            border: 3px solid var(--warm-yellow); 
-            padding: 30px; 
-            border-radius: 30px; 
-            text-align: center; 
-            box-shadow: 0 5px 15px var(--glow-yellow);
-            width: 100%;
-            max-width: 600px;
-            box-sizing: border-box;
+            background: #fff; border: 3px solid var(--warm-yellow); 
+            padding: 30px; border-radius: 30px; text-align: center; 
+            box-shadow: 0 5px 15px var(--glow-yellow); 
+            width: 100%; max-width: 600px; box-sizing: border-box; 
         }
 
-        /* Green Box at Bottom & Centered */
+        /* Green Box Styling */
         .skill-card.center-box { 
-            border-color: var(--success-green); 
-            background: #f1f8f1;
-            box-shadow: 0 5px 15px var(--glow-green);
+            border-color: var(--success-green); background: #f1f8f1; 
+            box-shadow: 0 5px 15px var(--glow-green); 
             order: 1; 
         }
 
@@ -132,7 +85,12 @@
         .skill-card p { font-size: 1.1rem; color: #444; }
 
         .back-btn-container { text-align: center; margin: 40px 0; }
-        .back-btn { display: inline-block; padding: 12px 50px; background: var(--primary-purple); color: white; text-decoration: none; border-radius: 50px; font-weight: bold; transition: 0.3s; }
+        .back-btn { 
+            display: inline-block; padding: 12px 50px; 
+            background: var(--primary-purple); color: white; 
+            text-decoration: none; border-radius: 50px; font-weight: bold; 
+            transition: 0.3s;
+        }
         .back-btn:hover { background: var(--accent-purple); transform: translateY(-2px); }
 
         /* Desktop Adjustments */
@@ -149,7 +107,7 @@
             }
             .skill-card.center-box { 
                 grid-column: 1 / span 2; 
-                justify-self: center; /* Ensures the box itself is centered in the grid row */
+                justify-self: center; /* Centering fix */
                 order: 2; 
                 margin-top: 10px;
             }
@@ -165,7 +123,9 @@
 <body>
     <div class="top-bar">
         <div class="logo-container"><img src="logo.png" alt="Logo"></div>
-        <div class="top-bar-links"><a href="#">FB</a> <a href="#">IG</a> <a href="#">YT</a></div>
+        <div class="top-bar-links">
+            <a href="#">FB</a> <a href="#">IG</a> <a href="#">YT</a>
+        </div>
     </div>
 
     <header class="hero-banner"><h1>溝通技巧</h1></header>
@@ -181,7 +141,7 @@
                 </div>
             </li>
             <li><a href="issue.html">溝通問題</a></li>
-            <li><a href="methods.html">溝通技巧</a></li>
+            <li><a href="methods.html">交流技巧</a></li>
             <li><a href="#">學員見證</a></li>
             <li><a href="#">聯絡我們</a></li>
         </ul>
@@ -193,17 +153,14 @@
                 <h3>👂 積極傾聽</h3>
                 <p>給予對方充分的關注。在對方說話時，避免打斷或急著給建議。</p>
             </div>
-            
             <div class="skill-card">
                 <h3>❓ 開放式提問</h3>
                 <p>多使用「為什麼」或「如何」來引導對話，能帶動更深層的分享。</p>
             </div>
-            
             <div class="skill-card">
                 <h3>🤝 同理心反應</h3>
                 <p>試著站在對方的角度思考，理解他們當下的心情。</p>
             </div>
-            
             <div class="skill-card">
                 <h3>😊 非語言訊息</h3>
                 <p>眼神交流、微笑以及放鬆的身姿，都能傳遞出願意對話的訊號。</p>
