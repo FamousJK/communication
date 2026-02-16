@@ -54,7 +54,7 @@
             font-weight: bold;
         }
 
-        /* Nav - Synced */
+        /* Nav - Synced with Dropdown */
         .nav-container { 
             background: white; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
@@ -147,7 +147,7 @@
         }
         .back-btn:hover { background: var(--accent-purple); transform: translateY(-2px); }
 
-        /* Desktop Adjustments - FIXING THE CENTER ALIGNMENT */
+        /* Desktop Adjustments */
         @media (min-width: 768px) {
             .hero-banner { height: 220px; }
             .hero-banner h1 { font-size: 3.5rem; }
@@ -161,7 +161,7 @@
             }
             .skill-card.center-box { 
                 grid-column: 1 / span 2; 
-                justify-self: center; /* This centers the card in the double column row */
+                justify-self: center; /* Red box centered in the row */
                 order: -1; 
             }
             .skill-card:hover { transform: translateY(-5px); transition: 0.3s; }
