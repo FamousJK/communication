@@ -6,47 +6,70 @@
     <title>JK 交流工作坊 - 首頁</title>
     <style>
         :root {
-            --primary-purple: #5d4e8c;
-            --accent-purple: #8a78b5;
-            --warm-yellow: #ffcc00;
-            --text-dark: #222;
-            --bg-light: #fffdf5;
+            --primary-navy: #2c3e50;
+            --accent-blue: #3498db;
+            --soft-blue: #f0f7ff;
+            --text-dark: #333;
+            --bg-light: #f9f9f9;
         }
 
-        body { font-family: "Microsoft JhengHei", Arial, sans-serif; line-height: 1.6; color: var(--text-dark); margin: 0; padding: 0; background: var(--bg-light); overflow-x: hidden; }
+        body { 
+            font-family: 'Segoe UI', "Microsoft JhengHei", Arial, sans-serif; 
+            line-height: 1.6; 
+            color: var(--text-dark); 
+            margin: 0; 
+            padding: 0; 
+            background: var(--bg-light); 
+            overflow-x: hidden; 
+        }
 
         /* Top Bar */
-        .top-bar { background: var(--primary-purple); padding: 8px 5%; display: flex; justify-content: space-between; align-items: center; min-height: 45px; }
+        .top-bar { 
+            background: var(--primary-navy); 
+            padding: 8px 5%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            min-height: 45px; 
+        }
         .logo-container img { height: 30px; width: auto; display: block; }
         .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
-        /* Hero */
+        /* Hero - Using the same Navy background style */
         .hero-banner {
-            background: linear-gradient(rgba(93, 78, 140, 0.6), rgba(93, 78, 140, 0.6)), url('bridge-people.jpg'); 
-            background-size: cover; background-position: center 35%; 
-            height: 180px; display: flex; justify-content: center; align-items: center; text-align: center; color: white;
+            background: linear-gradient(rgba(44, 62, 80, 0.7), rgba(44, 62, 80, 0.7)), url('bridge-people.jpg'); 
+            background-size: cover; 
+            background-position: center 35%; 
+            height: 200px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            color: white;
         }
-        .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); font-weight: bold; }
+        .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); font-weight: bold; }
 
         /* Navigation */
         .nav-container { background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
         .nav-links { display: flex; list-style: none; gap: 25px; margin: 0; padding: 15px 20px; justify-content: center; }
         .nav-links li { position: relative; }
-        .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.1rem; transition: 0.3s; white-space: nowrap; }
+        .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: bold; font-size: 1.1rem; transition: 0.3s; white-space: nowrap; }
+        .nav-links a:hover { color: var(--accent-blue); }
 
         /* Desktop Dropdown */
         .dropdown-content {
             display: none; position: absolute; background-color: white; min-width: 160px;
             box-shadow: 0px 8px 16px rgba(0,0,0,0.1); z-index: 1001; border-radius: 8px; 
             top: 100%; left: 50%; transform: translateX(-50%); overflow: hidden;
+            border-top: 3px solid var(--accent-blue);
         }
-        .dropdown-content a { color: var(--primary-purple) !important; padding: 12px 16px; display: block; font-size: 1rem !important; text-align: center; font-weight: normal; border-bottom: 1px solid #eee; }
+        .dropdown-content a { color: var(--primary-navy) !important; padding: 12px 16px; display: block; font-size: 1rem !important; text-align: center; font-weight: normal; border-bottom: 1px solid #eee; }
         .dropdown-content a:last-child { border-bottom: none; }
-        .dropdown-content a:hover { background-color: #f8f7ff; }
+        .dropdown-content a:hover { background-color: var(--soft-blue); color: var(--accent-blue) !important; }
 
         @media (min-width: 769px) {
             .dropdown:hover .dropdown-content { display: block; }
-            .hero-banner { height: 220px; }
+            .hero-banner { height: 250px; }
             .hero-banner h1 { font-size: 3.5rem; }
             .nav-links { gap: 40px; }
             .nav-links a { font-size: 1.3rem; }
@@ -58,27 +81,18 @@
             .nav-links { justify-content: flex-start; padding-right: 50px; }
             
             .dropdown.mobile-open .dropdown-content { 
-                display: block; 
-                position: static; 
-                transform: none; 
-                box-shadow: none; 
-                background: #fcfcfc;
-                width: auto;
-                min-width: 0;
-                margin-top: 5px;
+                display: block; position: static; transform: none; box-shadow: none; 
+                background: #fcfcfc; width: auto; min-width: 0; margin-top: 5px;
             }
             .dropdown.mobile-open .dropdown-content a {
-                text-align: left; 
-                padding: 10px 15px; 
-                color: var(--accent-purple) !important; 
-                font-weight: bold;
+                text-align: left; padding: 10px 15px; color: var(--accent-blue) !important; font-weight: bold;
             }
         }
 
         .container { max-width: 900px; margin: 40px auto; padding: 0 20px; text-align: center; }
-        .welcome-section h2 { font-size: 2.2rem; color: var(--primary-purple); margin-bottom: 15px; }
+        .welcome-section h2 { font-size: 2.2rem; color: var(--primary-navy); margin-bottom: 15px; border-bottom: 2px solid var(--accent-blue); display: inline-block; padding-bottom: 5px; }
         
-        /* Service Preview Cards */
+        /* Service Preview Cards - Matching Service.html style */
         .service-preview {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -87,18 +101,40 @@
         }
         .preview-card {
             background: white;
-            padding: 25px;
-            border-radius: 15px;
+            padding: 30px;
+            border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid transparent;
         }
-        .preview-card:hover { transform: translateY(-5px); }
-        .preview-card h3 { color: var(--primary-purple); margin-top: 0; }
+        .preview-card:hover { 
+            transform: translateY(-5px); 
+            border-top: 4px solid var(--accent-blue);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .preview-card h3 { color: var(--accent-blue); margin-top: 0; }
         
-        .cta-btn { display: inline-block; padding: 15px 45px; background: var(--primary-purple); color: white; text-decoration: none; border-radius: 50px; font-weight: bold; margin-top: 20px; transition: 0.3s; }
-        .cta-btn:hover { background: var(--accent-purple); box-shadow: 0 4px 12px rgba(93, 78, 140, 0.3); }
+        .cta-btn { 
+            display: inline-block; 
+            padding: 15px 45px; 
+            background: var(--accent-blue); 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            font-weight: bold; 
+            margin-top: 30px; 
+            transition: background 0.3s; 
+        }
+        .cta-btn:hover { background: var(--primary-navy); }
         
-        footer { margin-top: 60px; padding: 30px; background: #f0eeff; color: var(--primary-purple); font-size: 0.9rem; }
+        footer { 
+            margin-top: 60px; 
+            padding: 40px; 
+            background: var(--primary-navy); 
+            color: #bdc3c7; 
+            font-size: 0.9rem; 
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -132,29 +168,30 @@
     <div class="container">
         <section class="welcome-section">
             <h2>用話語鏈接心靈的溝通</h2>
-            <p>打破人際隔閡，從了解自我性格開始。我們提供全方位的溝通解決方案。</p>
+            <p style="color: #666; margin-top: 15px;">打破人際隔閡，從了解自我性格開始。我們提供全方位的溝通解決方案。</p>
             
             <div class="service-preview">
                 <div class="preview-card">
                     <h3>MBTI 分析</h3>
-                    <p>由 AI 顧問「小S」為您進行免費的人格類型溝通評估。</p>
+                    <p>由 AI 顧問「小S」為您進行免費的人格類型溝通評估，挖掘潛在溝通天賦。</p>
                 </div>
                 <div class="preview-card">
                     <h3>技巧教學</h3>
-                    <p>系統化拆解溝通流、問題識別與軟硬技巧應用。</p>
+                    <p>系統化拆解溝通流、問題識別。掌握跨越感性與理性的軟硬技巧。</p>
                 </div>
                 <div class="preview-card">
                     <h3>1對1 諮詢</h3>
-                    <p>針對職場、情感與社交關係提供專屬客製化方案。</p>
+                    <p>針對職場管理、男女情感與社交關係，提供專屬的個人化實戰方案。</p>
                 </div>
             </div>
 
-            <a href="service.html" class="cta-btn">探索完整服務</a>
+            <a href="service.html" class="cta-btn">了解詳細服務項目</a>
         </section>
     </div>
 
     <footer>
-        &copy; 2026 JK 交流工作坊. All rights reserved.
+        <p>&copy; 2026 JK 交流工作坊. All rights reserved.</p>
+        <p>專業溝通分析與個人化諮詢</p>
     </footer>
 
     <script>
@@ -168,7 +205,7 @@
             });
         });
 
-        // Ensure links inside dropdown work correctly
+        // Force navigation for dropdown items
         document.querySelectorAll('.dropdown-content a').forEach(link => {
             link.addEventListener('click', function() {
                 window.location.href = this.getAttribute('href');
