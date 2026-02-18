@@ -34,7 +34,7 @@
         .logo-container img { height: 30px; width: auto; display: block; }
         .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
-        /* Hero Banner - Synced Heights & Font Sizes */
+        /* Hero Banner - Synced */
         .hero-banner {
             background: linear-gradient(rgba(93, 78, 140, 0.75), rgba(93, 78, 140, 0.75)), url('issue-question.jpg'); 
             background-size: cover;
@@ -54,7 +54,7 @@
             font-weight: bold;
         }
 
-        /* Nav - Synced with Dropdown */
+        /* Nav - Synced Font Sizes */
         .nav-container { 
             background: white; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
@@ -75,7 +75,7 @@
             text-decoration: none; 
             color: var(--primary-purple); 
             font-weight: bold; 
-            font-size: 1.3rem; 
+            font-size: 1.1rem; /* Synced with about.html and methods.html */
             white-space: nowrap;
             display: block;
         }
@@ -123,7 +123,7 @@
             .skill-card:hover { transform: translateY(-5px); transition: 0.3s; }
         }
 
-        /* Mobile Fix - Shrink Wrapped & Left Aligned */
+        /* Mobile Fix */
         @media (max-width: 768px) {
             .nav-container { overflow-x: auto; }
             .nav-links { justify-content: flex-start; padding-right: 50px; }
@@ -134,7 +134,7 @@
                 transform: none; 
                 box-shadow: none; 
                 background: #fcfcfc;
-                width: auto; /* Shrink to fit text */
+                width: auto;
                 min-width: 0;
                 margin-top: 5px;
             }
@@ -175,8 +175,18 @@
             order: -1; 
         }
 
-        .skill-card h3 { color: var(--primary-purple); font-size: 1.5rem; margin-top: 0; }
-        .skill-card p { font-size: 1rem; color: #555; margin-bottom: 0; }
+        /* Updated Font Sizes for Cards */
+        .skill-card h3 { 
+            color: var(--primary-purple); 
+            font-size: 1.6rem; /* Slightly larger heading */
+            margin-top: 0; 
+        }
+        .skill-card p { 
+            font-size: 1.15rem; /* Larger description text */
+            line-height: 1.7; /* Better readability */
+            color: #444; 
+            margin-bottom: 0; 
+        }
 
         .back-btn-container { text-align: center; margin: 40px 0; }
         .back-btn { 
