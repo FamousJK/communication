@@ -8,142 +8,78 @@
         :root {
             --primary-purple: #5d4e8c;
             --accent-purple: #8a78b5;
-            --warm-yellow: #ffcc00;
             --text-dark: #222;
         }
 
-        body { 
-            font-family: "Microsoft JhengHei", Arial, sans-serif; 
-            line-height: 1.6; 
-            color: var(--text-dark); 
-            margin: 0; padding: 0; 
-            background: #fffdf5; 
-            overflow-x: hidden; 
-        }
+        body { font-family: "Microsoft JhengHei", Arial, sans-serif; margin: 0; background: #fffdf5; color: var(--text-dark); }
 
-        /* Top Bar */
-        .top-bar { 
-            background: var(--primary-purple); 
-            padding: 8px 5%; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            min-height: 45px;
-        }
-        .logo-container img { height: 30px; width: auto; display: block; }
-        .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
-
-        /* Hero Banner */
-        .hero-banner {
-            background: linear-gradient(rgba(93, 78, 140, 0.6), rgba(93, 78, 140, 0.6)), url('bridge-people.jpg'); 
-            background-size: cover;
-            background-position: center 35%; 
-            height: 180px; 
-            display: flex; justify-content: center; align-items: center; text-align: center; color: white;
-        }
-        .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); font-weight: bold; }
-
-        /* Navigation */
+        /* --- DESKTOP NAVIGATION (Horizontal + Hover) --- */
         .nav-container { 
             background: white; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
+            position: sticky; top: 0; z-index: 1000; 
+            display: block; /* Shown by default */
         }
-
-        .nav-links { 
-            display: flex; 
-            list-style: none; 
-            gap: 25px; 
-            margin: 0; 
-            padding: 15px 20px; 
-            justify-content: center;
-        }
-
+        .nav-links { display: flex; list-style: none; gap: 40px; margin: 0; padding: 15px 20px; justify-content: center; }
         .nav-links li { position: relative; }
-
-        .nav-links a { 
-            text-decoration: none; 
-            color: var(--primary-purple); 
-            font-weight: bold; 
-            font-size: 1.1rem; 
-            transition: 0.3s; 
-            white-space: nowrap;
-            display: block;
-        }
-
-        .nav-links a:hover { color: var(--accent-purple); }
-
-        /* Dropdown Styling */
+        .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.3rem; transition: 0.3s; white-space: nowrap; }
+        
+        /* Desktop Dropdown logic */
         .dropdown-content {
-            display: none; 
-            position: absolute; 
-            background-color: white; 
-            min-width: 150px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.1); 
-            z-index: 1001; 
-            border-radius: 8px; 
-            top: 100%; 
-            left: 50%; 
-            transform: translateX(-50%);
-            overflow: hidden;
+            display: none; position: absolute; background: white; min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1); border-radius: 8px; top: 100%; left: 50%; transform: translateX(-50%);
+        }
+        .dropdown-content a { color: var(--primary-purple) !important; padding: 12px; display: block; font-size: 1.1rem !important; font-weight: normal; text-align: center; border-bottom: 1px solid #eee; }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* --- MOBILE NAVIGATION (Native Selector) --- */
+        .mobile-nav-wrapper { 
+            display: none; /* Hidden on desktop */
+            padding: 10px 15px; background: white; 
+            position: sticky; top: 0; z-index: 1001;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        /* Style the selector to look like a premium menu button */
+        .mobile-selector {
+            width: 100%; padding: 12px; font-size: 1.1rem; font-weight: bold;
+            color: var(--primary-purple); border: 2px solid var(--primary-purple);
+            border-radius: 8px; background: #fff url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%235d4e8c'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E") no-repeat right 12px center;
+            appearance: none; -webkit-appearance: none;
         }
 
-        .dropdown-content a {
-            color: var(--primary-purple) !important;
-            padding: 12px 16px;
-            display: block;
-            font-size: 1rem !important;
-            text-align: center;
-            font-weight: normal;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .dropdown-content a:last-child { border-bottom: none; }
-
-        /* DESKTOP: Hover behavior */
-        @media (min-width: 769px) {
-            .hero-banner { height: 220px; }
-            .hero-banner h1 { font-size: 3.5rem; }
-            .nav-links { gap: 40px; }
-            .nav-links a { font-size: 1.3rem; }
-            .dropdown:hover .dropdown-content { display: block; }
-        }
-
-        /* MOBILE: Scrolling behavior */
+        /* --- RESPONSIVE SWITCH --- */
         @media (max-width: 768px) {
-            .nav-container { overflow-x: auto; }
-            .nav-links { justify-content: flex-start; padding-left: 20px; padding-right: 20px; }
-            /* When JS adds the 'open' class, show the menu */
-            .dropdown.open .dropdown-content { 
-                display: block; 
-                position: absolute;
-                top: 35px;
-            }
+            .nav-container { display: none; } /* Hide the swiping bar that clips dropdowns */
+            .mobile-nav-wrapper { display: block; } /* Show the native menu */
         }
 
-        /* Content */
-        .container { max-width: 800px; margin: 40px auto; padding: 0 30px; text-align: center; }
-        .welcome-section h2 { font-size: 2rem; color: var(--primary-purple); margin-bottom: 20px; line-height: 1.3; }
-        .cta-btn { display: inline-block; padding: 15px 45px; background: var(--primary-purple); color: white; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.2rem; transition: 0.3s; }
+        /* General UI */
+        .hero-banner { background: var(--primary-purple); height: 180px; display: flex; justify-content: center; align-items: center; color: white; }
+        .container { padding: 60px 20px; text-align: center; }
     </style>
 </head>
 <body>
 
-    <div class="top-bar">
-        <div class="logo-container"><img src="logo.png" alt="Logo"></div>
-        <div class="top-bar-links">
-            <a href="#">FB</a> <a href="#">IG</a> <a href="#">YT</a>
-        </div>
-    </div>
-
     <header class="hero-banner"><h1>交流提升工作坊</h1></header>
+
+    <div class="mobile-nav-wrapper">
+        <select class="mobile-selector" onchange="if (this.value) window.location.href = this.value;">
+            <option value="" selected>≡ 點擊開啟選單...</option>
+            <option value="index.html">首頁</option>
+            <option value="about.html">關於我們: 我們的承諾</option>
+            <option value="#">關於我們: 我們的服務</option>
+            <option value="issue.html">溝通問題</option>
+            <option value="methods.html">溝通技巧</option>
+            <option value="#">學員見證</option>
+            <option value="#">聯絡我們</option>
+        </select>
+    </div>
 
     <nav class="nav-container">
         <ul class="nav-links">
             <li><a href="index.html">主頁</a></li>
             <li class="dropdown">
-                <a href="javascript:void(0)" class="drop-trigger">關於我們 ▼</a>
+                <a href="#">關於我們 ▼</a>
                 <div class="dropdown-content">
                     <a href="about.html">我們的承諾</a>
                     <a href="#">我們的服務</a>
@@ -151,38 +87,14 @@
             </li>
             <li><a href="issue.html">溝通問題</a></li>
             <li><a href="methods.html">溝通技巧</a></li>
-            <li><a href="#">學員見證</a></li>
             <li><a href="#">聯絡我們</a></li>
         </ul>
     </nav>
 
     <div class="container">
-        <section class="welcome-section">
-            <h2>用話語鏈接心靈的溝通，<br>你真的懂嗎？</h2>
-            <a href="methods.html" class="cta-btn">探索溝通技巧</a>
-        </section>
+        <h2>用話語鏈接心靈</h2>
+        <p>手機版請使用上方下拉選單切換頁面。</p>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var trigger = document.querySelector('.drop-trigger');
-            var parentLi = trigger.parentElement;
-
-            trigger.addEventListener('click', function(e) {
-                // If we are on mobile, toggle the menu
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    parentLi.classList.toggle('open');
-                }
-            });
-
-            // Close menu if clicking anywhere else
-            document.addEventListener('click', function() {
-                parentLi.classList.remove('open');
-            });
-        });
-    </script>
 
 </body>
 </html>
