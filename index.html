@@ -8,80 +8,142 @@
         :root {
             --primary-purple: #5d4e8c;
             --accent-purple: #8a78b5;
+            --warm-yellow: #ffcc00;
             --text-dark: #222;
         }
 
-        body { font-family: "Microsoft JhengHei", Arial, sans-serif; margin: 0; background: #fffdf5; }
+        body { 
+            font-family: "Microsoft JhengHei", Arial, sans-serif; 
+            line-height: 1.6; 
+            color: var(--text-dark); 
+            margin: 0; padding: 0; 
+            background: #fffdf5; 
+            overflow-x: hidden; 
+        }
 
-        /* --- Desktop Nav (Hidden on Mobile) --- */
+        /* Top Bar */
+        .top-bar { 
+            background: var(--primary-purple); 
+            padding: 8px 5%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            min-height: 45px;
+        }
+        .logo-container img { height: 30px; width: auto; display: block; }
+        .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(rgba(93, 78, 140, 0.6), rgba(93, 78, 140, 0.6)), url('bridge-people.jpg'); 
+            background-size: cover;
+            background-position: center 35%; 
+            height: 180px; 
+            display: flex; justify-content: center; align-items: center; text-align: center; color: white;
+        }
+        .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); font-weight: bold; }
+
+        /* Navigation */
         .nav-container { 
             background: white; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
-            position: sticky; top: 0; z-index: 1000; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
         }
-        .nav-links { display: flex; list-style: none; gap: 40px; margin: 0; padding: 15px 20px; justify-content: center; }
-        .nav-links a { text-decoration: none; color: var(--primary-purple); font-weight: bold; font-size: 1.2rem; }
-        
-        /* Desktop Dropdown */
-        .dropdown { position: relative; }
+
+        .nav-links { 
+            display: flex; 
+            list-style: none; 
+            gap: 25px; 
+            margin: 0; 
+            padding: 15px 20px; 
+            justify-content: center;
+        }
+
+        .nav-links li { position: relative; }
+
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--primary-purple); 
+            font-weight: bold; 
+            font-size: 1.1rem; 
+            transition: 0.3s; 
+            white-space: nowrap;
+            display: block;
+        }
+
+        .nav-links a:hover { color: var(--accent-purple); }
+
+        /* Dropdown Styling */
         .dropdown-content {
-            display: none; position: absolute; background: white; min-width: 150px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1); border-radius: 8px; top: 100%; left: 50%; transform: translateX(-50%);
+            display: none; 
+            position: absolute; 
+            background-color: white; 
+            min-width: 150px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.1); 
+            z-index: 1001; 
+            border-radius: 8px; 
+            top: 100%; 
+            left: 50%; 
+            transform: translateX(-50%);
+            overflow: hidden;
         }
-        .dropdown:hover .dropdown-content { display: block; }
-        .dropdown-content a { padding: 12px; display: block; font-size: 1rem; border-bottom: 1px solid #eee; }
 
-        /* --- Mobile Header --- */
-        .mobile-header { 
-            display: none; background: white; padding: 10px 20px; 
-            justify-content: space-between; align-items: center; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+        .dropdown-content a {
+            color: var(--primary-purple) !important;
+            padding: 12px 16px;
+            display: block;
+            font-size: 1rem !important;
+            text-align: center;
+            font-weight: normal;
+            border-bottom: 1px solid #f0f0f0;
         }
-        .menu-btn { font-size: 1.5rem; background: none; border: none; color: var(--primary-purple); cursor: pointer; }
+        .dropdown-content a:last-child { border-bottom: none; }
 
-        /* --- Slide-out Sidebar --- */
-        .sidebar {
-            position: fixed; top: 0; right: -280px; width: 280px; height: 100%;
-            background: var(--primary-purple); z-index: 2000; transition: 0.3s;
-            padding: 20px; box-sizing: border-box; color: white;
+        /* DESKTOP: Hover behavior */
+        @media (min-width: 769px) {
+            .hero-banner { height: 220px; }
+            .hero-banner h1 { font-size: 3.5rem; }
+            .nav-links { gap: 40px; }
+            .nav-links a { font-size: 1.3rem; }
+            .dropdown:hover .dropdown-content { display: block; }
         }
-        .sidebar.active { right: 0; }
-        .sidebar-links { list-style: none; padding: 0; margin-top: 40px; }
-        .sidebar-links li { margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
-        .sidebar-links a { color: white; text-decoration: none; font-size: 1.2rem; font-weight: bold; display: block; }
-        .sidebar-close { font-size: 2rem; color: white; background: none; border: none; float: right; cursor: pointer; }
-        
-        /* Mobile Sub-menu styling */
-        .sub-menu { padding-left: 20px; margin-top: 10px; }
-        .sub-menu a { font-size: 1rem; font-weight: normal; opacity: 0.9; margin-bottom: 10px; }
 
-        /* Overlay background when menu is open */
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1500; }
-        .overlay.active { display: block; }
-
-        /* Hero & Content */
-        .hero-banner { background: var(--primary-purple); height: 180px; display: flex; justify-content: center; align-items: center; color: white; text-align: center; }
-        .container { padding: 50px 20px; text-align: center; }
-
-        /* --- Mobile Responsive Rules --- */
+        /* MOBILE: Scrolling behavior */
         @media (max-width: 768px) {
-            .nav-container { display: none; } /* Hide horizontal nav */
-            .mobile-header { display: flex; position: sticky; top: 0; z-index: 1000; } /* Show bar with ☰ */
+            .nav-container { overflow-x: auto; }
+            .nav-links { justify-content: flex-start; padding-left: 20px; padding-right: 20px; }
+            /* When JS adds the 'open' class, show the menu */
+            .dropdown.open .dropdown-content { 
+                display: block; 
+                position: absolute;
+                top: 35px;
+            }
         }
+
+        /* Content */
+        .container { max-width: 800px; margin: 40px auto; padding: 0 30px; text-align: center; }
+        .welcome-section h2 { font-size: 2rem; color: var(--primary-purple); margin-bottom: 20px; line-height: 1.3; }
+        .cta-btn { display: inline-block; padding: 15px 45px; background: var(--primary-purple); color: white; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 1.2rem; transition: 0.3s; }
     </style>
 </head>
 <body>
 
-    <div class="mobile-header">
-        <img src="logo.png" alt="Logo" style="height: 30px;">
-        <button class="menu-btn" onclick="toggleMenu()">☰ 選單</button>
+    <div class="top-bar">
+        <div class="logo-container"><img src="logo.png" alt="Logo"></div>
+        <div class="top-bar-links">
+            <a href="#">FB</a> <a href="#">IG</a> <a href="#">YT</a>
+        </div>
     </div>
+
+    <header class="hero-banner"><h1>交流提升工作坊</h1></header>
 
     <nav class="nav-container">
         <ul class="nav-links">
             <li><a href="index.html">主頁</a></li>
             <li class="dropdown">
-                <a href="#">關於我們 ▼</a>
+                <a href="javascript:void(0)" class="drop-trigger">關於我們 ▼</a>
                 <div class="dropdown-content">
                     <a href="about.html">我們的承諾</a>
                     <a href="#">我們的服務</a>
@@ -89,40 +151,37 @@
             </li>
             <li><a href="issue.html">溝通問題</a></li>
             <li><a href="methods.html">溝通技巧</a></li>
+            <li><a href="#">學員見證</a></li>
             <li><a href="#">聯絡我們</a></li>
         </ul>
     </nav>
 
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-    <div class="sidebar" id="sidebar">
-        <button class="sidebar-close" onclick="toggleMenu()">×</button>
-        <ul class="sidebar-links">
-            <li><a href="index.html">主頁</a></li>
-            <li>
-                <span style="font-weight: bold; color: var(--warm-yellow);">關於我們</span>
-                <div class="sub-menu">
-                    <a href="about.html">└ 我們的承諾</a>
-                    <a href="#">└ 我們的服務</a>
-                </div>
-            </li>
-            <li><a href="issue.html">溝通問題</a></li>
-            <li><a href="methods.html">溝通技巧</a></li>
-            <li><a href="#">聯絡我們</a></li>
-        </ul>
-    </div>
-
-    <header class="hero-banner"><h1>交流提升工作坊</h1></header>
-
     <div class="container">
-        <h2>用話語鏈接心靈</h2>
-        <p>點擊右上角選單查看更多資訊</p>
+        <section class="welcome-section">
+            <h2>用話語鏈接心靈的溝通，<br>你真的懂嗎？</h2>
+            <a href="methods.html" class="cta-btn">探索溝通技巧</a>
+        </section>
     </div>
 
     <script>
-        function toggleMenu() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            var trigger = document.querySelector('.drop-trigger');
+            var parentLi = trigger.parentElement;
+
+            trigger.addEventListener('click', function(e) {
+                // If we are on mobile, toggle the menu
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    parentLi.classList.toggle('open');
+                }
+            });
+
+            // Close menu if clicking anywhere else
+            document.addEventListener('click', function() {
+                parentLi.classList.remove('open');
+            });
+        });
     </script>
 
 </body>
