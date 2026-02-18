@@ -39,12 +39,11 @@
         }
         .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); font-weight: bold; }
 
-        /* Nav - Synced with Dropdown */
+        /* Nav - Synced with Dropdown Fixes */
         .nav-container { 
             background: white; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
             position: sticky; top: 0; z-index: 1000; 
-            overflow-x: auto; 
         }
         .nav-links { 
             display: flex; list-style: none; gap: 25px; margin: 0; padding: 15px 20px; justify-content: center; 
@@ -53,6 +52,7 @@
         .nav-links a { 
             text-decoration: none; color: var(--primary-purple); 
             font-weight: bold; font-size: 1.1rem; white-space: nowrap; 
+            display: block;
         }
         
         /* Dropdown Styling */
@@ -62,9 +62,54 @@
             z-index: 1001; border-radius: 8px; top: 100%; left: 50%; transform: translateX(-50%); 
         }
         .dropdown-content a { color: var(--primary-purple) !important; padding: 12px 16px; display: block; font-size: 1rem !important; font-weight: normal; text-align: center; }
-        .dropdown:hover .dropdown-content { display: block; }
 
-        /* Grid System */
+        /* Desktop Adjustments */
+        @media (min-width: 769px) {
+            .hero-banner { height: 220px; }
+            .hero-banner h1 { font-size: 3.5rem; }
+            .nav-links { gap: 40px; }
+            .nav-links a { font-size: 1.3rem; }
+            .dropdown:hover .dropdown-content { display: block; }
+            
+            .skill-grid { 
+                display: grid; 
+                grid-template-columns: 1fr 1fr; 
+                gap: 30px;
+            }
+            .skill-card.center-box { 
+                grid-column: 1 / span 2; 
+                justify-self: center; 
+                order: 2; 
+                margin-top: 10px;
+            }
+            .skill-card:hover { transform: translateY(-5px); transition: 0.3s; }
+        }
+
+        /* Mobile Fix - Shrink Wrapped & Left Aligned */
+        @media (max-width: 768px) {
+            .nav-container { overflow-x: auto; }
+            .nav-links { justify-content: flex-start; padding-right: 50px; }
+            
+            .dropdown.mobile-open .dropdown-content { 
+                display: block; 
+                position: static; 
+                transform: none; 
+                box-shadow: none; 
+                background: #fcfcfc;
+                width: auto; /* Shrink to fit text */
+                min-width: 0;
+                margin-top: 5px;
+            }
+            .dropdown.mobile-open .dropdown-content a {
+                text-align: left; 
+                padding: 8px 0; 
+                color: var(--accent-purple) !important; 
+                font-weight: bold;
+                display: block;
+            }
+        }
+
+        /* Grid System & Content */
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
         .skill-grid { display: flex; flex-direction: column; gap: 20px; align-items: center; }
         .skill-card { 
@@ -74,7 +119,6 @@
             width: 100%; max-width: 600px; box-sizing: border-box; 
         }
 
-        /* Green Box Styling */
         .skill-card.center-box { 
             border-color: var(--success-green); background: #f1f8f1; 
             box-shadow: 0 5px 15px var(--glow-green); 
@@ -92,32 +136,6 @@
             transition: 0.3s;
         }
         .back-btn:hover { background: var(--accent-purple); transform: translateY(-2px); }
-
-        /* Desktop Adjustments */
-        @media (min-width: 768px) {
-            .hero-banner { height: 220px; }
-            .hero-banner h1 { font-size: 3.5rem; }
-            .nav-links { gap: 40px; }
-            .nav-links a { font-size: 1.3rem; }
-            
-            .skill-grid { 
-                display: grid; 
-                grid-template-columns: 1fr 1fr; 
-                gap: 30px;
-            }
-            .skill-card.center-box { 
-                grid-column: 1 / span 2; 
-                justify-self: center; /* Centering fix */
-                order: 2; 
-                margin-top: 10px;
-            }
-            .skill-card:hover { transform: translateY(-5px); transition: 0.3s; }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links { justify-content: flex-start; }
-            .dropdown:hover .dropdown-content { display: none; }
-        }
     </style>
 </head>
 <body>
@@ -134,7 +152,7 @@
         <ul class="nav-links">
             <li><a href="index.html">主頁</a></li>
             <li class="dropdown">
-                <a href="#" style="cursor: default;">關於我們 ▼</a>
+                <a href="#" class="trigger">關於我們 ▼</a>
                 <div class="dropdown-content">
                     <a href="about.html">我們的承諾</a>
                     <a href="#">我們的服務</a>
@@ -176,5 +194,16 @@
             <a href="index.html" class="back-btn">← 返回主頁</a>
         </div>
     </div>
+
+    <script>
+        document.querySelectorAll('.trigger').forEach(el => {
+            el.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) { 
+                    e.preventDefault(); 
+                    this.parentElement.classList.toggle('mobile-open'); 
+                }
+            });
+        });
+    </script>
 </body>
 </html>
