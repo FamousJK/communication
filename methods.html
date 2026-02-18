@@ -6,20 +6,26 @@
     <title>交流技巧 - 聊天的方法</title>
     <style>
         :root {
-            --primary-purple: #5d4e8c;
-            --accent-purple: #8a78b5;
-            --warm-yellow: #ffcc00;
-            --glow-yellow: rgba(255, 204, 0, 0.3);
-            --success-green: #2e7d32;
-            --glow-green: rgba(46, 125, 50, 0.15);
-            --text-dark: #222;
+            --primary-navy: #2c3e50;
+            --accent-blue: #3498db;
+            --soft-blue: #f0f7ff;
+            --success-green: #27ae60;
+            --text-dark: #333;
+            --bg-light: #f9f9f9;
         }
 
-        body { font-family: "Microsoft JhengHei", Arial, sans-serif; line-height: 1.6; color: var(--text-dark); margin: 0; padding: 0; background: #fffdf5; overflow-x: hidden; }
+        body { 
+            font-family: 'Segoe UI', "Microsoft JhengHei", Arial, sans-serif; 
+            line-height: 1.6; 
+            color: var(--text-dark); 
+            margin: 0; padding: 0; 
+            background: var(--bg-light); 
+            overflow-x: hidden; 
+        }
 
         /* Top Bar - Synced */
         .top-bar { 
-            background: var(--primary-purple); 
+            background: var(--primary-navy); 
             padding: 8px 5%; 
             display: flex; 
             justify-content: space-between; 
@@ -31,15 +37,15 @@
 
         /* Hero Banner - Synced */
         .hero-banner {
-            background: linear-gradient(rgba(93, 78, 140, 0.75), rgba(93, 78, 140, 0.75)), url('banner-methods.jpg'); 
+            background: linear-gradient(rgba(44, 62, 80, 0.75), rgba(44, 62, 80, 0.75)), url('banner-methods.jpg'); 
             background-size: cover; background-position: center; 
             height: 180px; 
             display: flex; justify-content: center; align-items: center; 
             color: white; text-align: center;
         }
-        .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); font-weight: bold; }
+        .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); font-weight: bold; }
 
-        /* Nav - Synced */
+        /* Navigation - Synced */
         .nav-container { 
             background: white; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
@@ -50,22 +56,25 @@
         }
         .nav-links li { position: relative; }
         .nav-links a { 
-            text-decoration: none; color: var(--primary-purple); 
+            text-decoration: none; color: var(--primary-navy); 
             font-weight: bold; font-size: 1.1rem; white-space: nowrap; 
-            display: block;
+            display: block; transition: 0.3s;
         }
+        .nav-links a:hover { color: var(--accent-blue); }
         
         /* Dropdown Styling */
         .dropdown-content { 
             display: none; position: absolute; background-color: white; 
-            min-width: 140px; box-shadow: 0px 8px 16px rgba(0,0,0,0.1); 
+            min-width: 160px; box-shadow: 0px 8px 16px rgba(0,0,0,0.1); 
             z-index: 1001; border-radius: 8px; top: 100%; left: 50%; transform: translateX(-50%); 
+            overflow: hidden; border-top: 3px solid var(--accent-blue);
         }
-        .dropdown-content a { color: var(--primary-purple) !important; padding: 12px 16px; display: block; font-size: 1rem !important; font-weight: normal; text-align: center; }
+        .dropdown-content a { color: var(--primary-navy) !important; padding: 12px 16px; display: block; font-size: 1rem !important; font-weight: normal; text-align: center; border-bottom: 1px solid #eee; }
+        .dropdown-content a:hover { background-color: var(--soft-blue); color: var(--accent-blue) !important; }
 
         /* Desktop Adjustments */
         @media (min-width: 769px) {
-            .hero-banner { height: 220px; }
+            .hero-banner { height: 250px; }
             .hero-banner h1 { font-size: 3.5rem; }
             .nav-links { gap: 40px; }
             .nav-links a { font-size: 1.3rem; }
@@ -80,12 +89,11 @@
                 grid-column: 1 / span 2; 
                 justify-self: center; 
                 order: 2; 
-                margin-top: 10px;
+                max-width: 800px;
             }
-            .skill-card:hover { transform: translateY(-5px); transition: 0.3s; }
         }
 
-        /* Mobile Fix */
+        /* Mobile Adjustments */
         @media (max-width: 768px) {
             .nav-container { overflow-x: auto; }
             .nav-links { justify-content: flex-start; padding-right: 50px; }
@@ -93,7 +101,7 @@
                 display: block; position: static; transform: none; box-shadow: none; 
                 background: #fcfcfc; width: auto; min-width: 0; margin-top: 5px;
             }
-            .dropdown.mobile-open .dropdown-content a { text-align: left; padding: 8px 0; color: var(--accent-purple) !important; font-weight: bold; }
+            .dropdown.mobile-open .dropdown-content a { text-align: left; padding: 10px 15px; color: var(--accent-blue) !important; font-weight: bold; }
         }
 
         /* Grid System & Content */
@@ -101,39 +109,47 @@
         .skill-grid { display: flex; flex-direction: column; gap: 20px; align-items: center; }
         
         .skill-card { 
-            background: #fff; border: 3px solid var(--warm-yellow); 
-            padding: 35px; border-radius: 30px; text-align: center; 
-            box-shadow: 0 5px 15px var(--glow-yellow); 
+            background: #fff; 
+            padding: 35px; border-radius: 15px; 
+            text-align: left; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
             width: 100%; max-width: 600px; box-sizing: border-box; 
+            border-left: 5px solid var(--accent-blue);
+            transition: 0.3s;
         }
+        .skill-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
 
         .skill-card.center-box { 
-            border-color: var(--success-green); background: #f1f8f1; 
-            box-shadow: 0 5px 15px var(--glow-green); 
+            border-left: none;
+            border-top: 5px solid var(--success-green); 
+            background: #fafffb; 
+            text-align: center;
             order: 1; 
         }
 
-        /* Synchronized Font Sizes */
         .skill-card h3 { 
-            color: var(--primary-purple); 
-            font-size: 1.7rem; /* Matches issue.html */
+            color: var(--primary-navy); 
+            font-size: 1.5rem; 
             margin-top: 0; 
             margin-bottom: 15px;
         }
+        .skill-card.center-box h3 { color: var(--success-green); }
+
         .skill-card p { 
-            font-size: 1.3rem; /* Matches issue.html */
+            font-size: 1.2rem; 
             line-height: 1.7; 
-            color: #444; 
+            color: #555; 
+            margin-bottom: 0;
         }
 
         .back-btn-container { text-align: center; margin: 40px 0; }
         .back-btn { 
             display: inline-block; padding: 12px 50px; 
-            background: var(--primary-purple); color: white; 
-            text-decoration: none; border-radius: 50px; font-weight: bold; 
+            background: var(--accent-blue); color: white; 
+            text-decoration: none; border-radius: 5px; font-weight: bold; 
             transition: 0.3s;
         }
-        .back-btn:hover { background: var(--accent-purple); transform: translateY(-2px); }
+        .back-btn:hover { background: var(--primary-navy); }
     </style>
 </head>
 <body>
@@ -153,7 +169,7 @@
                 <a href="#" class="trigger">關於我們 ▼</a>
                 <div class="dropdown-content">
                     <a href="about.html">我們的承諾</a>
-                    <a href="#">我們的服務</a>
+                    <a href="service.html">我們的服務</a>
                 </div>
             </li>
             <li><a href="issue.html">溝通問題</a></li>
@@ -167,24 +183,25 @@
         <div class="skill-grid">
             <div class="skill-card">
                 <h3>👂 積極傾聽</h3>
-                <p>給予對方充分的關注。在對方說話時，避免打斷或急著給建議。</p>
+                <p>給予對方充分的關注。在對方說話時，避免打斷或急著給建議，讓對方感受到被尊重與理解。</p>
             </div>
             <div class="skill-card">
                 <h3>❓ 開放式提問</h3>
-                <p>多使用「為什麼」或「如何」來引導對話，能帶動更深層的分享。</p>
+                <p>多使用「為什麼」或「如何」來引導對話。這能避免句點，並帶動更深層、更有意義的分享。</p>
             </div>
             <div class="skill-card">
                 <h3>🤝 同理心反應</h3>
-                <p>試著站在對方的角度思考，理解他們當下的心情。</p>
+                <p>試著站在對方的角度思考。透過簡單的語言回饋（如：「我能理解你的感受」）來建立情感連結。</p>
             </div>
             <div class="skill-card">
                 <h3>😊 非語言訊息</h3>
-                <p>眼神交流、微笑以及放鬆的身姿，都能傳遞出願意對話的訊號。</p>
+                <p>適度的眼神交流、真誠的微笑以及放鬆的身姿，都能在無聲中傳遞出友善與開放的訊號。</p>
             </div>
 
             <div class="skill-card center-box">
-                <h3>💡 還有...</h3>
-                <p>想要解鎖更多聊天技巧，快點聯係我和我的團隊了解一下 ❤️</p>
+                <h3>💡 想要了解更多？</h3>
+                <p>解鎖進階聊天技巧與專屬溝通模型，立即聯絡我們的團隊，開啟你的交流進化之旅 ❤️</p>
+                <a href="#" class="back-btn" style="margin-top: 20px; background: var(--success-green);">聯絡我們</a>
             </div>
         </div>
 
@@ -194,12 +211,20 @@
     </div>
 
     <script>
+        // Toggle dropdown on mobile
         document.querySelectorAll('.trigger').forEach(el => {
             el.addEventListener('click', function(e) {
                 if (window.innerWidth <= 768) { 
                     e.preventDefault(); 
                     this.parentElement.classList.toggle('mobile-open'); 
                 }
+            });
+        });
+
+        // Link navigation fix
+        document.querySelectorAll('.dropdown-content a').forEach(link => {
+            link.addEventListener('click', function() {
+                window.location.href = this.getAttribute('href');
             });
         });
     </script>
