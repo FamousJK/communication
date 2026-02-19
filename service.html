@@ -76,11 +76,14 @@
         .step-badge { background-color: var(--primary-navy); color: white; padding: 8px 16px; border-radius: 6px; font-size: 1rem; font-weight: 900; box-shadow: 4px 4px 0px var(--accent-blue); flex-shrink: 0; }
         .step-title-text { margin: 0; color: var(--primary-navy); font-size: 1.25rem; font-weight: 900; white-space: nowrap; }
 
-        /* Step B Box - BLINKING GREEN DASHED BORDER */
+        /* Step B Box - BLINKING GREEN DASHED BORDER & OFFSET */
         .ai-highlight-box {
-            background: white; padding: 20px; border-radius: 15px; margin-top: 25px; 
+            background: white; 
+            padding: 20px 20px 20px 30px; /* Increased left padding */
+            border-radius: 15px; 
+            margin-top: 25px; 
             border: 3px dashed var(--success-green);
-            animation: border-blink 1s infinite; /* */
+            animation: border-blink 2s infinite; /* Slowed down to 2 seconds */
             box-shadow: 0 10px 20px rgba(0,0,0,0.05);
             overflow: hidden;
         }
