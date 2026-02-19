@@ -9,6 +9,7 @@
             --primary-navy: #2c3e50;
             --accent-blue: #3498db;
             --success-green: #27ae60;
+            --ai-orange: #f39c12;
             --ai-gradient: linear-gradient(135deg, #3498db, #27ae60);
             --warm-bg: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
             --text-dark: #333;
@@ -26,7 +27,7 @@
         
         .hero-banner {
             background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('service-banner.jpg'); 
-            background-size: cover; background-position: center; height: 180px; 
+            background-size: cover; background-position: center; height: 160px; 
             display: flex; justify-content: center; align-items: center; color: white; text-align: center;
         }
         .hero-banner h1 { font-size: 2.2rem; margin: 0; font-weight: 900; }
@@ -36,26 +37,25 @@
         .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: 800; font-size: 1.1rem; }
 
         /* --- Content Layout --- */
-        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+        .container { max-width: 1000px; margin: 30px auto; padding: 0 15px; }
         .service-box {
             background: white; padding: 25px; border-radius: 18px;
             border-left: 6px solid var(--accent-blue); margin-bottom: 35px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.06);
         }
-        .service-box h2 { color: var(--primary-navy); font-size: 1.8rem; font-weight: 900; margin-bottom: 25px; border-bottom: 3px solid var(--accent-blue); display: inline-block; }
+        .service-box h2 { color: var(--primary-navy); font-size: 1.6rem; font-weight: 900; margin-bottom: 25px; border-bottom: 3px solid var(--accent-blue); display: inline-block; }
 
         /* Step Badge Styles */
-        .step-header { display: flex; align-items: center; gap: 15px; margin-top: 20px; margin-bottom: 15px; }
-        .step-badge { background-color: var(--primary-navy); color: white; padding: 6px 16px; border-radius: 4px; font-size: 1.1rem; font-weight: 900; box-shadow: 4px 4px 0px var(--accent-blue); }
-        .step-title-text { margin: 0; color: var(--primary-navy); font-size: 1.3rem; font-weight: 900; }
+        .step-header { display: flex; align-items: center; gap: 12px; margin-top: 20px; margin-bottom: 15px; }
+        .step-badge { background-color: var(--primary-navy); color: white; padding: 6px 14px; border-radius: 4px; font-size: 1rem; font-weight: 900; box-shadow: 4px 4px 0px var(--accent-blue); flex-shrink: 0; }
+        .step-title-text { margin: 0; color: var(--primary-navy); font-size: 1.25rem; font-weight: 900; white-space: nowrap; }
 
-        /* AI Highlighted Box */
+        /* AI Highlighted Box - Wider Layout */
         .ai-highlight-box {
-            background: linear-gradient(to right, #f0f7ff, #e8f5e9);
-            padding: 25px; border-radius: 15px; margin-top: 25px; 
-            border: 2px dashed var(--success-green);
-            position: relative;
-            box-shadow: 0 10px 20px rgba(39, 174, 96, 0.1);
+            background: linear-gradient(to right, #fffdfa, #fdf7f2);
+            padding: 20px; border-radius: 15px; margin-top: 25px; 
+            border: 2px solid var(--ai-orange);
+            box-shadow: 0 10px 20px rgba(243, 156, 18, 0.1);
         }
 
         .skill-item { background: #fcfcfc; padding: 20px; border-radius: 15px; border: 1.5px solid #eee; margin-bottom: 15px; }
@@ -63,29 +63,44 @@
 
         .btn { display: inline-block; padding: 15px 35px; text-decoration: none; border-radius: 10px; font-weight: 800; font-size: 1.1rem; text-align: center; border: none; cursor: pointer; transition: 0.3s; width: 100%; box-sizing: border-box; }
         .btn-mbti { background-color: var(--accent-blue); color: white; margin-bottom: 10px; }
-        .btn-hero { background: var(--ai-gradient); color: white; }
 
-        /* --- AI Agent UI --- */
+        /* --- AI Agent UI with ORANGE GROWING CIRCLE --- */
         .ai-doll-trigger { 
             position: fixed; bottom: 20px; right: 20px; 
-            width: 85px; height: 85px; z-index: 2000; cursor: pointer;
-            animation: pulse-glow 2s infinite;
+            width: 90px; height: 90px; z-index: 2000; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
         }
-        @keyframes pulse-glow {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(52, 152, 219, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+        
+        /* The Growing Orange Circle */
+        .ai-doll-trigger::before {
+            content: '';
+            position: absolute;
+            width: 100%; height: 100%;
+            background-color: var(--ai-orange);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: orange-grow 2s infinite ease-out;
+            z-index: -1;
         }
 
-        .ai-doll-trigger img { width: 100%; height: 100%; border-radius: 50%; border: 4px solid white; background: var(--warm-bg); object-fit: contain; padding: 8px; box-sizing: border-box; }
+        @keyframes orange-grow {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
 
+        .ai-doll-trigger img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; background: var(--warm-bg); object-fit: contain; padding: 8px; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+
+        /* --- Chat Window --- */
         .chat-window {
-            position: fixed; bottom: 110px; right: 20px; width: 360px; height: 75vh; max-height: 600px;
+            position: fixed; bottom: 120px; right: 20px; width: 360px; height: 70vh; max-height: 550px;
             background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             display: none; flex-direction: column; z-index: 2100; overflow: hidden;
         }
 
-        @media (max-width: 600px) { .chat-window { width: 100%; height: 100%; bottom: 0; right: 0; border-radius: 0; z-index: 9999; } }
+        @media (max-width: 600px) { 
+            .chat-window { width: 100%; height: 100%; bottom: 0; right: 0; border-radius: 0; z-index: 9999; } 
+            .step-title-text { font-size: 1.1rem; }
+        }
 
         .chat-header { 
             background: var(--ai-gradient); color: white; padding: 18px; 
@@ -135,20 +150,18 @@
     <div class="container">
         <section class="service-box">
             <h2>1. MBTI 性格與 AI 諮詢</h2>
-            <p>了解性格底色是溝通的第一步。我們結合專業評估與 AI 技術。</p>
-            
             <div class="step-header">
                 <span class="step-badge">STEP A</span>
-                <h3 class="step-title-text">獲取你的性格報告</h3>
+                <h3 class="step-title-text">獲取性格報告</h3>
             </div>
             <a href="https://www.16personalities.com/ch" target="_blank" class="btn btn-mbti">前往 MBTI 測試</a>
 
             <div class="ai-highlight-box">
                 <div class="step-header" style="margin-top:0;">
                     <span class="step-badge" style="background:var(--success-green); box-shadow: 4px 4px 0px var(--primary-navy);">STEP B</span>
-                    <h3 class="step-title-text">✨ AI 顧問「小S」實戰對話</h3>
+                    <h3 class="step-title-text">✨ AI 小S 實戰對話挑戰</h3>
                 </div>
-                <p><b>立即開啟實戰：</b> 點擊右下角的小S頭像。輸入您的 MBTI 結果或直接開始模擬對話挑戰！</p>
+                <p>點擊右下角頭像開始 30 秒模擬。提升你的即時應變能力！</p>
             </div>
         </section>
 
@@ -156,18 +169,18 @@
             <h2>2. 溝通技巧核心課程</h2>
             <div class="skill-item">
                 <h4>🧠 軟實力 (Soft Skills)</h4>
-                <p>專注於情緒覺察與心理邊界。學會建立同理心氛圍。</p>
+                <p>專注於情緒覺察。建立同理心氛圍。</p>
             </div>
             <div class="skill-item">
                 <h4>🛠️ 硬實力 (Hard Skills)</h4>
-                <p>專注於邏輯框架與提問技術。掌握 OSCAR 表達模型。</p>
+                <p>專注於邏輯框架。掌握 OSCAR 表達模型。</p>
             </div>
         </section>
 
         <section class="service-box">
-            <h2>3. 客製化 1對1 深度諮詢</h2>
-            <p>針對高難度溝通場景，提供專家級的陪跑服務。</p>
-            <a href="#" class="btn btn-hero" style="background: var(--primary-navy); color: white;">預約深度諮詢</a>
+            <h2>3. 1對1 深度諮詢</h2>
+            <p>針對高難度場景提供專家級陪跑服務。</p>
+            <a href="#" class="btn" style="background: var(--primary-navy); color: white;">預約深度諮詢</a>
         </section>
     </div>
 
@@ -183,7 +196,7 @@
         </div>
         <div id="chatMsgs" class="chat-messages">
             <div class="msg ai">
-                你好！我是 AI 顧問小S。點選下方模式開啟 30 秒挑戰：
+                你好！我是 AI 顧問。選擇一個模式開始 30 秒實戰：
                 <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:15px;" id="modeSelector">
                     <button class="mode-btn" onclick="initTest('👦 冷酷男孩')" style="background:white; border:2px solid var(--accent-blue); padding:8px 12px; border-radius:12px; font-weight:800; color:var(--accent-blue); cursor:pointer;">👦 冷酷男孩</button>
                     <button class="mode-btn" onclick="initTest('😡 憤怒主管')" style="background:white; border:2px solid var(--accent-blue); padding:8px 12px; border-radius:12px; font-weight:800; color:var(--accent-blue); cursor:pointer;">😡 憤怒主管</button>
@@ -197,29 +210,30 @@
 
         <div class="assessment-overlay" id="reportView">
             <h2>測驗結束！</h2>
-            <div class="score-box">8.5/10</div>
+            <div class="score-box">8.5</div>
             <p>輸入 Email 獲取完整 AI 分析報告</p>
             <input type="email" id="userEmail" placeholder="your@email.com">
-            <button class="btn btn-hero" onclick="window.location.reload()">送出並關閉</button>
+            <button class="btn" style="background:var(--ai-gradient); color:white; width:100%; max-width:300px;" onclick="window.location.reload()">送出並關閉</button>
         </div>
     </div>
 
-    <footer><p>&copy; 2026 JK 交流工作坊. All rights reserved.</p></footer>
+    <footer><p>&copy; 2026 JK 交流工作坊</p></footer>
 
     <script>
         const chatWindow = document.getElementById('chatWindow');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         const chatMsgs = document.getElementById('chatMsgs');
+        const dollTrigger = document.getElementById('openChat');
         let timerId = null, secondsLeft = 30;
 
-        document.getElementById('openChat').onclick = () => {
+        dollTrigger.onclick = () => {
             chatWindow.style.display = 'flex';
-            document.getElementById('openChat').style.display = 'none'; // Hide trigger when open
+            dollTrigger.style.display = 'none';
         };
         document.getElementById('closeChat').onclick = () => {
             chatWindow.style.display = 'none';
-            document.getElementById('openChat').style.display = 'block'; // Show trigger when closed
+            dollTrigger.style.display = 'flex';
         };
 
         function initTest(mode) {
