@@ -109,7 +109,7 @@
             .step-row-desktop { display: flex; gap: 30px; margin-top: 25px; align-items: stretch; }
             .step-col { flex: 1; display: flex; flex-direction: column; }
             
-            /* Symmetrical Step Boxes */
+            /* Symmetrical Step Boxes with Glow */
             .step-a-box, .step-b-box { 
                 padding: 30px; 
                 border-radius: 15px; 
@@ -118,17 +118,30 @@
                 flex-direction: column; 
                 justify-content: space-between; 
                 box-sizing: border-box;
-            }
-            .step-a-box { border: 2.5px solid #eee; background: #fff; }
-            
-            /* Step B Glowing Border Animation */
-            .step-b-box { 
-                border: 2.5px solid var(--ai-orange); 
                 background: #fff;
                 position: relative;
+                transition: transform 0.3s;
+            }
+
+            /* Step A Green Glow */
+            .step-a-box { 
+                border: 2.5px solid var(--success-green); 
+                box-shadow: 0 0 15px rgba(39, 174, 96, 0.1);
+                animation: green-glow-border 2s infinite alternate ease-in-out;
+            }
+            
+            /* Step B Orange Glow */
+            .step-b-box { 
+                border: 2.5px solid var(--ai-orange); 
                 box-shadow: 0 0 15px rgba(243, 156, 18, 0.1);
                 animation: orange-glow-border 2s infinite alternate ease-in-out;
             }
+
+            @keyframes green-glow-border {
+                from { box-shadow: 0 0 5px rgba(39, 174, 96, 0.2); border-color: rgba(39, 174, 96, 0.5); }
+                to { box-shadow: 0 0 20px rgba(39, 174, 96, 0.6); border-color: rgba(39, 174, 96, 1); }
+            }
+
             @keyframes orange-glow-border {
                 from { box-shadow: 0 0 5px rgba(243, 156, 18, 0.2); border-color: rgba(243, 156, 18, 0.5); }
                 to { box-shadow: 0 0 20px rgba(243, 156, 18, 0.6); border-color: rgba(243, 156, 18, 1); }
@@ -157,10 +170,10 @@
             .nav-container { overflow-x: auto; }
             .nav-links { justify-content: flex-start; padding-right: 50px; }
             .dropdown.mobile-open .dropdown-content { display: block; position: static; transform: none; box-shadow: none; background: #fcfcfc; margin-top: 5px; }
-            .step-a-box, .step-b-box { padding: 15px; border-bottom: 1px solid #eee; margin-bottom: 15px; }
+            .step-a-box, .step-b-box { padding: 15px; border-bottom: 1px solid #eee; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; }
         }
 
-        /* AI CHAT ASSETS (UNTOUCHED) */
+        /* AI CHAT ASSETS */
         .ai-doll-trigger { position: fixed; bottom: 20px; right: 20px; width: 90px; height: 90px; z-index: 2000; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .ai-doll-trigger img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; background: var(--warm-bg); object-fit: contain; padding: 8px; box-sizing: border-box; }
         .ai-doll-trigger::before { content: ''; position: absolute; width: 100%; height: 100%; background-color: var(--ai-orange); border-radius: 50%; opacity: 0.6; animation: orange-grow 2s infinite ease-out; z-index: -1; }
@@ -217,7 +230,7 @@
                                 </div>
                                 <p>透過 16Personalities 專業測試，深度挖掘你的溝通偏好。這是精進社交技巧的重要基石。</p>
                             </div>
-                            <a href="https://www.16personalities.com/ch" target="_blank" style="background-color: var(--accent-blue); color: white; margin-top: 20px;" class="btn">前往 MBTI 測試</a>
+                            <a href="https://www.16personalities.com/ch" target="_blank" style="background-color: var(--success-green); color: white; margin-top: 20px;" class="btn">前往 MBTI 測試</a>
                         </div>
                     </div>
 
