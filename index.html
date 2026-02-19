@@ -26,12 +26,12 @@
         .logo-container img { height: 30px; width: auto; display: block; }
         .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
-        /* Hero Banner - Keeping your original settings */
+        /* Hero Banner - 恢復為首頁專屬 Banner 設定 */
         .hero-banner {
-            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('issue-question.jpg'); 
+            background: linear-gradient(rgba(44, 62, 80, 0.5), rgba(44, 62, 80, 0.5)), url('banner.jpg'); 
             background-size: cover;
-            background-position: center 35%; 
-            height: 180px; 
+            background-position: center; 
+            height: 300px; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -39,10 +39,11 @@
             text-align: center;
         }
         .hero-banner h1 { 
-            font-size: 2.2rem; 
+            font-size: 2.8rem; 
             margin: 0; 
             padding: 0 20px;
             font-weight: bold;
+            text-shadow: 2px 2px 15px rgba(0,0,0,0.5);
         }
 
         /* Navigation Sync */
@@ -52,7 +53,7 @@
         .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: bold; font-size: 1.1rem; white-space: nowrap; display: block; transition: 0.3s; }
         .nav-links a:hover { color: var(--accent-blue); }
 
-        /* Dropdown Desktop */
+        /* Dropdown */
         .dropdown-content {
             display: none; position: absolute; background-color: white; min-width: 160px;
             box-shadow: 0px 8px 16px rgba(0,0,0,0.1); z-index: 1001; border-radius: 8px; 
@@ -69,9 +70,9 @@
             background: white; padding: 35px; border-radius: 15px;
             border-left: 5px solid var(--accent-blue); margin-bottom: 40px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease;
         }
-        .service-box:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .service-box:hover { transform: translateY(-5px); }
 
         .service-box h2 { color: var(--primary-navy); font-size: 2rem; margin: 0 0 20px 0; }
         .service-box p { font-size: 1.2rem; color: #555; }
@@ -92,19 +93,17 @@
             padding: 40px; border-radius: 15px; text-align: center;
         }
 
-        /* Buttons Sync */
+        /* Buttons */
         .btn {
             display: inline-block; padding: 16px 50px; text-decoration: none; 
             border-radius: 5px; margin-top: 25px; font-weight: bold; 
             transition: 0.3s; font-size: 1.3rem; border: none; text-align: center;
-            cursor: pointer;
         }
-        .btn-hero { background: var(--ai-gradient); color: white; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3); }
+        .btn-hero { background: var(--ai-gradient); color: white; }
         .btn:hover { transform: scale(1.05); filter: brightness(1.1); }
 
-        /* Responsive Fixes */
         @media (min-width: 769px) {
-            .hero-banner { height: 250px; } /* Keeping height consistent with Issue page */
+            .hero-banner { height: 400px; }
             .hero-banner h1 { font-size: 3.5rem; }
             .nav-links { gap: 40px; }
             .nav-links a { font-size: 1.3rem; }
@@ -171,9 +170,8 @@
         </div>
 
         <section class="cta-highlight">
-            <h2>量身打造你的溝通藍圖</h2>
-            <p>每個人都有獨特的溝通瓶頸。我們準備了從 AI 自主學習到專家 1對1 深度諮詢的多層次方案，精準解決你的社交痛點。</p>
-            
+            <h2>準備好量身打造你的溝通藍圖了嗎？</h2>
+            <p>每個人都有獨特的溝通瓶頸。我們提供多層次方案，精準解決你的社交痛點。</p>
             <a href="service.html" class="btn btn-hero">查看完整服務方案與定價 →</a>
         </section>
     </div>
