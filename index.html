@@ -69,7 +69,6 @@
         /* Container & Welcome Section */
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; text-align: center; }
         
-        /* Main H2 Sync */
         .welcome-section h2 { 
             font-size: 2.2rem; 
             color: var(--primary-navy); 
@@ -79,10 +78,8 @@
             padding-bottom: 5px; 
         }
 
-        /* Body Text Sync */
         .welcome-section p { font-size: 1.3rem; color: #444; margin-top: 15px; line-height: 1.7; }
         
-        /* Service Preview Cards */
         .service-preview {
             display: grid;
             grid-template-columns: 1fr;
@@ -101,10 +98,10 @@
         }
         .preview-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
 
-        /* RESPONSIVE SUB-TITLES (MBTI, 技巧, etc) */
+        /* Category Titles Size (Mobile: 1.6rem) */
         .preview-card h3 { 
             color: var(--primary-navy); 
-            font-size: 1.6rem; /* Mobile */
+            font-size: 1.6rem; 
             margin-top: 0; 
             margin-bottom: 15px;
             border-bottom: 2px solid var(--soft-blue);
@@ -113,10 +110,10 @@
         }
         .preview-card p { font-size: 1.3rem; color: #555; margin: 0; }
 
-        /* CTA Button - Pill Shape Sync */
+        /* SYNCED CTA Button - Matching Category Title (1.6rem Mobile / 1.7rem Desktop) */
         .cta-btn { 
             display: inline-block; 
-            padding: 12px 50px; 
+            padding: 15px 50px; 
             background: var(--primary-navy); 
             color: white; 
             text-decoration: none; 
@@ -124,8 +121,13 @@
             font-weight: bold; 
             margin-top: 50px; 
             transition: 0.3s; 
+            font-size: 1.6rem; /* Match Mobile Categories */
         }
-        .cta-btn:hover { background: var(--accent-blue); transform: translateY(-2px); }
+        .cta-btn:hover { 
+            background: var(--accent-blue); 
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
 
         /* Desktop Adjustments */
         @media (min-width: 769px) {
@@ -136,8 +138,11 @@
             .dropdown:hover .dropdown-content { display: block; }
             .service-preview { grid-template-columns: repeat(3, 1fr); }
             
-            /* Desktop Sub-Title Font Size */
+            /* Category Sub-Title Desktop Size */
             .preview-card h3 { font-size: 1.7rem; }
+
+            /* CTA Button Desktop Size Sync */
+            .cta-btn { font-size: 1.7rem; }
         }
 
         /* Mobile Fixes */
