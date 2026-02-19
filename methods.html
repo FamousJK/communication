@@ -37,13 +37,13 @@
 
         /* Hero Banner - Synced */
         .hero-banner {
-            background: linear-gradient(rgba(44, 62, 80, 0.75), rgba(44, 62, 80, 0.75)), url('banner-methods.jpg'); 
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('banner-methods.jpg'); 
             background-size: cover; background-position: center; 
             height: 180px; 
             display: flex; justify-content: center; align-items: center; 
             color: white; text-align: center;
         }
-        .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); font-weight: bold; }
+        .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; font-weight: bold; }
 
         /* Navigation - Synced */
         .nav-container { 
@@ -67,10 +67,65 @@
             display: none; position: absolute; background-color: white; 
             min-width: 160px; box-shadow: 0px 8px 16px rgba(0,0,0,0.1); 
             z-index: 1001; border-radius: 8px; top: 100%; left: 50%; transform: translateX(-50%); 
-            overflow: hidden; border-top: 3px solid var(--accent-blue);
+            border-top: 3px solid var(--accent-blue);
         }
-        .dropdown-content a { color: var(--primary-navy) !important; padding: 12px 16px; display: block; font-size: 1rem !important; font-weight: normal; text-align: center; border-bottom: 1px solid #eee; }
-        .dropdown-content a:hover { background-color: var(--soft-blue); color: var(--accent-blue) !important; }
+        .dropdown-content a { 
+            color: var(--primary-navy) !important; padding: 12px 16px; display: block; 
+            font-size: 1rem !important; font-weight: normal; text-align: center; 
+        }
+        .dropdown-content a:hover { background-color: var(--soft-blue); }
+
+        /* Container & Grid */
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        
+        .skill-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 30px; 
+        }
+
+        /* Professional Card Design */
+        .skill-card { 
+            background: #fff; 
+            padding: 40px; 
+            border-radius: 12px; 
+            text-align: left; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            width: 100%; 
+            box-sizing: border-box; 
+            border-top: 5px solid var(--accent-blue);
+            transition: 0.3s;
+        }
+
+        .skill-card.center-box { 
+            border-top: 5px solid var(--success-green); 
+            background: #fafffb; 
+            text-align: center;
+        }
+
+        /* RESPONSIVE TITLE FONT SIZES */
+        .skill-card h3 { 
+            color: var(--primary-navy); 
+            font-size: 1.6rem; /* Cellphone size */
+            margin-top: 0; 
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--soft-blue);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        
+        .skill-card.center-box h3 { 
+            color: var(--success-green); 
+            border-bottom: 2px solid #eff;
+        }
+
+        /* Main Text Size */
+        .skill-card p { 
+            font-size: 1.3rem; 
+            line-height: 1.7; 
+            color: #444; 
+            margin-bottom: 0;
+        }
 
         /* Desktop Adjustments */
         @media (min-width: 769px) {
@@ -80,20 +135,13 @@
             .nav-links a { font-size: 1.3rem; }
             .dropdown:hover .dropdown-content { display: block; }
             
-            .skill-grid { 
-                display: grid; 
-                grid-template-columns: 1fr 1fr; 
-                gap: 30px;
-            }
-            .skill-card.center-box { 
-                grid-column: 1 / span 2; 
-                justify-self: center; 
-                order: 2; 
-                max-width: 800px;
-            }
+            .skill-grid { grid-template-columns: 1fr 1fr; }
+            .skill-card.center-box { grid-column: 1 / span 2; }
+
+            /* Desktop Title Font Size */
+            .skill-card h3 { font-size: 1.7rem; } 
         }
 
-        /* Mobile Adjustments */
         @media (max-width: 768px) {
             .nav-container { overflow-x: auto; }
             .nav-links { justify-content: flex-start; padding-right: 50px; }
@@ -104,52 +152,21 @@
             .dropdown.mobile-open .dropdown-content a { text-align: left; padding: 10px 15px; color: var(--accent-blue) !important; font-weight: bold; }
         }
 
-        /* Grid System & Content */
-        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-        .skill-grid { display: flex; flex-direction: column; gap: 20px; align-items: center; }
-        
-        .skill-card { 
-            background: #fff; 
-            padding: 35px; border-radius: 15px; 
-            text-align: left; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
-            width: 100%; max-width: 600px; box-sizing: border-box; 
-            border-left: 5px solid var(--accent-blue);
-            transition: 0.3s;
-        }
-        .skill-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-
-        .skill-card.center-box { 
-            border-left: none;
-            border-top: 5px solid var(--success-green); 
-            background: #fafffb; 
-            text-align: center;
-            order: 1; 
-        }
-
-        .skill-card h3 { 
-            color: var(--primary-navy); 
-            font-size: 1.5rem; 
-            margin-top: 0; 
-            margin-bottom: 15px;
-        }
-        .skill-card.center-box h3 { color: var(--success-green); }
-
-        .skill-card p { 
-            font-size: 1.2rem; 
-            line-height: 1.7; 
-            color: #555; 
-            margin-bottom: 0;
-        }
-
-        .back-btn-container { text-align: center; margin: 40px 0; }
+        /* Buttons - Aligned with Service.html */
+        .back-btn-container { text-align: center; margin: 60px 0; }
         .back-btn { 
             display: inline-block; padding: 12px 50px; 
-            background: var(--accent-blue); color: white; 
-            text-decoration: none; border-radius: 5px; font-weight: bold; 
+            background: var(--primary-navy); color: white; 
+            text-decoration: none; border-radius: 50px; font-weight: bold; 
             transition: 0.3s;
         }
-        .back-btn:hover { background: var(--primary-navy); }
+        .back-btn:hover { background: var(--accent-blue); transform: translateY(-2px); }
+
+        .contact-btn {
+            background: var(--success-green);
+            margin-top: 20px;
+        }
+        .contact-btn:hover { background: #2ecc71; }
     </style>
 </head>
 <body>
@@ -160,7 +177,7 @@
         </div>
     </div>
 
-    <header class="hero-banner"><h1>溝通技巧</h1></header>
+    <header class="hero-banner"><h1>交流技巧</h1></header>
 
     <nav class="nav-container">
         <ul class="nav-links">
@@ -201,7 +218,7 @@
             <div class="skill-card center-box">
                 <h3>💡 想要了解更多？</h3>
                 <p>解鎖進階聊天技巧與專屬溝通模型，立即聯絡我們的團隊，開啟你的交流進化之旅 ❤️</p>
-                <a href="#" class="back-btn" style="margin-top: 20px; background: var(--success-green);">聯絡我們</a>
+                <a href="#" class="back-btn contact-btn">聯絡我們</a>
             </div>
         </div>
 
@@ -211,20 +228,12 @@
     </div>
 
     <script>
-        // Toggle dropdown on mobile
         document.querySelectorAll('.trigger').forEach(el => {
             el.addEventListener('click', function(e) {
                 if (window.innerWidth <= 768) { 
                     e.preventDefault(); 
                     this.parentElement.classList.toggle('mobile-open'); 
                 }
-            });
-        });
-
-        // Link navigation fix
-        document.querySelectorAll('.dropdown-content a').forEach(link => {
-            link.addEventListener('click', function() {
-                window.location.href = this.getAttribute('href');
             });
         });
     </script>
