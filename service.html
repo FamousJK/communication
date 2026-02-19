@@ -21,11 +21,12 @@
             background: var(--bg-gray); overflow-x: hidden; 
         }
 
-        /* Top Bar & Nav */
+        /* Top Bar Sync */
         .top-bar { background: var(--navy-dark); padding: 8px 5%; display: flex; justify-content: space-between; align-items: center; min-height: 45px; }
         .logo-container img { height: 30px; width: auto; display: block; }
         .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
+        /* Hero Banner Sync - Exactly 250px Desktop */
         .hero-banner {
             background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('service-bg.jpg'); 
             background-size: cover; background-position: center; height: 180px; 
@@ -33,11 +34,13 @@
         }
         .hero-banner h1 { font-size: 2.2rem; margin: 0; font-weight: bold; }
 
+        /* Navigation Alignment Sync */
         .nav-container { background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
-        .nav-links { display: flex; list-style: none; gap: 25px; margin: 0; padding: 15px 20px; justify-content: center; }
-        .nav-links a { text-decoration: none; color: var(--navy-dark); font-weight: bold; font-size: 1.1rem; transition: 0.3s; }
+        .nav-links { display: flex; list-style: none; gap: 40px; margin: 0; padding: 15px 20px; justify-content: center; }
+        .nav-links a { text-decoration: none; color: var(--navy-dark); font-weight: bold; font-size: 1.3rem; transition: 0.3s; }
         .nav-links a:hover { color: var(--blue-accent); }
 
+        /* Main Content */
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
         .service-box {
             background: white; padding: 40px; border-radius: 12px;
@@ -48,21 +51,23 @@
         .service-box h2 { 
             color: var(--navy-dark); font-size: 2.2rem; margin-top: 0;
             border-bottom: 2px solid var(--blue-accent); display: inline-block;
-            padding-bottom: 5px; margin-bottom: 20px;
+            padding-bottom: 5px; margin-bottom: 25px;
         }
 
-        /* HIGH-IMPACT STEP HEADERS */
+        /* HIGH-IMPACT STEP HEADERS - FONT SIZE SYNCED */
         .step-header {
-            display: flex; align-items: center; gap: 12px;
-            margin-top: 40px; margin-bottom: 18px;
+            display: flex; align-items: center; gap: 15px;
+            margin-top: 45px; margin-bottom: 20px;
         }
         .step-badge {
             background-color: var(--navy-dark); color: white;
-            padding: 6px 16px; border-radius: 4px; font-size: 1rem;
-            font-weight: 900; letter-spacing: 2px; flex-shrink: 0;
-            box-shadow: 4px 4px 0px var(--blue-accent);
+            padding: 6px 16px; border-radius: 4px; 
+            font-size: 1.8rem; /* Synced with title */
+            font-weight: 900; letter-spacing: 1px; flex-shrink: 0;
+            box-shadow: 5px 5px 0px var(--blue-accent);
         }
-        .ai-badge { box-shadow: 4px 4px 0px var(--success-green); }
+        .ai-badge { box-shadow: 5px 5px 0px var(--success-green); }
+        
         .step-title-text {
             margin: 0 !important; color: var(--navy-dark);
             font-size: 1.8rem; font-weight: 900; line-height: 1.2;
@@ -70,21 +75,15 @@
 
         .service-box p, .service-box ul li { font-size: 1.3rem; color: #444; }
 
-        /* AI Box Enhancement */
+        /* AI Box Catchiness */
         .ai-chat-box {
             background: #ffffff; border: 2px solid var(--blue-accent);
             padding: 35px; margin-top: 35px; border-radius: 15px;
             box-shadow: 0 10px 30px rgba(52, 152, 219, 0.1);
             position: relative; overflow: hidden;
         }
-        .ai-chat-box::before {
-            content: "FEATURED"; position: absolute; top: 10px; right: -25px;
-            background: var(--success-green); color: white;
-            padding: 5px 30px; transform: rotate(45deg);
-            font-size: 0.7rem; font-weight: bold;
-        }
 
-        /* Buttons */
+        /* Buttons Sync */
         .btn, .back-btn {
             display: inline-block; padding: 16px 45px; text-decoration: none; 
             border-radius: 50px; margin-top: 20px; font-weight: bold; 
@@ -97,7 +96,6 @@
         .btn-hero {
             background: var(--ai-gradient); color: white;
             box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
-            border: 1px solid rgba(255,255,255,0.2);
         }
         .btn-hero:hover {
             transform: translateY(-3px) scale(1.02);
@@ -105,11 +103,12 @@
         }
 
         .btn-back { background: var(--navy-dark); color: white; }
-        
+
+        /* Desktop Adjustments Sync */
         @media (min-width: 769px) {
-            .hero-banner { height: 250px; }
+            .hero-banner { height: 250px; } /* MATCHES INDEX */
             .hero-banner h1 { font-size: 3.5rem; }
-            .step-title-text { font-size: 2.1rem; }
+            .step-badge, .step-title-text { font-size: 2.1rem; } /* BIGGER & SYNCED */
             .btn, .back-btn { font-size: 1.7rem; }
         }
 
@@ -140,7 +139,7 @@
     <div class="container">
         <section class="service-box">
             <h2>1. MBTI 專業分析與評估</h2>
-            <p>了解性格底色是溝通的第一步。透過分析，我們幫你深入了解自己的內在動力。</p>
+            <p>了解性格底色是溝通的第一步。我們幫你深入了解自己的內在動力與溝通模式。</p>
             
             <div class="step-header">
                 <span class="step-badge">STEP A</span>
@@ -154,21 +153,21 @@
                     <span class="step-badge ai-badge">STEP B</span>
                     <h3 class="step-title-text">核心服務｜與 AI 顧問「小S」對話</h3>
                 </div>
-                <p>這是本實驗室最受歡迎的環節。立即與 AI 顧問 <strong>小S</strong> 交流，解鎖性格背後的溝通密碼。</p>
+                <p>準備好結果了嗎？立即與 AI 顧問 <strong>小S</strong> 交流，解鎖性格背後的溝通密碼。</p>
                 <a href="#" class="btn btn-hero">立即對話 小S：解鎖性格密碼 →</a>
             </div>
         </section>
 
         <section class="service-box">
             <h2>2. 溝通技巧通用教學</h2>
-            <p>溝通不是天賦，而是一套可以習得的系統：</p>
+            <p>我們將溝通拆解為三大核心模組，幫助您建立一套可隨時調用的應對系統。</p>
             <h3>溝通流（Flow）與 問題識別</h3>
             <p>精準判斷溝通障礙的根源：是情緒、認知還是表達方式？</p>
         </section>
 
         <section class="service-box">
             <h2>3. 客製化 1對1 諮詢</h2>
-            <p>針對您的具體對象與場景，提供量身定制的方案。</p>
+            <p>針對您的具體對象與場景，提供量身定制的方案，精準打擊實際痛點。</p>
             <a href="#" class="btn btn-hero">預約專家深度諮詢</a>
         </section>
 
