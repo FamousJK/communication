@@ -94,25 +94,45 @@
             .dropdown:hover .dropdown-content { display: block; }
 
             .container { max-width: 1200px; padding: 20px; }
-            
             .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 35px; }
             .full-width { grid-column: 1 / span 2; }
             
             .service-box { padding: 45px; border: 1px solid rgba(0,0,0,0.05); }
-            .service-box:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); transition: 0.3s; }
-            
-            /* Increased Font Sizes for Desktop */
             .service-box h2 { font-size: 1.8rem; } 
             .service-box p { font-size: 1.2rem; }  
             .step-title-text { font-size: 1.6rem !important; } 
             .skill-item h4 { font-size: 1.6rem !important; }
-            .skill-item p { font-size: 1.2rem; }
 
-            /* INCREASED BUTTON SIZE FOR DESKTOP */
+            /* Desktop Buttons */
             .btn { font-size: 1.4rem !important; padding: 18px 45px !important; border-radius: 12px !important; }
 
-            .step-row-desktop { display: flex; gap: 30px; margin-top: 25px; }
-            .step-col { flex: 1; }
+            .step-row-desktop { display: flex; gap: 30px; margin-top: 25px; align-items: stretch; }
+            .step-col { flex: 1; display: flex; flex-direction: column; }
+            
+            /* Symmetrical Step Boxes */
+            .step-a-box, .step-b-box { 
+                padding: 30px; 
+                border-radius: 15px; 
+                height: 100%; 
+                display: flex; 
+                flex-direction: column; 
+                justify-content: space-between; 
+                box-sizing: border-box;
+            }
+            .step-a-box { border: 2.5px solid #eee; background: #fff; }
+            
+            /* Step B Glowing Border Animation */
+            .step-b-box { 
+                border: 2.5px solid var(--ai-orange); 
+                background: #fff;
+                position: relative;
+                box-shadow: 0 0 15px rgba(243, 156, 18, 0.1);
+                animation: orange-glow-border 2s infinite alternate ease-in-out;
+            }
+            @keyframes orange-glow-border {
+                from { box-shadow: 0 0 5px rgba(243, 156, 18, 0.2); border-color: rgba(243, 156, 18, 0.5); }
+                to { box-shadow: 0 0 20px rgba(243, 156, 18, 0.6); border-color: rgba(243, 156, 18, 1); }
+            }
         }
 
         /* --- SHARED COMPONENTS --- */
@@ -121,8 +141,7 @@
         .step-badge-b { background-color: var(--success-green); color: white; padding: 8px 16px; border-radius: 6px; font-weight: 900; box-shadow: 4px 4px 0px var(--primary-navy); }
         .step-title-text { margin: 0; color: var(--primary-navy); font-weight: 900; font-size: 1.3rem; }
 
-        .ai-highlight-box { background: #fffafa; padding: 25px; border-radius: 15px; border: 2px solid var(--ai-orange); height: 100%; box-sizing: border-box; }
-        .glow-s { color: var(--ai-orange); text-shadow: 0 0 12px rgba(243, 156, 18, 0.4); font-weight: 900; }
+        .glow-s { color: var(--ai-orange); text-shadow: 0 0 8px rgba(243, 156, 18, 0.3); font-weight: 900; }
 
         .skill-item { background: #fcfcfc; padding: 20px; border-radius: 12px; border: 1.5px solid #eee; margin-bottom: 15px; }
         .skill-item h4 { color: var(--accent-blue); font-size: 1.3rem; font-weight: 900; margin: 0 0 8px 0; }
@@ -138,9 +157,10 @@
             .nav-container { overflow-x: auto; }
             .nav-links { justify-content: flex-start; padding-right: 50px; }
             .dropdown.mobile-open .dropdown-content { display: block; position: static; transform: none; box-shadow: none; background: #fcfcfc; margin-top: 5px; }
+            .step-a-box, .step-b-box { padding: 15px; border-bottom: 1px solid #eee; margin-bottom: 15px; }
         }
 
-        /* AI CHAT ASSETS */
+        /* AI CHAT ASSETS (UNTOUCHED) */
         .ai-doll-trigger { position: fixed; bottom: 20px; right: 20px; width: 90px; height: 90px; z-index: 2000; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .ai-doll-trigger img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; background: var(--warm-bg); object-fit: contain; padding: 8px; box-sizing: border-box; }
         .ai-doll-trigger::before { content: ''; position: absolute; width: 100%; height: 100%; background-color: var(--ai-orange); border-radius: 50%; opacity: 0.6; animation: orange-grow 2s infinite ease-out; z-index: -1; }
@@ -189,20 +209,30 @@
                 <h2>1. MBTI 性格與 AI 諮詢</h2>
                 <div class="step-row-desktop">
                     <div class="step-col">
-                        <div class="step-header">
-                            <span class="step-badge">STEP A</span>
-                            <h3 class="step-title-text">獲取性格報告</h3>
-                        </div>
-                        <p>透過專業測試了解你的溝通偏好與潛在盲點。這是邁向有效交流的第一步。</p>
-                        <a href="https://www.16personalities.com/ch" target="_blank" style="background-color: var(--accent-blue); color: white;" class="btn">前往 MBTI 測試</a>
-                    </div>
-                    <div class="step-col">
-                        <div class="ai-highlight-box">
-                            <div class="step-header" style="margin-top:0;">
-                                <span class="step-badge-b">STEP B</span>
-                                <h3 class="step-title-text">AI <span class="glow-s">小S</span> 實戰挑戰</h3>
+                        <div class="step-a-box">
+                            <div>
+                                <div class="step-header">
+                                    <span class="step-badge">STEP A</span>
+                                    <h3 class="step-title-text">獲取性格報告</h3>
+                                </div>
+                                <p>透過 16Personalities 專業測試，深度挖掘你的溝通偏好。這是精進社交技巧的重要基石。</p>
                             </div>
-                            <p>點擊右下角頭像開始 30 秒模擬對話挑戰。在實戰中磨練你的臨場反應與同理心。</p>
+                            <a href="https://www.16personalities.com/ch" target="_blank" style="background-color: var(--accent-blue); color: white; margin-top: 20px;" class="btn">前往 MBTI 測試</a>
+                        </div>
+                    </div>
+
+                    <div class="step-col">
+                        <div class="step-b-box">
+                            <div>
+                                <div class="step-header">
+                                    <span class="step-badge-b">STEP B</span>
+                                    <h3 class="step-title-text">AI <span class="glow-s">小S</span> 實戰挑戰</h3>
+                                </div>
+                                <p>結合你的性格報告，點擊右下角頭像開始 30 秒模擬對話。在真實感十足的壓力場景下，快速提升應變速度。</p>
+                            </div>
+                            <div style="text-align: center; color: var(--ai-orange); font-weight: bold; padding: 10px 0; font-size: 1.1rem;">
+                                立即點擊右下角進行模擬 ↑
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -212,17 +242,17 @@
                 <h2>2. 溝通技巧核心課程</h2>
                 <div class="skill-item">
                     <h4>🧠 軟實力 (Soft Skills)</h4>
-                    <p>專注於情緒覺察。建立同理心氛圍，讓你的話語更具溫度與影響力。</p>
+                    <p>專注於情緒覺察。建立同理心氛圍，讓你的交流更具溫度。</p>
                 </div>
                 <div class="skill-item">
                     <h4>🛠️ 硬實力 (Hard Skills)</h4>
-                    <p>專注於邏輯框架。掌握 OSCAR 表達模型，精準傳遞訊息。</p>
+                    <p>專注於邏輯框架。掌握 OSCAR 表達模型，精準傳遞關鍵資訊。</p>
                 </div>
             </section>
 
             <section class="service-box">
                 <h2>3. 1對1 深度諮詢</h2>
-                <p>針對職場談判、情感化解等高難度場景，提供專家級陪跑服務。透過話術微調確保你在關鍵時刻展現最佳魅力。</p>
+                <p>針對高難度場景提供專家級陪跑服務，包含模擬對話與話術微調。確保你在關鍵時刻展現最佳魅力。</p>
                 <div style="margin-top: 40px;">
                     <a href="#" class="btn" style="background: var(--primary-navy); color: white;">預約專家諮詢</a>
                 </div>
