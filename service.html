@@ -23,7 +23,7 @@
             background: var(--bg-light); overflow-x: hidden; 
         }
 
-        /* --- SYNCED TOP BAR --- */
+        /* --- TOP BAR --- */
         .top-bar { 
             background: var(--primary-navy); 
             padding: 8px 5%; 
@@ -35,7 +35,7 @@
         .logo-container img { height: 30px; width: auto; display: block; }
         .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
-        /* --- SYNCED HERO BANNER --- */
+        /* --- HERO BANNER --- */
         .hero-banner {
             background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('service-banner.jpg');
             background-size: cover; 
@@ -49,7 +49,7 @@
         }
         .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; font-weight: bold; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
 
-        /* --- SYNCED NAVIGATION --- */
+        /* --- NAVIGATION --- */
         .nav-container { background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
         .nav-links { display: flex; list-style: none; gap: 25px; margin: 0; padding: 15px 20px; justify-content: center; }
         .nav-links li { position: relative; }
@@ -63,11 +63,9 @@
             border-top: 3px solid var(--accent-blue);
         }
         .dropdown-content a { color: var(--primary-navy) !important; padding: 12px 16px; display: block; font-size: 1rem !important; font-weight: normal; text-align: center; }
-        .dropdown-content a:hover { background-color: var(--soft-blue); }
 
-        /* --- CONTENT STYLES (Synced with issue.html logic) --- */
+        /* --- MAIN LAYOUT --- */
         .container { max-width: 1000px; margin: 30px auto; padding: 0 15px; }
-        
         .service-box { 
             background: white; 
             padding: 25px; 
@@ -75,9 +73,7 @@
             border-left: 5px solid var(--accent-blue); 
             margin-bottom: 35px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
         .service-box h2 { 
             color: var(--primary-navy); 
             font-size: 1.4rem; 
@@ -88,13 +84,7 @@
             padding-bottom: 5px;
         }
 
-        .service-box p {
-            font-size: 1.1rem; /* Base size, will scale on desktop */
-            color: #555;
-            line-height: 1.7;
-        }
-
-        /* --- DESKTOP ENHANCEMENTS (Follows issue.html Desktop Styles) --- */
+        /* --- DESKTOP PROFESSIONAL ENHANCEMENTS --- */
         @media (min-width: 769px) {
             body { background: radial-gradient(circle at top right, #ffffff, #eef2f3); }
             .hero-banner { height: 250px; }
@@ -105,30 +95,31 @@
 
             .container { max-width: 1200px; padding: 20px; }
             
-            /* Professional Grid Layout */
-            .services-grid {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 30px;
-            }
+            /* Professional Grid */
+            .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 35px; }
             .full-width { grid-column: 1 / span 2; }
             
-            .service-box { padding: 40px; }
-            .service-box:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
+            .service-box { padding: 45px; border: 1px solid rgba(0,0,0,0.05); }
+            .service-box:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); transition: 0.3s; }
             
-            /* Font Size Sync with issue.html */
-            .service-box h2 { font-size: 1.8rem; }
-            .service-box p, .skill-item p { font-size: 1.2rem; }
+            /* Increased Font Sizes for Desktop Smoothness */
+            .service-box h2 { font-size: 1.8rem; } /* Matches issue.html H3 on desktop */
+            .service-box p { font-size: 1.2rem; }  /* Matches issue.html P on desktop */
+            
+            /* Increased Step & Skill Titles for Desktop */
+            .step-title-text { font-size: 1.6rem !important; } 
+            .skill-item h4 { font-size: 1.6rem !important; }
+            .skill-item p { font-size: 1.2rem; }
 
             .step-row-desktop { display: flex; gap: 30px; margin-top: 25px; }
             .step-col { flex: 1; }
         }
 
-        /* --- COMPONENTS --- */
+        /* --- SHARED COMPONENTS --- */
         .step-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
         .step-badge { background-color: var(--primary-navy); color: white; padding: 8px 16px; border-radius: 6px; font-weight: 900; box-shadow: 4px 4px 0px var(--accent-blue); }
         .step-badge-b { background-color: var(--success-green); color: white; padding: 8px 16px; border-radius: 6px; font-weight: 900; box-shadow: 4px 4px 0px var(--primary-navy); }
-        .step-title-text { margin: 0; color: var(--primary-navy); font-weight: 900; }
+        .step-title-text { margin: 0; color: var(--primary-navy); font-weight: 900; font-size: 1.3rem; }
 
         .ai-highlight-box { background: #fffafa; padding: 25px; border-radius: 15px; border: 2px solid var(--ai-orange); height: 100%; box-sizing: border-box; }
         .glow-s { color: var(--ai-orange); text-shadow: 0 0 12px rgba(243, 156, 18, 0.4); font-weight: 900; }
@@ -141,16 +132,15 @@
 
         .back-btn-container { text-align: center; margin: 60px 0; }
         .back-btn { display: inline-block; padding: 14px 50px; background: var(--primary-navy); color: white; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 1.2rem; transition: 0.3s; }
-        .back-btn:hover { background: var(--accent-blue); }
 
-        /* --- MOBILE NAV (SYNCED) --- */
+        /* MOBILE NAV */
         @media (max-width: 768px) {
             .nav-container { overflow-x: auto; }
             .nav-links { justify-content: flex-start; padding-right: 50px; }
             .dropdown.mobile-open .dropdown-content { display: block; position: static; transform: none; box-shadow: none; background: #fcfcfc; margin-top: 5px; }
         }
 
-        /* AI CHAT STYLES */
+        /* AI CHAT ASSETS */
         .ai-doll-trigger { position: fixed; bottom: 20px; right: 20px; width: 90px; height: 90px; z-index: 2000; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .ai-doll-trigger img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; background: var(--warm-bg); object-fit: contain; padding: 8px; box-sizing: border-box; }
         .ai-doll-trigger::before { content: ''; position: absolute; width: 100%; height: 100%; background-color: var(--ai-orange); border-radius: 50%; opacity: 0.6; animation: orange-grow 2s infinite ease-out; z-index: -1; }
@@ -203,17 +193,16 @@
                             <span class="step-badge">STEP A</span>
                             <h3 class="step-title-text">獲取性格報告</h3>
                         </div>
-                        <p>透過專業測試了解你的溝通偏好與潛在盲點。</p>
+                        <p>透過專業測試了解你的溝通偏好與潛在盲點。這是邁向有效交流的第一步。</p>
                         <a href="https://www.16personalities.com/ch" target="_blank" style="background-color: var(--accent-blue); color: white;" class="btn">前往 MBTI 測試</a>
                     </div>
-
                     <div class="step-col">
                         <div class="ai-highlight-box">
                             <div class="step-header" style="margin-top:0;">
                                 <span class="step-badge-b">STEP B</span>
                                 <h3 class="step-title-text">AI <span class="glow-s">小S</span> 實戰挑戰</h3>
                             </div>
-                            <p>點擊右下角頭像開始 30 秒模擬。提升你的即時應變能力！</p>
+                            <p>點擊右下角頭像開始 30 秒模擬對話挑戰。在實戰中磨練你的臨場反應與同理心。</p>
                         </div>
                     </div>
                 </div>
@@ -223,19 +212,19 @@
                 <h2>2. 溝通技巧核心課程</h2>
                 <div class="skill-item">
                     <h4>🧠 軟實力 (Soft Skills)</h4>
-                    <p>專注於情緒覺察。建立同理心氛圍，讓對話不再冰冷。</p>
+                    <p>專注於情緒覺察。建立同理心氛圍，讓你的話語更具溫度與影響力。</p>
                 </div>
                 <div class="skill-item">
                     <h4>🛠️ 硬實力 (Hard Skills)</h4>
-                    <p>專注於邏輯框架。掌握 OSCAR 表達模型，精準傳遞訊息。</p>
+                    <p>專注於邏輯框架。掌握 OSCAR 表達模型，在壓力下依然能清晰陳述觀點。</p>
                 </div>
             </section>
 
             <section class="service-box">
                 <h2>3. 1對1 深度諮詢</h2>
-                <p>針對高難度場景提供專家級陪跑服務，包含模擬對話與話術微調。幫助你在重要場合發揮最佳狀態。</p>
+                <p>針對職場談判、情感化解等高難度場景，提供專家級陪跑服務。透過話術微調與模擬演練，確保你在關鍵時刻不掉鏈子。</p>
                 <div style="margin-top: 40px;">
-                    <a href="#" class="btn" style="background: var(--primary-navy); color: white;">預約深度諮詢</a>
+                    <a href="#" class="btn" style="background: var(--primary-navy); color: white;">預約專家諮詢</a>
                 </div>
             </section>
         </div>
