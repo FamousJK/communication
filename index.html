@@ -26,13 +26,24 @@
         .logo-container img { height: 30px; width: auto; display: block; }
         .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
-        /* Hero Banner */
+        /* Hero Banner - Keeping your original settings */
         .hero-banner {
-            background: linear-gradient(rgba(44, 62, 80, 0.7), rgba(44, 62, 80, 0.7)), url('index-banner.jpg'); 
-            background-size: cover; background-position: center; height: 350px; 
-            display: flex; justify-content: center; align-items: center; color: white; text-align: center;
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('issue-question.jpg'); 
+            background-size: cover;
+            background-position: center 35%; 
+            height: 180px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
         }
-        .hero-banner h1 { font-size: 2.5rem; margin: 0; font-weight: bold; text-shadow: 2px 2px 15px rgba(0,0,0,0.5); padding: 0 20px; }
+        .hero-banner h1 { 
+            font-size: 2.2rem; 
+            margin: 0; 
+            padding: 0 20px;
+            font-weight: bold;
+        }
 
         /* Navigation Sync */
         .nav-container { background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
@@ -62,7 +73,7 @@
         }
         .service-box:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
 
-        .service-box h2 { color: var(--primary-navy); font-size: 2rem; margin-top: 0; margin-bottom: 20px; }
+        .service-box h2 { color: var(--primary-navy); font-size: 2rem; margin: 0 0 20px 0; }
         .service-box p { font-size: 1.2rem; color: #555; }
 
         /* Feature Grid */
@@ -89,24 +100,22 @@
             cursor: pointer;
         }
         .btn-hero { background: var(--ai-gradient); color: white; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3); }
-        .btn:hover { transform: scale(1.05); filter: brightness(1.1); box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4); }
+        .btn:hover { transform: scale(1.05); filter: brightness(1.1); }
 
-        /* Desktop Adjustments */
+        /* Responsive Fixes */
         @media (min-width: 769px) {
-            .hero-banner { height: 450px; }
+            .hero-banner { height: 250px; } /* Keeping height consistent with Issue page */
             .hero-banner h1 { font-size: 3.5rem; }
             .nav-links { gap: 40px; }
             .nav-links a { font-size: 1.3rem; }
             .dropdown:hover .dropdown-content { display: block; }
         }
 
-        /* Mobile Adjustments */
         @media (max-width: 768px) {
             .nav-container { overflow-x: auto; }
             .nav-links { justify-content: flex-start; padding-right: 50px; }
             .dropdown.mobile-open .dropdown-content { display: block; position: static; transform: none; background: #fcfcfc; }
             .btn { width: 100%; box-sizing: border-box; }
-            .hero-banner h1 { font-size: 2rem; }
         }
 
         footer { padding: 40px; background: var(--primary-navy); color: #bdc3c7; text-align: center; }
@@ -162,8 +171,8 @@
         </div>
 
         <section class="cta-highlight">
-            <h2>準備好量身打造你的溝通藍圖了嗎？</h2>
-            <p>我們提供從 AI 自主學習到專家 1對1 諮詢的多層次方案，精準解決你的職場、社交與情感痛點。</p>
+            <h2>量身打造你的溝通藍圖</h2>
+            <p>每個人都有獨特的溝通瓶頸。我們準備了從 AI 自主學習到專家 1對1 深度諮詢的多層次方案，精準解決你的社交痛點。</p>
             
             <a href="service.html" class="btn btn-hero">查看完整服務方案與定價 →</a>
         </section>
@@ -174,7 +183,6 @@
     </footer>
 
     <script>
-        // Mobile dropdown trigger
         document.querySelectorAll('.trigger').forEach(el => {
             el.addEventListener('click', function(e) {
                 if (window.innerWidth <= 768) { 
