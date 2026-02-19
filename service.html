@@ -216,5 +216,173 @@
             });
         });
     </script>
+
+<style>
+    /* 1. The Floating Doll Container */
+    .ai-doll-trigger {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 80px;
+        height: 80px;
+        cursor: pointer;
+        z-index: 2000;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .ai-doll-trigger:hover { transform: scale(1.1) rotate(5deg); }
+
+    .ai-doll-trigger img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 4px solid white;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        background: var(--ai-gradient); /* Matches your site theme */
+    }
+
+    /* 2. The Chat Window */
+    .chat-window {
+        position: fixed;
+        bottom: 120px;
+        right: 30px;
+        width: 350px;
+        height: 500px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        display: none; /* Hidden by default */
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 2001;
+        border: 1px solid #eee;
+    }
+
+    /* Chat Header */
+    .chat-header {
+        background: var(--ai-gradient);
+        color: white;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .chat-header h4 { margin: 0; font-size: 1.1rem; }
+    .close-chat { cursor: pointer; font-size: 1.5rem; line-height: 1; }
+
+    /* Messages Area */
+    .chat-messages {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+        background: #fdfdfd;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .msg {
+        max-width: 80%;
+        padding: 10px 15px;
+        border-radius: 15px;
+        font-size: 0.95rem;
+    }
+    .msg.ai { background: var(--soft-blue); align-self: flex-start; border-bottom-left-radius: 2px; color: var(--primary-navy); }
+    .msg.user { background: var(--accent-blue); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+
+    /* Chat Input Area */
+    .chat-input-area {
+        padding: 15px;
+        border-top: 1px solid #eee;
+        display: flex;
+        gap: 10px;
+    }
+    .chat-input-area input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        outline: none;
+    }
+    .send-btn {
+        background: var(--accent-blue);
+        color: white;
+        border: none;
+        padding: 0 15px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 480px) {
+        .chat-window {
+            width: calc(100% - 40px);
+            right: 20px;
+            bottom: 100px;
+            height: 70vh;
+        }
+    }
+</style>
+
+<div class="ai-doll-trigger" id="openChat">
+    <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=S" alt="小S">
+</div>
+
+<div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+        <h4>AI 顧問 小S (實戰測試中)</h4>
+        <span class="close-chat" id="closeChat">&times;</span>
+    </div>
+    <div class="chat-messages" id="chatMsgs">
+        <div class="msg ai">你好！我是小S。準備好接受今天的溝通挑戰了嗎？請先告訴我你想練習的模式（例如：憤怒的主管、難纏的客戶）。</div>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" id="userInput" placeholder="輸入訊息...">
+        <button class="send-btn" id="sendBtn">發送</button>
+    </div>
+</div>
+
+<script>
+    const chatWindow = document.getElementById('chatWindow');
+    const openChat = document.getElementById('openChat');
+    const closeChat = document.getElementById('closeChat');
+    const sendBtn = document.getElementById('sendBtn');
+    const userInput = document.getElementById('userInput');
+    const chatMsgs = document.getElementById('chatMsgs');
+
+    // Toggle Window
+    openChat.onclick = () => chatWindow.style.display = 'flex';
+    closeChat.onclick = () => chatWindow.style.display = 'none';
+
+    // Simple Send Function (Frontend Only for now)
+    function sendMessage() {
+        const text = userInput.value.trim();
+        if (!text) return;
+
+        // Add user message
+        const userDiv = document.createElement('div');
+        userDiv.className = 'msg user';
+        userDiv.textContent = text;
+        chatMsgs.appendChild(userDiv);
+
+        userInput.value = '';
+        chatMsgs.scrollTop = chatMsgs.scrollHeight;
+
+        // Placeholder for AI thinking
+        setTimeout(() => {
+            const aiDiv = document.createElement('div');
+            aiDiv.className = 'msg ai';
+            aiDiv.textContent = "（小S 正在觀察你的表達方式...）連線至後端後，我將開始針對你的溝通進行評分。";
+            chatMsgs.appendChild(aiDiv);
+            chatMsgs.scrollTop = chatMsgs.scrollHeight;
+        }, 1000);
+    }
+
+    sendBtn.onclick = sendMessage;
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+</script>
+
+
 </body>
 </html>
