@@ -348,7 +348,6 @@
 </div>
 
 
-
 <style>
     /* 1. Floating Trigger Button */
     .ai-doll-trigger {
@@ -362,34 +361,40 @@
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     
-    /* Gentle pulse effect to make her look interactive */
+    /* Warm Pulse Effect */
     .ai-doll-trigger::after {
         content: '';
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
         border-radius: 50%;
-        border: 2px solid var(--accent-blue);
+        border: 2px solid #ff9a9e; /* Warm pinkish-orange */
         animation: pulse-ring 2s infinite;
         z-index: -1;
     }
 
     @keyframes pulse-ring {
-        0% { transform: scale(0.8); opacity: 0.5; }
-        100% { transform: scale(1.3); opacity: 0; }
+        0% { transform: scale(0.8); opacity: 0.6; }
+        100% { transform: scale(1.4); opacity: 0; }
     }
 
-    .ai-doll-trigger:hover { transform: scale(1.1) rotate(3deg); }
+    .ai-doll-trigger:hover { transform: scale(1.1); }
     
     .ai-doll-trigger img {
         width: 100%; height: 100%;
         border-radius: 50%;
         border: 4px solid white;
         box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        background: white;
-        object-fit: cover; /* Ensures your photo fits nicely */
+        
+        /* THE WARM BACKGROUND: A soft sunrise gradient */
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        
+        /* Adjusting for "Just the head" look */
+        object-fit: contain; 
+        padding: 5px; /* Creates a nice margin for the background */
+        box-sizing: border-box;
     }
 
-    /* 2. Chat Window Container (Heights and styles synced) */
+    /* 2. Chat Window Container */
     .chat-window {
         position: fixed;
         bottom: 135px;
@@ -417,7 +422,7 @@
         justify-content: space-between;
         align-items: center;
     }
-    .timer-display { font-family: monospace; font-size: 1.1rem; background: rgba(0,0,0,0.2); padding: 2px 10px; border-radius: 12px; }
+    .timer-display { font-family: 'Courier New', Courier, monospace; font-size: 1.1rem; background: rgba(0,0,0,0.2); padding: 2px 10px; border-radius: 12px; font-weight: bold; }
 
     .chat-messages {
         flex: 1;
@@ -429,14 +434,14 @@
         gap: 12px;
     }
 
-    .msg { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 0.95rem; line-height: 1.4; position: relative; }
+    .msg { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 0.95rem; line-height: 1.4; }
     .msg.ai { background: #f0f2f5; align-self: flex-start; border-bottom-left-radius: 4px; color: #333; }
     .msg.user { background: var(--accent-blue); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
 
     .mode-options { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
     .mode-btn {
         background: white; border: 1px solid var(--accent-blue);
-        color: var(--accent-blue); padding: 6px 12px; border-radius: 20px;
+        color: var(--accent-blue); padding: 6px 14px; border-radius: 20px;
         cursor: pointer; font-size: 0.85rem; transition: 0.3s; font-weight: bold;
     }
     .mode-btn:hover { background: var(--accent-blue); color: white; }
@@ -445,6 +450,7 @@
     .chat-input-area input { flex: 1; border: 1px solid #ddd; padding: 12px 18px; border-radius: 25px; outline: none; }
     .send-btn { background: var(--accent-blue); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
 
+    /* Final Report Overlay */
     .assessment-overlay {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
         background: white; z-index: 2005; display: none;
@@ -459,15 +465,14 @@
 
 <div class="chat-window" id="chatWindow">
     <div class="chat-header">
-        <div><strong>小S 顧問</strong> <span style="font-size: 0.8rem; opacity: 0.8;">● 在線</span></div>
+        <div><strong>小S 顧問</strong> <span style="font-size: 0.8rem; opacity: 0.8;">● 線上測試</span></div>
         <div id="timer" class="timer-display">01:00</div>
         <span style="cursor:pointer; font-size: 1.2rem;" id="closeChat">✕</span>
     </div>
 
     <div class="chat-messages" id="chatMsgs">
         <div class="msg ai">
-            你好！我是小S。在開始實戰模擬前，請選擇你想要挑戰的對象性格。
-            <br><small>(挑戰開始後，你有 60 秒的時間展現你的溝通技巧)</small>
+            你好！我是小S。在開始 1 分鐘模擬練習前，請先選擇你想要挑戰的性格對象：
             <div class="mode-options">
                 <button class="mode-btn" onclick="startTest('冷酷男孩')">👦 冷酷男孩</button>
                 <button class="mode-btn" onclick="startTest('可愛女孩')">👧 可愛女孩</button>
@@ -478,7 +483,7 @@
     </div>
 
     <div class="chat-input-area">
-        <input type="text" id="userInput" placeholder="請先選擇模式..." disabled>
+        <input type="text" id="userInput" placeholder="選擇模式後即可輸入..." disabled>
         <button class="send-btn" id="sendBtn" disabled>➤</button>
     </div>
 
@@ -486,16 +491,15 @@
         <h2 style="color: var(--primary-navy); margin-bottom: 5px;">測驗結束！</h2>
         <p style="margin-top: 0; color: #666;">即時評分結果：</p>
         <div style="font-size: 3.5rem; font-weight: 900; color: var(--accent-blue); margin: 10px 0;">8.5<span style="font-size: 1.5rem; color: #ccc;">/10</span></div>
-        <p style="padding: 0 10px;"><strong>溝通大師評語：</strong><br>你的情緒價值很高，但在邏輯層面可以更直接一點。</p>
+        <p style="padding: 0 10px; font-size: 0.95rem;"><strong>小S 的建議：</strong><br>你的語氣很專業，但在安撫對方情緒時可以多用一些感性的詞彙。</p>
         <hr style="width: 80%; border: 0.5px solid #eee; margin: 20px 0;">
-        <p style="font-size: 0.85rem; color: #555;">輸入 Email 獲取完整 AI 溝通深度分析與優化建議</p>
+        <p style="font-size: 0.85rem; color: #555;">輸入 Email 獲取完整溝通報告與實戰逐字稿分析</p>
         <input type="email" id="userEmail" placeholder="yourname@example.com" style="width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px;">
-        <button class="btn btn-hero" onclick="saveData()" style="width: 100%;">發送報告給我</button>
+        <button class="btn btn-hero" onclick="saveData()" style="width: 100%;">發送深度報告</button>
     </div>
 </div>
 
 <script>
-    // Logic remains same as previous but integrated with the updated UI
     const chatWindow = document.getElementById('chatWindow');
     const openChat = document.getElementById('openChat');
     const closeChat = document.getElementById('closeChat');
@@ -515,10 +519,10 @@
         isTesting = true;
         userInput.disabled = false;
         sendBtn.disabled = false;
-        userInput.placeholder = `正在與 ${mode} 對話中...`;
+        userInput.placeholder = `正與 ${mode} 交談中...`;
         userInput.focus();
         
-        addMessage(`系統：已設定為 [${mode}] 模式。挑戰開始！`, 'ai');
+        addMessage(`系統：實戰模擬開始 [模式：${mode}]。計時 60 秒！`, 'ai');
         
         timer = setInterval(() => {
             secondsLeft--;
@@ -548,8 +552,8 @@
         userInput.value = '';
 
         setTimeout(() => {
-            if(isTesting) addMessage("（模擬回覆中... 串接 API 後將即時產出對話內容）", 'ai');
-        }, 1000);
+            if(isTesting) addMessage("（小S 正根據設定的人格特質思考回覆...）", 'ai');
+        }, 800);
     }
 
     sendBtn.onclick = handleSend;
@@ -569,10 +573,11 @@
             alert("請輸入正確的電子郵件");
             return;
         }
-        alert("測試對話已存檔，深度分析報告將發送至 " + email);
+        alert("資料已暫存！分析報告即將發送至 " + email);
         chatWindow.style.display = 'none';
     }
 </script>
+
 
 
 
