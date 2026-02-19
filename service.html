@@ -23,7 +23,7 @@
             background: var(--bg-light); 
         }
 
-        /* --- CATEGORY BAR (FIXED TO ORIGINAL) --- */
+        /* --- CATEGORY BAR --- */
         .top-bar { 
             background: var(--primary-navy); 
             padding: 8px 5%; 
@@ -51,7 +51,7 @@
         .dropdown-content a { color: var(--primary-navy) !important; padding: 12px 16px; display: block; font-size: 1rem !important; font-weight: normal; text-align: center; }
         .dropdown:hover .dropdown-content { display: block; }
 
-        /* --- HERO --- */
+        /* --- HERO BANNER (SYNCED) --- */
         .hero-banner {
             background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('service-banner.jpg');
             background-size: cover; background-position: center 30%; height: 180px; 
@@ -64,8 +64,8 @@
         .service-box { background: white; padding: 45px; border-radius: 15px; border-left: 5px solid var(--accent-blue); margin-bottom: 35px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .service-box h2 { color: var(--primary-navy); font-size: 1.8rem; font-weight: 900; margin-bottom: 20px; border-bottom: 2px solid var(--accent-blue); display: inline-block; padding-bottom: 5px; }
         
-        /* Font Size Matching */
-        p { font-size: 1.2rem; color: #444; margin-bottom: 25px; }
+        /* SYNCED MAIN TEXT SIZE (1.2rem) */
+        p { font-size: 1.2rem; line-height: 1.7; color: #555; margin-bottom: 25px; }
 
         /* --- PART 1: MBTI & AI --- */
         .step-row-desktop { display: flex; gap: 30px; margin-top: 25px; align-items: stretch; }
@@ -81,7 +81,7 @@
 
         /* --- PART 2: SKILLS (NAVY SYNC) --- */
         .skill-item { padding: 30px; border-radius: 15px; margin-bottom: 20px; border: 3px solid var(--primary-navy); box-shadow: 0 0 15px rgba(44, 62, 80, 0.1); }
-        .skill-item h3 { color: var(--primary-navy); font-size: 1.6rem; margin-top: 0; }
+        .skill-item h3 { color: var(--primary-navy); font-size: 1.8rem; margin-top: 0; border-bottom: 2px solid var(--accent-blue); display: inline-block; padding-bottom: 5px; margin-bottom: 15px; }
 
         /* --- BUTTONS --- */
         .btn { display: inline-block; padding: 18px 45px; text-decoration: none; border-radius: 12px; font-weight: 800; font-size: 1.4rem; text-align: center; transition: 0.3s; border: none; cursor: pointer; width: 100%; box-sizing: border-box; }
@@ -90,7 +90,25 @@
         .btn-navy { background: var(--primary-navy); color: white; }
         .btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
 
-        /* --- AI AGENT --- */
+        /* --- DESKTOP ADJUSTMENTS (SYNCED WITH ISSUE.HTML) --- */
+        @media (min-width: 769px) {
+            .hero-banner { height: 250px; }
+            .hero-banner h1 { font-size: 3.5rem; }
+            .nav-links { gap: 40px; }
+            .nav-links a { font-size: 1.3rem; }
+            .service-box h2 { font-size: 1.8rem; }
+            .step-a-box h3, .step-b-box h3 { font-size: 1.8rem; }
+        }
+
+        /* --- MOBILE ADJUSTMENTS --- */
+        @media (max-width: 768px) {
+            .nav-container { overflow-x: auto; }
+            .nav-links { justify-content: flex-start; padding-right: 50px; }
+            .step-row-desktop { flex-direction: column; }
+            .service-box { padding: 30px; }
+        }
+
+        /* --- AI AGENT (HIDDEN TRIGGER) --- */
         .ai-doll-trigger { position: fixed; bottom: 20px; right: 20px; width: 90px; height: 90px; z-index: 2000; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .ai-doll-trigger img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; background: var(--warm-bg); padding: 8px; box-sizing: border-box; }
         .chat-window { position: fixed; bottom: 120px; right: 20px; width: 360px; height: 500px; background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); display: none; flex-direction: column; z-index: 2100; overflow: hidden; }
@@ -137,7 +155,7 @@
                         <div>
                             <div class="step-header">
                                 <span class="step-badge">STEP A</span>
-                                <h3 style="margin:0; font-size:1.6rem; color:var(--primary-navy);">獲取性格報告</h3>
+                                <h3 style="margin:0; color:var(--primary-navy);">獲取性格報告</h3>
                             </div>
                             <p>透過專業測試了解你的溝通偏好。這是精進社交技巧的重要基石。</p>
                         </div>
@@ -149,7 +167,7 @@
                         <div>
                             <div class="step-header">
                                 <span class="step-badge-orange">STEP B</span>
-                                <h3 style="margin:0; font-size:1.6rem; color:var(--primary-navy);">AI 小S 實戰挑戰</h3>
+                                <h3 style="margin:0; color:var(--primary-navy);">AI 小S 實戰挑戰</h3>
                             </div>
                             <p>在 30 秒模擬對話中磨練臨場反應。點擊右下角頭像開始挑戰。</p>
                         </div>
@@ -183,7 +201,7 @@
     <div class="ai-doll-trigger" id="openChat"><img src="service-s.png" alt="S"></div>
     <div class="chat-window" id="chatWindow">
         <div class="chat-header"><span>小S 顧問</span><span id="closeChat" style="cursor:pointer;">✕</span></div>
-        <div id="chatMsgs" class="chat-messages"><div class="msg ai">準備好挑戰了嗎？</div></div>
+        <div id="chatMsgs" class="chat-messages"><div class="msg ai">準備好進行 30 秒挑戰了嗎？</div></div>
         <div class="chat-input-area"><input type="text" placeholder="輸入回覆..."></div>
     </div>
 
