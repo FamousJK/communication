@@ -32,7 +32,7 @@
         }
         .hero-banner h1 { font-size: 2.2rem; margin: 0; font-weight: 900; }
 
-        /* --- Category Bar --- */
+        /* --- Navigation Category Bar --- */
         .nav-container { 
             background: white; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
@@ -76,32 +76,34 @@
         .step-badge { background-color: var(--primary-navy); color: white; padding: 8px 16px; border-radius: 6px; font-size: 1rem; font-weight: 900; box-shadow: 4px 4px 0px var(--accent-blue); flex-shrink: 0; }
         .step-title-text { margin: 0; color: var(--primary-navy); font-size: 1.25rem; font-weight: 900; white-space: nowrap; }
 
-        /* AI Highlighted Box - Containment Fixed */
+        /* Step B Box - BLINKING GREEN DASHED BORDER */
         .ai-highlight-box {
             background: white; padding: 20px; border-radius: 15px; margin-top: 25px; 
-            border: 2px solid var(--ai-orange);
-            box-shadow: 0 10px 20px rgba(243, 156, 18, 0.1);
-            overflow: hidden; /* Ensures contents stay inside */
+            border: 3px dashed var(--success-green);
+            animation: border-blink 1s infinite; /* */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        @keyframes border-blink {
+            0%, 100% { border-color: var(--success-green); }
+            50% { border-color: transparent; }
         }
         .step-badge-b { 
             background-color: var(--success-green); color: white; 
             padding: 8px 16px; border-radius: 6px; font-size: 1rem; 
             font-weight: 900; box-shadow: 4px 4px 0px var(--primary-navy); 
-            flex-shrink: 0; /* Prevents shrinking out of box */
+            flex-shrink: 0;
         }
-
-        .skill-item { background: #fcfcfc; padding: 20px; border-radius: 15px; border: 1.5px solid #eee; margin-bottom: 15px; }
-        .skill-item h4 { color: var(--accent-blue); font-size: 1.4rem; font-weight: 900; margin: 0 0 10px 0; }
 
         .btn { display: inline-block; padding: 15px 35px; text-decoration: none; border-radius: 12px; font-weight: 800; font-size: 1.1rem; text-align: center; border: none; cursor: pointer; transition: 0.3s; width: 100%; box-sizing: border-box; }
         .btn-mbti { background-color: var(--accent-blue); color: white; margin-bottom: 10px; }
 
-        /* --- OVAL BACK BUTTON (Restored from About.html) --- */
+        /* --- OVAL BACK BUTTON --- */
         .back-home-container { text-align: center; margin: 50px 0; padding: 0 20px; }
         .btn-back-home { 
             display: inline-flex; align-items: center; justify-content: center;
             background-color: var(--primary-navy); color: white; 
-            padding: 12px 45px; border-radius: 50px; /* Perfect Oval */
+            padding: 12px 45px; border-radius: 50px; 
             text-decoration: none; font-weight: 800; font-size: 1.1rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.3s;
         }
