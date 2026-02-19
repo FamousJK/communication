@@ -10,7 +10,7 @@
             --blue-accent: #3498db;
             --blue-light: #f0f7ff;
             --success-green: #2ecc71;
-            --warning-gold: #f39c12; /* New catchy color for MBTI */
+            --warning-gold: #f39c12; 
             --text-dark: #333;
             --bg-gray: #f9f9f9;
         }
@@ -55,9 +55,8 @@
             padding-bottom: 5px; margin-bottom: 20px;
         }
 
-        /* Catchy Step Wordings */
-        .step-a-title { color: var(--blue-accent) !important; font-weight: 800; }
-        .step-b-title { color: var(--success-green) !important; font-weight: 800; }
+        /* Synced Step Wordings (Both Blue) */
+        .step-title { color: var(--blue-accent) !important; font-weight: 800; }
 
         .service-box h3 { font-size: 1.6rem; margin-top: 25px; margin-bottom: 15px; }
 
@@ -65,12 +64,11 @@
 
         /* AI Box Enhancement */
         .ai-chat-box {
-            background: var(--blue-light); border-left: 5px solid var(--success-green);
+            background: var(--blue-light); border-left: 5px solid var(--blue-accent);
             padding: 30px; margin-top: 30px; border-radius: 0 12px 12px 0;
-            box-shadow: inset 0 0 10px rgba(46, 204, 113, 0.05);
         }
 
-        /* Catchy Buttons */
+        /* Click Boxes */
         .btn, .back-btn {
             display: inline-block; background: var(--navy-dark); color: white;
             padding: 16px 45px; text-decoration: none; border-radius: 50px;
@@ -78,11 +76,10 @@
             font-size: 1.6rem; border: none; cursor: pointer; text-align: center;
         }
 
-        /* The Extra Catchy MBTI Button */
+        /* Catchy Gold CTA */
         .btn-mbti {
             background: linear-gradient(135deg, #f39c12, #e67e22);
-            color: white; border: 2px solid rgba(255,255,255,0.2);
-            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+            color: white; box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
         }
         .btn-mbti:hover {
             background: linear-gradient(135deg, #e67e22, #d35400);
@@ -100,7 +97,6 @@
         /* Responsive */
         @media (min-width: 769px) {
             .hero-banner { height: 250px; }
-            .nav-links { gap: 40px; }
             .service-box h3, .btn, .back-btn { font-size: 1.7rem; }
             .skills-grid { grid-template-columns: 1fr 1fr; }
         }
@@ -133,15 +129,15 @@
     <div class="container">
         <section class="service-box">
             <h2>1. MBTI 專業分析與評估</h2>
-            <p>透過 MBTI 人格類型工具，我們幫你深入了解自己的溝通偏好與內在動力。只要提供你的測試結果，我們將提供免費的初步評核。</p>
+            <p>透過 MBTI 人格類型工具，我們幫你深入了解自己的溝通偏好與內在動力。</p>
             
-            <h3 class="step-a-title">Step A: 獲取你的報告</h3>
-            <p>還不知道自己的 MBTI？這是開啟自我覺察的第一步，請點擊下方按鈕前往專業測試：</p>
+            <h3 class="step-title">Step A: 獲取你的報告</h3>
+            <p>還不知道自己的 MBTI？這是開啟自我覺察的第一步：</p>
             <a href="https://www.16personalities.com/ch" target="_blank" class="btn btn-mbti">立即開始 MBTI 免費測試 →</a>
 
             <div class="ai-chat-box">
-                <h3 class="step-b-title">Step B: 與 AI 顧問「小S」對話</h3>
-                <p>準備好你的結果了嗎？立即與我們的 AI 顧問 <strong>小S</strong> 進行簡短交流。小S 將為你進行免費的初步分析。</p>
+                <h3 class="step-title">Step B: 與 AI 顧問「小S」對話</h3>
+                <p>準備好你的結果了嗎？立即與我們的 AI 顧問 <strong>小S</strong> 進行簡短交流。</p>
                 <a href="#" class="btn btn-ai">開始與 小S 對話</a>
             </div>
         </section>
@@ -151,7 +147,7 @@
             <p>溝通不是天賦，而是一套可以習得的系統。我們將溝通拆解為三大核心模組：</p>
             
             <h3>溝通流（Flow）與 問題識別</h3>
-            <p>理解資訊傳遞過程，精準判斷溝通障礙的根源——是情緒干擾、認知差異，還是表達方式出錯？</p>
+            <p>理解資訊傳遞過程，精準判斷溝通障礙的根源。</p>
 
             <h3>技巧應用（Applying Skills）</h3>
             <div class="skills-grid">
@@ -176,9 +172,9 @@
 
         <section class="service-box">
             <h2>3. 客製化 1對1 諮詢</h2>
-            <p>針對您的具體對象與場景，提供量身定制的方案。針對您的實際痛點進行精準打擊。</p>
+            <p>針對您的具體對象與場景，提供量身定制的方案。</p>
             
-            <h3 style="color: var(--navy-dark);">深入了解你的對象</h3>
+            <h3>深入了解你的對象</h3>
             <ul>
                 <li><strong>男女關係：</strong> 建立深度情感連結。</li>
                 <li><strong>工作關係：</strong> 向上管理與職場影響力。</li>
