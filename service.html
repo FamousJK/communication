@@ -95,21 +95,21 @@
 
             .container { max-width: 1200px; padding: 20px; }
             
-            /* Professional Grid */
             .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 35px; }
             .full-width { grid-column: 1 / span 2; }
             
             .service-box { padding: 45px; border: 1px solid rgba(0,0,0,0.05); }
             .service-box:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); transition: 0.3s; }
             
-            /* Increased Font Sizes for Desktop Smoothness */
-            .service-box h2 { font-size: 1.8rem; } /* Matches issue.html H3 on desktop */
-            .service-box p { font-size: 1.2rem; }  /* Matches issue.html P on desktop */
-            
-            /* Increased Step & Skill Titles for Desktop */
+            /* Increased Font Sizes for Desktop */
+            .service-box h2 { font-size: 1.8rem; } 
+            .service-box p { font-size: 1.2rem; }  
             .step-title-text { font-size: 1.6rem !important; } 
             .skill-item h4 { font-size: 1.6rem !important; }
             .skill-item p { font-size: 1.2rem; }
+
+            /* INCREASED BUTTON SIZE FOR DESKTOP */
+            .btn { font-size: 1.4rem !important; padding: 18px 45px !important; border-radius: 12px !important; }
 
             .step-row-desktop { display: flex; gap: 30px; margin-top: 25px; }
             .step-col { flex: 1; }
@@ -127,8 +127,8 @@
         .skill-item { background: #fcfcfc; padding: 20px; border-radius: 12px; border: 1.5px solid #eee; margin-bottom: 15px; }
         .skill-item h4 { color: var(--accent-blue); font-size: 1.3rem; font-weight: 900; margin: 0 0 8px 0; }
 
-        .btn { display: inline-block; padding: 15px 35px; text-decoration: none; border-radius: 8px; font-weight: 800; font-size: 1.1rem; text-align: center; transition: 0.3s; width: 100%; box-sizing: border-box; border: none; cursor: pointer; }
-        .btn:hover { opacity: 0.9; transform: scale(1.02); }
+        .btn { display: inline-block; padding: 15px 35px; text-decoration: none; border-radius: 8px; font-weight: 800; font-size: 1.1rem; text-align: center; transition: 0.3s; width: 100%; box-sizing: border-box; border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .btn:hover { opacity: 0.9; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
 
         .back-btn-container { text-align: center; margin: 60px 0; }
         .back-btn { display: inline-block; padding: 14px 50px; background: var(--primary-navy); color: white; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 1.2rem; transition: 0.3s; }
@@ -216,13 +216,13 @@
                 </div>
                 <div class="skill-item">
                     <h4>🛠️ 硬實力 (Hard Skills)</h4>
-                    <p>專注於邏輯框架。掌握 OSCAR 表達模型，在壓力下依然能清晰陳述觀點。</p>
+                    <p>專注於邏輯框架。掌握 OSCAR 表達模型，精準傳遞訊息。</p>
                 </div>
             </section>
 
             <section class="service-box">
                 <h2>3. 1對1 深度諮詢</h2>
-                <p>針對職場談判、情感化解等高難度場景，提供專家級陪跑服務。透過話術微調與模擬演練，確保你在關鍵時刻不掉鏈子。</p>
+                <p>針對職場談判、情感化解等高難度場景，提供專家級陪跑服務。透過話術微調確保你在關鍵時刻展現最佳魅力。</p>
                 <div style="margin-top: 40px;">
                     <a href="#" class="btn" style="background: var(--primary-navy); color: white;">預約專家諮詢</a>
                 </div>
