@@ -10,6 +10,7 @@
             --accent-blue: #3498db;
             --success-green: #27ae60;
             --ai-orange: #f39c12;
+            --dark-orange: #d35400;
             --ai-gradient: linear-gradient(135deg, #3498db, #27ae60);
             --warm-bg: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
             --text-dark: #333;
@@ -19,83 +20,85 @@
         body { 
             font-family: 'Segoe UI', "Microsoft JhengHei", Arial, sans-serif; 
             line-height: 1.6; color: var(--text-dark); margin: 0; padding: 0; 
-            background: var(--bg-light); overflow-x: hidden; 
+            background: var(--bg-light); 
         }
 
-        /* --- TOP BAR & NAV --- */
-        .top-bar { background: var(--primary-navy); padding: 8px 5%; display: flex; justify-content: space-between; align-items: center; min-height: 45px; }
+        /* --- 1. CATEGORY BAR (FIXED) --- */
+        .top-bar { 
+            background: var(--primary-navy); 
+            padding: 8px 5%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            min-height: 45px;
+        }
         .logo-container img { height: 30px; width: auto; display: block; }
-        .hero-banner { background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('service-banner.jpg'); background-size: cover; background-position: center 30%; height: 180px; display: flex; justify-content: center; align-items: center; color: white; text-align: center; }
-        .hero-banner h1 { font-size: 2.2rem; margin: 0; font-weight: bold; }
+        .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
+
         .nav-container { background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
-        .nav-links { display: flex; list-style: none; gap: 25px; margin: 0; padding: 15px 20px; justify-content: center; }
-        .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: bold; font-size: 1.1rem; }
+        .nav-links { display: flex; list-style: none; gap: 40px; margin: 0; padding: 15px 20px; justify-content: center; }
+        .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: bold; font-size: 1.3rem; transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent-blue); }
+
+        /* --- HERO --- */
+        .hero-banner {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('service-banner.jpg');
+            background-size: cover; background-position: center 30%; height: 250px; 
+            display: flex; justify-content: center; align-items: center; color: white; text-align: center;
+        }
+        .hero-banner h1 { font-size: 3.5rem; margin: 0; font-weight: bold; }
 
         /* --- MAIN LAYOUT --- */
         .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-        .main-section-title { color: var(--primary-navy); font-size: 1.8rem; font-weight: 900; margin-bottom: 25px; border-bottom: 3px solid var(--accent-blue); display: inline-block; }
-
-        /* --- THE GLOW BOX SYSTEM --- */
-        .glow-box {
-            background: white; padding: 35px; border-radius: 20px;
-            display: flex; flex-direction: column; justify-content: space-between;
-            transition: transform 0.3s ease; position: relative;
-            border: 3px solid transparent; height: 100%; box-sizing: border-box;
-        }
+        .service-box { background: white; padding: 45px; border-radius: 15px; border-left: 5px solid var(--accent-blue); margin-bottom: 35px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .service-box h2 { color: var(--primary-navy); font-size: 1.8rem; font-weight: 900; margin-bottom: 20px; border-bottom: 2px solid var(--accent-blue); display: inline-block; padding-bottom: 5px; }
         
-        /* SYNCED COLORS */
-        .glow-blue { border-color: var(--accent-blue); animation: blue-glow 2.5s infinite alternate; }
-        .glow-orange { border-color: var(--ai-orange); animation: orange-glow 2.5s infinite alternate; }
-        .glow-green { border-color: var(--success-green); animation: green-glow 2.5s infinite alternate; }
-        .glow-navy { border-color: var(--primary-navy); animation: navy-glow 2.5s infinite alternate; }
-
-        @keyframes blue-glow { from { box-shadow: 0 0 5px rgba(52,152,219,0.2); } to { box-shadow: 0 0 20px rgba(52,152,219,0.6); } }
-        @keyframes orange-glow { from { box-shadow: 0 0 5px rgba(243,156,18,0.2); } to { box-shadow: 0 0 20px rgba(243,156,18,0.6); } }
-        @keyframes green-glow { from { box-shadow: 0 0 5px rgba(39,174,96,0.2); } to { box-shadow: 0 0 20px rgba(39,174,96,0.6); } }
-        @keyframes navy-glow { from { box-shadow: 0 0 5px rgba(44,62,80,0.2); } to { box-shadow: 0 0 25px rgba(44,62,80,0.6); } }
-
-        /* --- CONTENT STYLES --- */
-        .step-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .step-badge { background: var(--primary-navy); color: white; padding: 6px 12px; border-radius: 5px; font-weight: 900; }
-        .step-title-text { font-size: 1.6rem; color: var(--primary-navy); margin: 0; font-weight: 900; }
+        /* 4. FONT SIZE NORMALIZATION */
         p { font-size: 1.2rem; color: #444; margin-bottom: 25px; }
 
-        /* BUTTONS SYNCED */
+        /* --- PART 1: MBTI & AI --- */
+        .step-row-desktop { display: flex; gap: 30px; margin-top: 25px; align-items: stretch; }
+        .step-col { flex: 1; display: flex; flex-direction: column; }
+        .step-a-box, .step-b-box { padding: 30px; border-radius: 15px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; background: #fff; border: 3px solid transparent; }
+        
+        .step-a-box { border-color: var(--accent-blue); box-shadow: 0 0 20px rgba(52, 152, 219, 0.3); }
+        .step-b-box { border-color: var(--ai-orange); box-shadow: 0 0 20px rgba(243, 156, 18, 0.3); }
+
+        .step-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .step-badge { background: var(--primary-navy); color: white; padding: 8px 16px; border-radius: 6px; font-weight: 900; }
+        /* 2. STEP B DARK ORANGE BADGE */
+        .step-badge-orange { background: var(--dark-orange); color: white; padding: 8px 16px; border-radius: 6px; font-weight: 900; }
+
+        /* --- PART 2: SKILLS (3. DARK NAVY SYNC) --- */
+        .skill-item { padding: 30px; border-radius: 15px; margin-bottom: 20px; border: 3px solid var(--primary-navy); box-shadow: 0 0 15px rgba(44, 62, 80, 0.1); }
+        .skill-item h3 { color: var(--primary-navy); font-size: 1.6rem; margin-top: 0; }
+
+        /* --- BUTTONS --- */
         .btn { display: inline-block; padding: 18px 45px; text-decoration: none; border-radius: 12px; font-weight: 800; font-size: 1.4rem; text-align: center; transition: 0.3s; border: none; cursor: pointer; width: 100%; box-sizing: border-box; }
         .btn-blue { background: var(--accent-blue); color: white; }
         .btn-orange { background: var(--ai-orange); color: white; }
-        .btn-green { background: var(--success-green); color: white; }
         .btn-navy { background: var(--primary-navy); color: white; }
-        .btn:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 60px; }
-
-        /* --- AI CHAT TRIGGER & WINDOW --- */
+        /* --- AI AGENT --- */
         .ai-doll-trigger { position: fixed; bottom: 20px; right: 20px; width: 90px; height: 90px; z-index: 2000; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .ai-doll-trigger img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; background: var(--warm-bg); object-fit: contain; padding: 8px; box-sizing: border-box; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .ai-doll-trigger::before { content: ''; position: absolute; width: 100%; height: 100%; background-color: var(--ai-orange); border-radius: 50%; opacity: 0.6; animation: orange-grow 2s infinite ease-out; z-index: -1; }
-        @keyframes orange-grow { 0% { transform: scale(0.8); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
-        
+        .ai-doll-trigger img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; background: var(--warm-bg); padding: 8px; box-sizing: border-box; }
         .chat-window { position: fixed; bottom: 120px; right: 20px; width: 360px; height: 500px; background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); display: none; flex-direction: column; z-index: 2100; overflow: hidden; }
-        .chat-header { background: var(--ai-gradient); color: white; padding: 18px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        .chat-header { background: var(--ai-gradient); color: white; padding: 18px; font-weight: bold; display: flex; justify-content: space-between; }
         .chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8f9fa; display: flex; flex-direction: column; gap: 10px; }
         .msg { max-width: 85%; padding: 10px 15px; border-radius: 15px; font-size: 0.95rem; }
         .msg.ai { background: white; align-self: flex-start; border: 1px solid #eee; }
-        .msg.user { background: var(--accent-blue); color: white; align-self: flex-end; }
-        .chat-input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 8px; }
-        .chat-input-area input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
-        
-        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } .btn { font-size: 1.2rem; } }
+        .chat-input-area { padding: 15px; border-top: 1px solid #eee; }
+        .chat-input-area input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 20px; outline: none; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
         <div class="logo-container"><img src="logo.png" alt="Logo"></div>
+        <div class="top-bar-links"><a href="#">FB</a><a href="#">IG</a><a href="#">YT</a></div>
     </div>
 
-    <header class="hero-banner"><h1>我們的服務</h1></header>
-    
     <nav class="nav-container">
         <ul class="nav-links">
             <li><a href="index.html">主頁</a></li>
@@ -105,114 +108,72 @@
         </ul>
     </nav>
 
+    <header class="hero-banner"><h1>我們的服務</h1></header>
+    
     <div class="container">
-        
-        <h2 class="main-section-title">1. MBTI 性格與 AI 諮詢</h2>
-        <div class="grid-2">
-            <div class="glow-box glow-blue">
-                <div>
-                    <div class="step-header">
-                        <span class="step-badge">STEP A</span>
-                        <h3 class="step-title-text">獲取性格報告</h3>
+        <section class="service-box">
+            <h2>1. MBTI 性格與 AI 諮詢</h2>
+            <div class="step-row-desktop">
+                <div class="step-col">
+                    <div class="step-a-box">
+                        <div>
+                            <div class="step-header">
+                                <span class="step-badge">STEP A</span>
+                                <h3 style="margin:0; font-size:1.6rem; color:var(--primary-navy);">獲取性格報告</h3>
+                            </div>
+                            <p>透過專業測試了解你的溝通偏好。這是精進社交技巧的重要基石。</p>
+                        </div>
+                        <a href="https://www.16personalities.com/ch" class="btn btn-blue">前往 MBTI 測試</a>
                     </div>
-                    <p>透過專業測試了解你的溝通偏好。這是精進社交技巧的重要基石。</p>
                 </div>
-                <a href="https://www.16personalities.com/ch" class="btn btn-blue">前往 MBTI 測試</a>
+                <div class="step-col">
+                    <div class="step-b-box">
+                        <div>
+                            <div class="step-header">
+                                <span class="step-badge-orange">STEP B</span>
+                                <h3 style="margin:0; font-size:1.6rem; color:var(--primary-navy);">AI 小S 實戰挑戰</h3>
+                            </div>
+                            <p>在 30 秒模擬對話中磨練臨場反應。點擊右下角頭像開始挑戰。</p>
+                        </div>
+                        <div class="btn btn-orange" style="cursor:default;">立即點擊右下角進行模擬 ↑</div>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <div class="glow-box glow-orange">
-                <div>
-                    <div class="step-header">
-                        <span class="step-badge" style="background:var(--success-green)">STEP B</span>
-                        <h3 class="step-title-text">AI 小S 實戰挑戰</h3>
-                    </div>
-                    <p>在 30 秒模擬對話中磨練你的臨場反應。點擊右下角頭像開始挑戰。</p>
-                </div>
-                <div class="btn btn-orange" style="cursor:default;">立即點擊右下角進行模擬 ↑</div>
-            </div>
-        </div>
-
-        <h2 class="main-section-title">2. 溝通技巧核心課程</h2>
-        <div class="grid-2">
-            <div class="glow-box glow-green">
-                <div>
-                    <div class="step-header">
-                        <h3 class="step-title-text">🧠 軟實力 (Soft Skills)</h3>
-                    </div>
-                    <p>建立同理心氛圍。透過情緒覺察，讓你的交流更具溫度與深度。</p>
-                </div>
-                <a href="#" class="btn btn-green">查看課程大綱</a>
-            </div>
-
-            <div class="glow-box glow-navy">
-                <div>
-                    <div class="step-header">
-                        <h3 class="step-title-text">🛠️ 硬實力 (Hard Skills)</h3>
-                    </div>
-                    <p>掌握 OSCAR 表達模型。在壓力下依然能邏輯清晰地傳遞關鍵資訊。</p>
-                </div>
+        <section class="service-box">
+            <h2>2. 溝通技巧核心課程</h2>
+            <div class="skill-item">
+                <h3>🧠 軟實力 (Soft Skills)</h3>
+                <p>專注於情緒覺察。建立同理心氛圍，讓你的話語更具溫度與影響力。</p>
                 <a href="#" class="btn btn-navy">查看課程大綱</a>
             </div>
-        </div>
-
-        <h2 class="main-section-title">3. 1對1 深度諮詢</h2>
-        <div class="glow-box glow-navy" style="text-align: center; margin-bottom: 60px;">
-            <div style="width: 100%;">
-                <h3 class="step-title-text" style="font-size: 2.2rem; margin-bottom: 20px;">專家級私人陪跑服務</h3>
-                <p style="max-width: 800px; margin: 0 auto 40px auto;">
-                    針對職場談判、情感化解等高難度場景。透過話術微調與深度模擬演練，<br>
-                    確保你在關鍵時刻展現最強溝通魅力，從容應對各種挑戰。
-                </p>
+            <div class="skill-item">
+                <h3>🛠️ 硬實力 (Hard Skills)</h3>
+                <p>專注於邏輯框架。掌握 OSCAR 表達模型，在壓力下依然能清晰陳述觀點。</p>
+                <a href="#" class="btn btn-navy">查看課程大綱</a>
             </div>
-            <a href="#" class="btn btn-navy" style="width: auto; align-self: center; padding: 25px 100px; font-size: 1.8rem;">立即預約專家諮詢</a>
-        </div>
+        </section>
 
-        <div style="text-align: center; margin-bottom: 80px;">
-            <a href="index.html" style="color: var(--primary-navy); text-decoration: none; font-weight: bold; font-size: 1.2rem;">← 返回主頁</a>
-        </div>
+        <section class="service-box" style="text-align: center;">
+            <h2>3. 1對1 深度諮詢</h2>
+            <p style="max-width: 800px; margin: 0 auto 30px auto;">針對職場談判、情感化解等高難度場景。提供專家級陪跑服務，確保你在關鍵時刻展現最佳魅力。</p>
+            <a href="#" class="btn btn-navy" style="width: auto; padding: 25px 80px; font-size: 1.8rem;">預約專家諮詢</a>
+        </section>
     </div>
 
     <div class="ai-doll-trigger" id="openChat"><img src="service-s.png" alt="S"></div>
-
     <div class="chat-window" id="chatWindow">
-        <div class="chat-header">
-            <div>小S 顧問 | 實戰挑戰</div>
-            <span id="closeChat" style="cursor:pointer; font-size: 24px;">✕</span>
-        </div>
-        <div id="chatMsgs" class="chat-messages">
-            <div class="msg ai">你好！我是 <span style="color:var(--ai-orange); font-weight:900;">小S</span>。準備好進行 30 秒實戰挑戰了嗎？請選擇模式：</div>
-            <div id="modeSelectors" style="text-align:center; padding:10px;">
-                <button onclick="startChallenge('職場拒絕')" style="background:white; border:2px solid var(--accent-blue); color:var(--accent-blue); padding:8px 15px; border-radius:20px; cursor:pointer; font-weight:bold; margin:5px;">職場拒絕</button>
-                <button onclick="startChallenge('化解衝突')" style="background:white; border:2px solid var(--accent-blue); color:var(--accent-blue); padding:8px 15px; border-radius:20px; cursor:pointer; font-weight:bold; margin:5px;">化解衝突</button>
-            </div>
-        </div>
-        <div class="chat-input-area">
-            <input type="text" id="userInput" placeholder="請先選擇模式..." disabled>
-        </div>
+        <div class="chat-header"><span>小S 顧問</span><span id="closeChat" style="cursor:pointer;">✕</span></div>
+        <div id="chatMsgs" class="chat-messages"><div class="msg ai">準備好進行 30 秒實戰挑戰了嗎？</div></div>
+        <div class="chat-input-area"><input type="text" placeholder="輸入回覆..."></div>
     </div>
 
     <script>
         const chatWindow = document.getElementById('chatWindow');
         const dollTrigger = document.getElementById('openChat');
-        const msgs = document.getElementById('chatMsgs');
-        const input = document.getElementById('userInput');
-
         dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
         document.getElementById('closeChat').onclick = () => { chatWindow.style.display = 'none'; dollTrigger.style.display = 'flex'; };
-
-        function addMsg(text, type) {
-            const d = document.createElement('div');
-            d.className = `msg ${type}`;
-            d.innerHTML = text;
-            msgs.appendChild(d);
-            msgs.scrollTop = msgs.scrollHeight;
-        }
-
-        function startChallenge(mode) {
-            document.getElementById('modeSelectors').style.display = 'none';
-            input.disabled = false; input.placeholder = "請輸入你的回覆...";
-            addMsg(`模式：${mode}。<b>小S：</b>主管突然要你週末加班，你該怎麼專業地拒絕？`, 'ai');
-        }
     </script>
 </body>
 </html>
