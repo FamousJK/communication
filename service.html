@@ -8,7 +8,6 @@
         :root {
             --primary-navy: #2c3e50;
             --accent-blue: #3498db;
-            --soft-blue: #f0f7ff;
             --success-green: #27ae60;
             --ai-orange: #f39c12;
             --ai-gradient: linear-gradient(135deg, #3498db, #27ae60);
@@ -23,178 +22,86 @@
             background: var(--bg-light); overflow-x: hidden; 
         }
 
-        /* --- TOP BAR --- */
-        .top-bar { 
-            background: var(--primary-navy); 
-            padding: 8px 5%; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            min-height: 45px;
-        }
+        /* --- HERO & NAV (Standard) --- */
+        .top-bar { background: var(--primary-navy); padding: 8px 5%; display: flex; justify-content: space-between; align-items: center; min-height: 45px; }
         .logo-container img { height: 30px; width: auto; display: block; }
-        .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
-
-        /* --- HERO BANNER --- */
-        .hero-banner {
-            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('service-banner.jpg');
-            background-size: cover; 
-            background-position: center 30%; 
-            height: 180px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            color: white;
-            text-align: center;
-        }
-        .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; font-weight: bold; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
-
-        /* --- NAVIGATION --- */
+        .hero-banner { background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('service-banner.jpg'); background-size: cover; background-position: center 30%; height: 180px; display: flex; justify-content: center; align-items: center; color: white; text-align: center; }
+        .hero-banner h1 { font-size: 2.2rem; margin: 0; font-weight: bold; }
         .nav-container { background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
         .nav-links { display: flex; list-style: none; gap: 25px; margin: 0; padding: 15px 20px; justify-content: center; }
-        .nav-links li { position: relative; }
-        .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: bold; font-size: 1.1rem; white-space: nowrap; display: block; transition: 0.3s; }
-        .nav-links a:hover, .nav-links a.active { color: var(--accent-blue); }
-
-        .dropdown-content {
-            display: none; position: absolute; background-color: white; min-width: 160px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.1); z-index: 1001; border-radius: 8px; 
-            top: 100%; left: 50%; transform: translateX(-50%);
-            border-top: 3px solid var(--accent-blue);
-        }
-        .dropdown-content a { color: var(--primary-navy) !important; padding: 12px 16px; display: block; font-size: 1rem !important; font-weight: normal; text-align: center; }
+        .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: bold; font-size: 1.1rem; }
 
         /* --- MAIN LAYOUT --- */
-        .container { max-width: 1000px; margin: 30px auto; padding: 0 15px; }
-        .service-box { 
-            background: white; 
-            padding: 25px; 
-            border-radius: 15px; 
-            border-left: 5px solid var(--accent-blue); 
-            margin-bottom: 35px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
-        }
-        .service-box h2 { 
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        
+        /* Main Section Titles */
+        .main-section-title { 
             color: var(--primary-navy); 
-            font-size: 1.4rem; 
+            font-size: 1.8rem; 
             font-weight: 900; 
-            margin-bottom: 20px; 
-            border-bottom: 2px solid var(--accent-blue); 
-            display: inline-block; 
-            padding-bottom: 5px;
+            margin-bottom: 25px; 
+            border-bottom: 3px solid var(--accent-blue); 
+            display: inline-block;
         }
 
-        /* --- DESKTOP PROFESSIONAL ENHANCEMENTS --- */
-        @media (min-width: 769px) {
-            body { background: radial-gradient(circle at top right, #ffffff, #eef2f3); }
-            .hero-banner { height: 250px; }
-            .hero-banner h1 { font-size: 3.5rem; }
-            .nav-links { gap: 40px; }
-            .nav-links a { font-size: 1.3rem; }
-            .dropdown:hover .dropdown-content { display: block; }
-
-            .container { max-width: 1200px; padding: 20px; }
-            .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 35px; }
-            .full-width { grid-column: 1 / span 2; }
-            
-            .service-box { padding: 45px; border: 1px solid rgba(0,0,0,0.05); }
-            .service-box h2 { font-size: 1.8rem; } 
-            .service-box p { font-size: 1.2rem; }  
-            .step-title-text { font-size: 1.6rem !important; } 
-            .skill-item h4 { font-size: 1.6rem !important; }
-
-            /* Desktop Buttons */
-            .btn { font-size: 1.4rem !important; padding: 18px 45px !important; border-radius: 12px !important; }
-
-            .step-row-desktop { display: flex; gap: 30px; margin-top: 25px; align-items: stretch; }
-            .step-col { flex: 1; display: flex; flex-direction: column; }
-            
-            /* Symmetrical Step Boxes with Glow */
-            .step-a-box, .step-b-box { 
-                padding: 30px; 
-                border-radius: 15px; 
-                height: 100%; 
-                display: flex; 
-                flex-direction: column; 
-                justify-content: space-between; 
-                box-sizing: border-box;
-                background: #fff;
-                position: relative;
-                transition: transform 0.3s;
-            }
-
-            /* Step A Green Glow */
-            .step-a-box { 
-                border: 2.5px solid var(--success-green); 
-                box-shadow: 0 0 15px rgba(39, 174, 96, 0.1);
-                animation: green-glow-border 2s infinite alternate ease-in-out;
-            }
-            
-            /* Step B Orange Glow */
-            .step-b-box { 
-                border: 2.5px solid var(--ai-orange); 
-                box-shadow: 0 0 15px rgba(243, 156, 18, 0.1);
-                animation: orange-glow-border 2s infinite alternate ease-in-out;
-            }
-
-            @keyframes green-glow-border {
-                from { box-shadow: 0 0 5px rgba(39, 174, 96, 0.2); border-color: rgba(39, 174, 96, 0.5); }
-                to { box-shadow: 0 0 20px rgba(39, 174, 96, 0.6); border-color: rgba(39, 174, 96, 1); }
-            }
-
-            @keyframes orange-glow-border {
-                from { box-shadow: 0 0 5px rgba(243, 156, 18, 0.2); border-color: rgba(243, 156, 18, 0.5); }
-                to { box-shadow: 0 0 20px rgba(243, 156, 18, 0.6); border-color: rgba(243, 156, 18, 1); }
-            }
+        /* --- THE GLOW BOX SYSTEM --- */
+        .glow-box {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease;
+            position: relative;
+            border: 2.5px solid transparent;
+            height: 100%;
+            box-sizing: border-box;
         }
 
-        /* --- SHARED COMPONENTS --- */
-        .step-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
-        .step-badge { background-color: var(--primary-navy); color: white; padding: 8px 16px; border-radius: 6px; font-weight: 900; box-shadow: 4px 4px 0px var(--accent-blue); }
-        .step-badge-b { background-color: var(--success-green); color: white; padding: 8px 16px; border-radius: 6px; font-weight: 900; box-shadow: 4px 4px 0px var(--primary-navy); }
-        .step-title-text { margin: 0; color: var(--primary-navy); font-weight: 900; font-size: 1.3rem; }
+        /* Color Variations & Animations */
+        .glow-green { border-color: var(--success-green); animation: green-glow 2.5s infinite alternate; }
+        .glow-orange { border-color: var(--ai-orange); animation: orange-glow 2.5s infinite alternate; }
+        .glow-blue { border-color: var(--accent-blue); animation: blue-glow 2.5s infinite alternate; }
+        .glow-navy { border-color: var(--primary-navy); animation: navy-glow 2.5s infinite alternate; }
 
-        .glow-s { color: var(--ai-orange); text-shadow: 0 0 8px rgba(243, 156, 18, 0.3); font-weight: 900; }
+        @keyframes green-glow { from { box-shadow: 0 0 5px rgba(39,174,96,0.2); } to { box-shadow: 0 0 20px rgba(39,174,96,0.5); } }
+        @keyframes orange-glow { from { box-shadow: 0 0 5px rgba(243,156,18,0.2); } to { box-shadow: 0 0 20px rgba(243,156,18,0.5); } }
+        @keyframes blue-glow { from { box-shadow: 0 0 5px rgba(52,152,219,0.2); } to { box-shadow: 0 0 20px rgba(52,152,219,0.5); } }
+        @keyframes navy-glow { from { box-shadow: 0 0 5px rgba(44,62,80,0.2); } to { box-shadow: 0 0 20px rgba(44,62,80,0.5); } }
 
-        .skill-item { background: #fcfcfc; padding: 20px; border-radius: 12px; border: 1.5px solid #eee; margin-bottom: 15px; }
-        .skill-item h4 { color: var(--accent-blue); font-size: 1.3rem; font-weight: 900; margin: 0 0 8px 0; }
+        /* --- CONTENT STYLES --- */
+        .step-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .step-badge { background: var(--primary-navy); color: white; padding: 6px 12px; border-radius: 5px; font-weight: 900; }
+        .step-title-text { font-size: 1.6rem; color: var(--primary-navy); margin: 0; font-weight: 900; }
+        
+        p { font-size: 1.2rem; color: #555; margin-bottom: 25px; }
 
-        .btn { display: inline-block; padding: 15px 35px; text-decoration: none; border-radius: 8px; font-weight: 800; font-size: 1.1rem; text-align: center; transition: 0.3s; width: 100%; box-sizing: border-box; border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .btn:hover { opacity: 0.9; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
+        /* Buttons */
+        .btn { 
+            display: inline-block; padding: 18px 45px; text-decoration: none; border-radius: 12px; 
+            font-weight: 800; font-size: 1.4rem; text-align: center; transition: 0.3s; 
+            border: none; cursor: pointer; width: 100%; box-sizing: border-box;
+        }
+        .btn-green { background: var(--success-green); color: white; }
+        .btn-orange { background: var(--ai-orange); color: white; }
+        .btn-blue { background: var(--accent-blue); color: white; }
+        .btn-navy { background: var(--primary-navy); color: white; }
+        .btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
 
-        .back-btn-container { text-align: center; margin: 60px 0; }
-        .back-btn { display: inline-block; padding: 14px 50px; background: var(--primary-navy); color: white; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 1.2rem; transition: 0.3s; }
+        /* Grid Layouts */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 60px; }
 
-        /* MOBILE NAV */
         @media (max-width: 768px) {
-            .nav-container { overflow-x: auto; }
-            .nav-links { justify-content: flex-start; padding-right: 50px; }
-            .dropdown.mobile-open .dropdown-content { display: block; position: static; transform: none; box-shadow: none; background: #fcfcfc; margin-top: 5px; }
-            .step-a-box, .step-b-box { padding: 15px; border-bottom: 1px solid #eee; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .hero-banner h1 { font-size: 1.8rem; }
         }
-
-        /* AI CHAT ASSETS */
-        .ai-doll-trigger { position: fixed; bottom: 20px; right: 20px; width: 90px; height: 90px; z-index: 2000; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .ai-doll-trigger img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; background: var(--warm-bg); object-fit: contain; padding: 8px; box-sizing: border-box; }
-        .ai-doll-trigger::before { content: ''; position: absolute; width: 100%; height: 100%; background-color: var(--ai-orange); border-radius: 50%; opacity: 0.6; animation: orange-grow 2s infinite ease-out; z-index: -1; }
-        @keyframes orange-grow { 0% { transform: scale(0.8); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
-        .chat-window { position: fixed; bottom: 120px; right: 20px; width: 360px; height: 70vh; max-height: 550px; background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); display: none; flex-direction: column; z-index: 2100; overflow: hidden; }
-        .chat-header { background: var(--ai-gradient); color: white; padding: 18px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
-        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8f9fa; display: flex; flex-direction: column; gap: 10px; }
-        .msg { max-width: 85%; padding: 10px 15px; border-radius: 15px; font-size: 0.95rem; }
-        .msg.ai { background: white; align-self: flex-start; }
-        .msg.user { background: var(--accent-blue); color: white; align-self: flex-end; }
-        .chat-input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 8px; }
-        .chat-input-area input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
-        .send-btn { background: var(--accent-blue); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
-        .report-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background:white; z-index:100; display:none; flex-direction:column; align-items:center; justify-content:center; padding:40px; text-align:center; }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
         <div class="logo-container"><img src="logo.png" alt="Logo"></div>
-        <div class="top-bar-links"><a href="#">FB</a><a href="#">IG</a><a href="#">YT</a></div>
     </div>
 
     <header class="hero-banner"><h1>我們的服務</h1></header>
@@ -202,136 +109,75 @@
     <nav class="nav-container">
         <ul class="nav-links">
             <li><a href="index.html">主頁</a></li>
-            <li class="dropdown">
-                <a href="#" class="trigger active">關於我們 ▼</a>
-                <div class="dropdown-content">
-                    <a href="about.html">我們的承諾</a>
-                    <a href="service.html">我們的服務</a>
-                </div>
-            </li>
+            <li><a href="service.html" style="color:var(--accent-blue)">我們的服務</a></li>
             <li><a href="issue.html">溝通問題</a></li>
             <li><a href="methods.html">交流技巧</a></li>
-            <li><a href="#">學員見證</a></li>
-            <li><a href="#">聯絡我們</a></li>
         </ul>
     </nav>
 
     <div class="container">
-        <div class="services-grid">
-            <section class="service-box full-width">
-                <h2>1. MBTI 性格與 AI 諮詢</h2>
-                <div class="step-row-desktop">
-                    <div class="step-col">
-                        <div class="step-a-box">
-                            <div>
-                                <div class="step-header">
-                                    <span class="step-badge">STEP A</span>
-                                    <h3 class="step-title-text">獲取性格報告</h3>
-                                </div>
-                                <p>透過 16Personalities 專業測試，深度挖掘你的溝通偏好。這是精進社交技巧的重要基石。</p>
-                            </div>
-                            <a href="https://www.16personalities.com/ch" target="_blank" style="background-color: var(--success-green); color: white; margin-top: 20px;" class="btn">前往 MBTI 測試</a>
-                        </div>
+        
+        <h2 class="main-section-title">1. MBTI 性格與 AI 諮詢</h2>
+        <div class="grid-2">
+            <div class="glow-box glow-green">
+                <div>
+                    <div class="step-header">
+                        <span class="step-badge">STEP A</span>
+                        <h3 class="step-title-text">獲取性格報告</h3>
                     </div>
+                    <p>透過專業測試了解你的溝通偏好與潛在盲點。這是邁向有效交流的第一步。</p>
+                </div>
+                <a href="https://www.16personalities.com/ch" class="btn btn-green">前往 MBTI 測試</a>
+            </div>
 
-                    <div class="step-col">
-                        <div class="step-b-box">
-                            <div>
-                                <div class="step-header">
-                                    <span class="step-badge-b">STEP B</span>
-                                    <h3 class="step-title-text">AI <span class="glow-s">小S</span> 實戰挑戰</h3>
-                                </div>
-                                <p>結合你的性格報告，點擊右下角頭像開始 30 秒模擬對話。在真實感十足的壓力場景下，快速提升應變速度。</p>
-                            </div>
-                            <div style="text-align: center; color: var(--ai-orange); font-weight: bold; padding: 10px 0; font-size: 1.1rem;">
-                                立即點擊右下角進行模擬 ↑
-                            </div>
-                        </div>
+            <div class="glow-box glow-orange">
+                <div>
+                    <div class="step-header">
+                        <span class="step-badge" style="background:var(--success-green)">STEP B</span>
+                        <h3 class="step-title-text">AI 小S 實戰挑戰</h3>
                     </div>
+                    <p>在 30 秒模擬對話中磨練你的臨場反應。在實戰中優化同理心與溝通效率。</p>
                 </div>
-            </section>
-
-            <section class="service-box" style="border-left-color: var(--success-green);">
-                <h2>2. 溝通技巧核心課程</h2>
-                <div class="skill-item">
-                    <h4>🧠 軟實力 (Soft Skills)</h4>
-                    <p>專注於情緒覺察。建立同理心氛圍，讓你的交流更具溫度。</p>
-                </div>
-                <div class="skill-item">
-                    <h4>🛠️ 硬實力 (Hard Skills)</h4>
-                    <p>專注於邏輯框架。掌握 OSCAR 表達模型，精準傳遞關鍵資訊。</p>
-                </div>
-            </section>
-
-            <section class="service-box">
-                <h2>3. 1對1 深度諮詢</h2>
-                <p>針對高難度場景提供專家級陪跑服務，包含模擬對話與話術微調。確保你在關鍵時刻展現最佳魅力。</p>
-                <div style="margin-top: 40px;">
-                    <a href="#" class="btn" style="background: var(--primary-navy); color: white;">預約專家諮詢</a>
-                </div>
-            </section>
-        </div>
-
-        <div class="back-btn-container">
-            <a href="index.html" class="back-btn">← 返回主頁</a>
-        </div>
-    </div>
-
-    <div class="ai-doll-trigger" id="openChat"><img src="service-s.png" alt="S"></div>
-    <div class="chat-window" id="chatWindow">
-        <div class="chat-header">
-            <div>小S 顧問</div>
-            <div id="timer" style="display:none; font-family:monospace; background:rgba(0,0,0,0.2); padding:2px 8px; border-radius:10px;">00:30</div>
-            <span id="closeChat" style="cursor:pointer; font-size: 24px;">✕</span>
-        </div>
-        <div id="chatMsgs" class="chat-messages">
-            <div class="msg ai">你好！我是 <span class="glow-s">小S</span>。請選擇模式開始 30 秒實戰挑戰：</div>
-            <div id="modeSelectors" style="text-align:center; padding:10px;">
-                <button onclick="startChallenge('職場拒絕')" style="background:white; border:2px solid var(--accent-blue); color:var(--accent-blue); padding:8px 15px; border-radius:20px; cursor:pointer; font-weight:bold; margin:5px;">職場拒絕</button>
-                <button onclick="startChallenge('化解衝突')" style="background:white; border:2px solid var(--accent-blue); color:var(--accent-blue); padding:8px 15px; border-radius:20px; cursor:pointer; font-weight:bold; margin:5px;">化解衝突</button>
+                <div class="btn btn-orange" style="cursor:default;">立即點擊右下角進行模擬 ↑</div>
             </div>
         </div>
-        <div class="chat-input-area">
-            <input type="text" id="userInput" placeholder="請先選擇模式..." disabled>
-            <button id="sendBtn" class="send-btn" disabled onclick="sendMessage()">➤</button>
+
+        <h2 class="main-section-title">2. 溝通技巧核心課程</h2>
+        <div class="grid-2">
+            <div class="glow-box glow-blue">
+                <div>
+                    <div class="step-header">
+                        <h3 class="step-title-text">🧠 軟實力 (Soft Skills)</h3>
+                    </div>
+                    <p>專注於情緒覺察。建立同理心氛圍，讓你的話語更具溫度與影響力。</p>
+                </div>
+                <a href="#" class="btn btn-blue">查看課程大綱</a>
+            </div>
+
+            <div class="glow-box glow-navy">
+                <div>
+                    <div class="step-header">
+                        <h3 class="step-title-text">🛠️ 硬實力 (Hard Skills)</h3>
+                    </div>
+                    <p>專注於邏輯框架。掌握 OSCAR 表達模型，在壓力下依然能清晰陳述觀點。</p>
+                </div>
+                <a href="#" class="btn btn-navy">查看課程大綱</a>
+            </div>
         </div>
-        <div class="report-overlay" id="reportOverlay">
-            <h2 style="color:var(--accent-blue);">挑戰結束！</h2>
-            <button class="back-btn" onclick="location.reload()">重新挑戰</button>
+
+        <h2 class="main-section-title">3. 1對1 深度諮詢</h2>
+        <div class="glow-box glow-navy" style="margin-bottom: 60px;">
+            <div>
+                <h3 class="step-title-text">專家級私人陪跑服務</h3>
+                <p style="margin-top:15px;">針對職場談判、情感化解等高難度場景。透過話術微調與深度模擬演練，確保你在關鍵時刻不掉鏈子。</p>
+            </div>
+            <a href="#" class="btn btn-navy" style="width: auto; align-self: center; padding: 18px 80px;">預約專家諮詢</a>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 80px;">
+            <a href="index.html" style="color: var(--primary-navy); text-decoration: none; font-weight: bold; font-size: 1.2rem;">← 返回主頁</a>
         </div>
     </div>
 
-    <script>
-        document.querySelectorAll('.trigger').forEach(el => {
-            el.addEventListener('click', function(e) {
-                if (window.innerWidth <= 768) { e.preventDefault(); this.parentElement.classList.toggle('mobile-open'); }
-            });
-        });
-        const chatWindow = document.getElementById('chatWindow');
-        const dollTrigger = document.getElementById('openChat');
-        const msgs = document.getElementById('chatMsgs');
-        const input = document.getElementById('userInput');
-        const btn = document.getElementById('sendBtn');
-        const timerTag = document.getElementById('timer');
-        let timeLeft = 30;
-        let active = false;
-        dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
-        document.getElementById('closeChat').onclick = () => { chatWindow.style.display = 'none'; dollTrigger.style.display = 'flex'; };
-        function addMsg(text, type) { const d = document.createElement('div'); d.className = `msg ${type}`; d.innerHTML = text; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; }
-        function startChallenge(mode) {
-            document.getElementById('modeSelectors').style.display = 'none';
-            input.disabled = false; btn.disabled = false; input.placeholder = "請輸入回覆...";
-            timerTag.style.display = 'block'; active = true;
-            const scenarios = { '職場拒絕': '主管突然要你週末加班，但你已有私人行程，你會怎麼回應？', '化解衝突': '同事當眾質疑你的提案，你該如何保持專業並回應？' };
-            addMsg(`模式：${mode}。<b>小S：</b>${scenarios[mode]}`, 'ai');
-            const timer = setInterval(() => { timeLeft--; timerTag.innerText = `00:${timeLeft < 10 ? '0'+timeLeft : timeLeft}`; if (timeLeft <= 0) { clearInterval(timer); active = false; document.getElementById('reportOverlay').style.display = 'flex'; } }, 1000);
-        }
-        function sendMessage() {
-            const val = input.value.trim(); if (!val || !active) return;
-            addMsg(val, 'user'); input.value = '';
-            setTimeout(() => { addMsg("不錯的嘗試！很有個人特色。", 'ai'); }, 1000);
-        }
-        input.onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
-    </script>
 </body>
 </html>
