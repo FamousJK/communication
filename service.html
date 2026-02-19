@@ -35,22 +35,26 @@
         .nav-links { display: flex; list-style: none; gap: 20px; margin: 0; padding: 15px; justify-content: center; }
         .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: 800; font-size: 1.1rem; }
 
-        /* --- Main Sections --- */
+        /* --- Content Layout --- */
         .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
         .service-box {
             background: white; padding: 25px; border-radius: 18px;
             border-left: 6px solid var(--accent-blue); margin-bottom: 35px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.06);
         }
-        .service-box h2 { color: var(--primary-navy); font-size: 1.8rem; font-weight: 900; margin-bottom: 20px; border-bottom: 3px solid var(--accent-blue); display: inline-block; }
+        .service-box h2 { color: var(--primary-navy); font-size: 1.8rem; font-weight: 900; margin-bottom: 25px; border-bottom: 3px solid var(--accent-blue); display: inline-block; }
+
+        /* Step Badge Styles (RESTORED) */
+        .step-header { display: flex; align-items: center; gap: 15px; margin-top: 20px; margin-bottom: 15px; }
+        .step-badge { background-color: var(--primary-navy); color: white; padding: 6px 16px; border-radius: 4px; font-size: 1.1rem; font-weight: 900; box-shadow: 4px 4px 0px var(--accent-blue); }
+        .step-title-text { margin: 0; color: var(--primary-navy); font-size: 1.3rem; font-weight: 900; }
 
         .skill-item { background: #fcfcfc; padding: 20px; border-radius: 15px; border: 1.5px solid #eee; margin-bottom: 15px; }
         .skill-item h4 { color: var(--accent-blue); font-size: 1.4rem; font-weight: 900; margin: 0 0 10px 0; }
 
-        .btn { display: inline-block; padding: 15px 35px; text-decoration: none; border-radius: 10px; font-weight: 800; font-size: 1.1rem; text-align: center; border: none; cursor: pointer; transition: 0.3s; }
-        .btn-mbti { background-color: var(--accent-blue); color: white; }
-        .btn-hero { background: var(--ai-gradient); color: white; width: 100%; box-sizing: border-box; }
-        .btn:hover { transform: scale(1.02); }
+        .btn { display: inline-block; padding: 15px 35px; text-decoration: none; border-radius: 10px; font-weight: 800; font-size: 1.1rem; text-align: center; border: none; cursor: pointer; transition: 0.3s; width: 100%; box-sizing: border-box; }
+        .btn-mbti { background-color: var(--accent-blue); color: white; margin-bottom: 10px; }
+        .btn-hero { background: var(--ai-gradient); color: white; }
 
         /* --- AI Agent UI --- */
         .ai-doll-trigger { position: fixed; bottom: 20px; right: 20px; width: 80px; height: 80px; z-index: 2000; cursor: pointer; }
@@ -112,25 +116,38 @@
     <div class="container">
         <section class="service-box">
             <h2>1. MBTI 性格與 AI 諮詢</h2>
-            <p>了解性格底色是溝通的第一步。我們結合專業評估與 AI 技術，為您提供即時建議。</p>
+            <p>了解性格底色是溝通的第一步。我們結合專業評估與 AI 技術。</p>
+            
+            <div class="step-header">
+                <span class="step-badge">STEP A</span>
+                <h3 class="step-title-text">獲取你的性格報告</h3>
+            </div>
             <a href="https://www.16personalities.com/ch" target="_blank" class="btn btn-mbti">前往 MBTI 測試</a>
+
+            <div style="background: var(--soft-blue); padding: 20px; border-radius: 15px; margin-top: 25px; border: 2px solid var(--accent-blue);">
+                <div class="step-header" style="margin-top:0;">
+                    <span class="step-badge" style="background:var(--success-green); box-shadow: 4px 4px 0px var(--primary-navy);">STEP B</span>
+                    <h3 class="step-title-text">AI 顧問「小S」對話</h3>
+                </div>
+                <p>點擊右下角的小S頭像，輸入您的結果，讓她為您分析策略。</p>
+            </div>
         </section>
 
         <section class="service-box" style="border-left-color: var(--success-green);">
             <h2>2. 溝通技巧核心課程</h2>
             <div class="skill-item">
                 <h4>🧠 軟實力 (Soft Skills)</h4>
-                <p>專注於情緒覺察與心理邊界。學會建立同理心氛圍，解決內在溝通恐懼。</p>
+                <p>專注於情緒覺察與心理邊界。學會建立同理心氛圍。</p>
             </div>
             <div class="skill-item">
                 <h4>🛠️ 硬實力 (Hard Skills)</h4>
-                <p>專注於邏輯框架與提問技術。掌握 OSCAR 表達模型與高效提問術。</p>
+                <p>專注於邏輯框架與提問技術。掌握 OSCAR 表達模型。</p>
             </div>
         </section>
 
         <section class="service-box">
             <h2>3. 客製化 1對1 深度諮詢</h2>
-            <p>針對高難度溝通場景（如商務談判、情感告白、職場衝突），提供專家級的陪跑服務。</p>
+            <p>針對高難度溝通場景，提供專家級的陪跑服務。</p>
             <a href="#" class="btn btn-hero" style="background: var(--primary-navy); color: white;">預約深度諮詢</a>
         </section>
     </div>
@@ -147,7 +164,7 @@
         </div>
         <div id="chatMsgs" class="chat-messages">
             <div class="msg ai">
-                你好！我是小S。點選模式開啟 30 秒實戰：
+                你好！我是小S。點選下方模式開啟 30 秒實戰：
                 <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:15px;" id="modeSelector">
                     <button class="mode-btn" onclick="initTest('👦 冷酷男孩')" style="background:white; border:2px solid var(--accent-blue); padding:8px 12px; border-radius:12px; font-weight:800; color:var(--accent-blue); cursor:pointer;">👦 冷酷男孩</button>
                     <button class="mode-btn" onclick="initTest('😡 憤怒主管')" style="background:white; border:2px solid var(--accent-blue); padding:8px 12px; border-radius:12px; font-weight:800; color:var(--accent-blue); cursor:pointer;">😡 憤怒主管</button>
@@ -162,9 +179,9 @@
         <div class="assessment-overlay" id="reportView">
             <h2>測驗結束！</h2>
             <div class="score-box">8.5/10</div>
-            <p>輸入 Email 獲取完整深度分析報告</p>
+            <p>輸入 Email 獲取完整 1,000 字分析報告</p>
             <input type="email" id="userEmail" placeholder="your@email.com">
-            <button class="btn" style="background:var(--ai-gradient); color:white; width:100%; max-width:300px;" onclick="window.location.reload()">送出並關閉</button>
+            <button class="btn btn-hero" onclick="window.location.reload()">送出並關閉</button>
         </div>
     </div>
 
