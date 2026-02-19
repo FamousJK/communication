@@ -17,29 +17,58 @@
 
         body { font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; line-height: 1.6; color: var(--text-dark); margin: 0; padding: 0; background: var(--bg-light); }
 
-        /* --- NAVIGATION & HERO (SYNCED POSITIONS) --- */
-        .top-bar { background: var(--primary-navy); padding: 8px 5%; display: flex; justify-content: space-between; align-items: center; }
-        .logo-container img { height: 30px; }
+        /* --- 1. TOP BAR (Restored) --- */
+        .top-bar { background: var(--primary-navy); padding: 8px 5%; display: flex; justify-content: space-between; align-items: center; min-height: 45px; }
+        .logo-container img { height: 30px; width: auto; display: block; }
         .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
+        /* --- 2. HERO BANNER --- */
         .hero-banner {
             background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('service-banner.jpg');
-            background-size: cover; background-position: center; height: 180px; 
-            display: flex; justify-content: center; align-items: center; color: white;
+            background-size: cover; background-position: center 35%; height: 180px; 
+            display: flex; justify-content: center; align-items: center; color: white; text-align: center;
         }
-        .hero-banner h1 { font-size: 2.2rem; font-weight: bold; }
+        .hero-banner h1 { font-size: 2.2rem; margin: 0; font-weight: bold; }
 
+        /* --- 3. CATEGORY BAR (Centered Navigation - Below Banner) --- */
         .nav-container { background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
         .nav-links { display: flex; list-style: none; gap: 25px; margin: 0; padding: 15px 20px; justify-content: center; }
-        .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: bold; font-size: 1.1rem; }
+        .nav-links li { position: relative; }
+        .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: bold; font-size: 1.1rem; white-space: nowrap; display: block; transition: 0.3s; }
         .nav-links a:hover, .nav-links a.active { color: var(--accent-blue); }
+        
+        /* Dropdown Style */
+        .dropdown-content {
+            display: none; position: absolute; background: white; min-width: 160px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); 
+            z-index: 1001; border-radius: 8px; top: 100%; left: 50%; transform: translateX(-50%); border-top: 3px solid var(--accent-blue);
+        }
+        .dropdown-content a { color: var(--primary-navy) !important; padding: 12px 16px; display: block; font-size: 1rem !important; font-weight: normal; text-align: center; border-bottom: 1px solid #eee; }
+        .dropdown:hover .dropdown-content { display: block; }
 
+        /* --- 4. MAIN CONTENT & LARGE FONTS --- */
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
         .service-box { background: white; padding: 45px; border-radius: 15px; border-left: 5px solid var(--accent-blue); margin-bottom: 35px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .service-box h2 { color: var(--primary-navy); font-size: 1.8rem; border-bottom: 2px solid var(--accent-blue); display: inline-block; padding-bottom: 5px; }
-        p { font-size: 1.2rem; line-height: 1.7; color: #555; }
+        .service-box h2 { color: var(--primary-navy); font-size: 1.8rem; font-weight: 900; margin-bottom: 20px; border-bottom: 2px solid var(--accent-blue); display: inline-block; padding-bottom: 5px; }
+        p { font-size: 1.2rem; line-height: 1.7; color: #555; margin-bottom: 20px; }
 
-        /* --- AI AGENT (ORANGE GLOW) --- */
+        /* Step Boxes */
+        .step-row-desktop { display: flex; gap: 30px; margin-top: 25px; }
+        .step-col { flex: 1; display: flex; flex-direction: column; }
+        .step-a-box, .step-b-box { padding: 30px; border-radius: 15px; border: 3px solid transparent; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
+        .step-a-box { border-color: var(--accent-blue); }
+        .step-b-box { border-color: var(--ai-orange); }
+        .step-badge { background: var(--primary-navy); color: white; padding: 5px 12px; border-radius: 4px; font-weight: bold; margin-right: 10px; }
+        .step-badge-orange { background: var(--dark-orange); color: white; padding: 5px 12px; border-radius: 4px; font-weight: bold; }
+
+        .skill-item { padding: 30px; border-radius: 15px; margin-bottom: 20px; border: 3px solid var(--primary-navy); }
+        .skill-item h3 { color: var(--primary-navy); font-size: 1.8rem; border-bottom: 2px solid var(--accent-blue); display: inline-block; padding-bottom: 5px; }
+
+        .btn { display: inline-block; padding: 18px 45px; text-decoration: none; border-radius: 12px; font-weight: 800; font-size: 1.4rem; text-align: center; border: none; cursor: pointer; width: 100%; box-sizing: border-box; transition: 0.3s; }
+        .btn-blue { background: var(--accent-blue); color: white; }
+        .btn-orange { background: var(--ai-orange); color: white; }
+        .btn-navy { background: var(--primary-navy); color: white; }
+
+        /* --- 5. AI AGENT (Orange Glow & UI) --- */
         .ai-doll-trigger { 
             position: fixed; bottom: 20px; right: 20px; width: 90px; height: 90px; z-index: 2000; cursor: pointer;
             animation: orange-glow 2s infinite ease-in-out; border-radius: 50%;
@@ -53,8 +82,7 @@
 
         .chat-window { position: fixed; bottom: 120px; right: 20px; width: 360px; height: 600px; background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); display: none; flex-direction: column; z-index: 2100; overflow: hidden; }
         .chat-header { background: var(--ai-gradient); color: white; padding: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-        
-        .timer-tag { background: rgba(0,0,0,0.2); padding: 2px 10px; border-radius: 10px; font-family: monospace; }
+        .timer-tag { background: rgba(0,0,0,0.2); padding: 2px 10px; border-radius: 10px; font-family: monospace; font-size: 1.1rem; }
         
         .style-bar { display: flex; padding: 10px; background: #fff; border-bottom: 1px solid #eee; justify-content: space-around; }
         .style-btn { border: 1px solid var(--ai-orange); background: none; color: var(--ai-orange); padding: 5px 12px; border-radius: 15px; cursor: pointer; font-size: 0.85rem; }
@@ -66,13 +94,15 @@
         .msg.user { background: var(--ai-orange); color: white; align-self: flex-end; }
         
         .chat-input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; }
-        .chat-input-area input { flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 25px; outline: none; }
+        .chat-input-area input { flex: 1; padding: 12px 15px; border: 1px solid #ddd; border-radius: 25px; outline: none; }
         .send-btn { background: var(--ai-orange); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; }
 
         @media (min-width: 769px) {
+            .hero-banner { height: 250px; }
             .hero-banner h1 { font-size: 3.5rem; }
             .nav-links a { font-size: 1.3rem; }
         }
+        @media (max-width: 768px) { .step-row-desktop { flex-direction: column; } }
     </style>
 </head>
 <body>
@@ -87,16 +117,63 @@
     <nav class="nav-container">
         <ul class="nav-links">
             <li><a href="index.html">主頁</a></li>
-            <li><a href="service.html" class="active">我們的服務</a></li>
+            <li class="dropdown">
+                <a href="#" class="active">關於我們 ▼</a>
+                <div class="dropdown-content">
+                    <a href="about.html">我們的承諾</a>
+                    <a href="service.html">我們的服務</a>
+                </div>
+            </li>
             <li><a href="issue.html">溝通問題</a></li>
+            <li><a href="methods.html">交流技巧</a></li>
+            <li><a href="#">學員見證</a></li>
             <li><a href="#">聯絡我們</a></li>
         </ul>
     </nav>
     
     <div class="container">
         <section class="service-box">
-            <h2>實戰模擬服務</h2>
-            <p>透過 AI 顧問小S，您可以在高壓環境下練習對話技巧。請點擊右下角發光圖示開啟您的 30 秒實戰挑戰！</p>
+            <h2>1. MBTI 性格與 AI 諮詢</h2>
+            <div class="step-row-desktop">
+                <div class="step-col">
+                    <div class="step-a-box">
+                        <div>
+                            <div style="margin-bottom:15px;"><span class="step-badge">STEP A</span><h3 style="display:inline; color:var(--primary-navy); font-size:1.6rem;">獲取性格報告</h3></div>
+                            <p>透過專業測試了解你的溝通偏好。這是精進社交技巧的重要基石。</p>
+                        </div>
+                        <a href="https://www.16personalities.com/ch" class="btn btn-blue">前往 MBTI 測試</a>
+                    </div>
+                </div>
+                <div class="step-col">
+                    <div class="step-b-box">
+                        <div>
+                            <div style="margin-bottom:15px;"><span class="step-badge-orange">STEP B</span><h3 style="display:inline; color:var(--primary-navy); font-size:1.6rem;">AI 小S 實戰挑戰</h3></div>
+                            <p>在 30 秒模擬對話中磨練臨場反應。點擊右下角橘色發光圖示開始挑戰。</p>
+                        </div>
+                        <div class="btn btn-orange" style="cursor:default;">點擊右下角圖示進行模擬 ↑</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="service-box">
+            <h2>2. 溝通技巧核心課程</h2>
+            <div class="skill-item">
+                <h3>🧠 軟實力 (Soft Skills)</h3>
+                <p>專注於情緒覺察。建立同理心氛圍，讓你的話語更具溫度與影響力。</p>
+                <a href="#" class="btn btn-navy">查看課程大綱</a>
+            </div>
+            <div class="skill-item">
+                <h3>🛠️ 硬實力 (Hard Skills)</h3>
+                <p>專注於邏輯框架。掌握 OSCAR 表達模型，在壓力下依然能清晰陳述觀點。</p>
+                <a href="#" class="btn btn-navy">查看課程大綱</a>
+            </div>
+        </section>
+
+        <section class="service-box" style="text-align: center;">
+            <h2>3. 1對1 深度諮詢</h2>
+            <p style="max-width: 800px; margin: 0 auto 30px auto;">針對職場談判、情感化解等高難度場景。提供專家級私人服務，確保你在關鍵時刻展現最佳魅力。</p>
+            <a href="#" class="btn btn-navy" style="width: auto; padding: 25px 80px; font-size: 1.8rem;">預約專家諮詢</a>
         </section>
     </div>
 
@@ -104,19 +181,19 @@
     
     <div class="chat-window" id="chatWindow">
         <div class="chat-header">
-            <span>小S | 實戰挑戰</span>
-            <div id="timer" class="timer-tag">30s</div>
+            <span>小S | 30s 實戰挑戰</span>
+            <div id="timerDisplay" class="timer-tag">30s</div>
             <span id="closeChat" style="cursor:pointer; font-size: 20px;">✕</span>
         </div>
         
         <div class="style-bar" id="styleBar">
-            <button class="style-btn active" onclick="updateStyle('專業')">專業模式</button>
-            <button class="style-btn" onclick="updateStyle('親和')">親和模式</button>
-            <button class="style-btn" onclick="updateStyle('犀利')">犀利模式</button>
+            <button class="style-btn active" onclick="updateStyle('專業')">專業</button>
+            <button class="style-btn" onclick="updateStyle('親和')">親和</button>
+            <button class="style-btn" onclick="updateStyle('犀利')">犀利</button>
         </div>
 
         <div id="chatMsgs" class="chat-messages">
-            <div class="msg ai">準備好開始 30 秒溝通挑戰了嗎？<br><br>請先選擇上方的「模式」，然後對我說「我準備好了」來啟動計時器！</div>
+            <div class="msg ai">準備好開始挑戰了嗎？<br><br>選好模式後，輸入「開始」啟動 30 秒倒數！</div>
         </div>
         <div class="chat-input-area">
             <input type="text" id="chatInput" placeholder="輸入訊息...">
@@ -130,12 +207,12 @@
         const chatInput = document.getElementById('chatInput');
         const sendBtn = document.getElementById('sendBtn');
         const chatMsgs = document.getElementById('chatMsgs');
-        const timerTag = document.getElementById('timer');
+        const timerDisplay = document.getElementById('timerDisplay');
 
         let timeLeft = 30;
-        let timerRunning = false;
+        let timerId = null;
+        let state = "READY";
         let currentStyle = "專業";
-        let state = "READY"; // READY, CHALLENGING, ASSESSMENT, EMAIL
 
         dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
         document.getElementById('closeChat').onclick = () => { chatWindow.style.display = 'none'; dollTrigger.style.display = 'flex'; };
@@ -163,47 +240,30 @@
             if (state === "READY") {
                 state = "CHALLENGING";
                 startTimer();
-                addMessage(`【${currentStyle}模式已啟動】<br>好的！假設我現在是你生氣的老闆，你沒準時交報告，你要怎麼解釋？`, 'ai');
-            } 
-            else if (state === "CHALLENGING") {
+                addMessage(`【${currentStyle}模式啟動】<br>老闆現在很不滿意你的表現，請在 30 秒內說服他！`, 'ai');
+            } else if (state === "CHALLENGING") {
                 chatInput.disabled = true;
-                setTimeout(() => {
-                    if(timeLeft > 0) {
-                        addMessage("這聽起來像是在找藉口，你覺得這樣能解決問題嗎？", 'ai');
-                        chatInput.disabled = false;
-                        chatInput.focus();
-                    }
-                }, 800);
-            }
-            else if (state === "EMAIL") {
-                addMessage("感謝！分析報告將於 24 小時內寄送到此信箱。祝您溝通順利！", 'ai');
+                setTimeout(() => { if(timeLeft > 0) { addMessage("這理由不夠充分，還有嗎？", 'ai'); chatInput.disabled = false; chatInput.focus(); } }, 800);
+            } else if (state === "EMAIL") {
+                addMessage("感謝！分析報告將寄送到您的信箱。", 'ai');
                 chatInput.disabled = true;
             }
         }
 
         function startTimer() {
-            timerRunning = true;
-            const id = setInterval(() => {
+            timerId = setInterval(() => {
                 timeLeft--;
-                timerTag.innerText = timeLeft + 's';
-                if (timeLeft <= 0) {
-                    clearInterval(id);
-                    endChallenge();
-                }
+                timerDisplay.innerText = timeLeft + 's';
+                if (timeLeft <= 0) { clearInterval(timerId); endChallenge(); }
             }, 1000);
         }
 
         function endChallenge() {
-            state = "ASSESSMENT";
+            state = "EMAIL";
             chatInput.disabled = true;
-            addMessage("🚨 <b>挑戰結束！</b><br>在剛才的對話中，你表現出高度的邏輯性，但同理心稍微不足。", 'ai');
-            
-            setTimeout(() => {
-                addMessage("想要獲得完整的「溝通能力診斷報告」嗎？請在下方留下您的 <b>Email</b>，我會寄給您！", 'ai');
-                state = "EMAIL";
-                chatInput.disabled = false;
-                chatInput.placeholder = "請輸入您的 Email...";
-            }, 1500);
+            addMessage("🚨 <b>挑戰結束！</b><br>想要詳細的診斷報告嗎？請留下您的 Email！", 'ai');
+            chatInput.disabled = false;
+            chatInput.placeholder = "請輸入 Email...";
         }
 
         sendBtn.onclick = handleSend;
