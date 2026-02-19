@@ -260,45 +260,29 @@
 
 
 
-<style>
-    /* 1. Floating Trigger */
-    .ai-doll-trigger {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 70px;
-        height: 70px;
-        cursor: pointer;
-        z-index: 2000;
-        transition: 0.3s;
-    }
-    .ai-doll-trigger img {
-        width: 100%; height: 100%;
-        border-radius: 50%;
-        border: 3px solid white;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-        object-fit: contain; padding: 3px; box-sizing: border-box;
-    }
 
-    /* 2. Chat Window */
+
+
+
+<style>
+    /* ... (Keep your existing Floating Trigger CSS) ... */
+
     .chat-window {
         position: fixed;
         bottom: 100px;
         right: 20px;
         width: 350px;
-        height: 500px;
+        height: 550px;
         background: white;
         border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
         display: none; 
         flex-direction: column;
-        z-index: 2001;
+        z-index: 2100; /* High z-index */
         overflow: hidden;
-        border: 1px solid #eee;
     }
 
-    /* MOBILE FRIENDLY OVERRIDE */
+    /* MOBILE: Full Screen Fix */
     @media (max-width: 600px) {
         .chat-window {
             width: 100%;
@@ -306,79 +290,46 @@
             bottom: 0;
             right: 0;
             border-radius: 0;
+            z-index: 9999;
         }
-        .ai-doll-trigger { width: 60px; height: 60px; }
-    }
-
-    .chat-header {
-        background: var(--ai-gradient);
-        color: white;
-        padding: 15px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .chat-messages {
-        flex: 1;
-        padding: 15px;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        background: #f9f9f9;
-    }
-
-    .msg { max-width: 80%; padding: 10px 14px; border-radius: 15px; font-size: 0.95rem; line-height: 1.4; }
-    .msg.ai { background: #eee; align-self: flex-start; border-bottom-left-radius: 2px; }
-    .msg.user { background: var(--accent-blue); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
-
-    /* Mode Selection */
-    .mode-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-    .mode-btn {
-        background: white; border: 1px solid var(--accent-blue);
-        color: var(--accent-blue); padding: 5px 10px; border-radius: 15px;
-        cursor: pointer; font-size: 0.8rem; font-weight: bold;
-    }
-    
-    .restart-btn {
-        background: #95a5a6; color: white; border: none;
-        padding: 4px 10px; border-radius: 5px; cursor: pointer; font-size: 0.7rem;
     }
 
     .chat-input-area {
         padding: 15px;
         border-top: 1px solid #eee;
         display: flex;
-        gap: 8px;
-        background: white;
-    }
-    .chat-input-area input {
-        flex: 1; border: 1px solid #ddd; padding: 10px 15px; border-radius: 20px; outline: none;
+        gap: 10px;
+        background: #fff;
+        z-index: 2101;
     }
 
-    .assessment-overlay {
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background: white; z-index: 2010; display: none;
-        flex-direction: column; align-items: center; justify-content: center;
-        padding: 20px; text-align: center;
+    .chat-input-area input {
+        flex: 1;
+        padding: 12px 15px;
+        border: 2px solid #ddd; /* Thicker border for better visibility */
+        border-radius: 25px;
+        font-size: 16px; /* Prevents auto-zoom on iOS */
+        outline: none;
+        color: #333;
+    }
+
+    /* Highlight input when enabled */
+    .chat-input-area input:not(:disabled) {
+        border-color: var(--accent-blue);
+        background: #fff;
     }
 </style>
 
-<div class="ai-doll-trigger" id="openChat">
-    <img src="service-s.png" alt="S">
-</div>
-
 <div class="chat-window" id="chatWindow">
     <div class="chat-header">
-        <div><strong>小S 顧問</strong> <button class="restart-btn" onclick="resetChat()">重新開始</button></div>
-        <div id="timer" style="font-family: monospace; font-weight: bold;">01:00</div>
-        <span id="closeChat" style="cursor:pointer; padding: 5px;">✕</span>
+        <div><strong>小S 顧問</strong> <button class="restart-btn" onclick="window.location.reload()">重新挑戰</button></div>
+        <div id="timer" style="font-family: monospace; font-size: 1.2rem;">01:00</div>
+        <span id="closeChat" style="cursor:pointer; font-size: 1.5rem;">✕</span>
     </div>
 
     <div id="chatMsgs" class="chat-messages">
-        <div class="msg ai" id="welcomeMsg">
-            你好！我是小S。請先點選下方挑戰模式，我會根據該性格與你對話：
+        <div class="msg ai">
+            你好！我是小S。請點選一個挑戰模式來開啟 1 分鐘溝通測試：
             <div class="mode-container" id="modeSelector">
                 <button class="mode-btn" onclick="initTest('👦 冷酷男孩')">👦 冷酷男孩</button>
                 <button class="mode-btn" onclick="initTest('👧 可愛女孩')">👧 可愛女孩</button>
@@ -389,93 +340,54 @@
     </div>
 
     <div class="chat-input-area">
-        <input type="text" id="userInput" placeholder="請先選擇挑戰模式..." disabled>
-        <button id="sendBtn" style="background:var(--accent-blue); color:white; border:none; border-radius:50%; width:35px; height:35px; cursor:pointer;" disabled>➤</button>
+        <input type="text" id="userInput" placeholder="請先選擇模式..." disabled autocomplete="off">
+        <button id="sendBtn" style="background:var(--accent-blue); color:white; border:none; border-radius:50%; width:45px; height:45px; cursor:pointer;" disabled>➤</button>
     </div>
-
-    <div class="assessment-overlay" id="reportView">
-        <h3>測驗時間到！</h3>
-        <div style="font-size: 2.5rem; color: var(--accent-blue); font-weight: bold;">評分: 8/10</div>
-        <p style="font-size: 0.9rem; color: #666;">想看完整對話分析報告嗎？</p>
-        <input type="email" id="userEmail" placeholder="輸入 Email" style="width:80%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;">
-        <button class="btn btn-hero" onclick="location.reload()" style="padding: 10px 20px;">發送並關閉</button>
+    
     </div>
-</div>
 
 <script>
-    let seconds = 60;
-    let timerId = null;
-    let activeMode = "";
-
     const chatWindow = document.getElementById('chatWindow');
     const userInput = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
-    const chatMsgs = document.getElementById('chatMsgs');
-
-    document.getElementById('openChat').onclick = () => chatWindow.style.display = 'flex';
-    document.getElementById('closeChat').onclick = () => chatWindow.style.display = 'none';
+    const modeSelector = document.getElementById('modeSelector');
 
     function initTest(mode) {
+        // 1. Visual feedback of selection
         activeMode = mode;
-        // 1. Disable Mode Selector (Disable multi-select)
-        document.getElementById('modeSelector').style.pointerEvents = 'none';
-        document.getElementById('modeSelector').style.opacity = '0.5';
-        
-        // 2. Enable Input
+        modeSelector.style.opacity = "0.3";
+        modeSelector.style.pointerEvents = "none";
+
+        // 2. UNLOCK INPUT IMMEDIATELY
         userInput.disabled = false;
         sendBtn.disabled = false;
-        userInput.placeholder = "請開始對話...";
-        userInput.focus();
-
-        // 3. Start Timer
-        startTimer();
-        addMsg(`系統：挑戰開始！目前對象：${mode}`, 'ai');
-    }
-
-    function startTimer() {
-        if(timerId) return;
-        timerId = setInterval(() => {
-            seconds--;
-            let m = Math.floor(seconds / 60);
-            let s = seconds % 60;
-            document.getElementById('timer').textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-            if(seconds <= 0) {
-                clearInterval(timerId);
-                document.getElementById('reportView').style.display = 'flex';
-            }
-        }, 1000);
-    }
-
-    function addMsg(text, type) {
-        const d = document.createElement('div');
-        d.className = `msg ${type}`;
-        d.textContent = text;
-        chatMsgs.appendChild(d);
-        chatMsgs.scrollTop = chatMsgs.scrollHeight;
-    }
-
-    function onSend() {
-        const val = userInput.value.trim();
-        if(!val) return;
-        addMsg(val, 'user');
-        userInput.value = "";
-
-        // Simulated Response based on Mode
+        userInput.placeholder = "請輸入對話內容...";
+        
+        // 3. FORCE FOCUS (Crucial for Mobile Keyboard)
         setTimeout(() => {
-            let reply = "我現在沒心情跟你說話。";
-            if(activeMode.includes('主管')) reply = "這就是你對這份報告的態度嗎？";
-            if(activeMode.includes('女孩')) reply = "哼，你真的很不懂女生在想什麼耶！";
-            addMsg(reply, 'ai');
-        }, 800);
+            userInput.focus();
+            userInput.click(); 
+        }, 100);
+
+        startTimer();
+        addMsg(`系統：已進入 ${mode} 模式。請開始說話，測驗倒數計時中！`, 'ai');
     }
 
-    sendBtn.onclick = onSend;
-    userInput.onkeypress = (e) => { if(e.key === 'Enter') onSend(); };
+    // Ensure the send button works on click
+    sendBtn.onclick = (e) => {
+        e.preventDefault();
+        onSend();
+    };
 
-    function resetChat() {
-        location.reload(); // Simplest way to reset everything
-    }
+    // Ensure the "Enter" key works
+    userInput.onkeydown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            onSend();
+        }
+    };
 </script>
+
 
 
 
