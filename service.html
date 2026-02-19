@@ -21,7 +21,7 @@
             background: #f9f9f9; overflow-x: hidden; 
         }
 
-        /* --- Header & Nav --- */
+        /* --- Header & Top Bar --- */
         .top-bar { background: var(--primary-navy); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
         .logo-container img { height: 32px; width: auto; }
         
@@ -32,9 +32,35 @@
         }
         .hero-banner h1 { font-size: 2.2rem; margin: 0; font-weight: 900; }
 
-        .nav-container { background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
-        .nav-links { display: flex; list-style: none; gap: 20px; margin: 0; padding: 15px; justify-content: center; }
-        .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: 800; font-size: 1.1rem; }
+        /* --- Category Bar --- */
+        .nav-container { 
+            background: white; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
+        .nav-links { 
+            display: flex; 
+            list-style: none; 
+            gap: 20px; 
+            margin: 0; 
+            padding: 15px; 
+            justify-content: center; 
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--primary-navy); 
+            font-weight: 800; 
+            font-size: 1.1rem; 
+        }
+        .nav-links a.active {
+            color: var(--accent-blue);
+            border-bottom: 3px solid var(--accent-blue);
+            padding-bottom: 5px;
+        }
 
         /* --- Content Layout --- */
         .container { max-width: 1000px; margin: 30px auto; padding: 0 15px; }
@@ -50,7 +76,7 @@
         .step-badge { background-color: var(--primary-navy); color: white; padding: 6px 14px; border-radius: 4px; font-size: 1rem; font-weight: 900; box-shadow: 4px 4px 0px var(--accent-blue); flex-shrink: 0; }
         .step-title-text { margin: 0; color: var(--primary-navy); font-size: 1.25rem; font-weight: 900; white-space: nowrap; }
 
-        /* AI Highlighted Box - Wider Layout */
+        /* AI Highlighted Box */
         .ai-highlight-box {
             background: linear-gradient(to right, #fffdfa, #fdf7f2);
             padding: 20px; border-radius: 15px; margin-top: 25px; 
@@ -64,14 +90,16 @@
         .btn { display: inline-block; padding: 15px 35px; text-decoration: none; border-radius: 10px; font-weight: 800; font-size: 1.1rem; text-align: center; border: none; cursor: pointer; transition: 0.3s; width: 100%; box-sizing: border-box; }
         .btn-mbti { background-color: var(--accent-blue); color: white; margin-bottom: 10px; }
 
-        /* --- AI Agent UI with ORANGE GROWING CIRCLE --- */
+        /* --- Back to Home Button (From about.html) --- */
+        .back-home-container { text-align: center; margin: 40px 0; padding: 0 20px; }
+        .btn-back-home { background-color: var(--primary-navy); color: white; }
+
+        /* --- AI Agent UI --- */
         .ai-doll-trigger { 
             position: fixed; bottom: 20px; right: 20px; 
             width: 90px; height: 90px; z-index: 2000; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
         }
-        
-        /* The Growing Orange Circle */
         .ai-doll-trigger::before {
             content: '';
             position: absolute;
@@ -82,12 +110,10 @@
             animation: orange-grow 2s infinite ease-out;
             z-index: -1;
         }
-
         @keyframes orange-grow {
             0% { transform: scale(0.8); opacity: 0.8; }
             100% { transform: scale(1.6); opacity: 0; }
         }
-
         .ai-doll-trigger img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; background: var(--warm-bg); object-fit: contain; padding: 8px; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
 
         /* --- Chat Window --- */
@@ -99,7 +125,6 @@
 
         @media (max-width: 600px) { 
             .chat-window { width: 100%; height: 100%; bottom: 0; right: 0; border-radius: 0; z-index: 9999; } 
-            .step-title-text { font-size: 1.1rem; }
         }
 
         .chat-header { 
@@ -142,7 +167,8 @@
     <nav class="nav-container">
         <ul class="nav-links">
             <li><a href="index.html">主頁</a></li>
-            <li><a href="service.html" style="color:var(--accent-blue)">我們的服務</a></li>
+            <li><a href="about.html">我們的承諾</a></li>
+            <li><a href="service.html" class="active">我們的服務</a></li>
             <li><a href="issue.html">溝通問題</a></li>
         </ul>
     </nav>
@@ -182,6 +208,10 @@
             <p>針對高難度場景提供專家級陪跑服務。</p>
             <a href="#" class="btn" style="background: var(--primary-navy); color: white;">預約深度諮詢</a>
         </section>
+    </div>
+
+    <div class="back-home-container">
+        <a href="index.html" class="btn btn-back-home">返回首頁</a>
     </div>
 
     <div class="ai-doll-trigger" id="openChat">
