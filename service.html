@@ -76,14 +76,14 @@
         .step-badge { background-color: var(--primary-navy); color: white; padding: 8px 16px; border-radius: 6px; font-size: 1rem; font-weight: 900; box-shadow: 4px 4px 0px var(--accent-blue); flex-shrink: 0; }
         .step-title-text { margin: 0; color: var(--primary-navy); font-size: 1.25rem; font-weight: 900; }
 
-        /* Glowing AI Text Style */
-        .glow-ai {
+        /* Glowing "小S" Style */
+        .glow-s {
             color: var(--ai-orange);
-            text-shadow: 0 0 8px rgba(243, 156, 18, 0.6);
+            text-shadow: 0 0 12px rgba(243, 156, 18, 0.7);
             font-weight: 900;
         }
 
-        /* Step B Box - Fix Overflow & Blinking */
+        /* Step B Box - Fixed Cutoff and Blinking speed */
         .ai-highlight-box {
             background: white; 
             padding: 20px; 
@@ -92,7 +92,8 @@
             border: 3px dashed var(--success-green);
             animation: border-blink 2s infinite;
             box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            word-wrap: break-word; /* Prevents text cutoff */
+            word-wrap: break-word;
+            overflow: visible; /* Prevent badge shadows/text from cutting */
         }
         @keyframes border-blink {
             0%, 100% { border-color: var(--success-green); }
@@ -104,6 +105,12 @@
             font-weight: 900; box-shadow: 4px 4px 0px var(--primary-navy); 
             flex-shrink: 0;
         }
+
+        /* Skill Items */
+        .skill-item { background: #fcfcfc; padding: 20px; border-radius: 15px; border: 1.5px solid #eee; margin-bottom: 15px; }
+        .skill-item h4 { color: var(--accent-blue); font-size: 1.4rem; font-weight: 900; margin: 0 0 10px 0; }
+
+        .btn { display: inline-block; padding: 15px 35px; text-decoration: none; border-radius: 12px; font-weight: 800; font-size: 1.1rem; text-align: center; border: none; cursor: pointer; transition: 0.3s; width: 100%; box-sizing: border-box; }
 
         /* --- OVAL BACK BUTTON --- */
         .back-home-container { text-align: center; margin: 50px 0; padding: 0 20px; }
@@ -146,6 +153,7 @@
         @media (max-width: 600px) { 
             .chat-window { width: 100%; height: 100%; bottom: 0; right: 0; border-radius: 0; z-index: 9999; } 
             .step-title-text { font-size: 1.1rem; }
+            .hero-banner h1 { font-size: 1.8rem; }
         }
 
         .chat-header { background: var(--ai-gradient); color: white; padding: 18px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
@@ -159,6 +167,14 @@
 </head>
 <body>
 
+    <div class="top-bar">
+        <div class="logo-container"><img src="logo.png" alt="Logo"></div>
+    </div>
+
+    <header class="hero-banner">
+        <h1>我們的服務</h1>
+    </header>
+    
     <nav class="nav-container">
         <ul class="nav-links">
             <li><a href="index.html">主頁</a></li>
@@ -180,7 +196,7 @@
             <div class="ai-highlight-box">
                 <div class="step-header" style="margin-top:0;">
                     <span class="step-badge-b">STEP B</span>
-                    <h3 class="step-title-text"><span class="glow-ai">AI</span> 小S 實戰對話挑戰</h3>
+                    <h3 class="step-title-text">AI <span class="glow-s">小S</span> 實戰對話挑戰</h3>
                 </div>
                 <p>點擊右下角頭像開始 30 秒模擬。提升你的即時應變能力！</p>
             </div>
@@ -188,14 +204,13 @@
 
         <section class="service-box" style="border-left-color: var(--success-green);">
             <h2>2. 溝通技巧核心課程</h2>
-            <p>我們將溝通能力分為「心法」與「技法」，助您內外兼修。</p>
-            <div style="background:#f9f9f9; padding:15px; border-radius:10px; border-left:4px solid var(--accent-blue); margin-bottom:15px;">
-                <h4 style="margin:0 0 5px 0; color:var(--accent-blue)">🧠 軟實力 (Soft Skills)</h4>
-                <p style="margin:0; font-size:0.95rem;">專注於情緒覺察。建立同理心氛圍。</p>
+            <div class="skill-item">
+                <h4>🧠 軟實力 (Soft Skills)</h4>
+                <p>專注於情緒覺察。建立同理心氛圍。</p>
             </div>
-            <div style="background:#f9f9f9; padding:15px; border-radius:10px; border-left:4px solid var(--success-green);">
-                <h4 style="margin:0 0 5px 0; color:var(--success-green)">🛠️ 硬實力 (Hard Skills)</h4>
-                <p style="margin:0; font-size:0.95rem;">專注於邏輯框架。掌握 OSCAR 表達模型。</p>
+            <div class="skill-item">
+                <h4>🛠️ 硬實力 (Hard Skills)</h4>
+                <p>專注於邏輯框架。掌握 OSCAR 表達模型。</p>
             </div>
         </section>
 
@@ -220,7 +235,7 @@
             <span id="closeChat" style="cursor:pointer; font-size: 24px;">✕</span>
         </div>
         <div id="chatMsgs" class="chat-messages">
-            <div class="msg ai">你好！我是 AI 顧問。準備好接受實戰挑戰了嗎？</div>
+            <div class="msg ai">你好！我是 AI 顧問。準備好接受挑戰了嗎？</div>
         </div>
     </div>
 
