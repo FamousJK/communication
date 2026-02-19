@@ -44,10 +44,19 @@
         }
         .service-box h2 { color: var(--primary-navy); font-size: 1.8rem; font-weight: 900; margin-bottom: 25px; border-bottom: 3px solid var(--accent-blue); display: inline-block; }
 
-        /* Step Badge Styles (RESTORED) */
+        /* Step Badge Styles */
         .step-header { display: flex; align-items: center; gap: 15px; margin-top: 20px; margin-bottom: 15px; }
         .step-badge { background-color: var(--primary-navy); color: white; padding: 6px 16px; border-radius: 4px; font-size: 1.1rem; font-weight: 900; box-shadow: 4px 4px 0px var(--accent-blue); }
         .step-title-text { margin: 0; color: var(--primary-navy); font-size: 1.3rem; font-weight: 900; }
+
+        /* AI Highlighted Box */
+        .ai-highlight-box {
+            background: linear-gradient(to right, #f0f7ff, #e8f5e9);
+            padding: 25px; border-radius: 15px; margin-top: 25px; 
+            border: 2px dashed var(--success-green);
+            position: relative;
+            box-shadow: 0 10px 20px rgba(39, 174, 96, 0.1);
+        }
 
         .skill-item { background: #fcfcfc; padding: 20px; border-radius: 15px; border: 1.5px solid #eee; margin-bottom: 15px; }
         .skill-item h4 { color: var(--accent-blue); font-size: 1.4rem; font-weight: 900; margin: 0 0 10px 0; }
@@ -57,8 +66,18 @@
         .btn-hero { background: var(--ai-gradient); color: white; }
 
         /* --- AI Agent UI --- */
-        .ai-doll-trigger { position: fixed; bottom: 20px; right: 20px; width: 80px; height: 80px; z-index: 2000; cursor: pointer; }
-        .ai-doll-trigger img { width: 100%; height: 100%; border-radius: 50%; border: 4px solid white; box-shadow: 0 8px 25px rgba(0,0,0,0.25); background: var(--warm-bg); object-fit: contain; padding: 8px; box-sizing: border-box; }
+        .ai-doll-trigger { 
+            position: fixed; bottom: 20px; right: 20px; 
+            width: 85px; height: 85px; z-index: 2000; cursor: pointer;
+            animation: pulse-glow 2s infinite;
+        }
+        @keyframes pulse-glow {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(52, 152, 219, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+        }
+
+        .ai-doll-trigger img { width: 100%; height: 100%; border-radius: 50%; border: 4px solid white; background: var(--warm-bg); object-fit: contain; padding: 8px; box-sizing: border-box; }
 
         .chat-window {
             position: fixed; bottom: 110px; right: 20px; width: 360px; height: 75vh; max-height: 600px;
@@ -124,12 +143,12 @@
             </div>
             <a href="https://www.16personalities.com/ch" target="_blank" class="btn btn-mbti">前往 MBTI 測試</a>
 
-            <div style="background: var(--soft-blue); padding: 20px; border-radius: 15px; margin-top: 25px; border: 2px solid var(--accent-blue);">
+            <div class="ai-highlight-box">
                 <div class="step-header" style="margin-top:0;">
                     <span class="step-badge" style="background:var(--success-green); box-shadow: 4px 4px 0px var(--primary-navy);">STEP B</span>
-                    <h3 class="step-title-text">AI 顧問「小S」對話</h3>
+                    <h3 class="step-title-text">✨ AI 顧問「小S」實戰對話</h3>
                 </div>
-                <p>點擊右下角的小S頭像，輸入您的結果，讓她為您分析策略。</p>
+                <p><b>立即開啟實戰：</b> 點擊右下角的小S頭像。輸入您的 MBTI 結果或直接開始模擬對話挑戰！</p>
             </div>
         </section>
 
@@ -164,7 +183,7 @@
         </div>
         <div id="chatMsgs" class="chat-messages">
             <div class="msg ai">
-                你好！我是小S。點選下方模式開啟 30 秒實戰：
+                你好！我是 AI 顧問小S。點選下方模式開啟 30 秒挑戰：
                 <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:15px;" id="modeSelector">
                     <button class="mode-btn" onclick="initTest('👦 冷酷男孩')" style="background:white; border:2px solid var(--accent-blue); padding:8px 12px; border-radius:12px; font-weight:800; color:var(--accent-blue); cursor:pointer;">👦 冷酷男孩</button>
                     <button class="mode-btn" onclick="initTest('😡 憤怒主管')" style="background:white; border:2px solid var(--accent-blue); padding:8px 12px; border-radius:12px; font-weight:800; color:var(--accent-blue); cursor:pointer;">😡 憤怒主管</button>
@@ -179,7 +198,7 @@
         <div class="assessment-overlay" id="reportView">
             <h2>測驗結束！</h2>
             <div class="score-box">8.5/10</div>
-            <p>輸入 Email 獲取完整 1,000 字分析報告</p>
+            <p>輸入 Email 獲取完整 AI 分析報告</p>
             <input type="email" id="userEmail" placeholder="your@email.com">
             <button class="btn btn-hero" onclick="window.location.reload()">送出並關閉</button>
         </div>
@@ -194,8 +213,14 @@
         const chatMsgs = document.getElementById('chatMsgs');
         let timerId = null, secondsLeft = 30;
 
-        document.getElementById('openChat').onclick = () => chatWindow.style.display = 'flex';
-        document.getElementById('closeChat').onclick = () => chatWindow.style.display = 'none';
+        document.getElementById('openChat').onclick = () => {
+            chatWindow.style.display = 'flex';
+            document.getElementById('openChat').style.display = 'none'; // Hide trigger when open
+        };
+        document.getElementById('closeChat').onclick = () => {
+            chatWindow.style.display = 'none';
+            document.getElementById('openChat').style.display = 'block'; // Show trigger when closed
+        };
 
         function initTest(mode) {
             document.getElementById('modeSelector').style.opacity = '0.4';
