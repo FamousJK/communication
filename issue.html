@@ -80,6 +80,7 @@
             display: block;
             transition: 0.3s;
         }
+        .nav-links a:hover { color: var(--accent-blue); }
 
         /* Dropdown Styling */
         .dropdown-content {
@@ -107,14 +108,13 @@
         /* Container & Content */
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
         
-        /* Grid System */
         .skill-grid { 
             display: grid; 
             grid-template-columns: 1fr; 
             gap: 30px; 
         }
 
-        /* Skill Card - Professional Design */
+        /* Professional Card Design */
         .skill-card { 
             background: #fff; 
             padding: 40px; 
@@ -123,7 +123,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             width: 100%;
             box-sizing: border-box;
-            border-top: 5px solid var(--accent-blue); /* Matches service.html style */
+            border-top: 5px solid var(--accent-blue);
             transition: 0.3s;
         }
 
@@ -133,9 +133,10 @@
             text-align: center;
         }
 
+        /* RESPONSIVE TITLE FONT SIZES */
         .skill-card h3 { 
             color: var(--primary-navy); 
-            font-size: 1.7rem; 
+            font-size: 1.6rem; /* Cellphone size */
             margin-top: 0; 
             margin-bottom: 15px;
             border-bottom: 2px solid var(--soft-blue);
@@ -148,6 +149,7 @@
             border-bottom: 2px solid #fee;
         }
         
+        /* Main Text Size */
         .skill-card p { 
             font-size: 1.3rem; 
             line-height: 1.7; 
@@ -155,7 +157,7 @@
             margin-bottom: 0; 
         }
 
-        /* Desktop Grid Logic */
+        /* Desktop Adjustments */
         @media (min-width: 769px) {
             .hero-banner { height: 250px; }
             .hero-banner h1 { font-size: 3.5rem; }
@@ -165,21 +167,27 @@
             
             .skill-grid { grid-template-columns: 1fr 1fr; }
             .skill-card.center-box { grid-column: 1 / span 2; }
+
+            /* Desktop Title Font Size */
+            .skill-card h3 { font-size: 1.7rem; } 
         }
 
-        /* Mobile Fix */
         @media (max-width: 768px) {
             .nav-container { overflow-x: auto; }
             .nav-links { justify-content: flex-start; padding-right: 50px; }
-            .dropdown.mobile-open .dropdown-content { display: block; position: static; transform: none; box-shadow: none; background: #fcfcfc; }
+            .dropdown.mobile-open .dropdown-content { 
+                display: block; position: static; transform: none; box-shadow: none; 
+                background: #fcfcfc; width: auto; min-width: 0; margin-top: 5px;
+            }
+            .dropdown.mobile-open .dropdown-content a { text-align: left; padding: 10px 15px; color: var(--accent-blue) !important; font-weight: bold; }
         }
 
-        /* Back Button - Aligned with Service.html Style */
+        /* Back Button - Synced with Service.html */
         .back-btn-container { text-align: center; margin: 60px 0; }
         .back-btn { 
             display: inline-block; 
             padding: 12px 50px; 
-            background: var(--primary-navy); /* Matches Service.html navy button */
+            background: var(--primary-navy); 
             color: white; 
             text-decoration: none; 
             border-radius: 50px; 
