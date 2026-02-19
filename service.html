@@ -8,39 +8,61 @@
         :root {
             --primary-navy: #2c3e50;
             --accent-blue: #3498db;
+            --success-green: #27ae60;
             --ai-gradient: linear-gradient(135deg, #3498db, #27ae60);
             --warm-bg: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            --text-dark: #333;
         }
 
         body { 
             font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; 
-            margin: 0; padding: 0; background: #f9f9f9; 
+            line-height: 1.6; color: var(--text-dark); margin: 0; padding: 0; 
+            background: #f9f9f9; overflow-x: hidden; 
         }
 
-        /* --- AI AGENT VISUAL FIXES --- */
-        .ai-doll-trigger { 
-            position: fixed; bottom: 20px; right: 20px; 
-            width: 80px; height: 80px; z-index: 2000; 
+        /* --- Navigation & Hero --- */
+        .top-bar { background: var(--primary-navy); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
+        .logo-container img { height: 32px; width: auto; }
+        
+        .hero-banner {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('service-banner.jpg'); 
+            background-size: cover; background-position: center; height: 180px; 
+            display: flex; justify-content: center; align-items: center; color: white; text-align: center;
         }
-        .ai-doll-trigger img { 
-            width: 100%; height: 100%; border-radius: 50%; 
-            border: 4px solid white; box-shadow: 0 8px 25px rgba(0,0,0,0.25); 
-            background: var(--warm-bg); object-fit: contain; padding: 8px; box-sizing: border-box; 
+        .hero-banner h1 { font-size: 2.2rem; margin: 0; font-weight: 900; }
+
+        .nav-container { background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
+        .nav-links { display: flex; list-style: none; gap: 20px; margin: 0; padding: 15px; justify-content: center; }
+        .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: 800; font-size: 1.1rem; }
+
+        /* --- Main Content Sections --- */
+        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+        .service-box {
+            background: white; padding: 25px; border-radius: 18px;
+            border-left: 6px solid var(--accent-blue); margin-bottom: 35px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
         }
+        .service-box h2 { color: var(--primary-navy); font-size: 1.8rem; font-weight: 900; margin-bottom: 20px; border-bottom: 3px solid var(--accent-blue); display: inline-block; }
+
+        .skill-item { background: #fcfcfc; padding: 20px; border-radius: 15px; border: 1.5px solid #eee; margin-bottom: 15px; }
+        .skill-item h4 { color: var(--accent-blue); font-size: 1.4rem; font-weight: 900; margin: 0 0 10px 0; }
+
+        .btn { display: inline-block; padding: 15px 35px; text-decoration: none; border-radius: 10px; font-weight: 800; font-size: 1.1rem; text-align: center; border: none; cursor: pointer; }
+        .btn-mbti { background-color: var(--accent-blue); color: white; }
+
+        /* --- AI AGENT FIXES --- */
+        .ai-doll-trigger { position: fixed; bottom: 20px; right: 20px; width: 80px; height: 80px; z-index: 2000; cursor: pointer; }
+        .ai-doll-trigger img { width: 100%; height: 100%; border-radius: 50%; border: 4px solid white; box-shadow: 0 8px 25px rgba(0,0,0,0.25); background: var(--warm-bg); object-fit: contain; padding: 8px; box-sizing: border-box; }
 
         .chat-window {
-            position: fixed; bottom: 110px; right: 20px; 
-            width: 360px; height: 75vh; max-height: 600px;
-            background: white; border-radius: 25px; 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: fixed; bottom: 110px; right: 20px; width: 360px; height: 75vh; max-height: 600px;
+            background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             display: none; flex-direction: column; z-index: 2100; overflow: hidden;
         }
 
-        @media (max-width: 600px) {
-            .chat-window { width: 100%; height: 100%; bottom: 0; right: 0; border-radius: 0; z-index: 9999; }
-        }
+        @media (max-width: 600px) { .chat-window { width: 100%; height: 100%; bottom: 0; right: 0; border-radius: 0; z-index: 9999; } }
 
-        /* STICKY HEADER: Keeps Timer Visible */
+        /* FIXED: Sticky Header for Timer Visibility */
         .chat-header { 
             background: var(--ai-gradient); color: white; padding: 18px; 
             display: flex; justify-content: space-between; align-items: center; 
@@ -48,30 +70,62 @@
         }
 
         .chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8f9fa; display: flex; flex-direction: column; gap: 12px; }
-        
-        .msg { max-width: 85%; padding: 12px 16px; border-radius: 20px; font-size: 1rem; line-height: 1.4; }
+        .msg { max-width: 85%; padding: 12px 16px; border-radius: 20px; font-size: 1rem; }
         .msg.ai { background: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .msg.user { background: var(--accent-blue); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
 
-        .chat-input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; background: white; align-items: center; }
+        .chat-input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; background: white; }
         .chat-input-area input { flex: 1; padding: 14px 20px; border: 2px solid #e0e0e0; border-radius: 30px; font-size: 16px; outline: none; }
-        .send-btn { background: var(--accent-blue); color: white; border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+        .send-btn { background: var(--accent-blue); color: white; border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.4rem; }
 
-        /* FIXED ASSESSMENT OVERLAY ALIGNMENT */
+        /* FIXED: Assessment Alignment */
         .assessment-overlay { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
             background: white; z-index: 2200; display: none; 
             flex-direction: column; align-items: center; justify-content: center; 
-            padding: 20px; text-align: center; box-sizing: border-box;
+            padding: 30px; text-align: center; box-sizing: border-box;
         }
-        .assessment-overlay h2 { font-size: 1.8rem; font-weight: 900; color: var(--primary-navy); margin: 0 0 10px 0; }
-        .score-box { font-size: 4rem; color: var(--accent-blue); font-weight: 900; margin: 10px 0; }
-        .assessment-overlay p { margin: 10px 0; font-weight: 600; color: #555; max-width: 280px; }
-        .assessment-overlay input { width: 90%; max-width: 300px; padding: 15px; margin: 15px 0; border: 2px solid #eee; border-radius: 12px; font-size: 16px; box-sizing: border-box; }
-        .btn-submit { background: var(--ai-gradient); color: white; border: none; padding: 15px 40px; border-radius: 10px; font-weight: 800; font-size: 1.1rem; cursor: pointer; width: 90%; max-width: 300px; }
+        .score-box { font-size: 4.5rem; color: var(--accent-blue); font-weight: 900; margin: 15px 0; }
+        .assessment-overlay input { width: 100%; max-width: 300px; padding: 15px; margin: 20px 0; border: 2px solid #eee; border-radius: 12px; }
     </style>
 </head>
 <body>
+
+    <div class="top-bar">
+        <div class="logo-container"><img src="logo.png" alt="Logo"></div>
+    </div>
+
+    <header class="hero-banner">
+        <h1>我們的服務</h1>
+    </header>
+    
+    <nav class="nav-container">
+        <ul class="nav-links">
+            <li><a href="index.html">主頁</a></li>
+            <li><a href="service.html" style="color:var(--accent-blue)">我們的服務</a></li>
+            <li><a href="issue.html">溝通問題</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section class="service-box">
+            <h2>1. MBTI 性格與 AI 諮詢</h2>
+            <p>了解性格底色是溝通的第一步。我們結合專業評估與 AI 技術，為您提供即時建議。</p>
+            <a href="https://www.16personalities.com/ch" target="_blank" class="btn btn-mbti">前往 MBTI 測試</a>
+        </section>
+
+        <section class="service-box" style="border-left-color: var(--success-green);">
+            <h2>2. 溝通技巧核心課程</h2>
+            <div class="skill-item">
+                <h4>🧠 軟實力 (Soft Skills)</h4>
+                <p>專注於情緒覺察與心理邊界。學會建立同理心氛圍。</p>
+            </div>
+            <div class="skill-item">
+                <h4>🛠️ 硬實力 (Hard Skills)</h4>
+                <p>專注於邏輯框架與提問技術。掌握 OSCAR 表達模型。</p>
+            </div>
+        </section>
+    </div>
 
     <div class="ai-doll-trigger" id="openChat">
         <img src="service-s.png" alt="S">
@@ -88,9 +142,7 @@
                 你好！我是小S。點選下方模式開啟 30 秒實戰：
                 <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:15px;" id="modeSelector">
                     <button class="mode-btn" onclick="initTest('👦 冷酷男孩')" style="background:white; border:2px solid var(--accent-blue); padding:8px 12px; border-radius:12px; font-weight:800; color:var(--accent-blue);">👦 冷酷男孩</button>
-                    <button class="mode-btn" onclick="initTest('👧 可愛女孩')" style="background:white; border:2px solid var(--accent-blue); padding:8px 12px; border-radius:12px; font-weight:800; color:var(--accent-blue);">👧 可愛女孩</button>
                     <button class="mode-btn" onclick="initTest('😡 憤怒主管')" style="background:white; border:2px solid var(--accent-blue); padding:8px 12px; border-radius:12px; font-weight:800; color:var(--accent-blue);">😡 憤怒主管</button>
-                    <button class="mode-btn" onclick="initTest('😭 情緒化伴侶')" style="background:white; border:2px solid var(--accent-blue); padding:8px 12px; border-radius:12px; font-weight:800; color:var(--accent-blue);">😭 情緒化伴侶</button>
                 </div>
             </div>
         </div>
@@ -101,10 +153,10 @@
 
         <div class="assessment-overlay" id="reportView">
             <h2>測驗結束！</h2>
-            <div class="score-box">8.5</div>
+            <div class="score-box">8.5/10</div>
             <p>輸入 Email 獲取完整 1,000 字深度分析報告</p>
             <input type="email" id="userEmail" placeholder="your@email.com">
-            <button class="btn-submit" onclick="window.location.reload()">送出並關閉</button>
+            <button class="btn" style="background:var(--ai-gradient); color:white; width:100%; max-width:300px;" onclick="window.location.reload()">送出並關閉</button>
         </div>
     </div>
 
@@ -113,7 +165,7 @@
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         const chatMsgs = document.getElementById('chatMsgs');
-        let timerId = null, secondsLeft = 30; // Updated to 30s
+        let timerId = null, secondsLeft = 30;
 
         document.getElementById('openChat').onclick = () => chatWindow.style.display = 'flex';
         document.getElementById('closeChat').onclick = () => chatWindow.style.display = 'none';
@@ -121,8 +173,7 @@
         function initTest(mode) {
             document.getElementById('modeSelector').style.opacity = '0.4';
             document.getElementById('modeSelector').style.pointerEvents = 'none';
-            userInput.disabled = false;
-            sendBtn.disabled = false;
+            userInput.disabled = false; sendBtn.disabled = false;
             userInput.placeholder = "請開始輸入...";
             setTimeout(() => { userInput.focus(); }, 300);
             addMsg(`系統：進入 ${mode} 模式。測驗開始！`, 'ai');
@@ -133,8 +184,7 @@
             if(timerId) return;
             timerId = setInterval(() => {
                 secondsLeft--;
-                let m = Math.floor(secondsLeft / 60), s = secondsLeft % 60;
-                document.getElementById('timer').textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                document.getElementById('timer').textContent = `00:${secondsLeft.toString().padStart(2,'0')}`;
                 if(secondsLeft <= 0) { 
                     clearInterval(timerId); 
                     document.getElementById('reportView').style.display = 'flex'; 
