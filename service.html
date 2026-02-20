@@ -15,24 +15,30 @@
             --bg-light: #f4f7f9;
         } /* <--- This MUST close here! */
 
-        /* Now add the animation and the button class outside of :root */
-        @keyframes gradientFlow {
+    @keyframes gradientFlow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
         .btn-animated {
-            background: linear-gradient(-45deg, #2c3e50, #3498db, #f39c12, #2c3e50);
+            /* Professional Deep Sea Gradient: Navy -> Royal Blue -> Teal Green */
+            background: linear-gradient(-45deg, #1a2a6c, #3498db, #00b09b, #1a2a6c);
             background-size: 400% 400%;
-            animation: gradientFlow 8s ease infinite;
+            animation: gradientFlow 6s ease infinite; /* Slightly faster for more 'life' */
             color: white !important;
-            transition: 0.3s;
+            transition: 0.3s ease;
             border: none;
             display: inline-block;
             text-decoration: none;
             border-radius: 12px;
             font-weight: 800;
+            box-shadow: 0 4px 15px rgba(0, 176, 155, 0.2);
+        }
+
+        .btn-animated:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 176, 155, 0.4);
         }
 
         body { font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; line-height: 1.6; color: var(--text-dark); margin: 0; padding: 0; background: var(--bg-light); }
