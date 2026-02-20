@@ -303,6 +303,17 @@
     </div>
 
  <script>
+
+// Add this at the very beginning of your existing <script> section
+    document.querySelectorAll('.trigger').forEach(el => {
+        el.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) { 
+                e.preventDefault(); 
+                this.parentElement.classList.toggle('mobile-open'); 
+            }
+        });
+    });
+     
     // 1. Elements
     const chatWindow = document.getElementById('chatWindow');
     const dollTrigger = document.getElementById('openChat');
