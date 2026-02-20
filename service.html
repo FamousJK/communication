@@ -194,6 +194,18 @@
             .service-box { padding: 20px; }
             .container { padding: 0 15px; }
 
+            /* Font Size Fixes for Mobile */
+            .service-box p, 
+            .feature-card p, 
+            .cta-highlight p,
+            .step-col p { 
+                font-size: 1rem !important; 
+                line-height: 1.5; 
+            }
+            .service-box h2 { font-size: 1.6rem !important; }
+            .hero-banner h1 { font-size: 1.8rem !important; }
+
+            /* Navigation Sync */
             .nav-container {
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
@@ -209,24 +221,27 @@
             }
             .nav-links li { margin-right: 15px; }
 
+            /* Dropdown with Blue Top Curve */
             .dropdown.mobile-open .dropdown-content { 
-        display: block; 
-        position: static; 
-        transform: none; 
-        background: #ffffff; /* Brighter white for mobile */
-        
-        /* The Blue Top Curve Boarder */
-        border-top: 4px solid var(--accent-blue); 
-        border-radius: 12px 12px 5px 5px; 
-        margin: 10px 5px; /* Adds space so it looks like a floating card */
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-            
+                display: block; 
+                position: static; 
+                transform: none; 
+                background: #ffffff; 
+                border-top: 4px solid var(--accent-blue); 
+                border-radius: 12px 12px 5px 5px; 
+                margin: 10px 5px; 
+                box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            }
+
+            /* Dropdown Links Text Sync */
             .dropdown-content a {
                 text-align: center !important;
                 padding: 10px 15px;
                 font-size: 0.95rem !important;
             }
+      
+            
+
 
             .nav-container::-webkit-scrollbar { display: none; }
             .nav-container { -ms-overflow-style: none; scrollbar-width: none; }
