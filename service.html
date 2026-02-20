@@ -5,15 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我們的服務 - JK 交流工作坊</title>
   <style>
-        :root {
+ :root {
             --primary-navy: #2c3e50;
             --accent-blue: #3498db;
+            --soft-blue: #f0f7ff; /* Added this back */
+            --success-green: #27ae60;
             --ai-orange: #f39c12;
             --dark-orange: #d35400;
             --ai-gradient: linear-gradient(135deg, #f39c12, #d35400);
             --text-dark: #333;
             --bg-light: #f4f7f9;
-        } /* <--- This MUST close here! */
+        }
 
     @keyframes gradientFlow {
             0% { background-position: 0% 50%; }
@@ -41,7 +43,15 @@
             box-shadow: 0 8px 25px rgba(0, 176, 155, 0.4);
         }
 
-        body { font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; line-height: 1.6; color: var(--text-dark); margin: 0; padding: 0; background: var(--bg-light); }
+    body { 
+            font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; 
+            line-height: 1.6; 
+            color: var(--text-dark); 
+            margin: 0; 
+            padding: 0; 
+            background: var(--bg-light); 
+            -webkit-font-smoothing: antialiased; /* Makes fonts crisper */
+        }
 
      /* Top Bar Sync */
         .top-bar { background: var(--primary-navy); padding: 8px 5%; display: flex; justify-content: space-between; align-items: center; min-height: 45px; }
