@@ -193,117 +193,128 @@
 
     <div class="ai-doll-trigger" id="openChat"><img src="service-s.png" alt="S"></div>
     
-    <div class="chat-window" id="chatWindow">
+<div class="chat-window" id="chatWindow">
         <div class="chat-header">
             <span>小S | 30s 實戰挑戰</span>
             <div id="timerDisplay" class="timer-tag">30s</div>
             <span id="closeChat" style="cursor:pointer; font-size: 20px;">✕</span>
         </div>
         
-<script>
-    // 1. Elements
-    const chatWindow = document.getElementById('chatWindow');
-    const dollTrigger = document.getElementById('openChat');
-    const chatInput = document.getElementById('chatInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const chatMsgs = document.getElementById('chatMsgs');
-    const timerDisplay = document.getElementById('timerDisplay');
+        <div class="style-bar" id="styleBar">
+            <button class="style-btn" onclick="updateStyle(this, '陽光男孩')">☀️ 陽光男孩</button>
+            <button class="style-btn" onclick="updateStyle(this, '冷靜軍師(男)')">🛡️ 冷靜軍師</button>
+            <button class="style-btn" onclick="updateStyle(this, '毒舌前輩(男)')">🐍 毒舌前輩</button>
+            <button class="style-btn" onclick="updateStyle(this, '溫柔姐姐')">🌸 溫柔姐姐</button>
+            <button class="style-btn" onclick="updateStyle(this, '幹練女強人')">💼 幹練強人</button>
+            <button class="style-btn" onclick="updateStyle(this, '活潑少女')">🦄 活潑少女</button>
+        </div>
 
-    // 2. Global State
-    let timeLeft = 30;
-    let timerId = null;
-    let state = "READY";
-    let currentStyle = "專業";
+        <div id="chatMsgs" class="chat-messages">
+            <div class="msg ai">準備好開始挑戰了嗎？<br><br>選好模式後，輸入「開始」啟動 30 秒倒數！</div>
+        </div>
 
-    // 3. UI Controls
-    dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
-    document.getElementById('closeChat').onclick = () => { chatWindow.style.display = 'none'; dollTrigger.style.display = 'flex'; };
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="輸入訊息...">
+            <button class="send-btn" id="sendBtn">➤</button>
+        </div>
+    </div>
 
-    // 4. THE MESSAGE FUNCTION (Critical for fixing white screen)
-    function addMessage(text, side) {
-        const div = document.createElement('div');
-        div.className = `msg ${side}`;
-        div.innerHTML = text;
-        chatMsgs.appendChild(div);
-        chatMsgs.scrollTop = chatMsgs.scrollHeight;
-    }
+    <script>
+        const chatWindow = document.getElementById('chatWindow');
+        const dollTrigger = document.getElementById('openChat');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatMsgs = document.getElementById('chatMsgs');
+        const timerDisplay = document.getElementById('timerDisplay');
 
-    // 5. Selection Logic (Grey out & Disable)
-    function updateStyle(btn, s) {
-        currentStyle = s;
-        const allBtns = document.querySelectorAll('.style-btn');
-        
-        allBtns.forEach(b => {
-            b.classList.remove('active');
-            b.style.opacity = "0.3";
-            b.style.filter = "grayscale(100%)";
-            b.style.pointerEvents = "none"; // Disable clicks
-        });
+        let timeLeft = 30;
+        let timerId = null;
+        let state = "READY";
+        let currentStyle = "專業";
 
-        btn.classList.add('active');
-        btn.style.opacity = "1";
-        btn.style.filter = "grayscale(0%)";
+        dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
+        document.getElementById('closeChat').onclick = () => { chatWindow.style.display = 'none'; dollTrigger.style.display = 'flex'; };
 
-        chatInput.value = "開始";
-        chatInput.focus();
-        addMessage(`已選擇：<b>${s}</b>。請點擊發送或按 Enter 開始挑戰！`, 'ai');
-    }
-
-    // 6. Send Logic
-    function handleSend() {
-        const val = chatInput.value.trim();
-        if (!val) return;
-
-        addMessage(val, 'user');
-        chatInput.value = '';
-
-        if (val === "開始" && state === "READY") {
-            state = "CHALLENGING";
-            startTimer();
-            
-            let firstLine = `我是${currentStyle}。老闆現在對進度很不滿，你打算怎麼解釋？`;
-            if(currentStyle.includes('毒舌')) firstLine = `我是${currentStyle}。這種內容也敢交上來？解釋一下你到底在想什麼。`;
-            if(currentStyle.includes('溫柔')) firstLine = `我是${currentStyle}。別緊張，遇到什麼困難了嗎？我們一起想辦法。`;
-            
-            setTimeout(() => { addMessage(firstLine, 'ai'); }, 500);
-        } else if (state === "CHALLENGING") {
-            setTimeout(() => { 
-                addMessage("這點我了解，你覺得接下來該如何優化？", 'ai'); 
-            }, 800);
-        } else if (state === "EMAIL") {
-            addMessage("感謝！分析報告將寄送到您的信箱。", 'ai');
-            chatInput.disabled = true;
+        function addMessage(text, side) {
+            const div = document.createElement('div');
+            div.className = `msg ${side}`;
+            div.innerHTML = text;
+            chatMsgs.appendChild(div);
+            chatMsgs.scrollTop = chatMsgs.scrollHeight;
         }
-    }
 
-    // 7. Timer Logic
-    function startTimer() {
-        timeLeft = 30;
-        timerId = setInterval(() => {
-            timeLeft--;
-            timerDisplay.innerText = timeLeft + 's';
-            if (timeLeft <= 0) { 
-                clearInterval(timerId); 
-                endChallenge(); 
+        function updateStyle(btn, s) {
+            currentStyle = s;
+            const allBtns = document.querySelectorAll('.style-btn');
+            
+            allBtns.forEach(b => {
+                b.classList.remove('active');
+                b.style.opacity = "0.3";
+                b.style.filter = "grayscale(100%)";
+                b.style.pointerEvents = "none"; 
+            });
+
+            btn.classList.add('active');
+            btn.style.opacity = "1";
+            btn.style.filter = "grayscale(0%)";
+
+            chatInput.value = "開始";
+            chatInput.focus();
+            addMessage(`已選擇：<b>${s}</b>。請點擊發送或按 Enter 開始挑戰！`, 'ai');
+        }
+
+        function handleSend() {
+            const val = chatInput.value.trim();
+            if (!val) return;
+
+            addMessage(val, 'user');
+            chatInput.value = '';
+
+            if (val === "開始" && state === "READY") {
+                state = "CHALLENGING";
+                startTimer();
+                
+                let firstLine = `我是${currentStyle}。老闆現在對進度很不滿，你打算怎麼解釋？`;
+                if(currentStyle.includes('毒舌')) firstLine = `我是${currentStyle}。這種內容也敢交上來？解釋一下你到底在想什麼。`;
+                if(currentStyle.includes('溫柔')) firstLine = `我是${currentStyle}。別緊張，遇到什麼困難了嗎？我們一起想辦法。`;
+                
+                setTimeout(() => { addMessage(firstLine, 'ai'); }, 500);
+            } else if (state === "CHALLENGING") {
+                setTimeout(() => { 
+                    addMessage("這點我了解，你覺得接下來該如何優化？", 'ai'); 
+                }, 800);
+            } else if (state === "EMAIL") {
+                addMessage("感謝！分析報告將寄送到您的信箱。", 'ai');
+                chatInput.disabled = true;
             }
-        }, 1000);
-    }
-
-    function endChallenge() {
-        state = "EMAIL";
-        addMessage("🚨 <b>挑戰結束！</b><br>想要詳細的診斷報告嗎？請留下您的 Email！", 'ai');
-        chatInput.placeholder = "請輸入 Email...";
-        chatInput.focus();
-    }
-
-    // 8. Event Listeners
-    sendBtn.onclick = handleSend;
-    chatInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            handleSend();
         }
-    });
-</script>
+
+        function startTimer() {
+            timeLeft = 30;
+            timerId = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft + 's';
+                if (timeLeft <= 0) { 
+                    clearInterval(timerId); 
+                    endChallenge(); 
+                }
+            }, 1000);
+        }
+
+        function endChallenge() {
+            state = "EMAIL";
+            addMessage("🚨 <b>挑戰結束！</b><br>想要詳細的診斷報告嗎？請留下您的 Email！", 'ai');
+            chatInput.placeholder = "請輸入 Email...";
+            chatInput.focus();
+        }
+
+        sendBtn.onclick = handleSend;
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                handleSend();
+            }
+        });
+    </script>
 
 
 
