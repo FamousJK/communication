@@ -131,14 +131,12 @@
         .chat-input-area input { flex: 1; padding: 12px 15px; border: 1px solid #ddd; border-radius: 25px; outline: none; }
         .send-btn { background: var(--ai-orange); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; }
 
-/* --- Comprehensive Mobile Fix (Synced with Other Page) --- */
+/* --- Comprehensive Mobile Fix --- */
         @media (max-width: 768px) { 
-            /* 1. Stack Content Boxes */
             .step-row-desktop { flex-direction: column; gap: 20px; }
             .service-box { padding: 20px; }
             .container { padding: 0 15px; }
 
-            /* 2. Navigation: Horizontal Scroll (Matches Other Page) */
             .nav-container {
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
@@ -149,12 +147,11 @@
                 justify-content: flex-start;
                 padding: 12px 15px;
                 display: flex;
-                flex-wrap: nowrap; /* Prevents wrapping/expanding */
-                width: max-content; /* Allows horizontal sliding */
+                flex-wrap: nowrap;
+                width: max-content;
             }
             .nav-links li { margin-right: 15px; }
 
-            /* 3. Dropdown: Push-Down logic */
             .dropdown.mobile-open .dropdown-content { 
                 display: block; 
                 position: static; 
@@ -170,25 +167,32 @@
                 font-size: 0.95rem !important;
             }
 
-            /* 4. Chat & Scrollbar Hide */
             .nav-container::-webkit-scrollbar { display: none; }
             .nav-container { -ms-overflow-style: none; scrollbar-width: none; }
-            .chat-window { width: 95% !important; right: 2.5% !important; left: 2.5% !important; height: 75vh !important; bottom: 90px !important; }
-        }
+            
+            .chat-window { 
+                width: 95% !important; 
+                right: 2.5% !important; 
+                left: 2.5% !important; 
+                height: 75vh !important; 
+                bottom: 90px !important; 
+            }
 
-            /* 4. Small adjustments */
             .btn-animated {
                 padding: 18px 20px !important;
                 font-size: 1.2rem !important;
                 width: 100%;
             }
+        }
 
-            /* 5. Scrollbar and Chat adjustment */
-            .nav-container::-webkit-scrollbar { display: none; }
-            .nav-container { -ms-overflow-style: none; scrollbar-width: none; }
-            .chat-window { width: 90%; right: 5%; left: 5%; height: 70vh; bottom: 100px; }
-        } /* <--- This bracket closes the Media Query */
-
+        /* NEW: Force Desktop to stay 360px wide */
+        @media (min-width: 769px) {
+            .chat-window {
+                width: 360px !important;
+                right: 20px !important;
+                left: auto !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -204,7 +208,7 @@
         <ul class="nav-links">
             <li><a href="index.html">主頁</a></li>
             <li class="dropdown">
-                <a href="#" class="active">關於我們 ▼</a>
+                <li><a href="#" class="active trigger">關於我們 ▼</a>
                 <div class="dropdown-content">
                     <a href="about.html">我們的承諾</a>
                     <a href="service.html">我們的服務</a>
