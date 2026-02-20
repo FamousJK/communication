@@ -201,12 +201,12 @@
         </div>
         
 <div class="style-bar" id="styleBar">
-    <button class="style-btn active" onclick="updateStyle(this, '陽光大男孩')">☀️ 陽光</button>
-    <button class="style-btn" onclick="updateStyle(this, '冷靜軍師')">🛡️ 冷靜</button>
-    <button class="style-btn" onclick="updateStyle(this, '毒舌前輩')">🐍 毒舌</button>
-    <button class="style-btn" onclick="updateStyle(this, '溫柔姐姐')">🌸 溫柔</button>
-    <button class="style-btn" onclick="updateStyle(this, '幹練女強人')">💼 幹練</button>
-    <button class="style-btn" onclick="updateStyle(this, '古靈精怪')">🦄 活潑</button>
+    <button class="style-btn" onclick="updateStyle(this, '陽光男孩')">☀️ 陽光男孩</button>
+    <button class="style-btn" onclick="updateStyle(this, '冷靜軍師(男)')">🛡️ 冷靜軍師</button>
+    <button class="style-btn" onclick="updateStyle(this, '毒舌前輩(男)')">🐍 毒舌前輩</button>
+    <button class="style-btn" onclick="updateStyle(this, '溫柔姐姐')">🌸 溫柔姐姐</button>
+    <button class="style-btn" onclick="updateStyle(this, '幹練女強人')">💼 幹練強人</button>
+    <button class="style-btn" onclick="updateStyle(this, '活潑少女')">🦄 活潑少女</button>
 </div>
 
         <div id="chatMsgs" class="chat-messages">
@@ -236,48 +236,47 @@
 
 function updateStyle(btn, s) {
     currentStyle = s;
-    
-    // Get all buttons in the bar
     const allBtns = document.querySelectorAll('.style-btn');
     
     allBtns.forEach(b => {
         b.classList.remove('active');
-        b.style.opacity = "0.4"; // Gray out (make translucent)
-        b.style.filter = "grayscale(100%)"; // Remove color
+        b.style.opacity = "0.3";
+        b.style.filter = "grayscale(100%)";
+        b.style.pointerEvents = "none"; // Disable further clicking
     });
 
-    // Highlight only the selected one
+    // Highlight selected
     btn.classList.add('active');
     btn.style.opacity = "1";
     btn.style.filter = "grayscale(0%)";
+
+    // Auto-fill "開始" and focus for the user
+    chatInput.value = "開始";
+    chatInput.focus();
+    addMessage(`已選擇：<b>${s}</b>。請點擊發送或按 Enter 開始挑戰！`, 'ai');
 }
 
-        function addMessage(text, side) {
-            const div = document.createElement('div');
-            div.className = `msg ${side}`;
-            div.innerHTML = text;
-            chatMsgs.appendChild(div);
-            chatMsgs.scrollTop = chatMsgs.scrollHeight;
-        }
+      function handleSend() {
+    const val = chatInput.value.trim();
+    if(!val) return;
+    
+    addMessage(val, 'user');
+    chatInput.value = '';
 
-        function handleSend() {
-            const val = chatInput.value.trim();
-            if(!val) return;
-            addMessage(val, 'user');
-            chatInput.value = '';
-
-            if (state === "READY") {
-                state = "CHALLENGING";
-                startTimer();
-                addMessage(`【${currentStyle}模式啟動】<br>老闆現在很不滿意你的表現，請在 30 秒內說服他！`, 'ai');
-            } else if (state === "CHALLENGING") {
-                chatInput.disabled = true;
-                setTimeout(() => { if(timeLeft > 0) { addMessage("這理由不夠充分，還有嗎？", 'ai'); chatInput.disabled = false; chatInput.focus(); } }, 800);
-            } else if (state === "EMAIL") {
-                addMessage("感謝！分析報告將寄送到您的信箱。", 'ai');
-                chatInput.disabled = true;
-            }
-        }
+    if (val === "開始" && state === "READY") {
+        state = "CHALLENGING";
+        startTimer(); // Timer starts here
+        
+        // AI initiates the first sentence based on tone
+        let firstLine = `我是${currentStyle}。老闆現在對進度很不滿，你打算怎麼解釋？`;
+        if(currentStyle.includes('毒舌')) firstLine = `我是${currentStyle}。這份報告寫成這樣，你真的有動腦嗎？解釋一下吧。`;
+        if(currentStyle.includes('溫柔')) firstLine = `我是${currentStyle}。聽說你工作遇到了困難，跟我聊聊好嗎？`;
+        
+        setTimeout(() => { addMessage(firstLine, 'ai'); }, 500);
+    } else if (state === "CHALLENGING") {
+        // ... existing response logic ...
+    }
+}
 
         function startTimer() {
             timerId = setInterval(() => {
