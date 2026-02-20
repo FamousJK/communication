@@ -213,18 +213,21 @@
     let state = "READY";
     let currentStyle = "專業";
 
+    // Open/Close logic
     dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
     document.getElementById('closeChat').onclick = () => { chatWindow.style.display = 'none'; dollTrigger.style.display = 'flex'; };
 
-    // THIS WAS LIKELY MISSING OR NAMED WRONG
+    // 1. The Essential Message Function (Fixes white screen)
     function addMessage(text, side) {
         const div = document.createElement('div');
         div.className = `msg ${side}`;
         div.innerHTML = text;
         chatMsgs.appendChild(div);
+        // Auto-scroll to bottom
         chatMsgs.scrollTop = chatMsgs.scrollHeight;
     }
 
+    // 2. Button selection logic
     function updateStyle(btn, s) {
         currentStyle = s;
         const allBtns = document.querySelectorAll('.style-btn');
@@ -242,9 +245,10 @@
 
         chatInput.value = "開始";
         chatInput.focus();
-        addMessage(`已選擇：<b>${s}</b>。請點擊發送或按 Enter 開始挑戰！`, 'ai');
+        addMessage(`已選擇：<b>${s}</b>。請按 Enter 或點擊發送開始挑戰！`, 'ai');
     }
 
+    // 3. Sending logic
     function handleSend() {
         const val = chatInput.value.trim();
         if (!val) return; 
@@ -257,25 +261,23 @@
             startTimer(); 
             
             let firstLine = `我是${currentStyle}。老闆現在對進度很不滿，你打算怎麼解釋？`;
-            // Personality specific starters
-            if(currentStyle.includes('毒舌')) firstLine = `我是${currentStyle}。這份報告寫成這樣也敢拿出來？給我個不開除你的理由。`;
-            if(currentStyle.includes('溫柔')) firstLine = `我是${currentStyle}。別緊張，慢慢說，遇到什麼困難了嗎？`;
+            if(currentStyle.includes('毒舌')) firstLine = `我是${currentStyle}。這份報告寫成這樣？給我個理由。`;
+            if(currentStyle.includes('溫柔')) firstLine = `我是${currentStyle}。沒關係，慢慢說，我聽著。`;
             
             setTimeout(() => { addMessage(firstLine, 'ai'); }, 500);
         } 
         else if (state === "CHALLENGING") {
             setTimeout(() => { 
-                addMessage("這點我了解，還有其他想補充的嗎？", 'ai'); 
+                addMessage("了解，針對這點，你有什麼具體的解決方案嗎？", 'ai'); 
             }, 800);
         }
         else if (state === "EMAIL") {
             addMessage("感謝！分析報告將寄送到您的信箱。", 'ai');
-            chatInput.disabled = true;
         }
     }
 
     function startTimer() {
-        timeLeft = 30; // Reset timer just in case
+        timeLeft = 30;
         timerId = setInterval(() => {
             timeLeft--;
             timerDisplay.innerText = timeLeft + 's';
@@ -288,9 +290,7 @@
 
     function endChallenge() {
         state = "EMAIL";
-        chatInput.disabled = true;
         addMessage("🚨 <b>挑戰結束！</b><br>想要詳細的診斷報告嗎？請留下您的 Email！", 'ai');
-        chatInput.disabled = false;
         chatInput.value = "";
         chatInput.placeholder = "請輸入 Email...";
         chatInput.focus();
@@ -300,10 +300,13 @@
     sendBtn.onclick = handleSend;
     chatInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
-            e.preventDefault(); // Prevents line breaks in some browsers
             handleSend();
         }
     });
 </script>
+
+
+
+        
 </body>
 </html>
