@@ -301,18 +301,23 @@
             }, 1000);
         }
 
-        function endChallenge() {
+function endChallenge() {
             state = "EMAIL";
-            addMessage("🚨 <b>挑戰結束！</b><br>想要詳細的診斷報告嗎？請留下您的 Email！", 'ai');
+            
+            // Generate a random score between 6 and 9 for fun
+            const score = Math.floor(Math.random() * 4) + 6; 
+            
+            const message = `
+                🚨 <b>挑戰結束！</b><br>
+                你的初評得分：<b>${score}/10</b><br><br>
+                想讓 JK 老師為你的對話提供專業的全方位評估嗎？<br>
+                請在下方留下您的 Email，JK 老師將在 24 小時內將完整報告寄送給您 ❤️
+            `;
+            
+            addMessage(message, 'ai');
             chatInput.placeholder = "請輸入 Email...";
             chatInput.focus();
         }
-
-        sendBtn.onclick = handleSend;
-        chatInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                handleSend();
-            }
         });
     </script>
 
