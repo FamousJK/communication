@@ -138,32 +138,32 @@
         }
 
         /* --- Updated Mobile Styles --- */
-        @media (max-width: 768px) { 
-            .step-row-desktop { flex-direction: column; } 
+ @media (max-width: 768px) { 
+    /* ... keep your existing mobile code here ... */
 
-            .nav-container {
-                overflow-x: auto; /* Allow side-to-side scroll */
-                white-space: nowrap; /* Keep links in one line */
-                -webkit-overflow-scrolling: touch; /* Smooth scroll for iPhone */
-                display: block; /* Ensure container behaves for scrolling */
-            }
+    /* 1. Prevent the container from clipping the dropdown */
+    .nav-container {
+        overflow-x: auto;
+        overflow-y: visible; /* Allows the dropdown to leak out vertically */
+    }
 
-            .nav-links {
-                justify-content: flex-start; /* Start links from left */
-                padding: 12px 15px;
-                display: flex;
-                flex-wrap: nowrap; /* Force single line */
-                width: max-content; /* Container expands to fit all items */
-            }
+    /* 2. Adjust the dropdown positioning for mobile */
+    .dropdown-content {
+        position: absolute;
+        top: 100%; /* Sits right below the nav link */
+        left: 0;
+        transform: none; /* Reset the centering so it doesn't fly off screen */
+        width: 160px;
+        z-index: 9999; /* Ensure it stays on top of everything */
+        background: white;
+    }
 
-            .nav-links li:last-child {
-                padding-right: 40px; /* Space after the last link so it's not cut off */
-            }
-
-            /* Hide scrollbar for a cleaner look */
-            .nav-container::-webkit-scrollbar { display: none; }
-            .nav-container { -ms-overflow-style: none; scrollbar-width: none; }
-        }
+    /* 3. Make sure the dropdown triggers on click/tap for mobile */
+    .dropdown:active .dropdown-content, 
+    .dropdown:focus .dropdown-content {
+        display: block;
+    }
+}
     </style>
 </head>
 <body>
