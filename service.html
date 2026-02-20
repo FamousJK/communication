@@ -133,73 +133,70 @@
 
 /* --- Comprehensive Mobile Fix --- */
         @media (max-width: 768px) { 
-            /* 1. Fix the Boxes: Stack them vertically */
+            /* 1. Fix the Boxes */
             .step-row-desktop { 
                 flex-direction: column; 
                 gap: 20px;
             }
+            .service-box { padding: 20px; }
+            .container { padding: 0 15px; }
 
-            .service-box {
-                padding: 20px;
-            }
-
-            .container {
-                padding: 0 15px;
-            }
-
-            /* 2. Fix the Navigation: Scrolling & Flow */
+            /* 2. Fix the Navigation */
             .nav-container {
                 overflow-x: auto;
                 overflow-y: visible; 
-                white-space: normal; /* Changed to normal to allow the push-down height to expand */
+                white-space: normal; 
                 -webkit-overflow-scrolling: touch;
                 display: block;
             }
-
             .nav-links {
                 justify-content: flex-start;
                 padding: 12px 15px;
                 display: flex;
-                flex-wrap: wrap; /* Changed to wrap so the dropdown can push items to a new line */
+                flex-wrap: wrap; 
                 width: 100%;
             }
+            .nav-links li:last-child { padding-right: 40px; }
 
-            .nav-links li:last-child {
-                padding-right: 40px;
-            }
-
-            /* 3. Push-Down Dropdown for Mobile */
+            /* 3. Push-Down Dropdown */
             .dropdown-content {
-                position: static;     /* Pushes content down */
+                position: static;     
                 display: none; 
                 width: 100%; 
-                background: #f1f1f1;  /* Distinct light grey */
+                background: #f1f1f1;  
                 transform: none;      
                 box-shadow: none;     
                 border: none;
                 padding-left: 15px;
                 margin-top: 10px;
             }
-
             .dropdown-content a {
                 text-align: left !important;
                 padding: 12px 15px;
                 border-bottom: 1px solid #ddd;
                 width: 100%;
             }
-
-            /* Shows the menu when tapped or focused */
             .dropdown:active .dropdown-content, 
             .dropdown:focus-within .dropdown-content {
                 display: block !important;
             }
 
-            /* 4. Small adjustments for the big button and chat */
+            /* 4. Small adjustments */
             .btn-animated {
                 padding: 18px 20px !important;
                 font-size: 1.2rem !important;
                 width: 100%;
             }
+
+            /* 5. Scrollbar and Chat adjustment */
+            .nav-container::-webkit-scrollbar { display: none; }
+            .nav-container { -ms-overflow-style: none; scrollbar-width: none; }
+            .chat-window { width: 90%; right: 5%; left: 5%; height: 70vh; bottom: 100px; }
+        } /* <--- This bracket closes the Media Query */
+
+    </style>
+</head>
+<body>
 
             /* Hide Nav Scrollbar */
             .nav-container::-webkit-scrollbar { display: none; }
@@ -408,24 +405,22 @@
     }
 
     // 8. End Challenge (The Score & Email Prompt)
-    function endChallenge() {
-        state = "EMAIL";
-        
-        const score = (Math.random() * (9.5 - 6.5) + 6.5).toFixed(1); 
-        
-        chatInput.value = ""; 
-        chatInput.placeholder = `請在此輸入您的 Email`;
+function endChallenge() {
+    state = "EMAIL";
+    const score = (Math.random() * (9.5 - 6.5) + 6.5).toFixed(1); 
+    chatInput.value = ""; 
+    chatInput.placeholder = `請在此輸入您的 Email`;
 
-        const finalMsg = `
-            🚨 <b>挑戰結束！</b><br><br>
-            初步評估得分：<span style="font-size: 1.5rem; color: #d35400;"><b>${score} / 10</b></span><br><br>
-            想讓 <b>JK 老師</b> 為您的溝通表現提供全方位評估嗎？<br>
-            請在下方留下您的 Email，老師將在 24 小時內將完整報告寄送給您 ❤️
-        `;
-        
-        addMessage(finalMsg, 'ai');
-        chatInput.focus();
-    }
+    const finalMsg = `
+        🚨 <b>挑戰結束！</b><br><br>
+        初步評估得分：<span style="font-size: 1.5rem; color: #d35400;"><b>${score} / 10</b></span><br><br>
+        想讓 <b>JK 老師</b> 為您的溝通表現提供全方位評估嗎？<br>
+        請在下方留下您的 Email ❤️
+    `;
+    
+    addMessage(finalMsg, 'ai');
+    chatInput.focus();
+} // <--- Make sure THIS bracket is here!
 
     // 9. Event Listeners
     sendBtn.onclick = handleSend;
