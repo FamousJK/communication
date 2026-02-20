@@ -256,25 +256,26 @@ function updateStyle(btn, s) {
     addMessage(`已選擇：<b>${s}</b>。請點擊發送或按 Enter 開始挑戰！`, 'ai');
 }
 
-      function handleSend() {
+function handleSend() {
     const val = chatInput.value.trim();
-    if(!val) return;
-    
+    if (!val) return; // Ignore empty messages
+
     addMessage(val, 'user');
     chatInput.value = '';
 
+    // Check for the "Start" command
     if (val === "開始" && state === "READY") {
         state = "CHALLENGING";
-        startTimer(); // Timer starts here
+        startTimer(); 
         
-        // AI initiates the first sentence based on tone
         let firstLine = `我是${currentStyle}。老闆現在對進度很不滿，你打算怎麼解釋？`;
-        if(currentStyle.includes('毒舌')) firstLine = `我是${currentStyle}。這份報告寫成這樣，你真的有動腦嗎？解釋一下吧。`;
-        if(currentStyle.includes('溫柔')) firstLine = `我是${currentStyle}。聽說你工作遇到了困難，跟我聊聊好嗎？`;
-        
         setTimeout(() => { addMessage(firstLine, 'ai'); }, 500);
-    } else if (state === "CHALLENGING") {
-        // ... existing response logic ...
+    } 
+    // Allow normal conversation once the challenge has started
+    else if (state === "CHALLENGING") {
+        setTimeout(() => { 
+            addMessage("這點我了解，還有其他想補充的嗎？", 'ai'); 
+        }, 800);
     }
 }
 
