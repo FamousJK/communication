@@ -131,55 +131,50 @@
         .chat-input-area input { flex: 1; padding: 12px 15px; border: 1px solid #ddd; border-radius: 25px; outline: none; }
         .send-btn { background: var(--ai-orange); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; }
 
-/* --- Comprehensive Mobile Fix --- */
+/* --- Comprehensive Mobile Fix (Synced with Other Page) --- */
         @media (max-width: 768px) { 
-            /* 1. Fix the Boxes */
-            .step-row-desktop { 
-                flex-direction: column; 
-                gap: 20px;
-            }
+            /* 1. Stack Content Boxes */
+            .step-row-desktop { flex-direction: column; gap: 20px; }
             .service-box { padding: 20px; }
             .container { padding: 0 15px; }
 
-            /* 2. Fix the Navigation */
+            /* 2. Navigation: Horizontal Scroll (Matches Other Page) */
             .nav-container {
                 overflow-x: auto;
-                overflow-y: visible; 
-                white-space: normal; 
                 -webkit-overflow-scrolling: touch;
                 display: block;
+                background: white;
             }
             .nav-links {
                 justify-content: flex-start;
                 padding: 12px 15px;
                 display: flex;
-                flex-wrap: wrap; 
-                width: 100%;
+                flex-wrap: nowrap; /* Prevents wrapping/expanding */
+                width: max-content; /* Allows horizontal sliding */
             }
-            .nav-links li:last-child { padding-right: 40px; }
+            .nav-links li { margin-right: 15px; }
 
-            /* 3. Push-Down Dropdown */
-            .dropdown-content {
-                position: static;     
-                display: none; 
-                width: 100%; 
-                background: #f1f1f1;  
-                transform: none;      
-                box-shadow: none;     
+            /* 3. Dropdown: Push-Down logic */
+            .dropdown.mobile-open .dropdown-content { 
+                display: block; 
+                position: static; 
+                transform: none; 
+                background: #fcfcfc; 
+                box-shadow: none;
                 border: none;
-                padding-left: 15px;
-                margin-top: 10px;
+                margin-top: 5px;
             }
             .dropdown-content a {
                 text-align: left !important;
-                padding: 12px 15px;
-                border-bottom: 1px solid #ddd;
-                width: 100%;
+                padding: 10px 15px;
+                font-size: 0.95rem !important;
             }
-            .dropdown:active .dropdown-content, 
-            .dropdown:focus-within .dropdown-content {
-                display: block !important;
-            }
+
+            /* 4. Chat & Scrollbar Hide */
+            .nav-container::-webkit-scrollbar { display: none; }
+            .nav-container { -ms-overflow-style: none; scrollbar-width: none; }
+            .chat-window { width: 95% !important; right: 2.5% !important; left: 2.5% !important; height: 75vh !important; bottom: 90px !important; }
+        }
 
             /* 4. Small adjustments */
             .btn-animated {
