@@ -131,12 +131,39 @@
         .chat-input-area input { flex: 1; padding: 12px 15px; border: 1px solid #ddd; border-radius: 25px; outline: none; }
         .send-btn { background: var(--ai-orange); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; }
 
-        @media (min-width: 769px) {
+     @media (min-width: 769px) {
             .hero-banner { height: 250px; }
             .hero-banner h1 { font-size: 3.5rem; }
             .nav-links a { font-size: 1.3rem; }
         }
-        @media (max-width: 768px) { .step-row-desktop { flex-direction: column; } }
+
+        /* --- Updated Mobile Styles --- */
+        @media (max-width: 768px) { 
+            .step-row-desktop { flex-direction: column; } 
+
+            .nav-container {
+                overflow-x: auto; /* Allow side-to-side scroll */
+                white-space: nowrap; /* Keep links in one line */
+                -webkit-overflow-scrolling: touch; /* Smooth scroll for iPhone */
+                display: block; /* Ensure container behaves for scrolling */
+            }
+
+            .nav-links {
+                justify-content: flex-start; /* Start links from left */
+                padding: 12px 15px;
+                display: flex;
+                flex-wrap: nowrap; /* Force single line */
+                width: max-content; /* Container expands to fit all items */
+            }
+
+            .nav-links li:last-child {
+                padding-right: 40px; /* Space after the last link so it's not cut off */
+            }
+
+            /* Hide scrollbar for a cleaner look */
+            .nav-container::-webkit-scrollbar { display: none; }
+            .nav-container { -ms-overflow-style: none; scrollbar-width: none; }
+        }
     </style>
 </head>
 <body>
