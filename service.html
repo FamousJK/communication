@@ -328,24 +328,28 @@
         }
 
 function endChallenge() {
-            state = "EMAIL";
-            
-            // Generate a random score between 6 and 9 for fun
-            const score = Math.floor(Math.random() * 4) + 6; 
-            
-            const message = `
-                🚨 <b>挑戰結束！</b><br>
-                你的初評得分：<b>${score}/10</b><br><br>
-                想讓 JK 老師為你的對話提供專業的全方位評估嗎？<br>
-                請在下方留下您的 Email，JK 老師將在 24 小時內將完整報告寄送給您 ❤️
-            `;
-            
-            addMessage(message, 'ai');
-            chatInput.placeholder = "請輸入 Email...";
-            chatInput.focus();
-        }
-        });
-    </script>
+    state = "EMAIL";
+    
+    // 1. Calculate a dynamic score (e.g., 7.5/10)
+    const score = (Math.random() * (9.5 - 6.5) + 6.5).toFixed(1); 
+    
+    // 2. Clear the input and put the score there as a hint
+    chatInput.value = ""; 
+    chatInput.placeholder = `您的評分：${score}/10 | 請在此輸入 Email...`;
+
+    // 3. Send the formal invitation message
+    const finalMsg = `
+        🚨 <b>挑戰結束！</b><br><br>
+        初步評估得分：<span style="font-size: 1.5rem; color: #d35400;"><b>${score} / 10</b></span><br><br>
+        想讓 <b>JK 老師</b> 為您的溝通表現提供全方位評估嗎？<br>
+        請在下方留下您的 Email，老師將在 24 小時內將完整報告寄送給您 ❤️
+    `;
+    
+    addMessage(finalMsg, 'ai');
+    chatInput.focus();
+}
+    }); // This is where the only }); should be
+</script>
 
 
 
