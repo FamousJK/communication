@@ -131,41 +131,66 @@
         .chat-input-area input { flex: 1; padding: 12px 15px; border: 1px solid #ddd; border-radius: 25px; outline: none; }
         .send-btn { background: var(--ai-orange); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; }
 
-     @media (min-width: 769px) {
-            .hero-banner { height: 250px; }
-            .hero-banner h1 { font-size: 3.5rem; }
-            .nav-links a { font-size: 1.3rem; }
-        }
+/* --- Comprehensive Mobile Fix --- */
+        @media (max-width: 768px) { 
+            /* 1. Fix the Boxes: Stack them vertically and keep them inside the screen */
+            .step-row-desktop { 
+                flex-direction: column; 
+                gap: 20px;
+            }
 
-        /* --- Updated Mobile Styles --- */
- @media (max-width: 768px) { 
-    /* ... keep your existing mobile code here ... */
+            .service-box {
+                padding: 20px; /* Reduce padding so it doesn't feel cramped */
+            }
 
-    /* 1. Prevent the container from clipping the dropdown */
-    .nav-container {
-        overflow-x: auto;
-        overflow-y: visible; /* Allows the dropdown to leak out vertically */
-    }
+            .container {
+                padding: 0 15px; /* Ensure there's a small gap at the edges */
+            }
 
-    /* 2. Adjust the dropdown positioning for mobile */
-    .dropdown-content {
-        position: absolute;
-        top: 100%; /* Sits right below the nav link */
-        left: 0;
-        transform: none; /* Reset the centering so it doesn't fly off screen */
-        width: 160px;
-        z-index: 9999; /* Ensure it stays on top of everything */
-        background: white;
-    }
+            /* 2. Fix the Navigation: Scrolling & Overflow */
+            .nav-container {
+                overflow-x: auto;
+                overflow-y: visible; /* Crucial for the dropdown to show */
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                display: block;
+            }
 
-    /* 3. Make sure the dropdown triggers on click/tap for mobile */
-    .dropdown:active .dropdown-content, 
-    .dropdown:focus .dropdown-content {
-        display: block;
-    }
+            .nav-links {
+                justify-content: flex-start;
+                padding: 12px 15px;
+                display: flex;
+                flex-wrap: nowrap;
+                width: max-content;
+            }
+
+            .nav-links li:last-child {
+                padding-right: 40px;
+            }
+
+            /* 3. Fix the Dropdown: Stop it from getting cut off */
+            .dropdown-content {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                transform: none;
+                width: 160px;
+                z-index: 9999;
+                background: white;
+                border: 1px solid #ddd;
+            }
+
+            /* Trigger dropdown on tap */
+            .dropdown:active .dropdown-content, 
+            .dropdown:focus-within .dropdown-content {
+                display: block;
+            }
+
+            /* Hide Nav Scrollbar */
+            .nav-container::-webkit-scrollbar { display: none; }
+            .nav-container { -ms-overflow-style: none; scrollbar-width: none; }
 }
-    </style>
-</head>
+    </style> </head>
 <body>
 
     <div class="top-bar">
