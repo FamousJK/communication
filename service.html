@@ -133,25 +133,25 @@
 
 /* --- Comprehensive Mobile Fix --- */
         @media (max-width: 768px) { 
-            /* 1. Fix the Boxes: Stack them vertically and keep them inside the screen */
+            /* 1. Fix the Boxes: Stack them vertically */
             .step-row-desktop { 
                 flex-direction: column; 
                 gap: 20px;
             }
 
             .service-box {
-                padding: 20px; /* Reduce padding so it doesn't feel cramped */
+                padding: 20px;
             }
 
             .container {
-                padding: 0 15px; /* Ensure there's a small gap at the edges */
+                padding: 0 15px;
             }
 
-            /* 2. Fix the Navigation: Scrolling & Overflow */
+            /* 2. Fix the Navigation: Scrolling & Flow */
             .nav-container {
                 overflow-x: auto;
-                overflow-y: visible; /* Crucial for the dropdown to show */
-                white-space: nowrap;
+                overflow-y: visible; 
+                white-space: normal; /* Changed to normal to allow the push-down height to expand */
                 -webkit-overflow-scrolling: touch;
                 display: block;
             }
@@ -160,38 +160,51 @@
                 justify-content: flex-start;
                 padding: 12px 15px;
                 display: flex;
-                flex-wrap: nowrap;
-                width: max-content;
+                flex-wrap: wrap; /* Changed to wrap so the dropdown can push items to a new line */
+                width: 100%;
             }
 
             .nav-links li:last-child {
                 padding-right: 40px;
             }
 
-            /* 3. Fix the Dropdown: Stop it from getting cut off */
+            /* 3. Push-Down Dropdown for Mobile */
             .dropdown-content {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                transform: none;
-                width: 160px;
-                z-index: 9999;
-                background: white;
-                border: 1px solid #ddd;
+                position: static;     /* Pushes content down */
+                display: none; 
+                width: 100%; 
+                background: #f1f1f1;  /* Distinct light grey */
+                transform: none;      
+                box-shadow: none;     
+                border: none;
+                padding-left: 15px;
+                margin-top: 10px;
             }
 
-            /* Trigger dropdown on tap */
+            .dropdown-content a {
+                text-align: left !important;
+                padding: 12px 15px;
+                border-bottom: 1px solid #ddd;
+                width: 100%;
+            }
+
+            /* Shows the menu when tapped or focused */
             .dropdown:active .dropdown-content, 
             .dropdown:focus-within .dropdown-content {
-                display: block;
+                display: block !important;
+            }
+
+            /* 4. Small adjustments for the big button and chat */
+            .btn-animated {
+                padding: 18px 20px !important;
+                font-size: 1.2rem !important;
+                width: 100%;
             }
 
             /* Hide Nav Scrollbar */
             .nav-container::-webkit-scrollbar { display: none; }
             .nav-container { -ms-overflow-style: none; scrollbar-width: none; }
-}
-    </style> </head>
-<body>
+        }
 
     <div class="top-bar">
         <div class="logo-container"><img src="logo.png" alt="Logo"></div>
