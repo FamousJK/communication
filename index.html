@@ -50,16 +50,52 @@
             -webkit-overflow-scrolling: touch; /* Smooth scrolling on iPhones */
         }
 
+        .nav-container { 
+            background: white; 
+            border-bottom: 1px solid #e1e8ed; /* Light divider line */
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+            overflow-x: auto; 
+            white-space: nowrap; 
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Hides scrollbar for Firefox */
+        }
+
+        /* Hide scrollbar for Chrome/Safari */
+        .nav-container::-webkit-scrollbar { display: none; }
+
         .nav-links { 
             display: flex; 
             list-style: none; 
-            gap: 25px; 
-            margin: 0; 
-            padding: 15px 25px; 
-            justify-content: center; /* Centered on desktop */
-            width: max-content; /* Critical: keeps the list from shrinking */
-            margin: 0 auto;
+            gap: 30px; /* Wider gap for that airy look */
+            margin: 0 auto; 
+            padding: 0 25px; 
+            justify-content: center; 
+            width: max-content; 
         }
+
+        .nav-links li {
+            padding: 15px 0; /* Vertical padding on the list item */
+        }
+
+        .nav-links a { 
+            text-decoration: none; 
+            color: #2c3e50; /* Deep navy text */
+            font-weight: 600; /* Semi-bold like the image */
+            font-size: 1.15rem; 
+            transition: 0.2s;
+            padding: 15px 2px; /* Padding for the clickable area */
+            border-bottom: 4px solid transparent; /* invisible base for the line */
+        }
+
+        /* The grey indicator line from your image */
+        .nav-links a:hover, 
+        .nav-links a.active { 
+            color: #2c3e50;
+            border-bottom: 4px solid #bdc3c7; /* That specific gray underline */
+        }
+
 
         /* Hide scrollbar for a cleaner look (optional) */
         .nav-container::-webkit-scrollbar {
