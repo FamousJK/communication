@@ -201,6 +201,61 @@
     <div class="container">
         <section class="service-box" style="text-align: center; border-left: none; border-top: 5px solid var(--accent-blue);">
             <h2>溝通不是天賦，而是一套系統</h2>
+            <div class="lure-grid">
+            <a href="issue.html" class="lure-box">
+                <h3>🔍 診斷你的溝通障礙 <span class="arrow-icon">→</span></h3>
+                <p>總是聊不下去？這不是你的錯。點擊找出那些悄悄破壞你人際關係的「絆腳石」。</p>
+            </a>
+            <a href="methods.html" class="lure-box">
+                <h3>💡 掌握頂尖交流心法 <span class="arrow-icon">→</span></h3>
+                <p>想讓對方對你印象深刻？從心理學底層邏輯，學會讓人感到舒服的「高級說話術」。</p>
+            </a>
+        </div>
+        ```
+
+---
+
+### Step 2: Clean up your CSS (Optimization)
+You have some **duplicate code** in your `<style>` section (specifically the `.feature-card h3` rule appears twice). To keep your site running fast, here is the cleaned-up version of your style section from the `lure-grid` onwards:
+
+```css
+        /* --- Lure Boxes Styling --- */
+        .lure-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 20px; 
+            margin-bottom: 40px; 
+        }
+        .lure-box {
+            text-decoration: none;
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #eee;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .lure-box:hover {
+            border-color: var(--accent-blue);
+            background: var(--soft-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .lure-box h3 { 
+            margin: 0 0 10px 0; 
+            font-size: 1.4rem; 
+            color: var(--primary-navy); 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .lure-box p { margin: 0; font-size: 1.1rem; color: #666; line-height: 1.4; }
+        .arrow-icon { color: var(--accent-blue); font-weight: bold; }
+
+        .feature-card h3 { margin-top: 0; font-size: 1.5rem; color: var(--primary-navy); }
+    
             <p>在 JK 交流工作坊，我們不只教你說話的技巧，更透過科學化的分析與 AI 實戰，幫你找回社交的自信與影響力。</p>
         </section>
 
