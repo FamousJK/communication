@@ -22,149 +22,77 @@
             background: var(--bg-light); overflow-x: hidden; 
         }
 
-        /* Top Bar Sync */
+        /* Top Bar */
         .top-bar { background: var(--primary-navy); padding: 8px 5%; display: flex; justify-content: space-between; align-items: center; min-height: 45px; }
         .logo-container img { height: 30px; width: auto; display: block; }
         .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
-        /* Hero Banner - Height Synced with Other Pages (180px) */
+        /* Hero Banner */
         .hero-banner {
             background: linear-gradient(rgba(44, 62, 80, 0.6), rgba(44, 62, 80, 0.6)), url('bridge-people.jpg'); 
             background-size: cover;
             background-position: center 35%; 
             height: 180px; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
+            display: flex; justify-content: center; align-items: center; color: white; text-align: center;
         }
-        .hero-banner h1 { 
-            font-size: 2.2rem; 
-            margin: 0; 
-            padding: 0 20px;
-            font-weight: bold;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-        }
+        .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; font-weight: bold; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
 
-        /* Navigation Sync */
+        /* Navigation */
         .nav-container { background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
         .nav-links { display: flex; list-style: none; gap: 25px; margin: 0; padding: 15px 20px; justify-content: center; }
-        .nav-links li { position: relative; }
-        .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: bold; font-size: 1.1rem; white-space: nowrap; display: block; transition: 0.3s; }
+        .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: bold; font-size: 1.1rem; transition: 0.3s; }
         .nav-links a:hover { color: var(--accent-blue); }
 
         /* Dropdown */
+        .dropdown { position: relative; }
         .dropdown-content {
             display: none; position: absolute; background-color: white; min-width: 160px;
             box-shadow: 0px 8px 16px rgba(0,0,0,0.1); z-index: 1001; border-radius: 8px; 
-            top: 100%; left: 50%; transform: translateX(-50%); overflow: hidden;
-            border-top: 3px solid var(--accent-blue);
+            top: 100%; left: 50%; transform: translateX(-50%); border-top: 3px solid var(--accent-blue);
         }
-        .dropdown-content a { color: var(--primary-navy) !important; padding: 12px 16px; display: block; font-size: 1rem !important; font-weight: normal; text-align: center; border-bottom: 1px solid #eee; }
-        .dropdown-content a:hover { background-color: var(--soft-blue); color: var(--accent-blue) !important; }
+        .dropdown-content a { color: var(--primary-navy) !important; padding: 12px 16px; display: block; font-size: 1rem !important; font-weight: normal; border-bottom: 1px solid #eee; text-decoration: none; }
 
         /* Container & Content */
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
         
         .service-box {
             background: white; padding: 35px; border-radius: 15px;
-            border-left: 5px solid var(--accent-blue); margin-bottom: 40px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            border-top: 5px solid var(--accent-blue); margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center;
         }
-        .service-box:hover { transform: translateY(-5px); }
+        .service-box h2 { color: var(--primary-navy); font-size: 2rem; margin-bottom: 20px; }
 
-        .service-box h2 { color: var(--primary-navy); font-size: 2rem; margin: 0 0 20px 0; }
-        .service-box p { font-size: 1.3rem; color: #555; }
+        /* --- Lure Boxes Styling --- */
+        .lure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px; }
+        .lure-box {
+            text-decoration: none; background: #fff; padding: 25px; border-radius: 15px;
+            border: 2px solid #eee; transition: 0.3s; display: flex; flex-direction: column; justify-content: center;
+        }
+        .lure-box:hover { border-color: var(--accent-blue); background: var(--soft-blue); transform: translateY(-3px); }
+        .lure-box h3 { margin: 0 0 10px 0; font-size: 1.4rem; color: var(--primary-navy); display: flex; justify-content: space-between; }
+        .lure-box p { margin: 0; font-size: 1.1rem; color: #666; }
 
         /* Feature Grid */
         .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .feature-card { 
-            background: white; padding: 30px; border-radius: 15px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 5px solid var(--accent-blue);
-            transition: 0.3s;
-        }
-        .feature-card:hover { transform: translateY(-5px); }
-
-        /* ... existing feature-card hover code ... */
-        .feature-card:hover { transform: translateY(-5px); }
-
-        /* --- Lure Boxes Styling --- */
-        .lure-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 20px; 
-            margin-bottom: 40px; 
-        }
-        .lure-box {
-            text-decoration: none;
-            background: #fff;
-            padding: 25px;
-            border-radius: 15px;
-            border: 2px solid #eee;
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .lure-box:hover {
-            border-color: var(--accent-blue);
-            background: var(--soft-blue);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
-        .lure-box h3 { 
-            margin: 0 0 10px 0; 
-            font-size: 1.4rem; 
-            color: var(--primary-navy); 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .lure-box p { margin: 0; font-size: 1.1rem; color: #666; line-height: 1.4; }
-        .arrow-icon { color: var(--accent-blue); font-weight: bold; }
-
-        /* The rule you asked about */
-        .feature-card h3 { margin-top: 0; font-size: 1.5rem; color: var(--primary-navy); }
-        
+        .feature-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 5px solid var(--accent-blue); transition: 0.3s; }
         .feature-card h3 { margin-top: 0; font-size: 1.5rem; color: var(--primary-navy); }
 
         /* CTA Section */
-        .cta-highlight {
-            background: var(--soft-blue); border-left: 8px solid var(--accent-blue);
-            padding: 40px; border-radius: 15px; text-align: center;
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block; padding: 16px 50px; text-decoration: none; 
-            border-radius: 5px; margin-top: 25px; font-weight: bold; 
-            transition: 0.3s; font-size: 1.6rem; border: none; text-align: center;
-            cursor: pointer;
-        }
+        .cta-highlight { background: var(--soft-blue); border-left: 8px solid var(--accent-blue); padding: 40px; border-radius: 15px; text-align: center; }
+        .btn { display: inline-block; padding: 16px 50px; text-decoration: none; border-radius: 5px; margin-top: 25px; font-weight: bold; font-size: 1.6rem; cursor: pointer; transition: 0.3s; }
         .btn-hero { background: var(--ai-gradient); color: white; }
-        .btn:hover { transform: scale(1.05); filter: brightness(1.1); }
 
-        /* Desktop Adjustments - Height Synced with Other Pages (250px) */
+        /* Responsiveness */
         @media (min-width: 769px) {
             .hero-banner { height: 250px; }
             .hero-banner h1 { font-size: 3.5rem; }
-            .nav-links { gap: 40px; }
-            .nav-links a { font-size: 1.3rem; }
             .dropdown:hover .dropdown-content { display: block; }
         }
 
         @media (max-width: 768px) {
-            .nav-container { overflow-x: auto; }
-            .nav-links { justify-content: flex-start; padding-right: 50px; }
-            .dropdown.mobile-open .dropdown-content { display: block; position: static; transform: none; background: #fcfcfc; }
+            .nav-links { justify-content: flex-start; overflow-x: auto; padding-bottom: 10px; }
+            .lure-grid { grid-template-columns: 1fr; }
             .btn { width: 100%; box-sizing: border-box; }
-        }
-
-        @media (max-width: 768px) {
-        /* ... existing mobile code ... */
-            .lure-grid { grid-template-columns: 1fr; } /* This makes them stack on phones */
         }
 
         footer { padding: 40px; background: var(--primary-navy); color: #bdc3c7; text-align: center; }
@@ -199,65 +127,21 @@
     </nav>
 
     <div class="container">
-        <section class="service-box" style="text-align: center; border-left: none; border-top: 5px solid var(--accent-blue);">
+        <section class="service-box">
             <h2>溝通不是天賦，而是一套系統</h2>
-            <div class="lure-grid">
+            <p>在 JK 交流工作坊，我們不只教你說話的技巧，更透過科學化的分析與 AI 實戰，幫你找回社交的自信與影響力。</p>
+        </section>
+
+        <div class="lure-grid">
             <a href="issue.html" class="lure-box">
-                <h3>🔍 診斷你的溝通障礙 <span class="arrow-icon">→</span></h3>
+                <h3>🔍 診斷你的溝通障礙 <span style="color:var(--accent-blue)">→</span></h3>
                 <p>總是聊不下去？這不是你的錯。點擊找出那些悄悄破壞你人際關係的「絆腳石」。</p>
             </a>
             <a href="methods.html" class="lure-box">
-                <h3>💡 掌握頂尖交流心法 <span class="arrow-icon">→</span></h3>
+                <h3>💡 掌握頂尖交流心法 <span style="color:var(--accent-blue)">→</span></h3>
                 <p>想讓對方對你印象深刻？從心理學底層邏輯，學會讓人感到舒服的「高級說話術」。</p>
             </a>
         </div>
-        ```
-
----
-
-### Step 2: Clean up your CSS (Optimization)
-You have some **duplicate code** in your `<style>` section (specifically the `.feature-card h3` rule appears twice). To keep your site running fast, here is the cleaned-up version of your style section from the `lure-grid` onwards:
-
-```css
-        /* --- Lure Boxes Styling --- */
-        .lure-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 20px; 
-            margin-bottom: 40px; 
-        }
-        .lure-box {
-            text-decoration: none;
-            background: #fff;
-            padding: 25px;
-            border-radius: 15px;
-            border: 2px solid #eee;
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .lure-box:hover {
-            border-color: var(--accent-blue);
-            background: var(--soft-blue);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
-        .lure-box h3 { 
-            margin: 0 0 10px 0; 
-            font-size: 1.4rem; 
-            color: var(--primary-navy); 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .lure-box p { margin: 0; font-size: 1.1rem; color: #666; line-height: 1.4; }
-        .arrow-icon { color: var(--accent-blue); font-weight: bold; }
-
-        .feature-card h3 { margin-top: 0; font-size: 1.5rem; color: var(--primary-navy); }
-    
-            <p>在 JK 交流工作坊，我們不只教你說話的技巧，更透過科學化的分析與 AI 實戰，幫你找回社交的自信與影響力。</p>
-        </section>
 
         <div class="feature-grid">
             <div class="feature-card">
@@ -276,7 +160,7 @@ You have some **duplicate code** in your `<style>` section (specifically the `.f
 
         <section class="cta-highlight">
             <h2>準備好量身打造你的溝通藍圖了嗎？</h2>
-            <p>我們準備了多層次方案，精準解決你的社交痛點。想知道我們具體如何幫助你嗎？</p>
+            <p>我們準備了多層次方案，精準解決你的社交痛點。</p>
             <a href="service.html" class="btn btn-hero">查看完整服務方案與定價 →</a>
         </section>
     </div>
