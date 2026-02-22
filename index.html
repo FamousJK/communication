@@ -5,22 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JK 交流工作坊 - 開啟你的溝通新視野</title>
     <style>
-        :root {
+:root {
             --primary-navy: #2c3e50;
             --accent-blue: #3498db;
             --soft-blue: #f0f7ff;
             --success-green: #27ae60;
             --ai-gradient: linear-gradient(135deg, #3498db, #27ae60);
-            --text-dark: #333;
+            
+            /* 標準化文字顏色 */
+            --text-dark: #333;   /* 用於標題與核心段落 */
+            --text-muted: #666;  /* 用於一般說明文字 */
+            
             --bg-light: #f9f9f9;
             --alert-red: #e74c3c;
         }
 
-        body { 
+.cta-highlight p {
+    color: var(--text-muted);
+    font-size: 1.15rem;
+}
+        
+ body { 
             font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; 
-            font-size: 1.3rem;
-            line-height: 1.6; color: var(--text-dark); margin: 0; padding: 0; 
-            background: var(--bg-light); overflow-x: hidden; 
+            /* 建議從 1.3rem 調降至 1.1rem ~ 1.15rem，視覺上會更精緻 */
+            font-size: 1.1rem; 
+            line-height: 1.7; 
+            
+            /* 套用標準深灰色 #333 */
+            color: var(--text-dark); 
+            
+            margin: 0; 
+            padding: 0; 
+            background: var(--bg-light); 
+            overflow-x: hidden; 
         }
 
         /* Top Bar */
@@ -84,13 +101,22 @@
         /* Container & Content */
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
 
-        
         .service-box {
             background: white; padding: 35px; border-radius: 15px;
             border-top: 5px solid var(--accent-blue); margin-bottom: 40px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center;
+            /* 建議刪除這裡原本的 color: #34495e; 讓它統一由下方 p 控制 */
         }
+        
         .service-box h2 { color: var(--primary-navy); font-size: 2rem; margin-bottom: 20px; }
+
+        /* --- 貼在這邊 --- */
+        .service-box p {
+            font-size: 1.3rem; /* 讓這段話大一點，更有吸引力 */
+            color: var(--text-dark); /* 確保是 #333 */
+            max-width: 850px;
+            margin: 0 auto;
+        }
 
         /* --- Lure Boxes Styling --- */
         .lure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px; }
@@ -128,12 +154,42 @@
     box-shadow: 0 10px 20px rgba(0,0,0,0.08); 
 }
         .lure-box h3 { margin: 0 0 10px 0; font-size: 1.5rem; color: var(--primary-navy); display: flex; justify-content: space-between; }
-        .lure-box p { margin: 0; font-size: 1.3rem; color: #333; }
+        .lure-box p { 
+    margin: 0; 
+    /* 這裡使用 1.1rem，讓說明文字比主標題小一點，更有層次 */
+    font-size: 1.1rem; 
+    /* 套用標準化的 #666 灰色 */
+    color: var(--text-muted); 
+    line-height: 1.5;
+}
 
         /* Feature Grid */
         .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .feature-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 5px solid var(--accent-blue); transition: 0.3s; }
-        .feature-card h3 { margin-top: 0; font-size: 1.5rem; color: var(--primary-navy); }
+       .feature-card { 
+    background: white; 
+    padding: 30px; 
+    border-radius: 15px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+    border-left: 5px solid var(--accent-blue); 
+    transition: 0.3s; 
+}
+
+.feature-card h3 { 
+    margin-top: 0; 
+    font-size: 1.5rem; 
+    /* 標題維持深藍色以突出重點 */
+    color: var(--primary-navy); 
+}
+
+/* 新增這段來控制卡片內的說明文字 */
+.feature-card p {
+    /* 套用標準化的 #666 灰色 */
+    color: var(--text-muted); 
+    /* 這裡也建議同步為 1.1rem */
+    font-size: 1.1rem; 
+    line-height: 1.6;
+    margin-bottom: 0;
+}
 
         /* CTA Section */
         .cta-highlight { background: var(--soft-blue); border-left: 8px solid var(--accent-blue); padding: 40px; border-radius: 15px; text-align: center; }
