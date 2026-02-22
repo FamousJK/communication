@@ -505,16 +505,19 @@
         dollTrigger.style.display = 'flex'; 
     };
 
-    window.saveKey = function() {
-        const key = document.getElementById('temp-key').value.trim();
-        if (key.startsWith('gsk_')) {
-            sessionStorage.setItem('GROQ_KEY', key);
-            alert('API Key 已就緒！現在請設定人格與話題。');
-            document.getElementById('key-auth-area').style.display = 'none';
-        } else {
-            alert('請輸入正確的 Groq Key');
-        }
-    };
+window.saveKey = function() {
+    const key = document.getElementById('temp-key').value.trim();
+    if (key.startsWith('gsk_')) {
+        sessionStorage.setItem('GROQ_KEY', key);
+        alert('API Key 已就緒！現在請設定人格與話題。');
+        document.getElementById('key-auth-area').style.display = 'none';
+        
+        // 只有輸入 Key 後，才讓按鈕變亮 (可選)
+        document.querySelectorAll('.style-btn').forEach(b => b.style.opacity = "1");
+    } else {
+        alert('請輸入正確的 Groq Key');
+    }
+};
 
     window.resetChallenge = function() {
         clearInterval(timerId);
