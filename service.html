@@ -166,13 +166,7 @@
 
         .chat-window { position: fixed; bottom: 120px; right: 20px; width: 360px; height: 600px; background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); display: none; flex-direction: column; z-index: 2100; overflow: hidden; }
 <div class="chat-header">
-    <span>小S | 2分鐘實戰</span>
-    <div style="display: flex; align-items: center;">
-        <div id="timerDisplay" class="timer-tag">120s</div>
-        <button onclick="resetChallenge()" class="reset-btn">🔄 重來</button>
-    </div>
-    <span id="closeChat" style="cursor:pointer; font-size: 20px; margin-left: 10px;">✕</span>
-</div>
+
         .timer-tag { background: rgba(0,0,0,0.2); padding: 2px 10px; border-radius: 10px; font-family: monospace; font-size: 1.1rem; }
         
 .style-bar { 
@@ -224,22 +218,26 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* 移除原本大外層的懸浮效果 */
-.service-box:hover {
-    transform: none;
-    box-shadow: none;
+/* Ensure the main sections (1, 2, 3) do NOT move */
+.service-box {
+    transition: none !important;
+    transform: none !important;
+    box-shadow: none !important;
 }
 
-/* 針對個別小框框設置懸浮效果 */
+/* Ensure only the individual STEP boxes move */
 .step-a-box, .step-b-box {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background: white; /* 確保懸浮時背景不透明 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    cursor: pointer;
+    background: white;
+    position: relative;
+    z-index: 1;
 }
 
 .step-a-box:hover, .step-b-box:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-    z-index: 1; /* 確保陰影不會被遮擋 */
+    transform: translateY(-8px) !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15) !important;
+    z-index: 10;
 }
 
 /* 讓移動端選單更易滑動 */
