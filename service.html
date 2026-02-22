@@ -325,7 +325,7 @@
 </div>
 
 <script>
-    const chatWindow = document.getElementById('chatWindow');
+const chatWindow = document.getElementById('chatWindow');
     const dollTrigger = document.getElementById('openChat');
     const chatInput = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
@@ -336,24 +336,25 @@
     let timerId = null;
     let state = "READY"; // READY, CHALLENGING, EMAIL, DONE
     let selectedCharacter = "sunny";
-    let conversationHistory = []; // 用於記錄對話過程
+    let conversationHistory = []; 
 
-// --- 1. 視窗切換與 Key 儲存邏輯 ---
+    // --- 1. 介面控制 ---
     dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
     document.getElementById('closeChat').onclick = () => { chatWindow.style.display = 'none'; dollTrigger.style.display = 'flex'; };
 
+    // --- 2. 安全 Key 授權 ---
     function saveKey() {
         const key = document.getElementById('temp-key').value.trim();
         if (key.startsWith('gsk_')) {
             sessionStorage.setItem('GROQ_KEY', key);
             document.getElementById('key-auth-area').style.display = 'none';
-            addMessage("✅ Key 已就緒！請選擇風格後輸入「開始」啟動挑戰。", 'ai');
+            addMessage("✅ Groq 引擎已就緒！請選擇風格後，輸入「開始」啟動挑戰。", 'ai');
         } else {
-            alert('請輸入正確的 Groq API Key (gsk_...)');
+            alert('請輸入正確的 Groq Key (以 gsk_ 開頭)');
         }
     }
 
-    // --- 2. 更新角色風格 ---
+    // --- 3. 更新角色風格 ---
     function updateStyle(btn, styleName) {
         const charMap = { 
             '陽光男孩': 'sunny', '冷靜軍師': 'calm', '毒舌前輩': 'sharp', 
@@ -363,10 +364,10 @@
         document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         chatInput.value = "開始";
-        addMessage(`已切換模式：<b>${styleName}</b>。點擊發送「開始」啟動！`, 'ai');
+        addMessage(`已設定為：<b>${styleName}</b> 模式。按下發送啟動 30 秒倒數！`, 'ai');
     }
 
-    // --- 3. 發送訊息與 Groq API 對接 ---
+    // --- 4. 核心對話與 API 串接 ---
     async function addMessage(text, side) {
         const div = document.createElement('div');
         div.className = `msg ${side}`;
@@ -378,20 +379,16 @@
             conversationHistory.push({ role: side === 'user' ? 'user' : 'assistant', content: text });
         }
 
-        // AI 回覆觸發條件
         if (side === 'user' && state !== "EMAIL" && text !== "開始") {
             const apiKey = sessionStorage.getItem('GROQ_KEY');
             if (!apiKey) {
-                const warning = document.createElement('div');
-                warning.className = 'msg ai';
-                warning.innerHTML = "⚠️ 請先在上方輸入 API Key 並點擊啟動。";
-                chatMsgs.appendChild(warning);
+                addMessage("⚠️ 請先在上方輸入 API Key 並點擊啟動。", "ai");
                 return;
             }
 
             const loadingDiv = document.createElement('div');
             loadingDiv.className = 'msg ai';
-            loadingDiv.innerHTML = '正在思考中...';
+            loadingDiv.innerHTML = '小S 正在思考中...';
             chatMsgs.appendChild(loadingDiv);
 
             try {
@@ -404,22 +401,24 @@
                     body: JSON.stringify({ 
                         model: "llama-3.3-70b-versatile",
                         messages: [
-                            { role: "system", content: `你現在的角色是『${selectedCharacter}』風格的溝通顧問。請針對使用者的話進行回覆，維持該性格特色且回覆精簡，使用繁體中文。` },
+                            { role: "system", content: `你現在的角色是『${selectedCharacter}』風格的溝通顧問小S。
+                            請針對使用者的話進行簡短回覆（40字內）。請維持該性格特色，並運用心理學引導對話。請用繁體中文。` },
                             ...conversationHistory
                         ]
                     })
                 });
                 const data = await response.json();
-                loadingDiv.innerHTML = data.choices[0].message.content;
-                if(state === "CHALLENGING") conversationHistory.push({ role: 'assistant', content: loadingDiv.innerHTML });
+                const aiReply = data.choices[0].message.content;
+                loadingDiv.innerHTML = aiReply;
+                if(state === "CHALLENGING") conversationHistory.push({ role: 'assistant', content: aiReply });
             } catch (error) {
-                loadingDiv.innerHTML = "❌ 連線失敗，請檢查 Key 是否正確。";
+                loadingDiv.innerHTML = "❌ 連線失敗，請檢查 API Key 或網路狀況。";
             }
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
         }
     }
 
-    // --- 4. 挑戰流程控制 ---
+    // --- 5. 挑戰流程邏輯 ---
     function handleSend() {
         const val = chatInput.value.trim();
         if (!val) return;
@@ -431,7 +430,7 @@
             addMessage(val, 'user');
         } else if (state === "EMAIL") {
             addMessage(val, 'user');
-            addMessage("感謝！JK 團隊將分析您的對話並寄送攻略至您的信箱。", "ai");
+            addMessage("感謝回饋！JK 顧問團隊將進一步分析您的表現並寄送深度攻略。", "ai");
             state = "DONE";
         } else {
             addMessage(val, 'user');
@@ -449,36 +448,40 @@
         }, 1000);
     }
 
-async function endChallenge() {
-    state = "EMAIL";
-    addMessage("🚨 <b>挑戰結束！</b>正在由 AI 顧問進行深度溝通評核...", 'ai');
-    
-    const apiKey = sessionStorage.getItem('GROQ_KEY');
-    
-    try {
-        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}` 
-            },
-            body: JSON.stringify({ 
-                model: "llama-3.3-70b-versatile",
-                messages: [
-                    { role: "system", content: "你是一位溝通專家。請分析以下對話紀錄，給出一個 1-10 的評分，並用繁體中文提供一兩句精確的改進建議（針對 MBTI 或交流技巧）。" },
-                    { role: "user", content: JSON.stringify(conversationHistory) }
-                ]
-            })
-        });
-        const data = await response.json();
-        const evaluation = data.choices[0].message.content;
-        addMessage(`🎯 <b>評核結果：</b><br>${evaluation}<br><br>請留下您的 Email，我們將寄送更完整的提升攻略給您！`, 'ai');
-    } catch (error) {
-        addMessage(`評分生成失敗。請留下 Email 獲取完整報告！`, 'ai');
+    // --- 6. AI 評核功能 (對接到 Groq) ---
+    async function endChallenge() {
+        state = "EMAIL";
+        addMessage("🚨 <b>挑戰結束！</b>正在由小S 總結您的表現...", 'ai');
+        
+        const apiKey = sessionStorage.getItem('GROQ_KEY');
+        if (!apiKey) {
+            addMessage("評核失敗：未找到授權 Key。", 'ai');
+            return;
+        }
+
+        try {
+            const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}` 
+                },
+                body: JSON.stringify({ 
+                    model: "llama-3.3-70b-versatile",
+                    messages: [
+                        { role: "system", content: "你是一位資深溝通教練。請分析使用者的對話表現，給出 1-10 分，並列出一項優點與一項改進建議。請用繁體中文，格式簡潔。" },
+                        { role: "user", content: "以下是剛才的對話紀錄：\n" + JSON.stringify(conversationHistory) }
+                    ]
+                })
+            });
+            const data = await response.json();
+            const evaluation = data.choices[0].message.content;
+            addMessage(`🎯 <b>評核結果：</b><br>${evaluation}<br><br>請留下 Email，獲取完整溝通報告！`, 'ai');
+        } catch (error) {
+            addMessage("評核生成異常，請留下 Email 以便稍後補發報告。", 'ai');
+        }
+        chatInput.placeholder = "輸入 Email 領取報告...";
     }
-    
-    chatInput.placeholder = "請輸入您的 Email...";
-}
 
     sendBtn.onclick = handleSend;
     chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSend(); });
