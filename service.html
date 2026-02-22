@@ -338,32 +338,35 @@
     let selectedCharacter = "sunny";
     let conversationHistory = []; // 用於記錄對話過程
 
-    // 視窗切換邏輯
+// --- 1. 視窗切換與 Key 儲存邏輯 ---
     dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
     document.getElementById('closeChat').onclick = () => { chatWindow.style.display = 'none'; dollTrigger.style.display = 'flex'; };
 
-    // 更新角色與自動帶入「開始」
-    function updateStyle(btn, styleName) {
-        const charMap = { 
-            '陽光男孩': 'sunny', 
-            '冷靜軍師': 'calm', 
-            '毒舌前輩': 'sharp', 
-            '溫柔姐姐': 'gentle', 
-            '幹練強人': 'capable', 
-            '活潑少女': 'lively' 
-        };
-        selectedCharacter = charMap[styleName] || "sunny";
-        
-        // 切換按鈕樣式
-        document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        // 優化體驗：自動填入開始，提示使用者
-        chatInput.value = "開始";
-        addMessage(`已切換為：<b>${styleName}</b>。<br>點擊發送「開始」啟動挑戰！`, 'ai');
+    function saveKey() {
+        const key = document.getElementById('temp-key').value.trim();
+        if (key.startsWith('gsk_')) {
+            sessionStorage.setItem('GROQ_KEY', key);
+            document.getElementById('key-auth-area').style.display = 'none';
+            addMessage("✅ Key 已就緒！請選擇風格後輸入「開始」啟動挑戰。", 'ai');
+        } else {
+            alert('請輸入正確的 Groq API Key (gsk_...)');
+        }
     }
 
-    // 發送訊息與 AI 回應
+    // --- 2. 更新角色風格 ---
+    function updateStyle(btn, styleName) {
+        const charMap = { 
+            '陽光男孩': 'sunny', '冷靜軍師': 'calm', '毒舌前輩': 'sharp', 
+            '溫柔姐姐': 'gentle', '幹練強人': 'capable', '活潑少女': 'lively' 
+        };
+        selectedCharacter = charMap[styleName] || "sunny";
+        document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        chatInput.value = "開始";
+        addMessage(`已切換模式：<b>${styleName}</b>。點擊發送「開始」啟動！`, 'ai');
+    }
+
+    // --- 3. 發送訊息與 Groq API 對接 ---
     async function addMessage(text, side) {
         const div = document.createElement('div');
         div.className = `msg ${side}`;
@@ -371,54 +374,64 @@
         chatMsgs.appendChild(div);
         chatMsgs.scrollTop = chatMsgs.scrollHeight;
 
-        // 記錄挑戰過程中的對話
         if(state === "CHALLENGING") {
             conversationHistory.push({ role: side === 'user' ? 'user' : 'assistant', content: text });
         }
 
-        // 請求 AI 回覆 (僅限使用者發言且非填 Email 階段)
-        if (side === 'user' && state !== "EMAIL") {
+        // AI 回覆觸發條件
+        if (side === 'user' && state !== "EMAIL" && text !== "開始") {
+            const apiKey = sessionStorage.getItem('GROQ_KEY');
+            if (!apiKey) {
+                const warning = document.createElement('div');
+                warning.className = 'msg ai';
+                warning.innerHTML = "⚠️ 請先在上方輸入 API Key 並點擊啟動。";
+                chatMsgs.appendChild(warning);
+                return;
+            }
+
             const loadingDiv = document.createElement('div');
             loadingDiv.className = 'msg ai';
             loadingDiv.innerHTML = '正在思考中...';
             chatMsgs.appendChild(loadingDiv);
 
             try {
-                const response = await fetch('http://localhost:3000/chat', {
+                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}` 
+                    },
                     body: JSON.stringify({ 
-                        message: text, 
-                        character: selectedCharacter 
+                        model: "llama-3.3-70b-versatile",
+                        messages: [
+                            { role: "system", content: `你現在的角色是『${selectedCharacter}』風格的溝通顧問。請針對使用者的話進行回覆，維持該性格特色且回覆精簡，使用繁體中文。` },
+                            ...conversationHistory
+                        ]
                     })
                 });
                 const data = await response.json();
-                
-                loadingDiv.innerHTML = data.reply;
-                
-                if(state === "CHALLENGING") {
-                    conversationHistory.push({ role: 'assistant', content: data.reply });
-                }
+                loadingDiv.innerHTML = data.choices[0].message.content;
+                if(state === "CHALLENGING") conversationHistory.push({ role: 'assistant', content: loadingDiv.innerHTML });
             } catch (error) {
-                loadingDiv.innerHTML = "抱歉，我的大腦斷線了，請確認 CMD 伺服器是否運行中。";
+                loadingDiv.innerHTML = "❌ 連線失敗，請檢查 Key 是否正確。";
             }
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
         }
     }
 
-    // 處理點擊發送
+    // --- 4. 挑戰流程控制 ---
     function handleSend() {
         const val = chatInput.value.trim();
         if (!val) return;
         
         if (state === "READY" && val === "開始") {
             state = "CHALLENGING";
-            conversationHistory = []; 
+            conversationHistory = [];
             startTimer();
             addMessage(val, 'user');
         } else if (state === "EMAIL") {
             addMessage(val, 'user');
-            addMessage("感謝！資料已紀錄，JK 老師的團隊將盡快與您聯繫。", "ai");
+            addMessage("感謝！JK 團隊將分析您的對話並寄送攻略至您的信箱。", "ai");
             state = "DONE";
         } else {
             addMessage(val, 'user');
@@ -426,42 +439,50 @@
         chatInput.value = '';
     }
 
-    // 倒數計時器
     function startTimer() {
         timeLeft = 30;
         timerDisplay.innerText = timeLeft + 's';
         timerId = setInterval(() => {
             timeLeft--;
             timerDisplay.innerText = timeLeft + 's';
-            if (timeLeft <= 0) { 
-                clearInterval(timerId); 
-                endChallenge(); 
-            }
+            if (timeLeft <= 0) { clearInterval(timerId); endChallenge(); }
         }, 1000);
     }
 
-    // 結束挑戰並請求評分
-    async function endChallenge() {
-        state = "EMAIL";
-        addMessage("🚨 <b>挑戰結束！</b><br>正在由 AI 顧問進行深度溝通評核...", 'ai');
-        
-        try {
-            const response = await fetch('http://localhost:3000/evaluate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ history: conversationHistory })
-            });
-            const data = await response.json();
-            addMessage(`🎯 <b>評核結果：</b><br>${data.evaluation}<br><br>請留下您的 Email，我們將寄送更完整的提升攻略給您！`, 'ai');
-        } catch (error) {
-            addMessage(`初步得分：<b>8.5 / 10</b><br>評語生成中...請留下 Email 獲取完整報告！`, 'ai');
-        }
-        
-        chatInput.placeholder = "請輸入您的 Email...";
+async function endChallenge() {
+    state = "EMAIL";
+    addMessage("🚨 <b>挑戰結束！</b>正在由 AI 顧問進行深度溝通評核...", 'ai');
+    
+    const apiKey = sessionStorage.getItem('GROQ_KEY');
+    
+    try {
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}` 
+            },
+            body: JSON.stringify({ 
+                model: "llama-3.3-70b-versatile",
+                messages: [
+                    { role: "system", content: "你是一位溝通專家。請分析以下對話紀錄，給出一個 1-10 的評分，並用繁體中文提供一兩句精確的改進建議（針對 MBTI 或交流技巧）。" },
+                    { role: "user", content: JSON.stringify(conversationHistory) }
+                ]
+            })
+        });
+        const data = await response.json();
+        const evaluation = data.choices[0].message.content;
+        addMessage(`🎯 <b>評核結果：</b><br>${evaluation}<br><br>請留下您的 Email，我們將寄送更完整的提升攻略給您！`, 'ai');
+    } catch (error) {
+        addMessage(`評分生成失敗。請留下 Email 獲取完整報告！`, 'ai');
     }
+    
+    chatInput.placeholder = "請輸入您的 Email...";
+}
 
     sendBtn.onclick = handleSend;
     chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSend(); });
 </script>
+    
 </body>
 </html>
