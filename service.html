@@ -288,36 +288,41 @@
     </section>
 </div>
 
-    <div class="ai-doll-trigger" id="openChat"><img src="service-s.png" alt="S"></div>
-    
-    <div class="chat-window" id="chatWindow">
-        <div class="chat-header">
-            <span>小S | 30s 實戰挑戰</span>
-            <div id="timerDisplay" class="timer-tag">30s</div>
-            <span id="closeChat" style="cursor:pointer; font-size: 20px;">✕</span>
-        </div>
-        
-       <div class="style-bar" id="styleBar">
-    <button class="style-btn" onclick="updateStyle(this, '陽光男孩')">☀️ 陽光男孩</button>
-    <button class="style-btn" onclick="updateStyle(this, '冷靜軍師')">🛡️ 冷靜軍師</button>
-    <button class="style-btn" onclick="updateStyle(this, '毒舌前輩')">🐍 毒舌前輩</button>
-    
+<div class="ai-doll-trigger" id="openChat"><img src="service-s.png" alt="S"></div>
 
-    
-    <button class="style-btn" onclick="updateStyle(this, '溫柔姐姐')">🌸 溫柔姐姐</button>
-    <button class="style-btn" onclick="updateStyle(this, '幹練強人')">💼 幹練強人</button>
-    <button class="style-btn" onclick="updateStyle(this, '活潑少女')">🦄 活潑少女</button>
-</div>
-
-        <div id="chatMsgs" class="chat-messages">
-            <div class="msg ai">準備好開始挑戰了嗎？<br><br>選好模式後，輸入「開始」啟動 30 秒倒數！</div>
-        </div>
-
-        <div class="chat-input-area">
-            <input type="text" id="chatInput" placeholder="輸入訊息...">
-            <button class="send-btn" id="sendBtn">➤</button>
-        </div>
+<div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+        <span>小S | 30s 實戰挑戰</span>
+        <div id="timerDisplay" class="timer-tag">30s</div>
+        <span id="closeChat" style="cursor:pointer; font-size: 20px;">✕</span>
     </div>
+
+    <div id="key-auth-area" style="background: #fff3cd; padding: 10px; font-size: 0.8rem; border-bottom: 1px solid #ffeeba; color: #856404;">
+        <div style="display: flex; gap: 5px;">
+            <input type="password" id="temp-key" placeholder="貼入 Groq API Key..." style="flex: 1; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+            <button onclick="saveKey()" style="padding: 5px 10px; cursor: pointer; background: #856404; color: white; border: none; border-radius: 4px;">啟動</button>
+        </div>
+        <p style="margin: 5px 0 0 0; font-size: 0.7rem;">*Key 僅存於此分頁，安全且重新整理即消失</p>
+    </div>
+
+    <div class="style-bar" id="styleBar">
+        <button class="style-btn" onclick="updateStyle(this, '陽光男孩')">☀️ 陽光男孩</button>
+        <button class="style-btn" onclick="updateStyle(this, '冷靜軍師')">🛡️ 冷靜軍師</button>
+        <button class="style-btn" onclick="updateStyle(this, '毒舌前輩')">🐍 毒舌前輩</button>
+        <button class="style-btn" onclick="updateStyle(this, '溫柔姐姐')">🌸 溫柔姐姐</button>
+        <button class="style-btn" onclick="updateStyle(this, '幹練強人')">💼 幹練強人</button>
+        <button class="style-btn" onclick="updateStyle(this, '活潑少女')">🦄 活潑少女</button>
+    </div>
+
+    <div id="chatMsgs" class="chat-messages">
+        <div class="msg ai">準備好開始挑戰了嗎？<br><br>選好模式並輸入 Key 啟動後，輸入「開始」啟動 30 秒倒數！</div>
+    </div>
+
+    <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="輸入訊息...">
+        <button class="send-btn" id="sendBtn">➤</button>
+    </div>
+</div>
 
 <script>
     const chatWindow = document.getElementById('chatWindow');
