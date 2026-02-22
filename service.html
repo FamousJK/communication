@@ -424,42 +424,41 @@ const chatWindow = document.getElementById('chatWindow');
     }
 
     // --- 5. 挑戰流程邏輯 ---
-    function handleSend() {
+function handleSend() {
     const val = chatInput.value.trim();
     if (!val) return;
 
-    // --- 自動偵測「開始」指令 ---
-    if (state === "READY" && val === "開始") {
+    // --- 修改這裡：如果還沒開始挑戰，且輸入了訊息 ---
+    if (state === "READY") {
         state = "CHALLENGING";
-        conversationHistory = []; // 清空之前的紀錄
-        addMessage(val, 'user');  // 先顯示使用者的「開始」
+        conversationHistory = []; 
+        startTimer(); // 只要是第一句話，就啟動計時器！
+        addMessage(val, 'user');
         
-        // 延遲一點點讓 AI 先打個招呼再啟動倒數（或者直接啟動）
-        startTimer(); 
-        
-        // 讓 AI 給一個開場白，增加帶入感
+        // 根據選擇的角色給一個開場白
         const startMessages = {
-            sunny: "嘿！挑戰開始！拿出你的熱情，讓我看看你的厲害吧！☀️",
-            calm: "挑戰正式開始。請保持冷靜，我將測試你的溝通邏輯。🛡️",
-            sharp: "哦？真的準備好要被我羞辱了嗎？那就開始吧...🐍",
-            gentle: "好的，那我們開始練習吧。別擔心，我會陪著你的。🌸",
-            capable: "收到。挑戰開始，請直接進入重點，不要浪費時間。💼",
-            lively: "耶！終於要開始了！快點快點，我等不及要跟你聊天了！🦄"
+            sunny: "挑戰開始！我就喜歡你這股衝勁，來吧！☀️",
+            calm: "計時開始。請展現你的溝通邏輯。🛡️",
+            sharp: "計時器動了，你的腦袋動了嗎？快說話。🐍",
+            gentle: "計時開始囉，放輕鬆，照你的節奏來。🌸",
+            capable: "計時啟動。請精簡扼要地陳述你的觀點。💼",
+            lively: "喔耶！計時開始！快跟我說說你的想法！🦄"
         };
         
         setTimeout(() => {
-            addMessage(startMessages[selectedCharacter] || "挑戰開始！請說話...", 'ai');
+            addMessage(startMessages[selectedCharacter] || "挑戰開始！", 'ai');
         }, 500);
-
-    } else if (state === "EMAIL") {
-        // 處理 Email 輸入狀態
+    } 
+    // --- 以下維持原樣 ---
+    else if (state === "EMAIL") {
         addMessage(val, 'user');
-        addMessage("感謝回饋！JK 顧問團隊將進一步分析您的表現並寄送深度攻略。", "ai");
+        addMessage("感謝回饋！JK 團隊將寄送攻略至您的信箱。", "ai");
         state = "DONE";
     } else {
-        // 一般挑戰中的對話
         addMessage(val, 'user');
     }
+    chatInput.value = '';
+}
     
     chatInput.value = ''; // 清空輸入框
 }
