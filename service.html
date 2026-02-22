@@ -17,6 +17,16 @@
             --bg-light: #f4f7f9;
         }
 
+/* 禁用狀態的按鈕樣式 */
+.style-btn:disabled {
+    background: #eee !important;
+    color: #bbb !important;
+    border-color: #ddd !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+        
 /* 縮減狀態的樣式 */
 .style-bar.shrunk {
     padding: 5px 10px;
@@ -441,24 +451,24 @@
         <p style="margin: 5px 0 0 0; font-size: 0.7rem;">*Key 僅存於此分頁，安全且重新整理即消失</p>
     </div>
 
-  <div class="style-bar" id="mbtiBar">
-    <p style="width:100%; font-size:0.75rem; margin:2px 0; color:#666; text-align:center;">1. 選擇人格</p>
-    <button class="style-btn" onclick="selectMBTI(this, 'ENTJ')">ENTJ 指揮官</button>
-    <button class="style-btn" onclick="selectMBTI(this, 'INFP')">INFP 調解者</button>
-    <button class="style-btn" onclick="selectMBTI(this, 'ESTP')">ESTP 企業家</button>
-    <button class="style-btn" onclick="selectMBTI(this, 'INFJ')">INFJ 提倡者</button>
-    <button class="style-btn" onclick="selectMBTI(this, 'ISTJ')">ISTJ 物流師</button>
-    <button class="style-btn" onclick="selectMBTI(this, 'ENFP')">ENFP 競選者</button>
+<div class="style-bar" id="mbtiBar">
+    <p style="width:100%; font-size:0.75rem; margin:2px 0; color:#666; text-align:center;">1. 選擇人格（請先啟動 Key）</p>
+    <button class="style-btn" onclick="selectMBTI(this, 'ENTJ')" disabled>ENTJ 指揮官</button>
+    <button class="style-btn" onclick="selectMBTI(this, 'INFP')" disabled>INFP 調解者</button>
+    <button class="style-btn" onclick="selectMBTI(this, 'ESTP')" disabled>ESTP 企業家</button>
+    <button class="style-btn" onclick="selectMBTI(this, 'INFJ')" disabled>INFJ 提倡者</button>
+    <button class="style-btn" onclick="selectMBTI(this, 'ISTJ')" disabled>ISTJ 物流師</button>
+    <button class="style-btn" onclick="selectMBTI(this, 'ENFP')" disabled>ENFP 競選者</button>
 </div>
 
 <div class="style-bar" id="topicBar" style="border-top:1px dashed #eee;">
     <p style="width:100%; font-size:0.75rem; margin:2px 0; color:#666; text-align:center;">2. 選擇話題</p>
-    <button class="style-btn" onclick="selectTopic(this, '職場晉升')">💼 職場</button>
-    <button class="style-btn" onclick="selectTopic(this, '靈魂伴侶')">❤️ 感情</button>
-    <button class="style-btn" onclick="selectTopic(this, '金錢觀點')">💰 金錢</button>
-    <button class="style-btn" onclick="selectTopic(this, '極簡生活')">🌿 生活</button>
-    <button class="style-btn" onclick="selectTopic(this, '未來科技')">🤖 科技</button>
-    <button class="style-btn" onclick="selectTopic(this, '第一印象')">🎭 社交</button>
+    <button class="style-btn" onclick="selectTopic(this, '職場晉升')" disabled>💼 職場</button>
+    <button class="style-btn" onclick="selectTopic(this, '靈魂伴侶')" disabled>❤️ 感情</button>
+    <button class="style-btn" onclick="selectTopic(this, '金錢觀點')" disabled>💰 金錢</button>
+    <button class="style-btn" onclick="selectTopic(this, '極簡生活')" disabled>🌿 生活</button>
+    <button class="style-btn" onclick="selectTopic(this, '未來科技')" disabled>🤖 科技</button>
+    <button class="style-btn" onclick="selectTopic(this, '第一印象')" disabled>🎭 社交</button>
 </div>
 
     <div id="chatMsgs" class="chat-messages">
@@ -506,15 +516,46 @@
     };
 
 window.saveKey = function() {
-        const key = document.getElementById('temp-key').value.trim();
-        if (key.startsWith('gsk_')) {
-            sessionStorage.setItem('GROQ_KEY', key);
-            document.getElementById('key-auth-area').style.display = 'none';
-            // 關鍵：輸入完 Key 後立刻跑一次解鎖檢查
-            checkUnlock(); 
-        } else {
-            alert('請輸入正確的 Groq Key');
-        }
+    const key = document.getElementById('temp-key').value.trim();
+    if (key.startsWith('gsk_')) {
+        sessionStorage.setItem('GROQ_KEY', key);
+        document.getElementById('key-auth-area').style.display = 'none';
+        
+        // --- 核心修改：啟動後解開所有選項按鈕 ---
+        document.querySelectorAll('.style-btn').forEach(btn => {
+            btn.disabled = false;
+        });
+        
+        // 提示使用者可以開始選了
+        chatInput.placeholder = "Key 已啟動，請選擇上方人格與話題...";
+        checkUnlock(); 
+    } else {
+        alert('請輸入正確的 Groq Key');
+    }
+};
+
+function checkUnlock() {
+    const hasKey = sessionStorage.getItem('GROQ_KEY');
+
+    // 只有在【有人格】+【有話題】+【有Key】的情況下才執行解鎖動畫
+    if (selectedMBTI && selectedTopic && hasKey) {
+        chatInput.disabled = false;
+        sendBtn.disabled = false;
+        chatInput.placeholder = "輸入「開始」啟動挑戰...";
+        chatInput.value = "開始";
+        
+        // 縮小選單動畫
+        document.getElementById('mbtiBar').classList.add('shrunk');
+        document.getElementById('topicBar').classList.add('shrunk');
+        
+        chatMsgs.innerHTML = '';
+        addMessage(`<b>對局已就緒！</b><br>對手：${selectedMBTI}<br>主題：${selectedTopic}`, 'ai');
+    } else if (!hasKey) {
+        // 強制確保沒 Key 時輸入框一定是鎖死的
+        chatInput.disabled = true;
+        sendBtn.disabled = true;
+        chatInput.placeholder = "🔑 請先輸入 API Key 並點擊啟動...";
+    }
 };
 
     window.resetChallenge = function() {
