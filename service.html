@@ -350,20 +350,20 @@
 </div>
 
 <script>
-const chatWindow = document.getElementById('chatWindow');
+    const chatWindow = document.getElementById('chatWindow');
     const dollTrigger = document.getElementById('openChat');
     const chatInput = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
     const chatMsgs = document.getElementById('chatMsgs');
     const timerDisplay = document.getElementById('timerDisplay');
 
-let timeLeft = 120; // 修正為 120 秒
+    let timeLeft = 120; 
     let timerId = null;
     let state = "READY"; 
     let selectedCharacter = "sunny";
     let conversationHistory = []; 
 
-    // --- 初始鎖定狀態 ---
+    // --- 初始狀態 ---
     chatInput.disabled = true;
     sendBtn.disabled = true;
     chatInput.placeholder = "請先選擇上方挑戰角色...";
@@ -379,8 +379,20 @@ let timeLeft = 120; // 修正為 120 秒
         dollTrigger.style.display = 'flex'; 
     };
 
-    // --- 3. 更新角色風格 (記得在這裡開鎖) ---
-    function updateStyle(btn, styleName) {
+    // --- 2. API Key 儲存 ---
+    window.saveKey = function() {
+        const key = document.getElementById('temp-key').value.trim();
+        if (key.startsWith('gsk_')) {
+            sessionStorage.setItem('GROQ_KEY', key);
+            alert('API Key 已就緒！現在請選擇角色開始挑戰。');
+            document.getElementById('key-auth-area').style.display = 'none';
+        } else {
+            alert('請輸入正確的 Groq Key (以 gsk_ 開頭)');
+        }
+    };
+
+    // --- 3. 更新角色風格 (合併修正版) ---
+    window.updateStyle = function(btn, styleName) {
         const charMap = { 
             '陽光男孩': 'sunny', '冷靜軍師': 'calm', '毒舌前輩': 'sharp', 
             '溫柔姐姐': 'gentle', '幹練強人': 'capable', '活潑少女': 'lively' 
@@ -396,44 +408,15 @@ let timeLeft = 120; // 修正為 120 秒
         btn.classList.add('active');
         btn.style.opacity = "1";
 
-        // --- 關鍵解鎖步驟 ---
+        // 關鍵解鎖步驟
         chatInput.disabled = false;
         sendBtn.disabled = false;
         chatInput.placeholder = "輸入訊息..."; 
-        chatInput.value = "開始"; // 自動帶入開始
+        chatInput.value = "開始"; 
         chatInput.focus(); 
         
         addMessage(`已選定角色：<b>${styleName}</b>。請按下發送或 Enter 開始挑戰！`, 'ai');
-    } else {
-            alert('請輸入正確的 Groq Key (以 gsk_ 開頭)');
-        }
-    }
-
-    // --- 3. 更新角色風格 ---
-function updateStyle(btn, styleName) {
-    // 建立角色對照
-    const charMap = { 
-        '陽光男孩': 'sunny', '冷靜軍師': 'calm', '毒舌前輩': 'sharp', 
-        '溫柔姐姐': 'gentle', '幹練強人': 'capable', '活潑少女': 'lively' 
     };
-    selectedCharacter = charMap[styleName] || "sunny";
-
-    // 1. 處理按鈕視覺狀態：所有按鈕變灰，選中的變亮
-    document.querySelectorAll('.style-btn').forEach(b => {
-        b.classList.remove('active');
-        b.style.opacity = "0.5"; // 變灰
-        b.style.pointerEvents = "none"; // 禁用點擊
-    });
-
-    btn.classList.add('active');
-    btn.style.opacity = "1"; // 被選中的維持亮度
-    
-    // 自動帶入「開始」字樣，讓使用者直接按 Enter
-    chatInput.value = "開始";
-    chatInput.focus(); // 自動聚焦到輸入框
-    
-    addMessage(`已選定角色：<b>${styleName}</b>。請按下發送或 Enter 開始挑戰！`, 'ai');
-}
 
     // --- 4. 核心對話與 API 串接 ---
     async function addMessage(text, side) {
@@ -469,8 +452,7 @@ function updateStyle(btn, styleName) {
                     body: JSON.stringify({ 
                         model: "llama-3.3-70b-versatile",
                         messages: [
-                            { role: "system", content: `你現在的角色是『${selectedCharacter}』風格的溝通顧問小S。
-                            請針對使用者的話進行簡短回覆（40字內）。請維持該性格特色，並運用心理學引導對話。請用繁體中文。` },
+                            { role: "system", content: `你現在的角色是『${selectedCharacter}』風格的溝通顧問小S。請針對使用者的話進行簡短回覆（40字內）。維持性格特色，運用心理學引導。繁體中文。` },
                             ...conversationHistory
                         ]
                     })
@@ -487,40 +469,33 @@ function updateStyle(btn, styleName) {
     }
 
     // --- 5. 挑戰流程邏輯 ---
-function handleSend() {
-    const val = chatInput.value.trim();
-    if (!val) return;
+    function handleSend() {
+        const val = chatInput.value.trim();
+        if (!val) return;
 
-    // 當狀態是 READY 且使用者送出「開始」時
-    if (state === "READY" && val === "開始") {
-        state = "CHALLENGING"; // 切換狀態
-        conversationHistory = []; // 清空之前的引導對話
-        
-        addMessage(val, 'user'); // 顯示使用者說了「開始」
-        startTimer(); // 這行最關鍵，啟動右上角 120s 倒數
+        if (state === "READY" && val === "開始") {
+            state = "CHALLENGING";
+            conversationHistory = [];
+            addMessage(val, 'user');
+            startTimer();
 
-        // 這裡可以手動加入一則 AI 開場白，增加帶入感
-        const intro = {
-            sunny: "挑戰開始！我就喜歡這股衝勁，來吧！☀️",
-            calm: "計時開始。請展現你的溝通邏輯。🛡️",
-            sharp: "計時器動了，你的腦袋動了嗎？快說話。🐍",
-            gentle: "好的，計時開始囉，照你的節奏來。🌸",
-            capable: "計時啟動。請精簡扼要地陳述你的觀點。💼",
-            lively: "喔耶！計時開始！快跟我說說你的想法！🦄"
-        };
-        
-        setTimeout(() => {
-            addMessage(intro[selectedCharacter] || "挑戰開始！", 'ai');
-        }, 500);
-
-    } else {
-        // 一般挑戰中的對話或 Email 階段
-        addMessage(val, 'user');
-    }
-    
-    chatInput.value = ''; // 送出後清空輸入框
-}    
-
+            const intro = {
+                sunny: "挑戰開始！我就喜歡這股衝勁，來吧！☀️",
+                calm: "計時開始。請展現你的溝通邏輯。🛡️",
+                sharp: "計時器動了，你的腦袋動了嗎？快說話。🐍",
+                gentle: "好的，計時開始囉，照你的節奏來。🌸",
+                capable: "計時啟動。請精簡扼要地陳述你的觀點。💼",
+                lively: "喔耶！計時開始！快跟我說說你的想法！🦄"
+            };
+            
+            setTimeout(() => {
+                addMessage(intro[selectedCharacter] || "挑戰開始！", 'ai');
+            }, 500);
+        } else {
+            addMessage(val, 'user');
+        }
+        chatInput.value = '';
+    }    
 
     function startTimer() {
         timeLeft = 120;
@@ -528,11 +503,13 @@ function handleSend() {
         timerId = setInterval(() => {
             timeLeft--;
             timerDisplay.innerText = timeLeft + 's';
-            if (timeLeft <= 0) { clearInterval(timerId); endChallenge(); }
+            if (timeLeft <= 0) { 
+                clearInterval(timerId); 
+                endChallenge(); 
+            }
         }, 1000);
     }
 
-    // --- 6. AI 評核功能 (對接到 Groq) ---
     async function endChallenge() {
         state = "EMAIL";
         addMessage("🚨 <b>挑戰結束！</b>正在由小S 總結您的表現...", 'ai');
@@ -553,7 +530,7 @@ function handleSend() {
                 body: JSON.stringify({ 
                     model: "llama-3.3-70b-versatile",
                     messages: [
-                        { role: "system", content: "你是一位資深溝通教練。請分析使用者的對話表現，給出 1-10 分，並列出一項優點與一項改進建議。請用繁體中文，格式簡潔。" },
+                        { role: "system", content: "你是一位資深溝通教練。請分析使用者的對話表現，給出 1-10 分，並列出一項優點與一項改進建議。繁體中文，格式簡潔。" },
                         { role: "user", content: "以下是剛才的對話紀錄：\n" + JSON.stringify(conversationHistory) }
                     ]
                 })
@@ -568,7 +545,9 @@ function handleSend() {
     }
 
     sendBtn.onclick = handleSend;
-    chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSend(); });
+    chatInput.addEventListener('keydown', (e) => { 
+        if (e.key === 'Enter') handleSend(); 
+    });
 </script>
     
 </body>
