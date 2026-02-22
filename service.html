@@ -138,16 +138,14 @@
         .timer-tag { background: rgba(0,0,0,0.2); padding: 2px 10px; border-radius: 10px; font-family: monospace; font-size: 1.1rem; }
         
         .style-bar { 
-            display: flex; 
-            padding: 10px; 
-            background: #fff; 
-            border-bottom: 1px solid #eee; 
-            justify-content: flex-start;
-            overflow-x: auto;
-            white-space: nowrap;
-            gap: 10px;
-            -webkit-overflow-scrolling: touch;
-        }
+    display: flex; 
+    flex-wrap: wrap; /* 允許自動換行 */
+    padding: 10px; 
+    background: #fff; 
+    border-bottom: 1px solid #eee; 
+    justify-content: center; /* 讓按鈕置中對齊 */
+    gap: 8px; /* 縮小一點間距 */
+}
         .style-bar::-webkit-scrollbar { display: none; }
 
         .style-btn { 
