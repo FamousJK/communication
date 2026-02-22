@@ -292,8 +292,8 @@
 
 <div class="chat-window" id="chatWindow">
     <div class="chat-header">
-        <span>小S | 30s 實戰挑戰</span>
-        <div id="timerDisplay" class="timer-tag">30s</div>
+        <span>小S | **2分鐘** 實戰挑戰</span>
+        <div id="timerDisplay" class="timer-tag">120s</div>
         <span id="closeChat" style="cursor:pointer; font-size: 20px;">✕</span>
     </div>
 
@@ -315,8 +315,13 @@
     </div>
 
     <div id="chatMsgs" class="chat-messages">
-        <div class="msg ai">準備好開始挑戰了嗎？<br><br>選好模式並輸入 Key 啟動後，輸入「開始」啟動 30 秒倒數！</div>
+    <div class="msg ai">
+        <b>【2分鐘實戰挑戰】</b><br><br>
+        1. 貼入 API Key 並點擊啟動<br>
+        2. 選擇下方你想挑戰的角色風格<br>
+        3. <b>在下方輸入「開始」即可啟動倒數！</b>
     </div>
+</div>
 
     <div class="chat-input-area">
         <input type="text" id="chatInput" placeholder="輸入訊息...">
@@ -420,23 +425,44 @@ const chatWindow = document.getElementById('chatWindow');
 
     // --- 5. 挑戰流程邏輯 ---
     function handleSend() {
-        const val = chatInput.value.trim();
-        if (!val) return;
+    const val = chatInput.value.trim();
+    if (!val) return;
+
+    // --- 自動偵測「開始」指令 ---
+    if (state === "READY" && val === "開始") {
+        state = "CHALLENGING";
+        conversationHistory = []; // 清空之前的紀錄
+        addMessage(val, 'user');  // 先顯示使用者的「開始」
         
-        if (state === "READY" && val === "開始") {
-            state = "CHALLENGING";
-            conversationHistory = [];
-            startTimer();
-            addMessage(val, 'user');
-        } else if (state === "EMAIL") {
-            addMessage(val, 'user');
-            addMessage("感謝回饋！JK 顧問團隊將進一步分析您的表現並寄送深度攻略。", "ai");
-            state = "DONE";
-        } else {
-            addMessage(val, 'user');
-        }
-        chatInput.value = '';
+        // 延遲一點點讓 AI 先打個招呼再啟動倒數（或者直接啟動）
+        startTimer(); 
+        
+        // 讓 AI 給一個開場白，增加帶入感
+        const startMessages = {
+            sunny: "嘿！挑戰開始！拿出你的熱情，讓我看看你的厲害吧！☀️",
+            calm: "挑戰正式開始。請保持冷靜，我將測試你的溝通邏輯。🛡️",
+            sharp: "哦？真的準備好要被我羞辱了嗎？那就開始吧...🐍",
+            gentle: "好的，那我們開始練習吧。別擔心，我會陪著你的。🌸",
+            capable: "收到。挑戰開始，請直接進入重點，不要浪費時間。💼",
+            lively: "耶！終於要開始了！快點快點，我等不及要跟你聊天了！🦄"
+        };
+        
+        setTimeout(() => {
+            addMessage(startMessages[selectedCharacter] || "挑戰開始！請說話...", 'ai');
+        }, 500);
+
+    } else if (state === "EMAIL") {
+        // 處理 Email 輸入狀態
+        addMessage(val, 'user');
+        addMessage("感謝回饋！JK 顧問團隊將進一步分析您的表現並寄送深度攻略。", "ai");
+        state = "DONE";
+    } else {
+        // 一般挑戰中的對話
+        addMessage(val, 'user');
     }
+    
+    chatInput.value = ''; // 清空輸入框
+}
 
     function startTimer() {
         timeLeft = 30;
