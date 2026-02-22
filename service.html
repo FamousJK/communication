@@ -506,17 +506,15 @@
     };
 
 window.saveKey = function() {
-    const key = document.getElementById('temp-key').value.trim();
-    if (key.startsWith('gsk_')) {
-        sessionStorage.setItem('GROQ_KEY', key);
-        alert('API Key 已就緒！現在請設定人格與話題。');
-        document.getElementById('key-auth-area').style.display = 'none';
-        
-        // 只有輸入 Key 後，才讓按鈕變亮 (可選)
-        document.querySelectorAll('.style-btn').forEach(b => b.style.opacity = "1");
-    } else {
-        alert('請輸入正確的 Groq Key');
-    }
+        const key = document.getElementById('temp-key').value.trim();
+        if (key.startsWith('gsk_')) {
+            sessionStorage.setItem('GROQ_KEY', key);
+            document.getElementById('key-auth-area').style.display = 'none';
+            // 關鍵：輸入完 Key 後立刻跑一次解鎖檢查
+            checkUnlock(); 
+        } else {
+            alert('請輸入正確的 Groq Key');
+        }
 };
 
     window.resetChallenge = function() {
@@ -552,8 +550,11 @@ window.saveKey = function() {
         checkUnlock();
     };
 
-    function checkUnlock() {
-        if (selectedMBTI && selectedTopic) {
+function checkUnlock() {
+        // 多加一個條件：檢查 sessionStorage 是否有 Key
+        const hasKey = sessionStorage.getItem('GROQ_KEY');
+
+        if (selectedMBTI && selectedTopic && hasKey) {
             chatInput.disabled = false;
             sendBtn.disabled = false;
             chatInput.placeholder = "輸入「開始」啟動挑戰...";
@@ -562,6 +563,9 @@ window.saveKey = function() {
             document.getElementById('topicBar').classList.add('shrunk');
             chatMsgs.innerHTML = '';
             addMessage(`<b>對局已就緒！</b><br>對手：${selectedMBTI}<br>主題：${selectedTopic}`, 'ai');
+        } else if (selectedMBTI && selectedTopic && !hasKey) {
+            // 如果選好了但沒 Key，給個提示
+            chatInput.placeholder = "請先在上方輸入 Key 並點擊啟動...";
         }
     }
 
