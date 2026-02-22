@@ -159,7 +159,14 @@
             font-size: 0.9rem; 
             transition: 0.2s;
         }
-        .style-btn.active { background: var(--ai-orange); color: white; }
+        /* 確保被選中的按鈕維持高亮且有視覺回饋 */
+.style-btn.active {
+    opacity: 1 !important;
+    pointer-events: none; /* 選中後也禁用點擊，防止重複觸發開頭訊息 */
+    border: 2px solid #ff9800 !important;
+    transform: scale(1.05);
+    background-color: #fff3e0; /* 輕微背景色變化 */
+}
 
         .chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8f9fa; display: flex; flex-direction: column; gap: 10px; }
         .msg { max-width: 85%; padding: 12px 16px; border-radius: 15px; font-size: 1rem; word-wrap: break-word; }
@@ -360,17 +367,30 @@ const chatWindow = document.getElementById('chatWindow');
     }
 
     // --- 3. 更新角色風格 ---
-    function updateStyle(btn, styleName) {
-        const charMap = { 
-            '陽光男孩': 'sunny', '冷靜軍師': 'calm', '毒舌前輩': 'sharp', 
-            '溫柔姐姐': 'gentle', '幹練強人': 'capable', '活潑少女': 'lively' 
-        };
-        selectedCharacter = charMap[styleName] || "sunny";
-        document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        chatInput.value = "開始";
-        addMessage(`已設定為：<b>${styleName}</b> 模式。按下發送啟動 30 秒倒數！`, 'ai');
-    }
+function updateStyle(btn, styleName) {
+    // 建立角色對照
+    const charMap = { 
+        '陽光男孩': 'sunny', '冷靜軍師': 'calm', '毒舌前輩': 'sharp', 
+        '溫柔姐姐': 'gentle', '幹練強人': 'capable', '活潑少女': 'lively' 
+    };
+    selectedCharacter = charMap[styleName] || "sunny";
+
+    // 1. 處理按鈕視覺狀態：所有按鈕變灰，選中的變亮
+    document.querySelectorAll('.style-btn').forEach(b => {
+        b.classList.remove('active');
+        b.style.opacity = "0.5"; // 變灰
+        b.style.pointerEvents = "none"; // 禁用點擊
+    });
+
+    btn.classList.add('active');
+    btn.style.opacity = "1"; // 被選中的維持亮度
+    
+    // 自動帶入「開始」字樣，讓使用者直接按 Enter
+    chatInput.value = "開始";
+    chatInput.focus(); // 自動聚焦到輸入框
+    
+    addMessage(`已選定角色：<b>${styleName}</b>。請按下發送或 Enter 開始挑戰！`, 'ai');
+}
 
     // --- 4. 核心對話與 API 串接 ---
     async function addMessage(text, side) {
@@ -428,43 +448,39 @@ function handleSend() {
     const val = chatInput.value.trim();
     if (!val) return;
 
-    // --- 修改這裡：如果還沒開始挑戰，且輸入了訊息 ---
-    if (state === "READY") {
-        state = "CHALLENGING";
-        conversationHistory = []; 
-        startTimer(); // 只要是第一句話，就啟動計時器！
-        addMessage(val, 'user');
+    // 當狀態是 READY 且使用者送出「開始」時
+    if (state === "READY" && val === "開始") {
+        state = "CHALLENGING"; // 切換狀態
+        conversationHistory = []; // 清空之前的引導對話
         
-        // 根據選擇的角色給一個開場白
-        const startMessages = {
-            sunny: "挑戰開始！我就喜歡你這股衝勁，來吧！☀️",
+        addMessage(val, 'user'); // 顯示使用者說了「開始」
+        startTimer(); // 這行最關鍵，啟動右上角 120s 倒數
+
+        // 這裡可以手動加入一則 AI 開場白，增加帶入感
+        const intro = {
+            sunny: "挑戰開始！我就喜歡這股衝勁，來吧！☀️",
             calm: "計時開始。請展現你的溝通邏輯。🛡️",
             sharp: "計時器動了，你的腦袋動了嗎？快說話。🐍",
-            gentle: "計時開始囉，放輕鬆，照你的節奏來。🌸",
+            gentle: "好的，計時開始囉，照你的節奏來。🌸",
             capable: "計時啟動。請精簡扼要地陳述你的觀點。💼",
             lively: "喔耶！計時開始！快跟我說說你的想法！🦄"
         };
         
         setTimeout(() => {
-            addMessage(startMessages[selectedCharacter] || "挑戰開始！", 'ai');
+            addMessage(intro[selectedCharacter] || "挑戰開始！", 'ai');
         }, 500);
-    } 
-    // --- 以下維持原樣 ---
-    else if (state === "EMAIL") {
-        addMessage(val, 'user');
-        addMessage("感謝回饋！JK 團隊將寄送攻略至您的信箱。", "ai");
-        state = "DONE";
+
     } else {
+        // 一般挑戰中的對話或 Email 階段
         addMessage(val, 'user');
     }
-    chatInput.value = '';
-}
     
-    chatInput.value = ''; // 清空輸入框
-}
+    chatInput.value = ''; // 送出後清空輸入框
+}    
+
 
     function startTimer() {
-        timeLeft = 30;
+        timeLeft = 120;
         timerDisplay.innerText = timeLeft + 's';
         timerId = setInterval(() => {
             timeLeft--;
