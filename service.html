@@ -150,35 +150,38 @@
         .chat-header { background: var(--ai-gradient); color: white; padding: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
         .timer-tag { background: rgba(0,0,0,0.2); padding: 2px 10px; border-radius: 10px; font-family: monospace; font-size: 1.1rem; }
         
-        .style-bar { 
+.style-bar { 
     display: flex; 
-    flex-wrap: wrap; /* 允許自動換行 */
-    padding: 10px; 
+    flex-wrap: wrap; 
+    padding: 12px 10px; 
     background: #fff; 
-    border-bottom: 1px solid #eee; 
-    justify-content: center; /* 讓按鈕置中對齊 */
-    gap: 8px; /* 縮小一點間距 */
+    justify-content: center; 
+    gap: 6px; 
 }
-        .style-bar::-webkit-scrollbar { display: none; }
 
-        .style-btn { 
-            flex: 0 0 auto; 
-            border: 1px solid var(--ai-orange); 
-            background: none; 
-            color: var(--ai-orange); 
-            padding: 6px 15px; 
-            border-radius: 15px; 
-            cursor: pointer; 
-            font-size: 0.9rem; 
-            transition: 0.2s;
-        }
-        /* 確保被選中的按鈕維持高亮且有視覺回饋 */
+.style-btn { 
+    flex: 0 0 auto; 
+    border: 1px solid #ddd; 
+    background: #fdfdfd; 
+    color: #666; 
+    padding: 5px 12px; 
+    border-radius: 20px; 
+    cursor: pointer; 
+    font-size: 0.85rem; 
+    transition: all 0.2s ease;
+}
+
+.style-btn:hover {
+    border-color: var(--ai-orange);
+    color: var(--ai-orange);
+}
+
 .style-btn.active {
-    opacity: 1 !important;
-    pointer-events: none; /* 選中後也禁用點擊，防止重複觸發開頭訊息 */
-    border: 2px solid #ff9800 !important;
-    transform: scale(1.05);
-    background-color: #fff3e0; /* 輕微背景色變化 */
+    background: var(--ai-gradient) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 3px 8px rgba(243, 156, 18, 0.3);
+    transform: translateY(-1px);
 }
 
         .chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8f9fa; display: flex; flex-direction: column; gap: 10px; }
