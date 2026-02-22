@@ -29,6 +29,24 @@
     background-color: #ccc;
     cursor: not-allowed;
 }
+
+        /* 重新挑戰按鈕 */
+.reset-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: 0.3s;
+}
+
+.reset-btn:hover {
+    background: white;
+    color: var(--dark-orange);
+}
         
         @keyframes gradientFlow {
             0% { background-position: 0% 50%; }
@@ -147,7 +165,14 @@
         }
 
         .chat-window { position: fixed; bottom: 120px; right: 20px; width: 360px; height: 600px; background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); display: none; flex-direction: column; z-index: 2100; overflow: hidden; }
-        .chat-header { background: var(--ai-gradient); color: white; padding: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+<div class="chat-header">
+    <span>小S | 2分鐘實戰</span>
+    <div style="display: flex; align-items: center;">
+        <div id="timerDisplay" class="timer-tag">120s</div>
+        <button onclick="resetChallenge()" class="reset-btn">🔄 重來</button>
+    </div>
+    <span id="closeChat" style="cursor:pointer; font-size: 20px; margin-left: 10px;">✕</span>
+</div>
         .timer-tag { background: rgba(0,0,0,0.2); padding: 2px 10px; border-radius: 10px; font-family: monospace; font-size: 1.1rem; }
         
 .style-bar { 
@@ -194,7 +219,24 @@
         .send-btn { background: var(--ai-orange); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; }
 
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-        .service-box { background: white; padding: 45px; border-radius: 15px; border-left: 5px solid var(--accent-blue); margin-bottom: 35px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+       /* 增加懸浮感 */
+.service-box {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* 讓移動端選單更易滑動 */
+.nav-container {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox 隱藏捲軸 */
+}
+.nav-container::-webkit-scrollbar {
+    display: none; /* Chrome 隱藏捲軸 */
+}
         .service-box h2 { color: var(--primary-navy); font-size: 2.2rem; font-weight: 900; margin-bottom: 20px; border-bottom: 2px solid var(--accent-blue); display: inline-block; padding-bottom: 5px; }
         .service-box p { font-size: 1.3rem; color: #555; line-height: 1.7; }
 
@@ -210,11 +252,15 @@
         .btn-blue { background: var(--accent-blue); color: white; }
         .btn-orange { background: var(--ai-orange); color: white; }
 
-        @media (max-width: 768px) {
-            .step-row-desktop { flex-direction: column; gap: 20px; }
-            .hero-banner h1 { font-size: 2rem; }
-            .chat-window { width: 95% !important; right: 2.5% !important; height: 70vh; bottom: 85px; }
-        }
+      @media (max-width: 768px) {
+    .chat-window { 
+        width: 100% !important; 
+        right: 0 !important; 
+        height: 100%; /* 全螢幕體驗更好 */
+        bottom: 0; 
+        border-radius: 0; 
+    }
+}
     </style>
 </head>
 <body>
@@ -406,7 +452,31 @@
         }
     };
 
-    // --- 3. 雙重選擇邏輯 ---
+    // 定義重置功能
+window.resetChallenge = function() {
+    clearInterval(timerId);
+    state = "READY";
+    timeLeft = 120;
+    timerDisplay.innerText = '120s';
+    conversationHistory = [];
+    chatMsgs.innerHTML = '';
+    
+    // 恢復輸入狀態
+    chatInput.disabled = false;
+    sendBtn.disabled = false;
+    chatInput.value = "開始";
+    chatInput.placeholder = "輸入「開始」啟動挑戰...";
+    
+    addMessage(`<b>對局已重置！</b><br>當前人格：${selectedMBTI}<br>挑戰主題：${selectedTopic}<br><br>按下 Enter 重新開始。`, 'ai');
+};
+
+// 增加自動捲動平滑度
+function scrollToBottom() {
+    chatMsgs.scrollTo({
+        top: chatMsgs.scrollHeight,
+        behavior: 'smooth'
+    });
+}
     
     // 選擇 MBTI (取代原本的 updateStyle)
     window.selectMBTI = function(btn, mbti) {
