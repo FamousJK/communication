@@ -110,10 +110,17 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
 
-        /* Add this right below to allow the second box to be blue */
+ 	/* Add this right below to allow the second box to be blue */
         .lure-box.blue-edge {
             border-top-color: var(--accent-blue);
         }
+
+        /* Added green edge for the right hand box */
+        .lure-box.green-edge {
+            border-top-color: var(--success-green);
+
+        }
+
         .lure-box:hover { 
     /* Remove border-color change to keep the top edge red/blue */
     background: var(--soft-blue); 
@@ -138,24 +145,23 @@
             .hero-banner { height: 250px; }
             .hero-banner h1 { font-size: 3.5rem; }
             .nav-links a { font-size: 1.3rem; gap: 40px; }
+            
+            /* This ensures they stay side-by-side on desktop */
+            .lure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        }
 
         @media (max-width: 768px) {
-        
             .nav-container {
-                overflow-x: auto; /* Enable horizontal scrolling */
-                white-space: nowrap; /* Prevent text from wrapping to a second line */
-                -webkit-overflow-scrolling: touch; /* Smooth scrolling for mobile */
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
             }
             .nav-links { 
                 justify-content: flex-start; 
                 padding: 15px 20px; 
-                width: max-content; /* Force the bar to be as wide as the text */
+                width: max-content;
             }
-            /* Keep your other mobile styles (lure-grid, btn) below this */
-            .lure-grid { grid-template-columns: 1fr; }
-            .btn { width: 100%; box-sizing: border-box; }
-        }
-
+            /* This stacks them vertically on mobile for better reading */
             .lure-grid { grid-template-columns: 1fr; }
             .btn { width: 100%; box-sizing: border-box; }
         }
@@ -196,13 +202,15 @@
 
         <div class="lure-grid">
             <a href="issue.html" class="lure-box">
-                <h3>🔍 診斷你的溝通障礙 <span style="color:var(--accent-blue)">→</span></h3>
-                <p>總是聊不下去？這不是你的錯。點擊找出那些悄悄破壞你人際關係的「絆腳石」。</p>
+                <h3>🔍 常見的溝通盲點 <span style="color:var(--accent-blue)">→</span></h3>
+                <p>是不是偶爾會覺得對話難以延續，卻找不到原因？也許，你只是踩到了幾個常見的溝通陷阱。</p>
             </a>
-            <a href="methods.html" class="lure-box">
+            
+            <a href="methods.html" class="lure-box green-edge">
                 <h3>💡 掌握頂尖交流心法 <span style="color:var(--accent-blue)">→</span></h3>
                 <p>想讓對方對你印象深刻？從心理學底層邏輯，學會讓人感到舒服的「高級說話術」。</p>
             </a>
+
         </div>
 
         <div class="feature-grid">

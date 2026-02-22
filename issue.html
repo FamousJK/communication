@@ -55,33 +55,64 @@
             text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
         }
 
-        /* Navigation - Synced with Service.html */
+ /* --- Cleaned & Synced Navigation Bar --- */
         .nav-container { 
             background: white; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
+            border-bottom: 1px solid #e1e8ed; 
             position: sticky; 
             top: 0; 
-            z-index: 1000; 
+            z-index: 1000;
+            overflow-x: auto; 
+            white-space: nowrap; 
+            -webkit-overflow-scrolling: touch;
         }
+
+        /* Styles the scrollbar for mobile */
+        .nav-container::-webkit-scrollbar { height: 4px; }
+        .nav-container::-webkit-scrollbar-track { background: #f1f1f1; }
+        .nav-container::-webkit-scrollbar-thumb { background: #bdc3c7; border-radius: 10px; }
+
         .nav-links { 
             display: flex; 
             list-style: none; 
             gap: 25px; 
-            margin: 0; 
-            padding: 15px 20px; 
+            margin: 0 auto; 
+            padding: 0 20px; 
             justify-content: center; 
+            width: max-content; 
         }
+
         .nav-links li { position: relative; }
+
         .nav-links a { 
             text-decoration: none; 
             color: var(--primary-navy); 
             font-weight: bold; 
             font-size: 1.1rem; 
-            white-space: nowrap;
             display: block;
+            padding: 15px 5px;
             transition: 0.3s;
+            border-bottom: 3px solid transparent; 
         }
-        .nav-links a:hover { color: var(--accent-blue); }
+
+        /* Active state - Gray underline synced across pages */
+        .nav-links a:hover, 
+        .nav-links a.active { 
+            color: var(--accent-blue); 
+            border-bottom: 3px solid #bdc3c7; 
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { justify-content: flex-start; }
+            .nav-container::-webkit-scrollbar { display: none; }
+            .nav-container { -ms-overflow-style: none; scrollbar-width: none; }
+        }
+
+        @media (min-width: 769px) {
+            .nav-links { gap: 40px; }
+            .nav-links a { font-size: 1.3rem; }
+        }
 
         /* Dropdown Styling */
         .dropdown-content {
@@ -216,17 +247,12 @@
 
     <header class="hero-banner"><h1>溝通的絆腳石</h1></header>
 
-    <nav class="nav-container">
+<nav class="nav-container">
         <ul class="nav-links">
             <li><a href="index.html">主頁</a></li>
-            <li class="dropdown">
-                <a href="#" class="trigger">關於我們 ▼</a>
-                <div class="dropdown-content">
-                    <a href="about.html">我們的承諾</a>
-                    <a href="service.html">我們的服務</a>
-                </div>
-            </li>
-            <li><a href="issue.html" style="color: var(--accent-blue);">溝通問題</a></li>
+            <li><a href="about.html">我們的承諾</a></li>
+            <li><a href="service.html">我們的服務</a></li>
+            <li><a href="issue.html" class="active" style="color: var(--accent-blue); border-bottom-color: #bdc3c7;">溝通問題</a></li>
             <li><a href="methods.html">交流技巧</a></li>
             <li><a href="#">學員見證</a></li>
             <li><a href="#">聯絡我們</a></li>
