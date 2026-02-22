@@ -149,6 +149,10 @@
             border-bottom: 3px solid #bdc3c7; 
         }
 
+
+
+
+        
         /* --- AI 聊天視窗樣式 --- */
         .ai-doll-trigger { 
             position: fixed; bottom: 20px; right: 20px; width: 90px; height: 90px; z-index: 2000; cursor: pointer;
@@ -164,8 +168,27 @@
             width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; background: var(--ai-orange); padding: 5px; 
         }
 
-        .chat-window { position: fixed; bottom: 120px; right: 20px; width: 360px; height: 600px; background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); display: none; flex-direction: column; z-index: 2100; overflow: hidden; }
-<div class="chat-header">
+/* --- 修正頂部變形與加大字體 --- */
+.chat-window { 
+    position: fixed; bottom: 120px; right: 20px; width: 360px; height: 600px; 
+    background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); 
+    display: none; flex-direction: column; z-index: 2100; overflow: hidden; 
+}
+
+.chat-header { 
+    background: var(--ai-gradient); color: white; padding: 15px 20px; 
+    display: flex; justify-content: space-between; align-items: center; 
+    font-weight: bold;
+}
+
+.style-bar p {
+    width: 100%; 
+    font-size: 1.1rem !important; 
+    font-weight: 800 !important;   
+    margin: 8px 0; 
+    color: var(--primary-navy); 
+    text-align: center;
+}
 
         .timer-tag { background: rgba(0,0,0,0.2); padding: 2px 10px; border-radius: 10px; font-family: monospace; font-size: 1.1rem; }
         
@@ -497,6 +520,9 @@ function scrollToBottom() {
         checkUnlock();
     };
 
+
+
+    
     // 選擇話題
     window.selectTopic = function(btn, topic) {
         selectedTopic = topic;
@@ -559,7 +585,7 @@ function scrollToBottom() {
                                 
                                 你的目標：
                                 1. 以 ${selectedMBTI} 的口吻針對『${selectedTopic}』與使用者對話。
-                                2. 如果你是 ENTJ/ESTP，請主動挑戰對方的觀點，表現出不耐煩或強勢。
+                                2. 如果你是 ENTJ，請表現得像果斷的執行長，重視效率與大局觀，對模糊表達給予專業質疑；如果是 ESTP，則主動挑戰觀點，表現強勢。
                                 3. 如果你是 INFP/INFJ，請探討價值觀與內心感受，表現出敏感或深沉。
                                 4. 每句話嚴格限制在 50 字內，必須主動帶動話題。
                                 5. 使用繁體中文。` 
@@ -592,7 +618,7 @@ function scrollToBottom() {
 
             // 根據不同人格設定開場白
             const introMap = {
-                'ENTJ': `計時開始。關於『${selectedTopic}』，我沒時間聽廢話，直接說你的核心觀點。`,
+                'ENTJ': `執行長模式已啟動。針對『${selectedTopic}』，請提交你的戰略佈局。我只看重邏輯架構與預期效益，請開始陳述。`,
                 'INFP': `好的...關於『${selectedTopic}』，我其實一直有種說不出口的感覺，你怎麼看？`,
                 'ESTP': `嘿！聊聊『${selectedTopic}』吧。我喜歡直接一點，你的看法夠刺激嗎？`,
                 'INFJ': `關於『${selectedTopic}』，我觀察到了某些深層的聯繫...你是否也感覺到了？`,
