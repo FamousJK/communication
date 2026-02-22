@@ -299,14 +299,17 @@
             <span id="closeChat" style="cursor:pointer; font-size: 20px;">✕</span>
         </div>
         
-        <div class="style-bar" id="styleBar">
-            <button class="style-btn" onclick="updateStyle(this, '陽光男孩')">☀️ 陽光男孩</button>
-            <button class="style-btn" onclick="updateStyle(this, '冷靜軍師(男)')">🛡️ 冷靜軍師</button>
-            <button class="style-btn" onclick="updateStyle(this, '毒舌前輩(男)')">🐍 毒舌前輩</button>
-            <button class="style-btn" onclick="updateStyle(this, '溫柔姐姐')">🌸 溫柔姐姐</button>
-            <button class="style-btn" onclick="updateStyle(this, '幹練女強人')">💼 幹練強人</button>
-            <button class="style-btn" onclick="updateStyle(this, '活潑少女')">🦄 活潑少女</button>
-        </div>
+       <div class="style-bar" id="styleBar">
+    <button class="style-btn" onclick="updateStyle(this, '陽光男孩')">☀️ 陽光男孩</button>
+    <button class="style-btn" onclick="updateStyle(this, '冷靜軍師')">🛡️ 冷靜軍師</button>
+    <button class="style-btn" onclick="updateStyle(this, '毒舌前輩')">🐍 毒舌前輩</button>
+    
+    <span style="color: #ccc; margin: 0 5px;">|</span>
+    
+    <button class="style-btn" onclick="updateStyle(this, '溫柔姐姐')">🌸 溫柔姐姐</button>
+    <button class="style-btn" onclick="updateStyle(this, '幹練強人')">💼 幹練強人</button>
+    <button class="style-btn" onclick="updateStyle(this, '活潑少女')">🦄 活潑少女</button>
+</div>
 
         <div id="chatMsgs" class="chat-messages">
             <div class="msg ai">準備好開始挑戰了嗎？<br><br>選好模式後，輸入「開始」啟動 30 秒倒數！</div>
@@ -328,13 +331,36 @@
 
     let timeLeft = 30;
     let timerId = null;
-    let state = "READY";
+    let state = "READY"; // READY, CHALLENGING, EMAIL, DONE
     let selectedCharacter = "sunny";
-    let conversationHistory = []; // 新增：用於記錄對話過程
+    let conversationHistory = []; // 用於記錄對話過程
 
+    // 視窗切換邏輯
     dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
     document.getElementById('closeChat').onclick = () => { chatWindow.style.display = 'none'; dollTrigger.style.display = 'flex'; };
 
+    // 更新角色與自動帶入「開始」
+    function updateStyle(btn, styleName) {
+        const charMap = { 
+            '陽光男孩': 'sunny', 
+            '冷靜軍師': 'calm', 
+            '毒舌前輩': 'sharp', 
+            '溫柔姐姐': 'gentle', 
+            '幹練強人': 'capable', 
+            '活潑少女': 'lively' 
+        };
+        selectedCharacter = charMap[styleName] || "sunny";
+        
+        // 切換按鈕樣式
+        document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // 優化體驗：自動填入開始，提示使用者
+        chatInput.value = "開始";
+        addMessage(`已切換為：<b>${styleName}</b>。<br>點擊發送「開始」啟動挑戰！`, 'ai');
+    }
+
+    // 發送訊息與 AI 回應
     async function addMessage(text, side) {
         const div = document.createElement('div');
         div.className = `msg ${side}`;
@@ -342,11 +368,12 @@
         chatMsgs.appendChild(div);
         chatMsgs.scrollTop = chatMsgs.scrollHeight;
 
-        // 記錄對話
+        // 記錄挑戰過程中的對話
         if(state === "CHALLENGING") {
-            conversationHistory.push({ role: side === 'user' ? 'user' : 'ai', content: text });
+            conversationHistory.push({ role: side === 'user' ? 'user' : 'assistant', content: text });
         }
 
+        // 請求 AI 回覆 (僅限使用者發言且非填 Email 階段)
         if (side === 'user' && state !== "EMAIL") {
             const loadingDiv = document.createElement('div');
             loadingDiv.className = 'msg ai';
@@ -357,35 +384,33 @@
                 const response = await fetch('http://localhost:3000/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: text, character: selectedCharacter })
+                    body: JSON.stringify({ 
+                        message: text, 
+                        character: selectedCharacter 
+                    })
                 });
                 const data = await response.json();
+                
                 loadingDiv.innerHTML = data.reply;
-                // AI 回覆也要記錄
-                if(state === "CHALLENGING") conversationHistory.push({ role: 'ai', content: data.reply });
+                
+                if(state === "CHALLENGING") {
+                    conversationHistory.push({ role: 'assistant', content: data.reply });
+                }
             } catch (error) {
-                loadingDiv.innerHTML = "抱歉，我的大腦斷線了，請確認服務器是否在運行。";
+                loadingDiv.innerHTML = "抱歉，我的大腦斷線了，請確認 CMD 伺服器是否運行中。";
             }
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
         }
     }
 
-    function updateStyle(btn, styleName) {
-        const charMap = { '陽光男孩': 'sunny', '冷靜軍師(男)': 'calm', '毒舌前輩(男)': 'sharp', '溫柔姐姐': 'gentle', '幹練女強人': 'capable', '活潑少女': 'lively' };
-        selectedCharacter = charMap[styleName] || "sunny";
-        document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        chatInput.value = "開始";
-        addMessage(`已選擇角色：<b>${styleName}</b>。<br>點擊發送「開始」即刻啟動 30 秒實戰！`, 'ai');
-    }
-
+    // 處理點擊發送
     function handleSend() {
         const val = chatInput.value.trim();
         if (!val) return;
         
         if (state === "READY" && val === "開始") {
             state = "CHALLENGING";
-            conversationHistory = []; // 重置紀錄
+            conversationHistory = []; 
             startTimer();
             addMessage(val, 'user');
         } else if (state === "EMAIL") {
@@ -398,6 +423,7 @@
         chatInput.value = '';
     }
 
+    // 倒數計時器
     function startTimer() {
         timeLeft = 30;
         timerDisplay.innerText = timeLeft + 's';
@@ -411,12 +437,12 @@
         }, 1000);
     }
 
+    // 結束挑戰並請求評分
     async function endChallenge() {
         state = "EMAIL";
         addMessage("🚨 <b>挑戰結束！</b><br>正在由 AI 顧問進行深度溝通評核...", 'ai');
         
         try {
-            // 向後端請求評分
             const response = await fetch('http://localhost:3000/evaluate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -425,7 +451,7 @@
             const data = await response.json();
             addMessage(`🎯 <b>評核結果：</b><br>${data.evaluation}<br><br>請留下您的 Email，我們將寄送更完整的提升攻略給您！`, 'ai');
         } catch (error) {
-            addMessage(`初步得分：<b>8.5 / 10</b><br>詳細評語生成中...請留下 Email 獲取完整報告！`, 'ai');
+            addMessage(`初步得分：<b>8.5 / 10</b><br>評語生成中...請留下 Email 獲取完整報告！`, 'ai');
         }
         
         chatInput.placeholder = "請輸入您的 Email...";
