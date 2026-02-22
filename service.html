@@ -17,6 +17,32 @@
             --bg-light: #f4f7f9;
         }
 
+/* 縮減狀態的樣式 */
+.style-bar.shrunk {
+    padding: 5px 10px;
+    gap: 4px;
+    max-height: 40px; /* 限制高度 */
+    overflow: hidden;
+    transition: all 0.5s ease; /* 平滑縮小動畫 */
+    border-bottom: 1px solid #eee;
+}
+
+.style-bar.shrunk p {
+    display: none; /* 隱藏「1. 選擇人格」等文字 */
+}
+
+.style-bar.shrunk .style-btn:not(.active) {
+    display: none; /* 隱藏未被選中的按鈕 */
+}
+
+.style-bar.shrunk .style-btn.active {
+    margin: 0 auto;
+    font-size: 0.75rem;
+    padding: 2px 10px;
+}
+
+        
+        
         /* 禁用狀態的輸入框樣式 */
 #chatInput:disabled {
     background-color: #e9ecef;
@@ -502,13 +528,16 @@ window.resetChallenge = function() {
     conversationHistory = [];
     chatMsgs.innerHTML = '';
     
-    // 恢復輸入狀態
+    // --- 新增：恢復選擇區域的大小 ---
+    document.getElementById('mbtiBar').classList.remove('shrunk');
+    document.getElementById('topicBar').classList.remove('shrunk');
+    
     chatInput.disabled = false;
     sendBtn.disabled = false;
     chatInput.value = "開始";
     chatInput.placeholder = "輸入「開始」啟動挑戰...";
     
-    addMessage(`<b>對局已重置！</b><br>當前人格：${selectedMBTI}<br>挑戰主題：${selectedTopic}<br><br>按下 Enter 重新開始。`, 'ai');
+    addMessage(`<b>對局已重置！</b><br>請重新選擇人格與主題，或直接按下 Enter 開始。`, 'ai');
 };
 
 // 增加自動捲動平滑度
@@ -539,19 +568,22 @@ function scrollToBottom() {
     };
 
     // 檢查解鎖
-    function checkUnlock() {
-        if (selectedMBTI && selectedTopic) {
-            chatInput.disabled = false;
-            sendBtn.disabled = false;
-            chatInput.placeholder = "輸入「開始」啟動挑戰...";
-            chatInput.value = "開始";
-            chatInput.focus();
-            
-            // 清除歡迎詞，給予對局提示
-            chatMsgs.innerHTML = '';
-            addMessage(`<b>對局已就緒！</b><br>對手人格：${selectedMBTI}<br>挑戰主題：${selectedTopic}<br><br>按下 Enter 開始 120 秒實戰。`, 'ai');
-        }
+function checkUnlock() {
+    if (selectedMBTI && selectedTopic) {
+        chatInput.disabled = false;
+        sendBtn.disabled = false;
+        chatInput.placeholder = "輸入「開始」啟動挑戰...";
+        chatInput.value = "開始";
+        chatInput.focus();
+        
+        // --- 新增：縮減選擇區域 ---
+        document.getElementById('mbtiBar').classList.add('shrunk');
+        document.getElementById('topicBar').classList.add('shrunk');
+        
+        chatMsgs.innerHTML = '';
+        addMessage(`<b>對局已就緒！</b><br>對手人格：${selectedMBTI}<br>挑戰主題：${selectedTopic}<br><br>按下 Enter 開始 120 秒實戰。`, 'ai');
     }
+}
 
     // --- 4. 核心對話與 MBTI 引擎 ---
     async function addMessage(text, side) {
