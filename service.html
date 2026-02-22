@@ -224,9 +224,22 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* 移除原本大外層的懸浮效果 */
 .service-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transform: none;
+    box-shadow: none;
+}
+
+/* 針對個別小框框設置懸浮效果 */
+.step-a-box, .step-b-box {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: white; /* 確保懸浮時背景不透明 */
+}
+
+.step-a-box:hover, .step-b-box:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    z-index: 1; /* 確保陰影不會被遮擋 */
 }
 
 /* 讓移動端選單更易滑動 */
