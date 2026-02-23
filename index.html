@@ -234,15 +234,22 @@
             }
             
             .nav-container {
-                overflow-x: auto;
-                white-space: nowrap;
-                -webkit-overflow-scrolling: touch;
-            }
-            .nav-links { 
-                justify-content: flex-start; 
-                padding: 15px 20px; 
-                width: max-content;
-            }
+        /* Optional: ensures the bar doesn't feel too bulky */
+        line-height: 1; 
+    }
+
+    .nav-links { 
+        justify-content: flex-start; 
+        /* REDUCED vertical padding from 15px to 8px */
+        padding: 8px 15px; 
+        width: max-content;
+    }
+
+    .nav-links a {
+        /* REDUCED vertical padding from 15px to 10px */
+        padding: 10px 5px; 
+        font-size: 1rem;
+    }
             
             .lure-grid { grid-template-columns: 1fr; }
 
