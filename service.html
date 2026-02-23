@@ -129,7 +129,7 @@
     background: linear-gradient(rgba(44, 62, 80, 0.6), rgba(44, 62, 80, 0.6)), url('service-banner.jpg'); 
     background-size: cover;
     background-position: center 35%; 
-    height: 300px; /* Increased from 180px to match standard headers */
+    height: 180px; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -326,6 +326,15 @@
         .btn-blue { background: var(--accent-blue); color: white; }
         .btn-orange { background: var(--ai-orange); color: white; }
 
+        @media (min-width: 769px) {
+            .hero-banner { height: 250px; }
+            .hero-banner h1 { font-size: 3.5rem; }
+            .nav-links a { font-size: 1.3rem; gap: 40px; }
+            
+            /* This ensures they stay side-by-side on desktop */
+            .lure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        }
+        
       @media (max-width: 768px) {
     .chat-window { 
         width: 100% !important; 
