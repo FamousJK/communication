@@ -323,16 +323,59 @@
             .lure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         }
         
-      @media (max-width: 768px) {
-    .chat-window { 
-        width: 100% !important; 
-        right: 0 !important; 
-        height: 100%; /* 全螢幕體驗更好 */
-        bottom: 0; 
-        border-radius: 0; 
-    }
-}
-    </style>
+   @media (max-width: 768px) {
+            /* 1. Chat Window - Full Screen */
+            .chat-window { 
+                width: 100% !important; 
+                right: 0 !important; 
+                height: 100%; 
+                bottom: 0; 
+                border-radius: 0; 
+            }
+
+            /* 2. Stack Boxes Vertically */
+            .step-row-desktop {
+                flex-direction: column;
+                gap: 15px; 
+            }
+
+            /* 3. Shrink Titles and Padding */
+            .service-box h2 {
+                font-size: 1.6rem; 
+                margin-bottom: 15px;
+            }
+
+            .step-a-box, .step-b-box {
+                padding: 20px; 
+            }
+
+            /* 4. Standardize Font Sizes to 1.1rem */
+            .service-box p, 
+            .step-a-box p, 
+            .step-b-box p {
+                font-size: 1.1rem !important; 
+                line-height: 1.5;
+            }
+
+            /* 5. Shrink Inner Box Headers */
+            .step-a-box h3, .step-b-box h3 {
+                font-size: 1.3rem !important;
+            }
+
+            /* 6. Fix Buttons */
+            .btn {
+                padding: 12px !important;
+                font-size: 1.1rem !important;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .btn-animated {
+                padding: 15px 30px !important;
+                font-size: 1.2rem !important;
+                width: auto; /* Keeps the animated button centered and not too wide */
+            }
+        }
 </head>
 <body>
 
