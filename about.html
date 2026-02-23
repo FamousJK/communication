@@ -23,7 +23,7 @@
             overflow-x: hidden; 
         }
 
-        /* Top Bar - Synced */
+        /* Top Bar */
         .top-bar { 
             background: var(--primary-navy); 
             padding: 8px 5%; 
@@ -40,7 +40,7 @@
             background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('about-us.jpg');
             background-size: cover; 
             background-position: center 30%; 
-            height: 180px; 
+            height: 300px; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -49,22 +49,12 @@
         }
         .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; font-weight: bold; }
 
-        /* Navigation - Synced */
+        /* Navigation */
         .nav-container { background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
         .nav-links { display: flex; list-style: none; gap: 25px; margin: 0; padding: 15px 20px; justify-content: center; }
-        .nav-links li { position: relative; }
         .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: bold; font-size: 1.1rem; white-space: nowrap; display: block; transition: 0.3s; }
-        .nav-links a:hover { color: var(--accent-blue); }
-
-        /* Dropdown Desktop */
-        .dropdown-content {
-            display: none; position: absolute; background-color: white; min-width: 160px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.1); z-index: 1001; border-radius: 8px; 
-            top: 100%; left: 50%; transform: translateX(-50%);
-            border-top: 3px solid var(--accent-blue);
-        }
-        .dropdown-content a { color: var(--primary-navy) !important; padding: 12px 16px; display: block; font-size: 1rem !important; font-weight: normal; text-align: center; }
-        .dropdown-content a:hover { background-color: var(--soft-blue); }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent-blue); }
+        .nav-links a.active { border-bottom: 3px solid #bdc3c7; }
 
         /* Story Layout */
         .story-container { max-width: 1100px; margin: 20px auto; padding: 40px 20px; }
@@ -78,78 +68,38 @@
             border-top: 5px solid var(--accent-blue);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .story-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-        }
+        .story-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
 
-        .side-image { 
-            width: 100%; 
-            height: 250px; 
-            border-radius: 12px; 
-            overflow: hidden; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
-        }
+        .side-image { width: 100%; height: 250px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
         .side-image img { width: 100%; height: 100%; object-fit: cover; background-color: #ddd; }
 
-        /* SYNCED FONT SIZES */
-        .story-card h2 { 
-            color: var(--primary-navy); 
-            font-size: 1.6rem; /* Mobile Title */
-            margin-top: 0; 
-            border-bottom: 2px solid var(--soft-blue);
-            display: inline-block;
-            padding-bottom: 5px;
-            margin-bottom: 15px;
-        }
-        .story-card p, .story-card ul li { 
-            font-size: 1.3rem; /* Body Font Synced */
-            color: #444; 
-        }
+        .story-card h2 { color: var(--primary-navy); font-size: 1.6rem; margin-top: 0; border-bottom: 2px solid var(--soft-blue); display: inline-block; padding-bottom: 5px; margin-bottom: 15px; }
+        .story-card p, .story-card ul li { font-size: 1.3rem; color: #444; }
         .story-card ul { padding-left: 20px; }
-        .story-card ul li { margin-bottom: 8px; }
 
+        /* Desktop Adjustments - Fixed Nesting */
         @media (min-width: 769px) {
-            .hero-banner { height: 250px; }
+            .hero-banner { height: 300px; }
             .hero-banner h1 { font-size: 3.5rem; }
             .nav-links { gap: 40px; }
             .nav-links a { font-size: 1.3rem; }
-            .dropdown:hover .dropdown-content { display: block; }
-
             .story-row { flex-direction: row; align-items: center; gap: 50px; margin-bottom: 60px; }
             .row-reverse { flex-direction: row-reverse; }
             .story-card { flex: 1; padding: 45px; }
             .side-image { width: 450px; height: 320px; flex-shrink: 0; }
             .card-final-wrap { display: flex; justify-content: center; }
             .card-final-wrap .story-card { max-width: 850px; border-top-color: var(--success-green); }
-            
-            /* Desktop Title Font */
             .story-card h2 { font-size: 1.7rem; }
         }
 
-        /* Mobile Adjustments */
+        /* Mobile Adjustments - Fixed Braces */
         @media (max-width: 768px) {
             .nav-container { overflow-x: auto; }
             .nav-links { justify-content: flex-start; padding-right: 50px; }
-            .dropdown.mobile-open .dropdown-content { 
-                display: block; position: static; transform: none; box-shadow: none; 
-                background: #fcfcfc; width: auto; min-width: 0; margin-top: 5px;
-            }
-            .dropdown.mobile-open .dropdown-content a { text-align: left; padding: 10px 15px; color: var(--accent-blue) !important; font-weight: bold; }
         }
 
-        /* Back Button - Synced with Service.html */
         .back-btn-container { text-align: center; margin: 60px 0; }
-        .back-btn { 
-            display: inline-block; 
-            padding: 12px 50px; 
-            background: var(--primary-navy); 
-            color: white; 
-            text-decoration: none; 
-            border-radius: 50px; 
-            font-weight: bold; 
-            transition: 0.3s; 
-        }
+        .back-btn { display: inline-block; padding: 12px 50px; background: var(--primary-navy); color: white; text-decoration: none; border-radius: 50px; font-weight: bold; transition: 0.3s; }
         .back-btn:hover { background: var(--accent-blue); transform: translateY(-2px); }
     </style>
 </head>
@@ -164,13 +114,8 @@
     <nav class="nav-container">
         <ul class="nav-links">
             <li><a href="index.html">主頁</a></li>
-            <li class="dropdown">
-                <a href="#" class="trigger">關於我們 ▼</a>
-                <div class="dropdown-content">
-                    <a href="about.html">我們的承諾</a>
-                    <a href="service.html">我們的服務</a>
-                </div>
-            </li>
+            <li><a href="about.html" class="active">我們的承諾</a></li>
+            <li><a href="service.html">我們的服務</a></li>
             <li><a href="issue.html">溝通問題</a></li>
             <li><a href="methods.html">交流技巧</a></li>
             <li><a href="#">學員見證</a></li>
@@ -225,16 +170,5 @@
     <div class="back-btn-container">
         <a href="index.html" class="back-btn">← 返回主頁</a>
     </div>
-
-    <script>
-        document.querySelectorAll('.trigger').forEach(el => {
-            el.addEventListener('click', function(e) {
-                if (window.innerWidth <= 768) { 
-                    e.preventDefault(); 
-                    this.parentElement.classList.toggle('mobile-open'); 
-                }
-            });
-        });
-    </script>
 </body>
 </html>
