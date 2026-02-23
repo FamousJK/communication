@@ -207,6 +207,22 @@
         }
 
         @media (max-width: 768px) {
+            
+            /* 1. Main Top Box text */
+            .service-box p { 
+                font-size: 1rem !important; 
+            }
+
+            /* 2. Middle "Lure" Boxes text */
+            .lure-box p { 
+                font-size: 0.95rem !important; 
+            }
+
+            /* 3. Bottom Feature Cards text */
+            .feature-card p { 
+                font-size: 0.95rem !important; 
+            }
+            
             .nav-container {
                 overflow-x: auto;
                 white-space: nowrap;
@@ -220,6 +236,9 @@
             /* This stacks them vertically on mobile for better reading */
             .lure-grid { grid-template-columns: 1fr; }
             .btn { width: 100%; box-sizing: border-box; }
+
+            
+            
         }
 
         footer { padding: 40px; background: var(--primary-navy); color: #bdc3c7; text-align: center; }
