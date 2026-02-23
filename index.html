@@ -206,11 +206,21 @@
             .lure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         }
 
-        @media (max-width: 768px) {
-            
-            /* 1. Main Top Box text */
-            .service-box p { 
-                font-size: 1rem !important; 
+@media (max-width: 768px) {
+            /* 1. Shrink the Box Container itself */
+            .service-box {
+                padding: 15px 20px;   /* FIXED: Space inside the white box */
+                margin-bottom: 20px;  /* FIXED: Gap after the box */
+            }
+
+            .service-box h2 {
+                font-size: 1.4rem;
+                margin-bottom: 10px;
+            }
+
+            .service-box p {
+                font-size: 1rem !important;
+                line-height: 1.5;
             }
 
             /* 2. Middle "Lure" Boxes text */
@@ -233,12 +243,9 @@
                 padding: 15px 20px; 
                 width: max-content;
             }
-            /* This stacks them vertically on mobile for better reading */
+            
             .lure-grid { grid-template-columns: 1fr; }
-            .btn { width: 100%; box-sizing: border-box; }
-
-            
-            
+            .btn { width: 100%; }
         }
 
         footer { padding: 40px; background: var(--primary-navy); color: #bdc3c7; text-align: center; }
