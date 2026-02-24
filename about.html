@@ -132,15 +132,21 @@
         font-size: 1rem !important; /* 內文段落 (p, li) */
     }
 
-  .back-btn-container { 
+.back-btn-container { 
+        text-align: center; /* Ensures the button is centered on screen */
         margin: 40px 0; 
     }
 
     .back-btn { 
+        display: inline-block;        /* Required for padding and borders to work */
         padding: 12px 50px;
-        font-size: 1rem !important; /* Matches your table: 1rem */
-        border-radius: 8px;         /* Keeps the square-like feel on mobile */
-  }
+        background: white;            /* Keeps the box white */
+        color: var(--primary-navy);
+        border: 2px solid var(--primary-navy); /* Creates the "Box" look */
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1rem !important;   /* Matches your table: 1rem */
+        border-radius: 8px;           /* Square-like feel */  }
 }
     </style>
 </head>
