@@ -197,10 +197,20 @@
         .btn-hero { background: var(--ai-gradient); color: white; }
 
         /* Responsiveness */
-        @media (min-width: 769px) {
-            .hero-banner { height: 250px; }
-            .hero-banner h1 { font-size: 3.5rem; }
-            .nav-links a { font-size: 1.3rem; gap: 40px; }
+/* --- Desktop Version Only (Inside the min-width: 769px media query) --- */
+@media (min-width: 769px) {
+    .hero-banner { height: 250px; }
+    .hero-banner h1 { font-size: 3.5rem; }
+    .nav-links a { font-size: 1.3rem; gap: 40px; }
+    
+    .lure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    /* New Desktop Changes */
+    .lure-box p { font-size: 1.3rem !important; }    /* Lure box description to 1.3rem */
+    .feature-card p { font-size: 1.3rem !important; } /* Feature cards description to 1.3rem */
+    .cta-highlight h2 { font-size: 2.5rem !important; } /* CTA header to 2.5rem */
+    .cta-highlight .btn { font-size: 1.8rem !important; } /* CTA action button to 1.8rem */
+}
             
             /* This ensures they stay side-by-side on desktop */
             .lure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
