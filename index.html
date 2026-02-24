@@ -219,70 +219,31 @@
         }
 
 @media (max-width: 768px) {
-            /* 1. Shrink the Box Container itself */
-            .service-box {
-                padding: 15px 20px;   /* FIXED: Space inside the white box */
-                margin-bottom: 20px;  /* FIXED: Gap after the box */
-            }
-
-            .service-box h2 {
-                font-size: 1.4rem;
-                margin-bottom: 10px;
-            }
-
-            .service-box p {
-                font-size: 1rem !important;
-                line-height: 1.5;
-            }
-
-            /* 2. Middle "Lure" Boxes text */
-            .lure-box p { 
-                font-size: 1rem !important; 
-            }
-
-            /* 3. Bottom Feature Cards text */
-            .feature-card p { 
-                font-size: 1rem !important; 
-            }
-            
-            .nav-container {
-        /* Optional: ensures the bar doesn't feel too bulky */
-        line-height: 1; 
+    /* Updated Headers to 1.2rem */
+    .service-box h2, 
+    .lure-box h3, 
+    .feature-card h3, 
+    .cta-highlight h2 {
+        font-size: 1.2rem !important;
+        margin-bottom: 10px;
     }
 
-    .nav-links { 
-        justify-content: flex-start; 
-        /* REDUCED vertical padding from 15px to 8px */
-        padding: 8px 15px; 
-        width: max-content;
+    /* Description text remains 1rem */
+    .service-box p, 
+    .lure-box p, 
+    .feature-card p,
+    .cta-highlight p {
+        font-size: 1rem !important;
+        line-height: 1.5;
     }
 
-    .nav-links a {
-        /* REDUCED vertical padding from 15px to 10px */
-        padding: 10px 5px; 
-        font-size: 1rem;
+    /* Button remains 1.5rem */
+    .btn { 
+        font-size: 1.5rem !important;
+        padding: 12px 10px !important;
+        width: 100% !important;
     }
-            
-            .lure-grid { grid-template-columns: 1fr; }
-
-.btn { 
-        font-size: 1.5rem !important; /* CTA button updated to 1.5rem for mobile */
-        padding: 12px 10px !important; 
-        width: 100% !important;        
-        display: block !important;
-        box-sizing: border-box !important; 
-        text-align: center;
-        white-space: normal;           
-    }
-            }
-
-            .cta-highlight {
-                padding: 20px 15px !important; /* 縮減外層容器的空間 */
-            }
-    
-        }
-
-        footer { padding: 40px; background: var(--primary-navy); color: #bdc3c7; text-align: center; }
+}    
     </style>
 </head>
 <body>
