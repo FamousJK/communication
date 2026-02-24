@@ -73,6 +73,7 @@
         .story-card h2 { color: var(--primary-navy); font-size: 1.6rem; margin-top: 0; border-bottom: 2px solid var(--soft-blue); display: inline-block; padding-bottom: 5px; margin-bottom: 15px; }
         .story-card p, .story-card ul li { font-size: 1.4rem; color: #444; }
         .story-card ul { padding-left: 20px; }
+        
 
         /* Desktop*/
         @media (min-width: 769px) {
@@ -87,6 +88,28 @@
             .card-final-wrap { display: flex; justify-content: center; }
             .card-final-wrap .story-card { max-width: 850px; border-top-color: var(--success-green); }
             .story-card h2 { font-size: 1.5rem; }
+            .back-btn-container { 
+    text-align: center; 
+    margin: 60px 0; 
+}
+
+.back-btn { 
+    display: inline-block; 
+    padding: 18px 60px;
+    background: white;
+    color: var(--primary-navy);
+    text-decoration: none;
+    border: 2px solid var(--primary-navy);
+    border-radius: 12px; /* Square with slightly rounded corners */
+    font-weight: bold;
+    font-size: 1.4rem; /* Desktop size */
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: var(--primary-navy);
+    color: white;
+}
         }
 
         /* Mobile Adjustments - Fixed Braces */
