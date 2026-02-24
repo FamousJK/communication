@@ -199,21 +199,26 @@
         /* Responsiveness */
 /* --- Desktop Version Only (Inside the min-width: 769px media query) --- */
 /* Responsiveness */
-        @media (min-width: 769px) {
-            .hero-banner { height: 250px; }
-            .hero-banner h1 { font-size: 3.5rem; }
-            .nav-links a { font-size: 1.3rem; gap: 40px; }
-            
-            .lure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (min-width: 769px) {
+    .hero-banner { height: 250px; }
+    .hero-banner h1 { font-size: 3.5rem; }
+    .nav-links a { font-size: 1.3rem; gap: 40px; }
+    
+    .lure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
-            /* Desktop Specific Font Sizes */
-            .lure-box p { font-size: 1.3rem !important; }
-            .feature-card p { font-size: 1.3rem !important; }
-            .cta-highlight h2 { font-size: 2.5rem !important; }
-            .cta-highlight .btn { font-size: 1.8rem !important; }
-            .cta-highlight p { font-size: 1.3rem !important; }
-        }
+    /* Force all description text to be exactly 1.3rem */
+    .service-box p,
+    .lure-box p, 
+    .feature-card p, 
+    .cta-highlight p { 
+        font-size: 1.3rem !important; 
+        line-height: 1.7; /* Ensures the vertical spacing is also identical */
+    }
 
+    /* Header & Button adjustments */
+    .cta-highlight h2 { font-size: 2.5rem !important; }
+    .cta-highlight .btn { font-size: 1.8rem !important; }
+}
         @media (max-width: 768px) {
             /* Now 1.2rem will actually work! */
             .service-box h2, 
