@@ -197,25 +197,40 @@
         .btn-hero { background: var(--ai-gradient); color: white; }
 
         
-/* --- Desktop Version Only (Inside the min-width: 769px media query) --- */
+/* --- Desktop Version Only --- */
 @media (min-width: 769px) {
-    /* ... existing banner/nav styles ... */
+    /* Set the hero and nav sizes back to your preferred desktop scale */
+    .hero-banner { height: 250px; }
+    .hero-banner h1 { font-size: 3.5rem; }
+    .nav-links a { font-size: 1.4rem; gap: 40px; }
 
-    /* Force all description text to be exactly 1.3rem */
-    .service-box p,{ 
-        padding: 20px 35px; /* 減少上下間距，使方塊變小 */
-        margin-bottom: 30px;       
+    /* Fix the service-box (The blue-top box) */
+    .service-box { 
+        padding: 20px 35px; /* Reduced vertical gap */
+        margin-bottom: 30px; 
     }
+
+    /* Force all description text to be exactly 1.3rem and centered/spaced nicely */
+    .service-box p,
     .lure-box p, 
     .feature-card p, 
     .cta-highlight p { 
-        font-size: 1.3rem !important; /* Updated from 1.4rem to 1.3rem */
-        line-height: 1.6;             /* Slightly tighter line height for a cleaner look */
+        font-size: 1.3rem !important; 
+        line-height: 1.6; 
     }
 
-    /* Keep the boxes compact with the smaller padding */
+    /* Keep the Lure and Feature boxes compact */
     .lure-box, .feature-card {
-        padding: 18px 25px;           /* Slightly more padding to breathe with 1.3rem text */
+        padding: 18px 25px; /* Smaller than before, balanced for 1.3rem */
+    }
+
+    /* Ensure the red/green boxes stay equal height without overlapping */
+    .lure-grid { 
+        display: grid; 
+        grid-template-columns: 1fr 1fr; 
+        gap: 20px; 
+        align-items: stretch; 
+        margin-bottom: 30px;
     }
 }
         
