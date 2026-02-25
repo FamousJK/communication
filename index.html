@@ -204,17 +204,31 @@
     .hero-banner h1 { font-size: 3.5rem; }
     .nav-links a { font-size: 1.4rem; gap: 40px; }
     
-    .lure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .service-box { padding: 25px 35px; /* Reduced top/bottom from 35px to 25px */}
-    .story-card { flex: 1; padding: 25px 45px; /* 25px for top/bottom, 45px for left/right */}
+    /* Added align-items: stretch to force equal height columns */
+    .lure-grid { 
+        display: grid; 
+        grid-template-columns: 1fr 1fr; 
+        gap: 20px; 
+        align-items: stretch; 
+    }
+
+    /* Added height: 100% so boxes fill the grid row height */
+    .lure-box {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .service-box { padding: 25px 35px; }
+    .story-card { flex: 1; padding: 25px 45px; }
     
-    /* Force all description text to be exactly 1.3rem */
+    /* Force all description text to be exactly 1.4rem */
     .service-box p,
     .lure-box p, 
     .feature-card p, 
     .cta-highlight p { 
         font-size: 1.4rem !important; 
-        line-height: 1.7; /* Ensures the vertical spacing is also identical */
+        line-height: 1.7; 
     }
 
     /* Header & Button adjustments */
