@@ -201,37 +201,31 @@
 @media (min-width: 769px) {
     /* ... existing banner/nav styles ... */
 
-    /* 1. Ensure the 2nd row has clear spacing at the bottom */
+    /* 1. Reduce padding and spacing for the Lure Grid (2nd row) */
     .lure-grid { 
-        display: grid; 
-        grid-template-columns: 1fr 1fr; 
-        gap: 20px; 
-        align-items: stretch; 
-        margin-bottom: 60px; /* Increased margin to prevent overlapping the 3rd row */
+        gap: 15px;            /* Narrower gap between red and green boxes */
+        margin-bottom: 30px;  /* Reduced gap between 2nd and 3rd row */
     }
 
-    /* 2. Change height to min-height so it doesn't overlap content below */
     .lure-box {
-        min-height: 100%; 
-        height: auto; /* Allows the box to grow naturally */
-        display: flex;
-        flex-direction: column;
+        padding: 15px 20px;   /* Significantly reduced padding inside the box */
+        min-height: auto;     /* Removes forced stretching */
     }
 
-    /* 3. Apply the same logic to the 3rd row (Feature Cards) */
+    /* 2. Reduce padding and spacing for the Feature Grid (3rd row) */
     .feature-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); /* Desktop uses 3 columns */
-        gap: 20px;
-        align-items: stretch;
-        margin-bottom: 60px;
+        gap: 15px; 
+        margin-bottom: 30px; 
     }
 
     .feature-card {
-        min-height: 100%;
-        height: auto;
-        display: flex;
-        flex-direction: column;
+        padding: 15px 20px;   /* Makes the bottom row boxes smaller as well */
+    }
+
+    /* 3. Reduce vertical padding of the large top box */
+    .service-box { 
+        padding: 20px 35px; 
+        margin-bottom: 30px; 
     }
 }
         
