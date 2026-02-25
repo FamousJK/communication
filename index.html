@@ -201,31 +201,18 @@
 @media (min-width: 769px) {
     /* ... existing banner/nav styles ... */
 
-    /* 1. Reduce padding and spacing for the Lure Grid (2nd row) */
-    .lure-grid { 
-        gap: 15px;            /* Narrower gap between red and green boxes */
-        margin-bottom: 30px;  /* Reduced gap between 2nd and 3rd row */
+    /* Force all description text to be exactly 1.3rem */
+    .service-box p,
+    .lure-box p, 
+    .feature-card p, 
+    .cta-highlight p { 
+        font-size: 1.3rem !important; /* Updated from 1.4rem to 1.3rem */
+        line-height: 1.6;             /* Slightly tighter line height for a cleaner look */
     }
 
-    .lure-box {
-        padding: 15px 20px;   /* Significantly reduced padding inside the box */
-        min-height: auto;     /* Removes forced stretching */
-    }
-
-    /* 2. Reduce padding and spacing for the Feature Grid (3rd row) */
-    .feature-grid {
-        gap: 15px; 
-        margin-bottom: 30px; 
-    }
-
-    .feature-card {
-        padding: 15px 20px;   /* Makes the bottom row boxes smaller as well */
-    }
-
-    /* 3. Reduce vertical padding of the large top box */
-    .service-box { 
-        padding: 20px 35px; 
-        margin-bottom: 30px; 
+    /* Keep the boxes compact with the smaller padding */
+    .lure-box, .feature-card {
+        padding: 18px 25px;           /* Slightly more padding to breathe with 1.3rem text */
     }
 }
         
