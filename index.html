@@ -196,46 +196,47 @@
         .btn { display: inline-block; padding: 16px 50px; text-decoration: none; border-radius: 5px; margin-top: 25px; font-weight: bold; font-size: 1.6rem; cursor: pointer; transition: 0.3s; }
         .btn-hero { background: var(--ai-gradient); color: white; }
 
-        /* Responsiveness */
+        
 /* --- Desktop Version Only (Inside the min-width: 769px media query) --- */
-/* Responsiveness */
 @media (min-width: 769px) {
-    .hero-banner { height: 250px; }
-    .hero-banner h1 { font-size: 3.5rem; }
-    .nav-links a { font-size: 1.4rem; gap: 40px; }
-    
-    /* Added align-items: stretch to force equal height columns */
+    /* ... existing banner/nav styles ... */
+
+    /* 1. Ensure the 2nd row has clear spacing at the bottom */
     .lure-grid { 
         display: grid; 
         grid-template-columns: 1fr 1fr; 
         gap: 20px; 
         align-items: stretch; 
+        margin-bottom: 60px; /* Increased margin to prevent overlapping the 3rd row */
     }
 
-    /* Added height: 100% so boxes fill the grid row height */
+    /* 2. Change height to min-height so it doesn't overlap content below */
     .lure-box {
-        height: 100%;
+        min-height: 100%; 
+        height: auto; /* Allows the box to grow naturally */
         display: flex;
         flex-direction: column;
     }
 
-    .service-box { padding: 25px 35px; }
-    .story-card { flex: 1; padding: 25px 45px; }
-    
-    /* Force all description text to be exactly 1.4rem */
-    .service-box p,
-    .lure-box p, 
-    .feature-card p, 
-    .cta-highlight p { 
-        font-size: 1.4rem !important; 
-        line-height: 1.7; 
+    /* 3. Apply the same logic to the 3rd row (Feature Cards) */
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Desktop uses 3 columns */
+        gap: 20px;
+        align-items: stretch;
+        margin-bottom: 60px;
     }
 
-    /* Header & Button adjustments */
-    .cta-highlight h2 { font-size: 2.5rem !important; }
-    .cta-highlight .btn { font-size: 1.8rem !important; }
+    .feature-card {
+        min-height: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+    }
 }
-        @media (max-width: 768px) {
+        
+
+@media (max-width: 768px) {
             /* Now 1.2rem will actually work! */
             .service-box h2, 
             .lure-box h3, 
