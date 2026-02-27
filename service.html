@@ -8,61 +8,125 @@
         :root {
             --primary-navy: #2c3e50;
             --accent-blue: #3498db;
+            --soft-blue: #f0f7ff;
+            --success-green: #27ae60;
             --ai-orange: #f39c12;
             --dark-orange: #d35400;
             --ai-gradient: linear-gradient(135deg, #f39c12, #d35400);
+            --text-dark: #333;
             --bg-light: #f4f7f9;
         }
 
-        body { font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; margin: 0; background: var(--bg-light); }
+        /* 基礎樣式 */
+        body { 
+            font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; 
+            line-height: 1.6; 
+            color: var(--text-dark); 
+            margin: 0; 
+            padding: 0; 
+            background: var(--bg-light); 
+            -webkit-font-smoothing: antialiased;
+        }
 
-        /* --- 導覽與 Banner --- */
-        .top-bar { background: var(--primary-navy); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
-        .hero-banner { background: linear-gradient(rgba(44, 62, 80, 0.6), rgba(44, 62, 80, 0.6)); height: 130px; display: flex; justify-content: center; align-items: center; color: white; }
-        .nav-container { background: white; border-bottom: 1px solid #e1e8ed; sticky; top: 0; z-index: 1000; display: flex; justify-content: center; }
-        .nav-links { display: flex; list-style: none; gap: 20px; padding: 0; }
-        .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: bold; padding: 15px 10px; display: block; }
+        /* 頂部導覽 */
+        .top-bar { background: var(--primary-navy); padding: 8px 5%; display: flex; justify-content: space-between; align-items: center; min-height: 45px; }
+        .logo-container img { height: 30px; width: auto; display: block; }
+        .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
+
+        .hero-banner {
+            background: linear-gradient(rgba(44, 62, 80, 0.6), rgba(44, 62, 80, 0.6));
+            background-size: cover;
+            background-position: center; 
+            height: 130px; 
+            display: flex; justify-content: center; align-items: center; color: white; text-align: center;
+        }
+        .hero-banner h1 { font-size: 2.2rem; margin: 0; font-weight: bold; }
+
+        .nav-container { 
+            background: white; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
+            position: sticky; top: 0; z-index: 1000;
+            overflow-x: auto; white-space: nowrap;
+        }
+        .nav-links { display: flex; list-style: none; gap: 25px; margin: 0 auto; padding: 0 20px; justify-content: center; width: max-content; }
+        .nav-links a { text-decoration: none; color: var(--primary-navy); font-weight: bold; padding: 15px 5px; display: block; }
+        .nav-links a.active { color: var(--accent-blue); border-bottom: 3px solid var(--accent-blue); }
+
+        /* 服務區塊 */
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .service-box { margin-bottom: 40px; }
+        .service-box h2 { color: var(--primary-navy); font-size: 2.2rem; font-weight: 900; border-bottom: 2px solid var(--accent-blue); display: inline-block; }
+        
+        .step-row-desktop { display: flex; gap: 30px; margin-top: 25px; }
+        .step-col { flex: 1; }
+        .step-a-box, .step-b-box { 
+            padding: 30px; border-radius: 15px; border: 3px solid transparent; height: 100%; box-sizing: border-box; 
+            background: white; transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .step-a-box { border-color: var(--accent-blue); }
+        .step-b-box { border-color: var(--ai-orange); }
+        .step-a-box:hover, .step-b-box:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+        
+        .step-badge { background: var(--primary-navy); color: white; padding: 5px 12px; border-radius: 4px; font-weight: bold; margin-right: 10px; }
+        .step-badge-orange { background: var(--dark-orange); color: white; padding: 5px 12px; border-radius: 4px; font-weight: bold; }
+
+        /* 按鈕樣式 */
+        .btn { display: inline-block; padding: 15px 30px; text-decoration: none; border-radius: 12px; font-weight: 800; text-align: center; width: 100%; box-sizing: border-box; cursor: pointer; }
+        .btn-blue { background: var(--accent-blue); color: white; }
+        .btn-orange { background: var(--ai-orange); color: white; }
+        
+        .btn-animated {
+            background: linear-gradient(-45deg, #1a2a6c, #3498db, #00b09b, #1a2a6c);
+            background-size: 400% 400%;
+            animation: gradientFlow 6s ease infinite;
+            color: white !important;
+            border-radius: 12px; font-weight: 800;
+        }
+        @keyframes gradientFlow { 0% {background-position:0% 50%} 50% {background-position:100% 50%} 100% {background-position:0% 50%} }
 
         /* --- AI 聊天視窗樣式 --- */
         .ai-doll-trigger { 
-            position: fixed; bottom: 20px; right: 20px; width: 80px; height: 80px; z-index: 2000; cursor: pointer;
+            position: fixed; bottom: 20px; right: 20px; width: 90px; height: 90px; z-index: 2000; cursor: pointer;
             animation: orange-glow 2s infinite ease-in-out; border-radius: 50%;
         }
         @keyframes orange-glow {
-            0%, 100% { box-shadow: 0 0 5px rgba(243, 156, 18, 0.4); transform: scale(1); }
-            50% { box-shadow: 0 0 25px rgba(243, 156, 18, 0.8); transform: scale(1.05); }
+            0% { box-shadow: 0 0 5px rgba(243, 156, 18, 0.4); transform: scale(1); }
+            50% { box-shadow: 0 0 30px rgba(243, 156, 18, 0.9); transform: scale(1.08); }
+            100% { box-shadow: 0 0 5px rgba(243, 156, 18, 0.4); transform: scale(1); }
         }
-        .ai-doll-trigger img { width: 100%; height: 100%; border-radius: 50%; border: 3px solid white; background: var(--ai-orange); }
+        .ai-doll-trigger img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; background: var(--ai-orange); padding: 5px; }
 
         .chat-window { 
-            position: fixed; bottom: 110px; right: 20px; width: 350px; height: 550px; 
-            background: white; border-radius: 20px; box-shadow: 0 15px 50px rgba(0,0,0,0.2); 
+            position: fixed; bottom: 120px; right: 20px; width: 360px; height: 600px; 
+            background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); 
             display: none; flex-direction: column; z-index: 2100; overflow: hidden; 
         }
 
-        .chat-header { background: var(--ai-gradient); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
-        .timer-tag { background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 10px; font-size: 0.9rem; }
+        .chat-header { background: var(--ai-gradient); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        .timer-tag { background: rgba(0,0,0,0.2); padding: 2px 10px; border-radius: 10px; font-family: monospace; font-size: 1.1rem; }
 
         .chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8f9fa; display: flex; flex-direction: column; gap: 10px; }
-        .msg { max-width: 85%; padding: 10px 14px; border-radius: 15px; font-size: 0.95rem; line-height: 1.4; }
-        .msg.ai { background: white; align-self: flex-start; border: 1px solid #eee; color: #333; }
+        .msg { max-width: 85%; padding: 12px 16px; border-radius: 15px; font-size: 1rem; word-wrap: break-word; }
+        .msg.ai { background: white; align-self: flex-start; border: 1px solid #eee; }
         .msg.user { background: var(--ai-orange); color: white; align-self: flex-end; }
 
-        .chat-input-area { padding: 12px; border-top: 1px solid #eee; display: flex; gap: 8px; background: white; }
-        .chat-input-area input { flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
-        .send-btn { background: var(--ai-orange); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
-        
-        /* 響應式：手機全螢幕 */
+        .chat-input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; }
+        .chat-input-area input { flex: 1; padding: 12px 15px; border: 1px solid #ddd; border-radius: 25px; outline: none; }
+        .chat-input-area input:disabled { background: #eee; }
+        .send-btn { background: var(--ai-orange); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; }
+        .send-btn:disabled { background: #ccc; }
+
         @media (max-width: 768px) {
             .chat-window { width: 100%; height: 100%; bottom: 0; right: 0; border-radius: 0; }
+            .step-row-desktop { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
-        <div style="color:white; font-weight:bold;">JK 工作坊</div>
-        <div style="color:white; font-size:12px;">FB | IG | YT</div>
+        <div class="logo-container">JK 交流工作坊</div>
+        <div class="top-bar-links"><a href="#">FB</a><a href="#">IG</a><a href="#">YT</a></div>
     </div>
 
     <header class="hero-banner">
@@ -76,6 +140,36 @@
             <li><a href="#">聯絡我們</a></li>
         </ul>
     </nav>
+    
+    <div class="container">
+        <section class="service-box">
+            <h2>1. MBTI 性格與 AI 諮詢</h2>
+            <div class="step-row-desktop">
+                <div class="step-col">
+                    <div class="step-a-box">
+                        <span class="step-badge">STEP A</span><h3 style="display:inline;">獲取性格報告</h3>
+                        <p>透過專業測試了解你的溝通偏好。</p>
+                        <a href="https://www.16personalities.com/ch" target="_blank" class="btn btn-blue">前往測試</a>
+                    </div>
+                </div>
+                <div class="step-col">
+                    <div class="step-b-box">
+                        <span class="step-badge-orange">STEP B</span><h3 style="display:inline;">AI 小S 實戰</h3>
+                        <p>在模擬對話中磨練臨場反應。點擊右下角圖示開始。</p>
+                        <div class="btn btn-orange">點擊右下角圖示 ↑</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="service-box">
+            <h2>2. 1對1 深度諮詢</h2>
+            <div class="step-a-box" style="text-align: center;">
+                <p>針對職場談判、情感化解等高難度場景。</p>
+                <a href="#" class="btn btn-animated" style="width: auto; padding: 15px 50px;">預約 JK 老師</a>
+            </div>
+        </section>
+    </div>
 
     <div class="ai-doll-trigger" id="dollTrigger">
         <img src="service-s.png" alt="S">
@@ -83,15 +177,15 @@
 
     <div class="chat-window" id="chatWindow">
         <div class="chat-header">
-            <span>小S | 實戰挑戰</span>
+            <span>小S | **2分鐘** 實戰挑戰</span>
             <div id="timerDisplay" class="timer-tag">120s</div>
             <span id="closeChat" style="cursor:pointer; font-size: 20px;">✕</span>
         </div>
 
-        <div id="key-auth-area" style="background: #fff3cd; padding: 10px; font-size: 0.8rem; border-bottom: 1px solid #ffeeba;">
+        <div id="key-auth-area" style="background: #fff3cd; padding: 10px; font-size: 0.8rem; border-bottom: 1px solid #ffeeba; color: #856404;">
             <div style="display: flex; gap: 5px;">
-                <input type="password" id="temp-key" placeholder="貼入 Groq API Key..." style="flex: 1; padding: 5px;">
-                <button onclick="saveKey()" style="padding: 5px 10px; background: #856404; color: white; border: none; cursor: pointer;">啟動</button>
+                <input type="password" id="temp-key" placeholder="貼入 Groq API Key...">
+                <button onclick="saveKey()" style="padding: 5px 10px; background: #856404; color: white; border: none; border-radius: 4px; cursor: pointer;">啟動</button>
             </div>
         </div>
 
@@ -99,7 +193,7 @@
             <div class="msg ai">
                 <b>【2分鐘實戰挑戰】</b><br><br>
                 1. 貼入 API Key 並啟動<br>
-                2. <b>輸入「開始」即可啟動挑戰！</b>
+                2. <b>輸入「開始」即可啟動倒數！</b>
             </div>
         </div>
 
@@ -110,7 +204,6 @@
     </div>
 
     <script>
-        // --- 1. 配置與數據 ---
         const topicBuckets = {
             "人際關係": ["你玩交友 App 很久了嗎？", "我很怕無聊的，你會怕囉嗦的女生嗎？", "你會有很多女生的朋友嗎？"],
             "工作": ["你從事什麼樣的工作呀？", "平時上班都是挺忙的。你上班會忙嗎？"],
@@ -125,7 +218,7 @@
         let timeLeft = 120;
         let timerId = null;
 
-        // --- 2. 視窗控制 ---
+        // 彈窗控制
         const chatWindow = document.getElementById('chatWindow');
         const dollTrigger = document.getElementById('dollTrigger');
         const closeChat = document.getElementById('closeChat');
@@ -133,22 +226,17 @@
         dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; };
         closeChat.onclick = () => { chatWindow.style.display = 'none'; };
 
-        // --- 3. API Key 驗證 ---
         window.saveKey = function() {
             const key = document.getElementById('temp-key').value.trim();
             if (key.startsWith('gsk_')) {
                 sessionStorage.setItem('GROQ_KEY', key);
                 document.getElementById('key-auth-area').style.display = 'none';
                 document.getElementById('chatInput').disabled = false;
-                document.getElementById('chatInput').placeholder = "輸入「開始」...";
                 document.getElementById('sendBtn').disabled = false;
-                addMessage("系統：連線成功！現在請輸入「開始」來展開對話。", "ai");
-            } else {
-                alert('Key 格式不正確');
-            }
+                document.getElementById('chatInput').placeholder = "輸入「開始」...";
+            } else { alert('Key 格式錯誤'); }
         };
 
-        // --- 4. 對話邏輯 ---
         async function handleSend() {
             const input = document.getElementById('chatInput');
             const val = input.value.trim();
@@ -158,7 +246,7 @@
                 state = "CHALLENGING";
                 addMessage(val, 'user');
                 startTimer();
-                addMessage(`嗨，你好，我叫小S。很高興認識你！${topicBuckets["人際關係"][0]}`, 'ai');
+                addMessage(`嗨，你好，我叫小S。${topicBuckets["人際關係"][0]}`, 'ai');
                 input.value = '';
                 return;
             }
@@ -168,7 +256,6 @@
             
             const apiKey = sessionStorage.getItem('GROQ_KEY');
             try {
-                // 邏輯：準備下一題
                 let nextTopic = bucketOrder[currentBucketIdx];
                 let nextQuestion = topicBuckets[nextTopic][currentQuestionIdx + 1];
                 let isTransition = false;
@@ -180,9 +267,7 @@
                         nextQuestion = topicBuckets[bucketOrder[currentBucketIdx]][0];
                         isTransition = true;
                     }
-                } else {
-                    currentQuestionIdx++;
-                }
+                } else { currentQuestionIdx++; }
 
                 const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                     method: 'POST',
@@ -190,28 +275,30 @@
                     body: JSON.stringify({
                         model: "llama-3.3-70b-versatile",
                         messages: [
-                            { role: "system", content: `你是傲嬌少女小S。回應豐富（40-80字）。目前在聊【${nextTopic}】。規則：70%機率引出下一題『${nextQuestion || "結尾"}』，30%機率不提問只回饋（標記[SILENCE]）。若用戶邀約且話題連貫則答應。` },
+                            { 
+                                role: "system", 
+                                content: `你是傲嬌少女小S。回應豐富（40-80字）。
+                                70% 機率回饋並問：『${nextQuestion || "結束"}』。
+                                30% 機率只回感想（標記[SILENCE]）。
+                                若邀約連貫則答應。` 
+                            },
                             ...conversationHistory.slice(-6)
                         ]
                     })
                 });
-
                 const data = await res.json();
                 let aiMsg = data.choices[0].message.content;
 
-                // 隨機留白邏輯
                 if (Math.random() < 0.3 && !isTransition && nextQuestion) {
                     aiMsg = aiMsg.replace(/\[.*?\]/g, '').split('？')[0] + "。";
                     currentQuestionIdx--; 
                 }
 
                 addMessage(aiMsg.replace(/\[.*?\]/g, '').trim(), 'ai');
-                if (currentBucketIdx >= bucketOrder.length && !nextQuestion) setTimeout(endChallenge, 3000);
-
-            } catch (e) { addMessage("❌ 訊號不穩，等我一下喔！", "ai"); }
+                if (currentBucketIdx >= bucketOrder.length && !nextQuestion) endChallenge();
+            } catch (e) { addMessage("❌ 錯誤", "ai"); }
         }
 
-        // --- 5. 輔助功能 ---
         function addMessage(text, role) {
             const div = document.createElement('div');
             div.className = `msg ${role}`;
@@ -234,7 +321,7 @@
             clearInterval(timerId);
             state = "FINISHED";
             document.getElementById('chatInput').disabled = true;
-            addMessage("🚨 挑戰結束！感謝你的參與。", "ai");
+            addMessage("🚨 挑戰結束！", "ai");
         }
 
         document.getElementById('sendBtn').onclick = handleSend;
