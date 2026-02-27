@@ -1129,18 +1129,37 @@
                 })
             });
 
-            const data = await res.json();
+          const data = await res.json();
             let aiMsg = data.choices[0].message.content;
 
-            // 30% 留白邏輯
+            // 1. 處理 30% 留白邏輯 (完全不問問題)
             if (Math.random() < 0.3 && !isTransition && nextQuestion) {
+                // 移除所有問句，只保留到第一個標點符號或感嘆
                 aiMsg = aiMsg.split(/[？?]/)[0] + "。";
-                currentQuestionIdx--; 
+                currentQuestionIdx--; // 保留該問題到下一輪
+            } 
+            // 2. 嚴格限制：全對話只能出現一個問號
+            else {
+                const parts = aiMsg.split(/[？?]/);
+                if (parts.length > 2) {
+                    // 如果 AI 講太多話問了兩次，強制切斷在第一個問號處
+                    aiMsg = parts[0] + "？";
+                }
+            }
+
+            // 3. 確保字數不爆量 (二次保險)
+            if (aiMsg.length > 60) {
+                aiMsg = aiMsg.substring(0, 55) + "...";
             }
 
             addMessage(aiMsg.trim(), 'ai');
-            if (currentBucketIdx >= bucketOrder.length) setTimeout(endChallenge, 3000);
-        } catch (e) { addMessage("❌ 訊號不穩，等我一下！", "ai"); }
+            
+            if (currentBucketIdx >= bucketOrder.length) {
+                setTimeout(endChallenge, 3000);
+            }
+        } catch (e) { 
+            addMessage("❌ 訊號不穩，等我一下喔！", "ai"); 
+        }
     }
 
     function addMessage(text, role) {
