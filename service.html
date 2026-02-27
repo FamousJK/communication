@@ -1,218 +1,1361 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
+
 <html lang="zh-Hant">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>我們的服務 - JK 交流工作坊</title>
+
     <style>
+
         :root {
+
             --primary-navy: #2c3e50;
+
             --accent-blue: #3498db;
+
             --soft-blue: #f0f7ff;
+
+            --success-green: #27ae60;
+
             --ai-orange: #f39c12;
+
             --dark-orange: #d35400;
+
+            --ai-gradient: linear-gradient(135deg, #f39c12, #d35400);
+
             --text-dark: #333;
+
+            --bg-light: #f4f7f9;
+
         }
 
-        body { font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; margin: 0; padding: 0; background: #f4f7f9; }
 
-        /* Banner & Nav */
-        .top-bar { background: var(--primary-navy); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
-        .logo-container { color: white; font-weight: bold; }
+
+/* 禁用狀態的按鈕樣式 */
+
+.style-btn:disabled {
+
+    background: #eee !important;
+
+    color: #bbb !important;
+
+    border-color: #ddd !important;
+
+    cursor: not-allowed !important;
+
+    box-shadow: none !important;
+
+    transform: none !important;
+
+}
+
         
+
+/* 縮減狀態的樣式 */
+
+.style-bar.shrunk {
+
+    padding: 5px 10px;
+
+    gap: 4px;
+
+    max-height: 40px; /* 限制高度 */
+
+    overflow: hidden;
+
+    transition: all 0.5s ease; /* 平滑縮小動畫 */
+
+    border-bottom: 1px solid #eee;
+
+}
+
+
+
+.style-bar.shrunk p {
+
+    display: none; /* 隱藏「1. 選擇人格」等文字 */
+
+}
+
+
+
+.style-bar.shrunk .style-btn:not(.active) {
+
+    display: none; /* 隱藏未被選中的按鈕 */
+
+}
+
+
+
+.style-bar.shrunk .style-btn.active {
+
+    margin: 0 auto;
+
+    font-size: 0.75rem;
+
+    padding: 2px 10px;
+
+}
+
+
+
+        
+
+        
+
+        /* 禁用狀態的輸入框樣式 */
+
+#chatInput:disabled {
+
+    background-color: #e9ecef;
+
+    cursor: not-allowed;
+
+    color: #adb5bd;
+
+}
+
+
+
+/* 禁用狀態的傳送按鈕 */
+
+#sendBtn:disabled {
+
+    background-color: #ccc;
+
+    cursor: not-allowed;
+
+}
+
+
+
+        /* 重新挑戰按鈕 */
+
+.reset-btn {
+
+    background: rgba(255, 255, 255, 0.2);
+
+    border: 1px solid rgba(255, 255, 255, 0.5);
+
+    color: white;
+
+    padding: 2px 8px;
+
+    border-radius: 5px;
+
+    font-size: 0.8rem;
+
+    cursor: pointer;
+
+    margin-left: 10px;
+
+    transition: 0.3s;
+
+}
+
+
+
+.reset-btn:hover {
+
+    background: white;
+
+    color: var(--dark-orange);
+
+}
+
+        
+
+        @keyframes gradientFlow {
+
+            0% { background-position: 0% 50%; }
+
+            50% { background-position: 100% 50%; }
+
+            100% { background-position: 0% 50%; }
+
+        }
+
+
+
+        .btn-animated {
+
+            background: linear-gradient(-45deg, #1a2a6c, #3498db, #00b09b, #1a2a6c);
+
+            background-size: 400% 400%;
+
+            animation: gradientFlow 6s ease infinite;
+
+            color: white !important;
+
+            transition: 0.3s ease;
+
+            border: none;
+
+            display: inline-block;
+
+            text-decoration: none;
+
+            border-radius: 12px;
+
+            font-weight: 800;
+
+            box-shadow: 0 4px 15px rgba(0, 176, 155, 0.2);
+
+        }
+
+
+
+        .btn-animated:hover {
+
+            transform: translateY(-3px) scale(1.02);
+
+            box-shadow: 0 8px 25px rgba(0, 176, 155, 0.4);
+
+        }
+
+
+
+        body { 
+
+            font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; 
+
+            line-height: 1.6; 
+
+            color: var(--text-dark); 
+
+            margin: 0; 
+
+            padding: 0; 
+
+            background: var(--bg-light); 
+
+            -webkit-font-smoothing: antialiased;
+
+        }
+
+
+
+        .top-bar { background: var(--primary-navy); padding: 8px 5%; display: flex; justify-content: space-between; align-items: center; min-height: 45px; }
+
+        .logo-container img { height: 30px; width: auto; display: block; }
+
+        .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
+
+      
+
+    /* Update these specific blocks in your <style> section */
+
+
+
+/* Hero Banner */
+
         .hero-banner {
-            background: linear-gradient(rgba(44, 62, 80, 0.6), rgba(44, 62, 80, 0.6)), url('your-bg.jpg');
-            background-size: cover; background-position: center; 
-            height: 180px; display: flex; justify-content: center; align-items: center; color: white;
+
+            background: linear-gradient(rgba(44, 62, 80, 0.6), rgba(44, 62, 80, 0.6)), url('service-banner.jpg'); 
+
+            background-size: cover;
+
+            background-position: center 35%; 
+
+            height: 130px; 
+
+            display: flex; justify-content: center; align-items: center; color: white; text-align: center;
+
         }
-        .hero-banner h1 { font-size: 2.5rem; margin: 0; }
 
-        .nav-container { background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .nav-links { display: flex; list-style: none; justify-content: center; margin: 0; padding: 0; }
-        .nav-links a { text-decoration: none; color: var(--primary-navy); padding: 15px 25px; display: block; font-weight: bold; }
-        .nav-links a.active { color: var(--accent-blue); border-bottom: 3px solid var(--accent-blue); }
+        .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; font-weight: bold; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
 
-        /* Layout */
+
+
+        .nav-container { 
+
+            background: white; 
+
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
+
+            border-bottom: 1px solid #e1e8ed; 
+
+            position: sticky; 
+
+            top: 0; 
+
+            z-index: 1000;
+
+            overflow-x: auto; 
+
+            white-space: nowrap; 
+
+            -webkit-overflow-scrolling: touch;
+
+        }
+
+
+
+        .nav-container::-webkit-scrollbar { height: 4px; }
+
+        .nav-container::-webkit-scrollbar-thumb { background: #bdc3c7; border-radius: 10px; }
+
+
+
+        .nav-links { 
+
+            display: flex; 
+
+            list-style: none; 
+
+            gap: 25px; 
+
+            margin: 0 auto; 
+
+            padding: 0 20px; 
+
+            justify-content: center; 
+
+            width: max-content; 
+
+        }
+
+
+
+        .nav-links a { 
+
+            text-decoration: none; 
+
+            color: var(--primary-navy); 
+
+            font-weight: bold; 
+
+            font-size: 1.1rem; 
+
+            display: block;
+
+            padding: 15px 5px;
+
+            transition: 0.3s;
+
+            border-bottom: 3px solid transparent; 
+
+        }
+
+
+
+        .nav-links a:hover, 
+
+        .nav-links a.active { 
+
+            color: var(--accent-blue); 
+
+            border-bottom: 3px solid #bdc3c7; 
+
+        }
+
+
+
+
+
+
+
+
+
+        
+
+        /* --- AI 聊天視窗樣式 --- */
+
+        .ai-doll-trigger { 
+
+            position: fixed; bottom: 20px; right: 20px; width: 90px; height: 90px; z-index: 2000; cursor: pointer;
+
+            animation: orange-glow 2s infinite ease-in-out; border-radius: 50%;
+
+        }
+
+        @keyframes orange-glow {
+
+            0% { box-shadow: 0 0 5px rgba(243, 156, 18, 0.4); transform: scale(1); }
+
+            50% { box-shadow: 0 0 30px rgba(243, 156, 18, 0.9); transform: scale(1.08); }
+
+            100% { box-shadow: 0 0 5px rgba(243, 156, 18, 0.4); transform: scale(1); }
+
+        }
+
+        
+
+        .ai-doll-trigger img { 
+
+            width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; background: var(--ai-orange); padding: 5px; 
+
+        }
+
+
+
+/* --- 修正頂部變形與加大字體 --- */
+
+.chat-window { 
+
+    position: fixed; bottom: 120px; right: 20px; width: 360px; height: 600px; 
+
+    background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); 
+
+    display: none; flex-direction: column; z-index: 2100; overflow: hidden; 
+
+}
+
+
+
+.chat-header { 
+
+    background: var(--ai-gradient); color: white; padding: 15px 20px; 
+
+    display: flex; justify-content: space-between; align-items: center; 
+
+    font-weight: bold;
+
+}
+
+
+
+.style-bar p {
+
+    width: 100%; 
+
+    font-size: 1.1rem !important; 
+
+    font-weight: 800 !important;   
+
+    margin: 8px 0; 
+
+    color: var(--primary-navy); 
+
+    text-align: center;
+
+}
+
+
+
+        .timer-tag { background: rgba(0,0,0,0.2); padding: 2px 10px; border-radius: 10px; font-family: monospace; font-size: 1.1rem; }
+
+        
+
+.style-bar { 
+
+    display: flex; 
+
+    flex-wrap: wrap; 
+
+    padding: 12px 10px; 
+
+    background: #fff; 
+
+    justify-content: center; 
+
+    gap: 6px; 
+
+}
+
+
+
+.style-btn { 
+
+    flex: 0 0 auto; 
+
+    border: 1px solid #ddd; 
+
+    background: #fdfdfd; 
+
+    color: #666; 
+
+    padding: 5px 12px; 
+
+    border-radius: 20px; 
+
+    cursor: pointer; 
+
+    font-size: 0.85rem; 
+
+    transition: all 0.2s ease;
+
+}
+
+
+
+.style-btn:hover {
+
+    border-color: var(--ai-orange);
+
+    color: var(--ai-orange);
+
+}
+
+
+
+.style-btn.active {
+
+    background: var(--ai-gradient) !important;
+
+    color: white !important;
+
+    border: none !important;
+
+    box-shadow: 0 3px 8px rgba(243, 156, 18, 0.3);
+
+    transform: translateY(-1px);
+
+}
+
+
+
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8f9fa; display: flex; flex-direction: column; gap: 10px; }
+
+        .msg { max-width: 85%; padding: 12px 16px; border-radius: 15px; font-size: 1rem; word-wrap: break-word; }
+
+        .msg.ai { background: white; align-self: flex-start; border: 1px solid #eee; }
+
+        .msg.user { background: var(--ai-orange); color: white; align-self: flex-end; }
+
+        
+
+        .chat-input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; }
+
+        .chat-input-area input { flex: 1; padding: 12px 15px; border: 1px solid #ddd; border-radius: 25px; outline: none; }
+
+        .send-btn { background: var(--ai-orange); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; }
+
+
+
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-        .service-box { margin-bottom: 50px; }
-        .service-box h2 { font-size: 2rem; border-bottom: 3px solid var(--accent-blue); display: inline-block; margin-bottom: 30px; }
-        
-        .step-row { display: flex; gap: 20px; }
-        .step-card { 
-            flex: 1; background: white; padding: 30px; border-radius: 15px; 
-            border: 2px solid #e0e0e0; position: relative; transition: 0.3s;
-        }
-        .step-card.blue { border-color: var(--accent-blue); }
-        .step-card.orange { border-color: var(--ai-orange); }
-        
-        .badge { color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold; margin-right: 10px; font-size: 0.8rem; }
-        .badge-blue { background: var(--primary-navy); }
-        .badge-orange { background: var(--dark-orange); }
 
-        .btn { 
-            display: block; width: 100%; padding: 12px; text-align: center; 
-            text-decoration: none; border-radius: 10px; font-weight: bold; margin-top: 20px;
-        }
+       /* 增加懸浮感 */
+
+.service-box {
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+}
+
+
+
+/* Ensure the main sections (1, 2, 3) do NOT move */
+
+.service-box {
+
+    transition: none !important;
+
+    transform: none !important;
+
+    box-shadow: none !important;
+
+}
+
+
+
+/* Ensure only the individual STEP boxes move */
+
+.step-a-box, .step-b-box {
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+
+    cursor: pointer;
+
+    background: white;
+
+    position: relative;
+
+    z-index: 1;
+
+}
+
+
+
+.step-a-box:hover, .step-b-box:hover {
+
+    transform: translateY(-8px) !important;
+
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15) !important;
+
+    z-index: 10;
+
+}
+
+
+
+/* 讓移動端選單更易滑動 */
+
+.nav-container {
+
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none; /* Firefox 隱藏捲軸 */
+
+}
+
+.nav-container::-webkit-scrollbar {
+
+    display: none; /* Chrome 隱藏捲軸 */
+
+}
+
+        .service-box h2 { color: var(--primary-navy); font-size: 2.2rem; font-weight: 900; margin-bottom: 20px; border-bottom: 2px solid var(--accent-blue); display: inline-block; padding-bottom: 5px; }
+
+        .service-box p { font-size: 1.3rem; color: #555; line-height: 1.7; }
+
+
+
+        .step-row-desktop { display: flex; gap: 30px; margin-top: 25px; }
+
+        .step-col { flex: 1; }
+
+        .step-a-box, .step-b-box { padding: 30px; border-radius: 15px; border: 3px solid transparent; height: 100%; box-sizing: border-box; }
+
+        .step-a-box { border-color: var(--accent-blue); }
+
+        .step-b-box { border-color: var(--ai-orange); }
+
+        .step-badge { background: var(--primary-navy); color: white; padding: 5px 12px; border-radius: 4px; font-weight: bold; margin-right: 10px; }
+
+        .step-badge-orange { background: var(--dark-orange); color: white; padding: 5px 12px; border-radius: 4px; font-weight: bold; }
+
+
+
+        .btn { display: inline-block; padding: 15px 30px; text-decoration: none; border-radius: 12px; font-weight: 800; text-align: center; width: 100%; box-sizing: border-box; }
+
         .btn-blue { background: var(--accent-blue); color: white; }
+
         .btn-orange { background: var(--ai-orange); color: white; }
 
-        /* 1v1 Section */
-        .full-card { 
-            background: white; border: 2px solid var(--accent-blue); border-radius: 15px; 
-            padding: 40px; text-align: center; 
+
+
+        @media (min-width: 769px) {
+
+            .hero-banner { height: 250px; }
+
+            .hero-banner h1 { font-size: 3.5rem; }
+
+            .nav-links a { font-size: 1.3rem; gap: 40px; }
+
+            
+
+            /* This ensures they stay side-by-side on desktop */
+
+            .lure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
         }
 
-        /* AI Chat Window */
-        .ai-doll-trigger { position: fixed; bottom: 30px; right: 30px; cursor: pointer; z-index: 2000; }
-        .ai-doll-trigger img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        
+
+   @media (max-width: 768px) {
+
+        /* 1. Chat Window - Full Screen */
 
         .chat-window { 
-            position: fixed; bottom: 120px; right: 30px; width: 350px; height: 550px; 
-            background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); 
-            display: none; flex-direction: column; overflow: hidden; z-index: 2100;
-        }
-        .chat-header { background: linear-gradient(to right, #f39c12, #d35400); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #fdfdfd; display: flex; flex-direction: column; gap: 10px; }
-        .msg { max-width: 80%; padding: 10px 15px; border-radius: 15px; }
-        .msg.ai { background: white; border: 1px solid #eee; align-self: flex-start; }
-        .msg.user { background: var(--ai-orange); color: white; align-self: flex-end; }
-        
-        .chat-input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; }
-        .chat-input-area input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px; }
 
-        @media (max-width: 768px) { .step-row { flex-direction: column; } }
-    </style>
+            width: 100% !important; 
+
+            right: 0 !important; 
+
+            height: 100% !important; 
+
+            bottom: 0 !important; 
+
+            border-radius: 0 !important; 
+
+        }
+
+
+
+        /* 2. Stack Boxes Vertically */
+
+        .step-row-desktop {
+
+            flex-direction: column;
+
+            gap: 15px; 
+
+        }
+
+
+
+        /* 3. Shrink Titles and Padding */
+
+        .service-box h2 {
+
+            font-size: 1.6rem; 
+
+            margin-bottom: 15px;
+
+        }
+
+
+
+        .step-a-box, .step-b-box {
+
+            padding: 20px; 
+
+        }
+
+
+
+        /* 4. Standardize Font Sizes */
+
+        .service-box p, 
+
+        .step-a-box p, 
+
+        .step-b-box p {
+
+            font-size: 1.1rem !important; 
+
+            line-height: 1.5;
+
+        }
+
+
+
+        /* 5. Shrink Inner Box Headers */
+
+        .step-a-box h3, .step-b-box h3 {
+
+            font-size: 1.3rem !important;
+
+        }
+
+
+
+        /* 6. Fix Buttons */
+
+        .btn {
+
+            padding: 12px !important;
+
+            font-size: 1.1rem !important;
+
+            width: 100%;
+
+            box-sizing: border-box;
+
+        }
+
+
+
+        .btn-animated {
+
+            padding: 15px 30px !important;
+
+            font-size: 1.2rem !important;
+
+            width: auto; 
+
+        }
+
+    } /* This closing brace was missing! */
+
+</style>
+
 </head>
+
 <body>
 
+
+
     <div class="top-bar">
-        <div class="logo-container">JK 交流工作坊</div>
+
+        <div class="logo-container"><img src="logo.png" alt="Logo"></div>
+
+        <div class="top-bar-links"><a href="#">FB</a><a href="#">IG</a><a href="#">YT</a></div>
+
     </div>
 
-    <section class="hero-banner">
+
+
+    <header class="hero-banner">
+
         <h1>我們的服務</h1>
-    </section>
+
+    </header>
+
+
 
     <nav class="nav-container">
-        <div class="nav-links">
-            <a href="#">主頁</a>
-            <a href="#" class="active">我們的服務</a>
-            <a href="#">聯絡我們</a>
-        </div>
+
+        <ul class="nav-links">
+
+            <li><a href="index.html">主頁</a></li>
+
+            <li><a href="about.html">我們的承諾</a></li>
+
+            <li><a href="service.html" class="active">我們的服務</a></li>
+
+            <li><a href="issue.html">溝通問題</a></li>
+
+            <li><a href="methods.html">交流技巧</a></li>
+
+            <li><a href="#">學員見證</a></li>
+
+            <li><a href="#">聯絡我們</a></li>
+
+        </ul>
+
     </nav>
 
-    <div class="container">
-        <section class="service-box">
-            <h2>1. MBTI 性格與 AI 諮詢</h2>
-            <div class="step-row">
-                <div class="step-card blue">
-                    <span class="badge badge-blue">STEP A</span><h3 style="display:inline;">獲取性格報告</h3>
-                    <p>透過專業測試了解你的溝通偏好。</p>
-                    <a href="https://www.16personalities.com/ch" class="btn btn-blue">前往測試</a>
+    
+
+<div class="container">
+
+    <section class="service-box">
+
+        <h2>1. MBTI 性格與 AI 諮詢</h2>
+
+        <div class="step-row-desktop">
+
+            <div class="step-col">
+
+                <div class="step-a-box">
+
+                    <div style="margin-bottom:15px;">
+
+                        <span class="step-badge">STEP A</span>
+
+                        <h3 style="display:inline; font-size: 1.6rem;">獲取性格報告</h3>
+
+                    </div>
+
+                    <p style="font-size: 1.4rem; color: #444; margin-bottom: 25px;">
+
+                        透過專業測試了解你的溝通偏好。這是精進社交技巧的重要基石。
+
+                    </p>
+
+                    <a href="https://www.16personalities.com/ch" target="_blank" class="btn btn-blue" style="font-size: 1.25rem; padding: 18px;">
+
+                        前往 MBTI 測試
+
+                    </a>
+
                 </div>
-                <div class="step-card orange">
-                    <span class="badge badge-orange">STEP B</span><h3 style="display:inline;">AI 小S 實戰</h3>
-                    <p>在模擬對話中磨練臨場反應。點擊右下角圖示開始。</p>
-                    <div class="btn btn-orange">點擊右下角圖示 ↑</div>
+
+            </div>
+
+            <div class="step-col">
+
+                <div class="step-b-box">
+
+                    <div style="margin-bottom:15px;">
+
+                        <span class="step-badge-orange">STEP B</span>
+
+                        <h3 style="display:inline; font-size: 1.6rem;">AI 小S 實戰挑戰</h3>
+
+                    </div>
+
+                    <p style="font-size: 1.4rem; color: #444; margin-bottom: 25px;">
+
+                        在 30 秒模擬對話中磨練臨場反應。點擊右下角橘色圖示開始挑戰。
+
+                    </p>
+
+                    <div class="btn btn-orange" style="cursor:default; font-size: 1.25rem; padding: 18px;">
+
+                        點擊右下角圖示模擬 ↑
+
+                    </div>
+
                 </div>
+
             </div>
-        </section>
 
-        <section class="service-box">
-            <h2>2. 1對1 深度諮詢</h2>
-            <div class="full-card">
-                <p>針對職場談判、情感化解等高難度場景。</p>
-                <a href="#" class="btn btn-blue" style="width: 200px; margin: 20px auto;">預約 JK 老師</a>
+        </div>
+
+    </section>
+
+
+
+<section class="service-box" style="border-left-color: #2ecc71;">
+
+    <h2>2. 深度探索與核心技巧</h2>
+
+    <p style="font-size: 1.4rem; color: #444;">除了實戰模擬，理解背後的溝通邏輯也同樣重要。點擊下方連結深入了解我們的教學核心：</p>
+
+    
+
+    <div class="step-row-desktop" style="margin-top: 25px;">
+
+        <div class="step-col">
+
+            <div class="step-a-box" style="border-color: #2ecc71; background: white; transition: 0.3s; cursor: pointer;" onclick="location.href='issue.html'">
+
+                <div style="margin-bottom:15px;">
+
+                    <span class="step-badge" style="background:#27ae60;">探索</span>
+
+                    <h3 style="display:inline; font-size: 1.6rem; color: var(--primary-navy);">常見溝通問題</h3>
+
+                </div>
+
+                <p style="font-size: 1.4rem; color: #555; margin-bottom: 25px;">分析職場、社交與情感中常見的溝通誤區，看看你是否也遇到了這些挑戰？</p>
+
+                <div class="btn" style="background: #27ae60; color: white; font-size: 1.25rem; padding: 15px; text-align: center; border-radius: 10px;">看看有哪些雷區 →</div>
+
             </div>
-        </section>
+
+        </div>
+
+
+
+        <div class="step-col">
+
+            <div class="step-b-box" style="border-color: #27ae60; background: white; transition: 0.3s; cursor: pointer;" onclick="location.href='methods.html'">
+
+                <div style="margin-bottom:15px;">
+
+                    <span class="step-badge" style="background:#27ae60;">學習</span>
+
+                    <h3 style="display:inline; font-size: 1.6rem; color: var(--primary-navy);">專業交流技巧</h3>
+
+                </div>
+
+                <p style="font-size: 1.4rem; color: #555; margin-bottom: 25px;">從結構化表達到情緒調控，我們整理了一套可立即套用的溝通公式與心法。</p>
+
+                <div class="btn" style="background: #27ae60; color: white; font-size: 1.25rem; padding: 15px; text-align: center; border-radius: 10px;">學習核心技巧 →</div>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="ai-doll-trigger" id="openChat">
-        <img src="service-s.png" alt="S">
+</section>
+
+
+
+<section class="service-box" style="margin-top: 40px;">
+
+    <h2>3. 1對1 深度諮詢</h2>
+
+    <div class="step-a-box" style="text-align: center; padding: 40px; background: white;">
+
+        <p style="font-size: 1.4rem; color: #444; margin-bottom: 30px;">
+
+            針對職場談判、情感化解等高難度場景。提供專家級私人服務。
+
+        </p>
+
+        <a href="#" class="btn btn-animated" style="display: inline-block; width: auto; padding: 22px 70px; font-size: 1.5rem;">
+
+            預約 JK 老師諮詢
+
+        </a>
+
     </div>
 
-    <div class="chat-window" id="chatWindow">
-        <div class="chat-header">
-            <span>小S | **2分鐘** 實戰挑戰</span>
-            <span id="timerDisplay" style="background:rgba(0,0,0,0.2); padding:2px 8px; border-radius:10px;">120s</span>
-            <span id="closeChat" style="cursor:pointer;">✕</span>
-        </div>
-        
-        <div id="key-area" style="padding:10px; background:#fff3cd; font-size:0.8rem;">
-            <input type="password" id="apiKey" placeholder="貼入 Groq API Key..." style="width:70%;">
-            <button onclick="activateChat()" style="background:#856404; color:white; border:none; padding:5px; border-radius:4px;">啟動</button>
-        </div>
+</section>
 
-        <div id="chatMsgs" class="chat-messages">
-            <div class="msg ai">輸入「開始」啟動挑戰！</div>
-        </div>
+    
 
-        <div class="chat-input-area">
-            <input type="text" id="chatInput" placeholder="請先啟動..." disabled>
-            <button id="sendBtn" style="border:none; background:none; font-size:1.5rem; cursor:pointer;" disabled>➤</button>
-        </div>
+</div>
+
+
+
+<div class="ai-doll-trigger" id="openChat"><img src="service-s.png" alt="S"></div>
+
+
+
+<button id="openChat" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 25px; cursor: pointer;">開始挑戰</button>
+
+    
+
+<div class="chat-window" id="chatWindow">
+
+    <div class="chat-header">
+
+        <span>小S | **2分鐘** 實戰挑戰</span>
+
+        <div id="timerDisplay" class="timer-tag">120s</div>
+
+        <span id="closeChat" style="cursor:pointer; font-size: 20px;">✕</span>
+
     </div>
 
-    <script>
-        // Logic remains identical to previous working version, but IDs matched to the HTML above
-        let state = "READY";
-        let timeLeft = 120;
-        let timerId = null;
 
-        const chatWindow = document.getElementById('chatWindow');
-        const openBtn = document.getElementById('openChat');
-        const closeBtn = document.getElementById('closeChat');
-        const input = document.getElementById('chatInput');
-        const sendBtn = document.getElementById('sendBtn');
 
-        openBtn.onclick = () => chatWindow.style.display = 'flex';
-        closeBtn.onclick = () => chatWindow.style.display = 'none';
+    <div id="key-auth-area" style="background: #fff3cd; padding: 10px; font-size: 0.8rem; border-bottom: 1px solid #ffeeba; color: #856404;">
 
-        window.activateChat = () => {
-            const key = document.getElementById('apiKey').value;
-            if(key.startsWith('gsk_')) {
-                sessionStorage.setItem('GROQ_KEY', key);
-                document.getElementById('key-area').style.display = 'none';
-                input.disabled = false;
-                sendBtn.disabled = false;
-                input.placeholder = "輸入「開始」...";
-            }
+        <div style="display: flex; gap: 5px;">
+
+            <input type="password" id="temp-key" placeholder="貼入 Groq API Key..." style="flex: 1; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+
+            <button onclick="saveKey()" style="padding: 5px 10px; cursor: pointer; background: #856404; color: white; border: none; border-radius: 4px;">啟動</button>
+
+        </div>
+
+        <p style="margin: 5px 0 0 0; font-size: 0.7rem;">*Key 僅存於此分頁，安全且重新整理即消失</p>
+
+    </div>
+
+
+
+    <div id="chatMsgs" class="chat-messages">
+
+    <div class="msg ai">
+
+        <b>【2分鐘實戰挑戰】</b><br><br>
+
+        1. 貼入 API Key 並點擊啟動<br>
+
+        2. 選擇下方你想挑戰的角色風格<br>
+
+        3. <b>在下方輸入「開始」即可啟動倒數！</b>
+
+    </div>
+
+</div>
+
+
+
+    <div class="chat-input-area">
+
+        <input type="text" id="chatInput" placeholder="輸入訊息...">
+
+        <button class="send-btn" id="sendBtn">➤</button>
+
+    </div>
+
+</div>
+
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+是的，我已經在代碼中加入了彈窗邏輯修復。
+
+
+
+為了確保它在你的網頁上能正常「彈出」，我使用了你提供的 HTML 結構並補齊了對應的 CSS 切換邏輯。以下是完整且修正過的代碼，它包含了：
+
+
+
+彈窗修復：點擊 openChat 會顯示 chatWindow。
+
+
+
+分桶深度對話：解決「冷冰冰」和「不提問」的問題。
+
+
+
+30% 留白機制：讓用戶有機會主動帶領話題。
+
+
+
+HTML
+
+<button id="openChat" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 25px; cursor: pointer; margin: 20px;">開始挑戰</button>
+
+
+
+<script>
+
+    // --- 1. 初始化與分桶數據 ---
+
+    const topicBuckets = {
+
+        "人際關係": ["你玩交友 App 很久了嗎？", "我很怕無聊的，你會怕囉嗦的女生嗎？", "你會有很多女生的朋友嗎？"],
+
+        "工作": ["你從事什麽樣的工作呀？", "平時上班都是挺忙的。你上班會忙嗎？"],
+
+        "生活": ["你喜歡去旅行嗎？", "你喜歡吃東西嗎？", "你喜歡聽音樂嗎？"]
+
+    };
+
+
+
+    let bucketOrder = ["人際關係", "工作", "生活"];
+
+    let currentBucketIdx = 0;
+
+    let currentQuestionIdx = 0;
+
+    let state = "READY"; 
+
+    let conversationHistory = [];
+
+    let timeLeft = 120;
+
+    let timerId = null;
+
+
+
+    // --- 2. 彈窗邏輯修復 (關鍵：控制 Display) ---
+
+    const chatWindow = document.getElementById('chatWindow');
+
+    const openBtn = document.getElementById('openChat');
+
+    const closeBtn = document.getElementById('closeChat');
+
+
+
+    if (openBtn) {
+
+        openBtn.onclick = () => {
+
+            chatWindow.style.display = 'flex'; // 顯示視窗
+
+            openBtn.style.display = 'none';    // 隱藏啟動按鈕
+
         };
 
-        // ... (Remaining chat logic for handleSend, addMessage, and timer)
-        async function handleSend() {
-            const val = input.value.trim();
-            if(!val) return;
-            if(state === "READY" && val === "開始") {
-                state = "CHALLENGE";
-                startTimer();
-                addMessage("嗨！我是小S，很高興認識你。你玩交友 App 很久了嗎？", 'ai');
-                input.value = ""; return;
-            }
+    }
+
+
+
+    if (closeBtn) {
+
+        closeBtn.onclick = () => {
+
+            chatWindow.style.display = 'none'; // 隱藏視窗
+
+            if(openBtn) openBtn.style.display = 'block'; // 顯示啟動按鈕
+
+        };
+
+    }
+
+
+
+    // --- 3. 核心發送邏輯 ---
+
+    async function handleSend() {
+
+        const input = document.getElementById('chatInput');
+
+        const val = input.value.trim();
+
+        if (!val) return;
+
+
+
+        if (state === "READY" && val === "開始") {
+
+            state = "CHALLENGING";
+
             addMessage(val, 'user');
-            input.value = "";
-            // Mock AI call placeholder
-            setTimeout(() => addMessage("那你覺得我這個人怎麼樣？", 'ai'), 1000);
+
+            startTimer();
+
+            addMessage(`嗨，你好，我叫小S。很高興認識你！${topicBuckets["人際關係"][0]}`, 'ai');
+
+            input.value = '';
+
+            return;
+
         }
 
-        function addMessage(text, role) {
-            const div = document.createElement('div');
-            div.className = `msg ${role}`;
-            div.innerText = text;
-            document.getElementById('chatMsgs').appendChild(div);
-            document.getElementById('chatMsgs').scrollTo(0, 9999);
-        }
 
-        function startTimer() {
-            timerId = setInterval(() => {
-                timeLeft--;
-                document.getElementById('timerDisplay').innerText = timeLeft + 's';
-                if(timeLeft <= 0) { clearInterval(timerId); input.disabled = true; }
-            }, 1000);
-        }
 
-        sendBtn.onclick = handleSend;
-        input.onkeydown = (e) => { if(e.key === 'Enter') handleSend(); };
-    </script>
+        addMessage(val, 'user');
+
+        input.value = '';
+
+        
+
+        const apiKey = sessionStorage.getItem('GROQ_KEY');
+
+        try {
+
+            // 找出當前應問的問題
+
+            let nextTopic = bucketOrder[currentBucketIdx];
+
+            let nextQuestion = topicBuckets[nextTopic][currentQuestionIdx + 1];
+
+            let isTransition = false;
+
+
+
+            if (!nextQuestion) {
+
+                currentBucketIdx++;
+
+                currentQuestionIdx = 0;
+
+                if (currentBucketIdx < bucketOrder.length) {
+
+                    nextQuestion = topicBuckets[bucketOrder[currentBucketIdx]][0];
+
+                    isTransition = true;
+
+                }
+
+            } else {
+
+                currentQuestionIdx++;
+
+            }
+
+
+
+            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+
+                method: 'POST',
+
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+
+                body: JSON.stringify({
+
+                    model: "llama-3.3-70b-versatile",
+
+                    messages: [
+
+                        { 
+
+                            role: "system", 
+
+                            content: `你是傲嬌少女小S。
+
+                            
+
+                            當前話題：【${nextTopic}】。下一題：『${nextQuestion || "結尾"}』。
+
+                            
+
+                            規則：
+
+                            1. **拒絕冷淡**：回應要豐富（40-80字），分享你的工作或生活細節。
+
+                            2. **提問策略**：
+
+                               - 70% 機率：給予回饋並自然引出下一題：『${nextQuestion}』。
+
+                               - 30% 機率：只給感想，結尾加 [SILENCE] 讓用戶發揮。
+
+                            3. **約會連動**：若用戶邀約且話題具備連貫性（例如聊到節目約探班），則害羞答應。` 
+
+                        },
+
+                        ...conversationHistory.slice(-6)
+
+                    ]
+
+                })
+
+            });
+
+            const data = await res.json();
+
+            let aiMsg = data.choices[0].message.content;
+
+
+
+            // 代碼層級控制 30% 留白機率
+
+            if (Math.random() < 0.3 && !isTransition && nextQuestion) {
+
+                aiMsg = aiMsg.replace(/\[.*?\]/g, '').split('？')[0] + "。";
+
+                currentQuestionIdx--; // 留白時，問題進度不往前推，保留到下一輪
+
+            } else {
+
+                aiMsg = aiMsg.replace(/\[.*?\]/g, '');
+
+            }
+
+
+
+            addMessage(aiMsg.trim(), 'ai');
+
+            if (currentBucketIdx >= bucketOrder.length) setTimeout(endChallenge, 3000);
+
+        } catch (e) { addMessage("❌ 訊號不穩，等我一下喔！", "ai"); }
+
+    }
+
+
+
+    // --- 4. 輔助函數 ---
+
+    function addMessage(text, role) {
+
+        const div = document.createElement('div');
+
+        div.className = `msg ${role === 'user' ? 'user' : 'ai'}`;
+
+        div.innerHTML = text;
+
+        const chatMsgs = document.getElementById('chatMsgs');
+
+        chatMsgs.appendChild(div);
+
+        chatMsgs.scrollTo(0, chatMsgs.scrollHeight);
+
+        conversationHistory.push({ role: role === 'user' ? 'user' : 'assistant', content: text });
+
+    }
+
+
+
+    function startTimer() {
+
+        timerId = setInterval(() => {
+
+            timeLeft--;
+
+            document.getElementById('timerDisplay').innerText = timeLeft + 's';
+
+            if (timeLeft <= 0) endChallenge();
+
+        }, 1000);
+
+    }
+
+
+
+    function endChallenge() {
+
+        clearInterval(timerId);
+
+        state = "FINISHED";
+
+        document.getElementById('chatInput').disabled = true;
+
+        addMessage("🚨 結束了！看我怎麼評價你...", "ai");
+
+    }
+
+
+
+    document.getElementById('sendBtn').onclick = handleSend;
+
+    document.getElementById('chatInput').onkeydown = (e) => { if(e.key === 'Enter') handleSend(); };
+
+</script>
+
+
+
+    
+
+
+
+
+
+    
+
+    
+
 </body>
+
 </html>
