@@ -1171,41 +1171,42 @@
 
 
 
-            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          // Replace the fetch call and its content with this:
+const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+    body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+            { 
+                role: "system", 
+                content: `你是傲嬌少女小S。
+                
+                當前話題：【${nextTopic}】。下一題目標：『${nextQuestion || "結尾"}』。
+                
+                規則：
+                1. **嚴格限制字數**：回答必須在 50 字以內，不要囉唆。
+                2. **個性特質**：語氣傲嬌、幽默，會分享自己的細節。
+                3. **引導話題**：通常會自然引出下一題：『${nextQuestion}』。
+                4. **約會連動**：若用戶邀約且話題連貫，則害羞答應。` 
+            },
+            ...conversationHistory.slice(-6)
+        ]
+    })
+});
 
-                method: 'POST',
+const data = await res.json();
+let aiMsg = data.choices[0].message.content;
 
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+// --- 實作 30% 不主動提問的機率 ---
+if (Math.random() < 0.3 && !isTransition && nextQuestion) {
+    // 移除問句部分，只保留感言
+    aiMsg = aiMsg.split(/[？?]/)[0] + "。";
+    // 重要：因為這輪沒問問題，我們把索引退回 1，讓下一輪繼續問同一題
+    currentQuestionIdx--; 
+}
 
-                body: JSON.stringify({
-
-                    model: "llama-3.3-70b-versatile",
-
-                    messages: [
-
-                        { 
-
-                            role: "system", 
-
-                            content: `你是傲嬌少女小S。
-
-                            
-
-                            當前話題：【${nextTopic}】。下一題：『${nextQuestion || "結尾"}』。
-
-                            
-
-                            規則：
-
-                            1. **拒絕冷淡**：回應要豐富（40-80字），分享你的工作或生活細節。
-
-                            2. **提問策略**：
-
-                               - 70% 機率：給予回饋並自然引出下一題：『${nextQuestion}』。
-
-                               - 30% 機率：只給感想，結尾加 [SILENCE] 讓用戶發揮。
-
-                            3. **約會連動**：若用戶邀約且話題具備連貫性（例如聊到節目約探班），則害羞答應。` 
+addMessage(aiMsg.trim(), 'ai');
 
                         },
 
@@ -1287,19 +1288,43 @@
 
 
 
-    function endChallenge() {
+   async function endChallenge() {
+    clearInterval(timerId);
+    state = "FINISHED";
+    document.getElementById('chatInput').disabled = true;
+    addMessage("🚨 結束了！看我怎麼評價你...", "ai");
 
-        clearInterval(timerId);
+    const apiKey = sessionStorage.getItem('GROQ_KEY');
+    if (!apiKey) return;
 
-        state = "FINISHED";
-
-        document.getElementById('chatInput').disabled = true;
-
-        addMessage("🚨 結束了！看我怎麼評價你...", "ai");
-
+    try {
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${apiKey}` 
+            },
+            body: JSON.stringify({
+                model: "llama-3.3-70b-versatile",
+                messages: [
+                    { 
+                        role: "system", 
+                        content: "你是專業溝通導師。請針對剛才的對話紀錄，給用戶一個 1-100 的評分，並用繁體中文在 50 字內給出具體的社交建議。" 
+                    },
+                    ...conversationHistory
+                ]
+            })
+        });
+        const data = await res.json();
+        const evaluation = data.choices[0].message.content;
+        addMessage(`<b>【實戰評價】</b><br>${evaluation}`, 'ai');
+    } catch (e) {
+        addMessage("評分系統暫時斷訊，但剛才的交流很有趣喔！", "ai");
     }
+}
 
 
+    
 
     document.getElementById('sendBtn').onclick = handleSend;
 
