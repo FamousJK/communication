@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
@@ -523,14 +523,13 @@
         7: { question: "你喜歡吃東西嗎？", responses: { "yes": ["我就喜歡吃日料，尤其是刺身！", "我喜歡吃意大利菜，你呢？"], "no": ["看來你不是一個吃貨呢，可惜可惜。", "是不是你怕胖呀？"] } }
     };
 
-    // --- 2. 狀態變數 ---
+    // --- 2. 狀態管理 ---
     let currentStep = 1;
     let state = "READY"; // READY, CHALLENGING, AWAITING_REACTION, FINISHED
     let conversationHistory = [];
     let timeLeft = 120;
     let timerId = null;
 
-    // --- 3. DOM 元素 ---
     const chatWindow = document.getElementById('chatWindow');
     const dollTrigger = document.getElementById('openChat');
     const chatInput = document.getElementById('chatInput');
@@ -538,7 +537,7 @@
     const chatMsgs = document.getElementById('chatMsgs');
     const timerDisplay = document.getElementById('timerDisplay');
 
-    // --- 4. 基礎控制 ---
+    // --- 3. 介面控制 ---
     dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
     document.getElementById('closeChat').onclick = () => { chatWindow.style.display = 'none'; dollTrigger.style.display = 'flex'; };
 
@@ -554,8 +553,7 @@
         } else { alert('請輸入正確的 Groq Key'); }
     };
 
-    // --- 5. 對話核心邏輯 ---
-    async function addMessage(text, side) {
+    function addMessage(text, side) {
         const div = document.createElement('div');
         div.className = `msg ${side}`;
         div.innerHTML = text;
@@ -564,6 +562,7 @@
         conversationHistory.push({ role: side === 'user' ? 'user' : 'assistant', content: text });
     }
 
+    // --- 4. 核心對話處理 ---
     async function handleSend() {
         const val = chatInput.value.trim();
         if (!val) return;
@@ -578,7 +577,7 @@
             }, 500);
         } 
         else if (state === "AWAITING_REACTION") {
-            // 用戶在藍色圈圈處的回應
+            // 用戶在藍圈處回話
             addMessage(val, 'user');
             state = "CHALLENGING"; 
             
@@ -591,6 +590,7 @@
                 currentStep++; 
                 if (dialogueFlow[currentStep]) {
                     loadingDiv.innerHTML = `<b>${dialogueFlow[currentStep].question}</b>`;
+                    conversationHistory.push({ role: 'assistant', content: loadingDiv.innerHTML });
                 } else {
                     loadingDiv.remove();
                     endChallenge();
@@ -619,25 +619,31 @@
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
                     messages: [
-                        { role: "system", content: "你是一個語意判斷器。分析用戶的話，如果用戶表示肯定、有、會、喜歡、對、是，回傳 'yes'。如果表示否定、沒有、不會、不喜歡、不對、不是，回傳 'no'。只需回傳單字。" }, 
+                        { role: "system", content: "你是一個社交反應器。首先，請針對用戶的話給出一個非常短的感嘆回應（如：喔？、是喔、真的假的、好吧、天啊、原來如此），然後在下一行判斷這句話是 'yes' 還是 'no'。格式請嚴格執行：\n[短回應]\n[判定]" }, 
                         { role: "user", content: userText }
                     ]
                 })
             });
             const senseData = await senseRes.json();
-            const sentiment = senseData.choices[0].message.content.toLowerCase().includes('yes') ? 'yes' : 'no';
+            const rawContent = senseData.choices[0].message.content;
+            const lines = rawContent.split('\n');
+            
+            const shortReaction = lines[0] || "嗯哼";
+            const sentiment = rawContent.toLowerCase().includes('yes') ? 'yes' : 'no';
 
             const currentData = dialogueFlow[currentStep];
             const possibleReplies = currentData.responses[sentiment];
             const aiComment = possibleReplies[Math.floor(Math.random() * possibleReplies.length)];
 
-            loadingDiv.innerHTML = aiComment; 
-            state = "AWAITING_REACTION"; // 切換狀態，等待用戶藍圈回應
+            loadingDiv.innerHTML = `<span style="color:#888">${shortReaction}</span><br>${aiComment}`; 
+            conversationHistory.push({ role: 'assistant', content: loadingDiv.innerHTML });
 
-        } catch (e) { loadingDiv.innerHTML = "❌ 連線錯誤。"; }
+            state = "AWAITING_REACTION"; // 等待用戶藍圈回應
+
+        } catch (e) { loadingDiv.innerHTML = "❌ 連線超時。"; }
     }
 
-    // --- 6. 計時與評分 ---
+    // --- 5. 評分與計時系統 ---
     function startTimer() {
         timerId = setInterval(() => {
             timeLeft--;
@@ -651,7 +657,7 @@
         clearInterval(timerId);
         state = "FINISHED";
         chatInput.disabled = true;
-        addMessage("🚨 <b>挑戰結束！</b> 正在計算評分報告...", 'ai');
+        addMessage("🚨 <b>對話結束！</b> 正在進行嚴格社交評核...", 'ai');
 
         const apiKey = sessionStorage.getItem('GROQ_KEY');
         try {
@@ -661,19 +667,22 @@
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
                     messages: [
-                        { role: "system", content: "你是一位社交溝通專家。請分析對話紀錄，針對用戶的回話進行 100 字內的分析並評分。繁體中文。" },
+                        { role: "system", content: "你是一位毒舌且挑剔的社交溝通專家。請分析用戶的對話表現。你的評分標準非常嚴格，如果用戶只會給簡短回覆、缺乏共情心或無法延伸話題，請給予極低分。請用繁體中文給出犀利的點評，並給出一個滿分 10 分的慘烈分數。" },
                         { role: "user", content: JSON.stringify(conversationHistory) }
                     ]
                 })
             });
             const data = await response.json();
-            addMessage(`🎯 <b>評核報告：</b><br>${data.choices[0].message.content}`, 'ai');
+            addMessage(`🎯 <b>評核報告 (嚴格模式)：</b><br>${data.choices[0].message.content}`, 'ai');
         } catch (e) { addMessage("報告生成失敗。", 'ai'); }
     }
 
     sendBtn.onclick = handleSend;
     chatInput.onkeydown = (e) => { if (e.key === 'Enter') handleSend(); };
 </script>
+
+
+    
     
 </body>
 </html>
