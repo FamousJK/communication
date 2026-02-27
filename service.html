@@ -523,13 +523,14 @@
         7: { question: "你喜歡吃東西嗎？", responses: { "yes": ["我就喜歡吃日料，尤其是刺身！", "我喜歡吃意大利菜，你呢？"], "no": ["看來你不是一個吃貨呢，可惜可惜。", "是不是你怕胖呀？"] } }
     };
 
-    // --- 2. 狀態與元素 ---
+    // --- 2. 初始化變數 ---
     let currentStep = 1;
     let state = "READY"; 
     let conversationHistory = [];
     let timeLeft = 120;
     let timerId = null;
 
+    // --- 3. DOM 元素 (請確保 HTML 裡的 ID 正確) ---
     const chatWindow = document.getElementById('chatWindow');
     const dollTrigger = document.getElementById('openChat');
     const chatInput = document.getElementById('chatInput');
@@ -537,13 +538,23 @@
     const chatMsgs = document.getElementById('chatMsgs');
     const timerDisplay = document.getElementById('timerDisplay');
 
-    // --- 3. 彈出控制 ---
-    dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
-    document.getElementById('closeChat').onclick = () => { 
-        chatWindow.style.display = 'none'; 
-        dollTrigger.style.display = 'flex'; 
-    };
+    // --- 4. 彈出邏輯修正 ---
+    if (dollTrigger) {
+        dollTrigger.onclick = function() {
+            chatWindow.style.display = 'flex'; // 顯示對話框
+            this.style.display = 'none';      // 隱藏啟動圖標
+        };
+    }
 
+    const closeBtn = document.getElementById('closeChat');
+    if (closeBtn) {
+        closeBtn.onclick = function() {
+            chatWindow.style.display = 'none';
+            if (dollTrigger) dollTrigger.style.display = 'flex';
+        };
+    }
+
+    // --- 5. Key 儲存與對話 ---
     window.saveKey = function() {
         const key = document.getElementById('temp-key').value.trim();
         if (key.startsWith('gsk_')) {
@@ -552,10 +563,9 @@
             chatInput.disabled = false;
             sendBtn.disabled = false;
             chatInput.placeholder = "輸入「開始」啟動挑戰...";
-        } else { alert('Key 格式錯誤'); }
+        } else { alert('請輸入正確的 Groq Key'); }
     };
 
-    // --- 4. 對話邏輯 ---
     async function handleSend() {
         const val = chatInput.value.trim();
         if (!val) return;
@@ -575,7 +585,6 @@
                 currentStep++;
                 if (dialogueFlow[currentStep]) {
                     loading.innerHTML = `<b>${dialogueFlow[currentStep].question}</b>`;
-                    conversationHistory.push({ role: 'assistant', content: loading.innerHTML });
                 } else { loading.remove(); endChallenge(); }
                 chatMsgs.scrollTo({ top: chatMsgs.scrollHeight, behavior: 'smooth' });
             }, 800);
@@ -597,7 +606,10 @@
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
-                    messages: [{ role: "system", content: "判斷用戶的話並回傳 JSON：{\"sentiment\": \"yes/no\", \"prefix\": \"情緒口語\"}" }, { role: "user", content: userText }],
+                    messages: [
+                        { role: "system", content: "你是有情緒的少女。請判斷用戶並回傳JSON：{\"sentiment\": \"yes/no\", \"prefix\": \"口語短詞\"}" }, 
+                        { role: "user", content: userText }
+                    ],
                     response_format: { type: "json_object" }
                 })
             });
@@ -606,16 +618,15 @@
             const rawReply = dialogueFlow[currentStep].responses[ai.sentiment][0];
             const final = rawReply.startsWith(ai.prefix) ? rawReply : `${ai.prefix}，${rawReply}`;
             loading.innerHTML = final;
-            conversationHistory.push({ role: 'assistant', content: final });
             state = "AWAITING_REACTION";
-        } catch (e) { loading.innerHTML = "❌ 系統錯誤"; }
+        } catch (e) { loading.innerHTML = "❌ 系統繁忙"; }
     }
 
-    // --- 5. 嚴格評分 (縮減字數) ---
+    // --- 6. 簡潔毒舌評分 ---
     async function endChallenge() {
         if (state === "FINISHED") return;
         clearInterval(timerId); state = "FINISHED"; chatInput.disabled = true;
-        addMessage("🚨 <b>結束！</b> 評核中...", 'ai');
+        addMessage("🚨 <b>結束！</b> 正在毒舌評分...", 'ai');
         const apiKey = sessionStorage.getItem('GROQ_KEY');
         try {
             const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -623,12 +634,15 @@
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
-                    messages: [{ role: "system", content: "你是毒舌專家。請用一句話點評對話並給分。格式：[評語] [分數/10]。分數必須嚴苛，敷衍者低於 5/10。" }, { role: "user", content: JSON.stringify(conversationHistory) }]
+                    messages: [
+                        { role: "system", content: "你是極端挑剔的社交專家。請用一句極短的話點評並給分。格式：[點評] [分數/10]。如果回答太短或無趣，請給低於 5 分。" }, 
+                        { role: "user", content: JSON.stringify(conversationHistory) }
+                    ]
                 })
             });
             const data = await res.json();
-            addMessage(`🎯 <b>評核：</b><br>${data.choices[0].message.content}`, 'ai');
-        } catch (e) { addMessage("報告生成失敗", 'ai'); }
+            addMessage(`🎯 <b>最終評核：</b><br>${data.choices[0].message.content}`, 'ai');
+        } catch (e) { addMessage("無法生成評分", 'ai'); }
     }
 
     function addMessage(text, side) {
