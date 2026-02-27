@@ -525,44 +525,17 @@
 
     // --- 2. 狀態管理 ---
     let currentStep = 1;
-    let state = "READY"; // READY, CHALLENGING, AWAITING_REACTION, FINISHED
+    let state = "READY"; 
     let conversationHistory = [];
     let timeLeft = 120;
     let timerId = null;
 
-    const chatWindow = document.getElementById('chatWindow');
-    const dollTrigger = document.getElementById('openChat');
+    const chatMsgs = document.getElementById('chatMsgs');
     const chatInput = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
-    const chatMsgs = document.getElementById('chatMsgs');
     const timerDisplay = document.getElementById('timerDisplay');
 
-    // --- 3. 介面控制 ---
-    dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
-    document.getElementById('closeChat').onclick = () => { chatWindow.style.display = 'none'; dollTrigger.style.display = 'flex'; };
-
-    window.saveKey = function() {
-        const key = document.getElementById('temp-key').value.trim();
-        if (key.startsWith('gsk_')) {
-            sessionStorage.setItem('GROQ_KEY', key);
-            document.getElementById('key-auth-area').style.display = 'none';
-            chatInput.disabled = false;
-            sendBtn.disabled = false;
-            chatInput.placeholder = "輸入「開始」啟動挑戰...";
-            chatInput.value = "開始";
-        } else { alert('請輸入正確的 Groq Key'); }
-    };
-
-    function addMessage(text, side) {
-        const div = document.createElement('div');
-        div.className = `msg ${side}`;
-        div.innerHTML = text;
-        chatMsgs.appendChild(div);
-        chatMsgs.scrollTo({ top: chatMsgs.scrollHeight, behavior: 'smooth' });
-        conversationHistory.push({ role: side === 'user' ? 'user' : 'assistant', content: text });
-    }
-
-    // --- 4. 核心對話處理 ---
+    // --- 3. 核心對話處理 ---
     async function handleSend() {
         const val = chatInput.value.trim();
         if (!val) return;
@@ -577,7 +550,6 @@
             }, 500);
         } 
         else if (state === "AWAITING_REACTION") {
-            // 用戶在藍圈處回話
             addMessage(val, 'user');
             state = "CHALLENGING"; 
             
@@ -619,39 +591,36 @@
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
                     messages: [
-                        { role: "system", content: "你是一個社交反應器。首先，請針對用戶的話給出一個非常短的感嘆回應（如：喔？、是喔、真的假的、好吧、天啊、原來如此），然後在下一行判斷這句話是 'yes' 還是 'no'。格式請嚴格執行：\n[短回應]\n[判定]" }, 
+                        { 
+                            role: "system", 
+                            content: "你是一個具備情緒的社交反應器。請分析用戶的話並回傳 JSON 格式：\n1. sentiment: 判定為 'yes' 或 'no'。\n2. prefix: 一個非常短的情緒口語開頭（如：哇、喔？、是喔、真的假的、原來、好吧、天啊）。\n格式：{\"sentiment\": \"...\", \"prefix\": \"...\"}" 
+                        }, 
                         { role: "user", content: userText }
-                    ]
+                    ],
+                    response_format: { type: "json_object" }
                 })
             });
-            const senseData = await senseRes.json();
-            const rawContent = senseData.choices[0].message.content;
-            const lines = rawContent.split('\n');
             
-            const shortReaction = lines[0] || "嗯哼";
-            const sentiment = rawContent.toLowerCase().includes('yes') ? 'yes' : 'no';
-
+            const senseData = await senseRes.json();
+            const aiRes = JSON.parse(senseData.choices[0].message.content);
+            
             const currentData = dialogueFlow[currentStep];
-            const possibleReplies = currentData.responses[sentiment];
-            const aiComment = possibleReplies[Math.floor(Math.random() * possibleReplies.length)];
+            const possibleReplies = currentData.responses[aiRes.sentiment];
+            let aiComment = possibleReplies[Math.floor(Math.random() * possibleReplies.length)];
 
-            loadingDiv.innerHTML = `<span style="color:#888">${shortReaction}</span><br>${aiComment}`; 
-            conversationHistory.push({ role: 'assistant', content: loadingDiv.innerHTML });
+            // 去重檢查：如果資料庫回應開頭已經包含 AI 生成的情緒詞，則不重複添加
+            let finalSentence = aiComment.startsWith(aiRes.prefix) ? aiComment : `${aiRes.prefix}，${aiComment}`;
 
-            state = "AWAITING_REACTION"; // 等待用戶藍圈回應
+            loadingDiv.innerHTML = finalSentence; 
+            conversationHistory.push({ role: 'assistant', content: finalSentence });
+            state = "AWAITING_REACTION"; 
 
-        } catch (e) { loadingDiv.innerHTML = "❌ 連線超時。"; }
+        } catch (e) { 
+            loadingDiv.innerHTML = "❌ 系統繁忙，請稍後再試。"; 
+        }
     }
 
-    // --- 5. 評分與計時系統 ---
-    function startTimer() {
-        timerId = setInterval(() => {
-            timeLeft--;
-            timerDisplay.innerText = timeLeft + 's';
-            if (timeLeft <= 0) endChallenge();
-        }, 1000);
-    }
-
+    // --- 4. 嚴格評分系統 ---
     async function endChallenge() {
         if (state === "FINISHED") return;
         clearInterval(timerId);
@@ -667,7 +636,7 @@
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
                     messages: [
-                        { role: "system", content: "你是一位毒舌且挑剔的社交溝通專家。請分析用戶的對話表現。你的評分標準非常嚴格，如果用戶只會給簡短回覆、缺乏共情心或無法延伸話題，請給予極低分。請用繁體中文給出犀利的點評，並給出一個滿分 10 分的慘烈分數。" },
+                        { role: "system", content: "你是一位極其毒舌且挑剔的社交專家。請審核這段對話。如果用戶回答簡短（如：嗯、喔、沒有）、缺乏共情或無法主動延伸話題，請給予極低分數與犀利的批評。評分標準：嚴苛。請用繁體中文回覆，結尾給出 X/10 分。" },
                         { role: "user", content: JSON.stringify(conversationHistory) }
                     ]
                 })
@@ -675,6 +644,25 @@
             const data = await response.json();
             addMessage(`🎯 <b>評核報告 (嚴格模式)：</b><br>${data.choices[0].message.content}`, 'ai');
         } catch (e) { addMessage("報告生成失敗。", 'ai'); }
+    }
+
+    function addMessage(text, side) {
+        const div = document.createElement('div');
+        div.className = `msg ${side}`;
+        div.innerHTML = text;
+        chatMsgs.appendChild(div);
+        chatMsgs.scrollTo({ top: chatMsgs.scrollHeight, behavior: 'smooth' });
+        if (side === 'user' || state !== "FINISHED") {
+            conversationHistory.push({ role: side === 'user' ? 'user' : 'assistant', content: text });
+        }
+    }
+
+    function startTimer() {
+        timerId = setInterval(() => {
+            timeLeft--;
+            timerDisplay.innerText = timeLeft + 's';
+            if (timeLeft <= 0) endChallenge();
+        }, 1000);
     }
 
     sendBtn.onclick = handleSend;
