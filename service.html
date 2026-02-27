@@ -610,7 +610,13 @@
 
         .step-col { flex: 1; }
 
-        .step-a-box, .step-b-box { padding: 30px; border-radius: 15px; border: 3px solid transparent; height: 100%; box-sizing: border-box; }
+        .step-a-box, .step-b-box { 
+    padding: 30px; 
+    border-radius: 15px; 
+    border: 3px solid transparent; 
+    height: auto; 
+    box-sizing: border-box; 
+}
 
         .step-a-box { border-color: var(--accent-blue); }
 
@@ -957,11 +963,11 @@
 
 
 
-<div class="ai-doll-trigger" id="openChat"><img src="service-s.png" alt="S"></div>
+<div class="ai-doll-trigger" id="openChatDoll"><img src="service-s.png" alt="S"></div>
 
 
 
-<button id="openChat" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 25px; cursor: pointer;">開始挑戰</button>
+<button id="openChatBtn1" style="padding: 10px 20px; ...">開始挑戰</button>
 
     
 
@@ -1025,12 +1031,27 @@
 
 
 
-<button id="openChat" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 25px; cursor: pointer; margin: 20px;">開始挑戰</button>
+<button id="openChatBtn2" style="padding: 10px 20px; ...">開始挑戰</button>
 
 
 
 <script>
 
+// --- 0. API Key 管理 ---
+    function saveKey() {
+        const keyInput = document.getElementById('temp-key');
+        const key = keyInput.value.trim();
+        
+        if (key.startsWith('gsk_')) { // 簡單檢查 Groq Key 格式
+            sessionStorage.setItem('GROQ_KEY', key);
+            keyInput.value = '********'; // 隱藏 Key
+            keyInput.disabled = true;
+            alert('啟動成功！現在輸入「開始」來挑戰吧。');
+        } else {
+            alert('請輸入正確的 Groq API Key (通常以 gsk_ 開頭)');
+        }
+    }
+    
     // --- 1. 初始化與分桶數據 ---
 
     const topicBuckets = {
@@ -1061,42 +1082,32 @@
 
 
 
-    // --- 2. 彈窗邏輯修復 (關鍵：控制 Display) ---
-
+ // --- 2. 彈窗邏輯修復 (同時支援娃娃與所有按鈕) ---
     const chatWindow = document.getElementById('chatWindow');
-
-    const openBtn = document.getElementById('openChat');
-
     const closeBtn = document.getElementById('closeChat');
+    const dollTrigger = document.getElementById('openChatDoll');
 
+    // 將所有按鈕 ID 放入陣列
+    const triggerIds = ['openChatDoll', 'openChatBtn1', 'openChatBtn2']; 
 
-
-    if (openBtn) {
-
-        openBtn.onclick = () => {
-
-            chatWindow.style.display = 'flex'; // 顯示視窗
-
-            openBtn.style.display = 'none';    // 隱藏啟動按鈕
-
-        };
-
-    }
-
-
+    triggerIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.onclick = () => {
+                chatWindow.style.display = 'flex';
+                // 打開時隱藏右下角的 S 娃娃
+                if (dollTrigger) dollTrigger.style.display = 'none';
+            };
+        }
+    });
 
     if (closeBtn) {
-
         closeBtn.onclick = () => {
-
-            chatWindow.style.display = 'none'; // 隱藏視窗
-
-            if(openBtn) openBtn.style.display = 'block'; // 顯示啟動按鈕
-
+            chatWindow.style.display = 'none';
+            // 關閉時重新顯示 S 娃娃
+            if (dollTrigger) dollTrigger.style.display = 'block';
         };
-
     }
-
 
 
     // --- 3. 核心發送邏輯 ---
