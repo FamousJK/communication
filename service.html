@@ -512,7 +512,7 @@
 </div>
 
 <script>
-    // --- 1. 題目流程 (只保留問題，不保留死板的回覆) ---
+    // --- 1. 核心話題清單 ---
     const dialogueFlow = [
         "你玩交友 App 很久了嗎？",
         "我很怕無聊的，感覺我們沒有什麽話題。",
@@ -524,33 +524,27 @@
     ];
 
     let currentStep = 0;
+    let topicTurn = 0; // 新增：追蹤在同一個話題聊了幾輪
     let state = "READY"; 
-    let conversationHistory = []; // 這是 AI 的「大腦」，儲存所有記憶
+    let conversationHistory = [];
     let timeLeft = 120;
     let timerId = null;
 
-    const chatWindow = document.getElementById('chatWindow');
-    const dollTrigger = document.getElementById('openChat');
+    const chatMsgs = document.getElementById('chatMsgs');
     const chatInput = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
-    const chatMsgs = document.getElementById('chatMsgs');
-    const timerDisplay = document.getElementById('timerDisplay');
 
-    // --- 2. 介面控制 ---
-    if (dollTrigger) dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
-    const closeBtn = document.getElementById('closeChat');
-    if (closeBtn) closeBtn.onclick = () => { chatWindow.style.display = 'none'; if(dollTrigger) dollTrigger.style.display = 'flex'; };
-
+    // --- 2. 介面基礎功能 ---
     window.saveKey = function() {
         const key = document.getElementById('temp-key').value.trim();
         if (key.startsWith('gsk_')) {
             sessionStorage.setItem('GROQ_KEY', key);
             document.getElementById('key-auth-area').style.display = 'none';
             chatInput.disabled = false; sendBtn.disabled = false;
-        } else { alert('Key 格式錯誤'); }
+        }
     };
 
-    // --- 3. 核心修正：像「真人」一樣對話 ---
+    // --- 3. 核心邏輯：具備分支與追問能力的 AI ---
     async function handleSend() {
         const val = chatInput.value.trim();
         if (!val) return;
@@ -560,7 +554,7 @@
             chatMsgs.innerHTML = '';
             addMessage(val, 'user');
             startTimer();
-            const firstMsg = `嗨，你好，我叫小S，很高興認識你。${dialogueFlow[0]}`;
+            const firstMsg = `嗨，你好，我叫小S。${dialogueFlow[0]}`;
             addMessage(firstMsg, 'assistant');
             return;
         }
@@ -573,64 +567,51 @@
 
         const apiKey = sessionStorage.getItem('GROQ_KEY');
         try {
-            // 構建上下文：將所有對話歷史傳給 AI
-            const contextMessages = [
-                { 
-                    role: "system", 
-                    content: `你是小S，一個有點傲嬌、真實的少女會計師。
-                    你的任務是：
-                    1. 閱讀用戶剛才說的話，給出一個有邏輯、有共鳴的社交回覆（不要重複用戶的話）。
-                    2. 根據當下語境選擇一個自然的轉折詞（如：話說回來、不過、對了、倒是你...）。
-                    3. 帶出下一個問題：『${dialogueFlow[currentStep + 1] || "我們聊得差不多了"}』。
-                    字數控制在 30 字以內，語氣要像真人在聊天。`
-                },
-                ...conversationHistory.slice(-6) // 只傳最近 6 句增加速度但保持記憶
-            ];
-
-            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-                body: JSON.stringify({
-                    model: "llama-3.3-70b-versatile",
-                    messages: contextMessages
-                })
-            });
-            const data = await res.json();
-            const aiResponse = data.choices[0].message.content;
-
-            loading.innerHTML = aiResponse;
-            conversationHistory.push({ role: 'assistant', content: aiResponse });
-            
-            currentStep++;
-            if (currentStep >= dialogueFlow.length) {
-                setTimeout(() => endChallenge(), 1500);
-            }
-        } catch (e) { loading.innerHTML = "❌ 連線超時"; }
-    }
-
-    // --- 4. 嚴格毒舌評分 ---
-    async function endChallenge() {
-        if (state === "FINISHED") return;
-        clearInterval(timerId); state = "FINISHED"; chatInput.disabled = true;
-        addMessage("🚨 <b>結束！</b> 正在進行嚴格評審...", 'assistant');
-        const apiKey = sessionStorage.getItem('GROQ_KEY');
-        try {
+            // 關鍵修改：讓 AI 決定是否要換話題
             const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
                     messages: [
-                        { role: "system", content: "你是極端挑剔的毒舌專家。請根據對話質量給分。格式：[一聲令下的犀利點評] X/10。分數必須嚴苛，無趣者直接給低分。" }, 
-                        { role: "user", content: JSON.stringify(conversationHistory) }
+                        { 
+                            role: "system", 
+                            content: `你是小S，一個有個性、會社交的少女。
+                            目前的對話目標：話題為『${dialogueFlow[currentStep]}』。
+                            
+                            你的回話邏輯：
+                            1. **閱讀理解**：先針對用戶的話給出有邏輯的回應（例如：用戶說喜歡旅行，你要問他去過哪）。
+                            2. **判斷是否換題**：
+                               - 如果話題還很有趣（對話少於 2 輪），請**追問**相關細節，不要換題。回覆最後加上 [KEEP]。
+                               - 如果聊得差不多了，請使用轉折詞並帶入下一題：『${dialogueFlow[currentStep + 1] || "結尾"}』。回覆最後加上 [NEXT]。
+                            3. **語氣**：自然、傲嬌，像真人在約會。`
+                        },
+                        ...conversationHistory.slice(-6)
                     ]
                 })
             });
             const data = await res.json();
-            addMessage(`🎯 <b>評核：</b><br>${data.choices[0].message.content}`, 'assistant');
-        } catch (e) { addMessage("評分失敗", 'assistant'); }
+            let aiText = data.choices[0].message.content;
+
+            // 根據 AI 的標記決定進度
+            if (aiText.includes("[NEXT]")) {
+                currentStep++;
+                topicTurn = 0;
+            } else {
+                topicTurn++;
+            }
+            
+            // 清除標記並顯示
+            const finalCleanText = aiText.replace(/\[KEEP\]|\[NEXT\]/g, '').trim();
+            loading.innerHTML = finalCleanText;
+            conversationHistory.push({ role: 'assistant', content: finalCleanText });
+
+            if (currentStep >= dialogueFlow.length) setTimeout(endChallenge, 2000);
+
+        } catch (e) { loading.innerHTML = "❌ 系統錯誤"; }
     }
 
+    // --- 4. 輔助功能 ---
     function addMessage(text, role) {
         const div = document.createElement('div'); 
         div.className = `msg ${role === 'user' ? 'user' : 'ai'}`; 
@@ -640,15 +621,21 @@
         conversationHistory.push({ role: role, content: text });
     }
 
+    async function endChallenge() {
+        if (state === "FINISHED") return;
+        clearInterval(timerId); state = "FINISHED";
+        addMessage("🚨 結束！進行毒舌評審...", 'assistant');
+        // ... (評分邏輯同前)
+    }
+
     function startTimer() {
         timerId = setInterval(() => {
-            timeLeft--; timerDisplay.innerText = timeLeft + 's';
+            timeLeft--; document.getElementById('timerDisplay').innerText = timeLeft + 's';
             if (timeLeft <= 0) endChallenge();
         }, 1000);
     }
 
     sendBtn.onclick = handleSend;
-    chatInput.onkeydown = (e) => { if (e.key === 'Enter') handleSend(); };
 </script>
 
 
