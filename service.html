@@ -496,26 +496,6 @@
         <p style="margin: 5px 0 0 0; font-size: 0.7rem;">*Key 僅存於此分頁，安全且重新整理即消失</p>
     </div>
 
-<div class="style-bar" id="mbtiBar">
-    <p style="width:100%; font-size:0.75rem; margin:2px 0; color:#666; text-align:center;">1. 選擇人格（請先啟動 Key）</p>
-    <button class="style-btn" onclick="selectMBTI(this, 'ENTJ')" disabled>ENTJ 指揮官</button>
-    <button class="style-btn" onclick="selectMBTI(this, 'INFP')" disabled>INFP 調解者</button>
-    <button class="style-btn" onclick="selectMBTI(this, 'ESTP')" disabled>ESTP 企業家</button>
-    <button class="style-btn" onclick="selectMBTI(this, 'INFJ')" disabled>INFJ 提倡者</button>
-    <button class="style-btn" onclick="selectMBTI(this, 'ISTJ')" disabled>ISTJ 物流師</button>
-    <button class="style-btn" onclick="selectMBTI(this, 'ENFP')" disabled>ENFP 競選者</button>
-</div>
-
-<div class="style-bar" id="topicBar" style="border-top:1px dashed #eee;">
-    <p style="width:100%; font-size:0.75rem; margin:2px 0; color:#666; text-align:center;">2. 選擇話題</p>
-    <button class="style-btn" onclick="selectTopic(this, '職場晉升')" disabled>💼 職場</button>
-    <button class="style-btn" onclick="selectTopic(this, '靈魂伴侶')" disabled>❤️ 感情</button>
-    <button class="style-btn" onclick="selectTopic(this, '金錢觀點')" disabled>💰 金錢</button>
-    <button class="style-btn" onclick="selectTopic(this, '極簡生活')" disabled>🌿 生活</button>
-    <button class="style-btn" onclick="selectTopic(this, '未來科技')" disabled>🤖 科技</button>
-    <button class="style-btn" onclick="selectTopic(this, '第一印象')" disabled>🎭 社交</button>
-</div>
-
     <div id="chatMsgs" class="chat-messages">
     <div class="msg ai">
         <b>【2分鐘實戰挑戰】</b><br><br>
@@ -556,9 +536,6 @@
     const chatMsgs = document.getElementById('chatMsgs');
     const timerDisplay = document.getElementById('timerDisplay');
 
-    // 隱藏不需要的 MBTI 與 Topic 欄位
-    document.getElementById('mbtiBar').style.display = 'none';
-    document.getElementById('topicBar').style.display = 'none';
 
     dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
     document.getElementById('closeChat').onclick = () => { chatWindow.style.display = 'none'; dollTrigger.style.display = 'flex'; };
