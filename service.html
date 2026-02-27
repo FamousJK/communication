@@ -481,6 +481,8 @@
 
 <div class="ai-doll-trigger" id="openChat"><img src="service-s.png" alt="S"></div>
 
+<button id="openChat" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 25px; cursor: pointer;">開始挑戰</button>
+    
 <div class="chat-window" id="chatWindow">
     <div class="chat-header">
         <span>小S | **2分鐘** 實戰挑戰</span>
@@ -511,63 +513,70 @@
     </div>
 </div>
 
+
+    
+    
+    
+    
+    
 <script>
-    // --- 1. 分桶資料庫 ---
+    // 1. 分桶設定
     const topicBuckets = {
-        "人際關係": [
-            "你玩交友 App 很久了嗎？",
-            "我很怕無聊的，感覺我們沒有什麽話題。",
-            "你會有很多女生的朋友嗎？"
-        ],
-        "工作": [
-            "你從事什麽樣的工作呀？",
-            "平時上班都是挺忙的。你上班會忙嗎？"
-        ],
-        "生活": [
-            "你喜歡去旅行嗎？",
-            "你喜歡吃東西嗎？",
-            "你喜歡聽音樂嗎？"
-        ]
+        "人際關係": ["你玩交友 App 很久了嗎？", "我很怕無聊的，感覺我們沒有什麽話題。", "你會有很多女生的朋友嗎？"],
+        "工作": ["你從事什麽樣的工作呀？", "平時上班都是挺忙的。你上班會忙嗎？"],
+        "生活": ["你喜歡去旅行嗎？", "你喜歡吃東西嗎？", "你喜歡聽音樂嗎？"]
     };
 
     let bucketOrder = ["人際關係", "工作", "生活"];
     let currentBucketIdx = 0;
     let currentQuestionIdx = 0;
-    let silenceCount = 0;
     let state = "READY"; 
     let conversationHistory = [];
     let timeLeft = 120;
     let timerId = null;
 
-    // --- 2. 核心對話引擎 ---
+    // 2. 彈窗修復
+    const chatWindow = document.getElementById('chatWindow');
+    const openBtn = document.getElementById('openChat');
+    const closeBtn = document.getElementById('closeChat');
+
+    if (openBtn) openBtn.onclick = () => { chatWindow.style.display = 'flex'; openBtn.style.display = 'none'; };
+    if (closeBtn) closeBtn.onclick = () => { chatWindow.style.display = 'none'; openBtn.style.display = 'block'; };
+
+    window.saveKey = function() {
+        const key = document.getElementById('temp-key').value.trim();
+        if (key.startsWith('gsk_')) {
+            sessionStorage.setItem('GROQ_KEY', key);
+            document.getElementById('key-auth-area').style.display = 'none';
+            document.getElementById('chatInput').disabled = false;
+        } else { alert('Key 格式錯誤'); }
+    };
+
+    // 3. 核心對話邏輯
     async function handleSend() {
-        const val = document.getElementById('chatInput').value.trim();
-        if (!val && state !== "READY") return;
+        const input = document.getElementById('chatInput');
+        const val = input.value.trim();
+        if (!val) return;
 
         if (state === "READY" && val === "開始") {
             state = "CHALLENGING";
             addMessage(val, 'user');
             startTimer();
-            const firstMsg = `嗨，你好，我叫小S。${topicBuckets["人際關係"][0]}`;
-            addMessage(firstMsg, 'assistant');
-            document.getElementById('chatInput').value = '';
+            addMessage(`嗨，你好，我叫小S。${topicBuckets["人際關係"][0]}`, 'ai');
+            input.value = '';
             return;
         }
 
         addMessage(val, 'user');
-        document.getElementById('chatInput').value = '';
-        silenceCount = 0; // 重置沈默計數
-
-        const loading = showLoading();
+        input.value = '';
+        
         const apiKey = sessionStorage.getItem('GROQ_KEY');
-
         try {
-            // 決定下一題內容
+            // 計算下一題
             let nextTopic = bucketOrder[currentBucketIdx];
             let nextQuestion = topicBuckets[nextTopic][currentQuestionIdx + 1];
-            
-            // 如果當前桶子問完了，換下一個桶子
             let isTransition = false;
+
             if (!nextQuestion) {
                 currentBucketIdx++;
                 currentQuestionIdx = 0;
@@ -575,9 +584,7 @@
                     nextQuestion = topicBuckets[bucketOrder[currentBucketIdx]][0];
                     isTransition = true;
                 }
-            } else {
-                currentQuestionIdx++;
-            }
+            } else { currentQuestionIdx++; }
 
             const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                 method: 'POST',
@@ -589,51 +596,35 @@
                             role: "system", 
                             content: `你是傲嬌少女小S。
                             規則：
-                            1. **閱讀理解**：回應必須回應對方的內容。
-                            2. **約會邏輯**：若用戶邀約，檢查是否與之前聊過的話題相關。相關則害羞答應，不相關（突兀）則禮貌拒絕。
-                            3. **對話結構**：
-                               - 30% 機率不提問，只回饋感想。標記為 [SILENCE]。
-                               - 其餘時間，若要換桶子（${isTransition}），必須用轉折詞引導出：『${nextQuestion}』。標記為 [NEXT]。
-                               - 若在同桶子追問，引導出：『${nextQuestion}』。標記為 [KEEP]。
-                            4. 字數限制：80 字內。` 
+                            1. **閱讀理解**：必須回應對方內容。
+                            2. **約會邏輯**：若用戶邀約，檢查是否與之前聊過話題相關。相關則害羞答應，突兀則拒絕。
+                            3. **30% 留白**：隨機有 30% 機率不主動提問，只回感想（結尾加 [SILENCE]）。
+                            4. **轉場**：若要換桶子，使用轉折詞帶出：『${nextQuestion || "我們聊得真開心"}』。
+                            5. 字數嚴格控制在 80 字內。` 
                         },
                         ...conversationHistory.slice(-6)
                     ]
                 })
             });
             const data = await res.json();
-            let aiText = data.choices[0].message.content;
-            
-            // 處理 30% 機率不提問的邏輯
-            if (aiText.includes("[SILENCE]") && !isTransition) {
-                aiText = aiText.replace(/\[SILENCE\]|\[NEXT\]|\[KEEP\]/g, '').split('？')[0] + "。";
+            let aiMsg = data.choices[0].message.content;
+
+            // 處理留白機率
+            const shouldSilence = Math.random() < 0.3;
+            if (shouldSilence && !isTransition) {
+                aiMsg = aiMsg.replace(/\[.*?\]/g, '').split('？')[0] + "。";
+            } else {
+                aiMsg = aiMsg.replace(/\[.*?\]/g, '');
             }
 
-            removeLoading(loading);
-            const finalClean = aiText.replace(/\[.*?\]/g, '').trim();
-            addMessage(finalClean, 'assistant');
-
+            addMessage(aiMsg.trim(), 'ai');
             if (currentBucketIdx >= bucketOrder.length) setTimeout(endChallenge, 3000);
-        } catch (e) { removeLoading(loading); addMessage("❌ 連線異常", "assistant"); }
+        } catch (e) { addMessage("❌ 系統錯誤", "ai"); }
     }
 
-    // --- 3. 沈默救援機制 ---
-    function checkSilence() {
-        if (state !== "CHALLENGING") return;
-        silenceCount++;
-        if (silenceCount === 1) {
-            addMessage("你怎麼了，是我說話太無聊了嗎？", "assistant");
-        } else if (silenceCount >= 3) {
-            addMessage("我感覺我們還是不適合，先這樣吧。", "assistant");
-            endChallenge();
-        }
-    }
-
-    // --- 4. 輔助功能 ---
     function addMessage(text, role) {
         const div = document.createElement('div');
-        div.className = `msg ${role === 'user' ? 'user' : 'ai'}`;
-        div.style.cssText = `align-self: ${role === 'user' ? 'flex-end' : 'flex-start'}; background: ${role === 'user' ? 'orange' : '#eee'}; padding: 10px; margin: 5px; border-radius: 10px; max-width: 80%;`;
+        div.className = `msg ${role}`;
         div.innerHTML = text;
         document.getElementById('chatMsgs').appendChild(div);
         document.getElementById('chatMsgs').scrollTo(0, document.getElementById('chatMsgs').scrollHeight);
@@ -645,26 +636,18 @@
             timeLeft--;
             document.getElementById('timerDisplay').innerText = timeLeft + 's';
             if (timeLeft <= 0) endChallenge();
-            // 每 20 秒檢查一次沈默
-            if (timeLeft % 20 === 0) checkSilence();
         }, 1000);
     }
 
-    function showLoading() {
-        const div = document.createElement('div');
-        div.innerHTML = "小S 正在輸入...";
-        document.getElementById('chatMsgs').appendChild(div);
-        return div;
-    }
-
-    function removeLoading(el) { el.remove(); }
-
-    async function endChallenge() {
-        clearInterval(timerId); state = "FINISHED";
-        // 評分邏輯同前，但加入對「約會成功」的權重
+    function endChallenge() {
+        clearInterval(timerId);
+        state = "FINISHED";
+        document.getElementById('chatInput').disabled = true;
+        // 評分邏輯...
     }
 
     document.getElementById('sendBtn').onclick = handleSend;
+    document.getElementById('chatInput').onkeydown = (e) => { if(e.key === 'Enter') handleSend(); };
 </script>
 
 
