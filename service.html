@@ -758,8 +758,8 @@
 
         }
 
-    } /* This closing brace was missing! */
-
+    }
+</div>
 </style>
 
 </head>
@@ -966,109 +966,43 @@
 
 
 
-<div class="ai-doll-trigger" id="openChat"><img src="service-s.png" alt="S"></div>
+<div class="ai-doll-trigger" id="openChat">
+    <img src="service-s.png" alt="S">
+</div>
 
-
-
-<button id="challengeBtn" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 25px; cursor: pointer;">開始挑戰</button>
-
-    
+<button id="challengeBtn" style="position: fixed; bottom: 20px; left: 20px; padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 25px; cursor: pointer; z-index: 2000;">
+    開始挑戰
+</button>
 
 <div class="chat-window" id="chatWindow">
-
     <div class="chat-header">
-
-        <span>小S | **2分鐘** 實戰挑戰</span>
-
+        <span>小S | 2分鐘實戰挑戰</span>
         <div id="timerDisplay" class="timer-tag">120s</div>
-
         <span id="closeChat" style="cursor:pointer; font-size: 20px;">✕</span>
-
     </div>
-
-
 
     <div id="key-auth-area" style="background: #fff3cd; padding: 10px; font-size: 0.8rem; border-bottom: 1px solid #ffeeba; color: #856404;">
-
         <div style="display: flex; gap: 5px;">
-
             <input type="password" id="temp-key" placeholder="貼入 Groq API Key..." style="flex: 1; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
-
             <button onclick="saveKey()" style="padding: 5px 10px; cursor: pointer; background: #856404; color: white; border: none; border-radius: 4px;">啟動</button>
-
         </div>
-
-        <p style="margin: 5px 0 0 0; font-size: 0.7rem;">*Key 僅存於此分頁，安全且重新整理即消失</p>
-
+        <p style="margin: 5px 0 0 0; font-size: 0.7rem;">*Key 僅存於此分頁，重新整理即消失</p>
     </div>
-
-
 
     <div id="chatMsgs" class="chat-messages">
-
-    <div class="msg ai">
-
-        <b>【2分鐘實戰挑戰】</b><br><br>
-
-        1. 貼入 API Key 並點擊啟動<br>
-
-        2. 選擇下方你想挑戰的角色風格<br>
-
-        3. <b>在下方輸入「開始」即可啟動倒數！</b>
-
+        <div class="msg ai">
+            <b>【2分鐘實戰挑戰】</b><br><br>
+            1. 貼入 API Key 並點擊啟動<br>
+            2. <b>在下方輸入「開始」即可啟動倒數！</b><br>
+            <small>(圖示與彈窗問題已修正)</small>
+        </div>
     </div>
-
-</div>
-
-
 
     <div class="chat-input-area">
-
-        <input type="text" id="chatInput" placeholder="輸入訊息...">
-
+        <input type="text" id="chatInput" placeholder="在此輸入「開始」...">
         <button class="send-btn" id="sendBtn">➤</button>
-
     </div>
-
 </div>
-
-
-
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-是的，我已經在代碼中加入了彈窗邏輯修復。
-
-
-
-為了確保它在你的網頁上能正常「彈出」，我使用了你提供的 HTML 結構並補齊了對應的 CSS 切換邏輯。以下是完整且修正過的代碼，它包含了：
-
-
-
-彈窗修復：點擊 openChat 會顯示 chatWindow。
-
-
-
-分桶深度對話：解決「冷冰冰」和「不提問」的問題。
-
-
-
-30% 留白機制：讓用戶有機會主動帶領話題。
-
-
-
-HTML
-
-<button id="challengeBtn" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 25px; cursor: pointer;">開始挑戰</button>
 
 
 
