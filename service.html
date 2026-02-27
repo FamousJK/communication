@@ -1025,311 +1025,169 @@
 
 
 <script>
-
-// --- 0. API Key 管理 ---
+    // --- 0. API Key 管理 ---
     function saveKey() {
         const keyInput = document.getElementById('temp-key');
         const key = keyInput.value.trim();
-        
-        if (key.startsWith('gsk_')) { // 簡單檢查 Groq Key 格式
+        if (key.startsWith('gsk_')) {
             sessionStorage.setItem('GROQ_KEY', key);
-            keyInput.value = '********'; // 隱藏 Key
+            keyInput.value = '********';
             keyInput.disabled = true;
             alert('啟動成功！現在輸入「開始」來挑戰吧。');
         } else {
-            alert('請輸入正確的 Groq API Key (通常以 gsk_ 開頭)');
+            alert('請輸入正確的 Groq API Key');
         }
     }
-    
-    // --- 1. 初始化與分桶數據 ---
 
+    // --- 1. 初始化數據 ---
     const topicBuckets = {
-
         "人際關係": ["你玩交友 App 很久了嗎？", "我很怕無聊的，你會怕囉嗦的女生嗎？", "你會有很多女生的朋友嗎？"],
-
         "工作": ["你從事什麽樣的工作呀？", "平時上班都是挺忙的。你上班會忙嗎？"],
-
         "生活": ["你喜歡去旅行嗎？", "你喜歡吃東西嗎？", "你喜歡聽音樂嗎？"]
-
     };
 
-
-
     let bucketOrder = ["人際關係", "工作", "生活"];
-
     let currentBucketIdx = 0;
-
     let currentQuestionIdx = 0;
-
     let state = "READY"; 
-
     let conversationHistory = [];
-
     let timeLeft = 120;
-
     let timerId = null;
 
-
-
- // --- 2. 彈窗邏輯修復 (同時支援娃娃與所有按鈕) ---
+    // --- 2. 視窗控制 ---
     const chatWindow = document.getElementById('chatWindow');
     const closeBtn = document.getElementById('closeChat');
     const dollTrigger = document.getElementById('openChatDoll');
 
-    // 將所有按鈕 ID 放入陣列
-    const triggerIds = ['openChatDoll', 'openChatBtn1', 'openChatBtn2']; 
+    const openChat = () => {
+        chatWindow.style.display = 'flex';
+        if (dollTrigger) dollTrigger.style.display = 'none';
+    };
 
-    triggerIds.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-            el.onclick = () => {
-                chatWindow.style.display = 'flex';
-                // 打開時隱藏右下角的 S 娃娃
-                if (dollTrigger) dollTrigger.style.display = 'none';
-            };
-        }
-    });
+    const closeChat = () => {
+        chatWindow.style.display = 'none';
+        if (dollTrigger) dollTrigger.style.display = 'block';
+    };
 
-    if (closeBtn) {
-        closeBtn.onclick = () => {
-            chatWindow.style.display = 'none';
-            // 關閉時重新顯示 S 娃娃
-            if (dollTrigger) dollTrigger.style.display = 'block';
-        };
-    }
+    if (dollTrigger) dollTrigger.onclick = openChat;
+    if (closeBtn) closeBtn.onclick = closeChat;
 
-
-    // --- 3. 核心發送邏輯 ---
-
+    // --- 3. 核心邏輯 ---
     async function handleSend() {
-
         const input = document.getElementById('chatInput');
-
         const val = input.value.trim();
-
         if (!val) return;
 
-
-
         if (state === "READY" && val === "開始") {
-
             state = "CHALLENGING";
-
             addMessage(val, 'user');
-
             startTimer();
-
             addMessage(`嗨，你好，我叫小S。很高興認識你！${topicBuckets["人際關係"][0]}`, 'ai');
-
             input.value = '';
-
             return;
-
         }
 
-
-
         addMessage(val, 'user');
-
         input.value = '';
-
         
-
         const apiKey = sessionStorage.getItem('GROQ_KEY');
+        if (!apiKey) {
+            addMessage("請先輸入 API Key 並點擊啟動！", "ai");
+            return;
+        }
 
         try {
-
-            // 找出當前應問的問題
-
             let nextTopic = bucketOrder[currentBucketIdx];
-
             let nextQuestion = topicBuckets[nextTopic][currentQuestionIdx + 1];
-
             let isTransition = false;
 
-
-
             if (!nextQuestion) {
-
                 currentBucketIdx++;
-
                 currentQuestionIdx = 0;
-
                 if (currentBucketIdx < bucketOrder.length) {
-
                     nextQuestion = topicBuckets[bucketOrder[currentBucketIdx]][0];
-
                     isTransition = true;
-
                 }
-
             } else {
-
                 currentQuestionIdx++;
-
             }
 
-
-
-          // Replace the fetch call and its content with this:
-const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-    body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
-        messages: [
-            { 
-                role: "system", 
-                content: `你是傲嬌少女小S。
-                
-                當前話題：【${nextTopic}】。下一題目標：『${nextQuestion || "結尾"}』。
-                
-                規則：
-                1. **嚴格限制字數**：回答必須在 50 字以內，不要囉唆。
-                2. **個性特質**：語氣傲嬌、幽默，會分享自己的細節。
-                3. **引導話題**：通常會自然引出下一題：『${nextQuestion}』。
-                4. **約會連動**：若用戶邀約且話題連貫，則害羞答應。` 
-            },
-            ...conversationHistory.slice(-6)
-        ]
-    })
-});
-
-const data = await res.json();
-let aiMsg = data.choices[0].message.content;
-
-// --- 實作 30% 不主動提問的機率 ---
-if (Math.random() < 0.3 && !isTransition && nextQuestion) {
-    // 移除問句部分，只保留感言
-    aiMsg = aiMsg.split(/[？?]/)[0] + "。";
-    // 重要：因為這輪沒問問題，我們把索引退回 1，讓下一輪繼續問同一題
-    currentQuestionIdx--; 
-}
-
-addMessage(aiMsg.trim(), 'ai');
-
+            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+                body: JSON.stringify({
+                    model: "llama-3.3-70b-versatile",
+                    messages: [
+                        { 
+                            role: "system", 
+                            content: `你是傲嬌少女小S。回答必須在 50 字內。
+                            當前話題：【${nextTopic}】。下一題：『${nextQuestion || "結尾"}』。
+                            規則：語氣傲嬌幽默。70%機率引導至下一題，30%機率不問問題。` 
                         },
-
                         ...conversationHistory.slice(-6)
-
                     ]
-
                 })
-
             });
 
             const data = await res.json();
-
             let aiMsg = data.choices[0].message.content;
 
-
-
-            // 代碼層級控制 30% 留白機率
-
+            // 30% 留白邏輯
             if (Math.random() < 0.3 && !isTransition && nextQuestion) {
-
-                aiMsg = aiMsg.replace(/\[.*?\]/g, '').split('？')[0] + "。";
-
-                currentQuestionIdx--; // 留白時，問題進度不往前推，保留到下一輪
-
-            } else {
-
-                aiMsg = aiMsg.replace(/\[.*?\]/g, '');
-
+                aiMsg = aiMsg.split(/[？?]/)[0] + "。";
+                currentQuestionIdx--; 
             }
 
-
-
             addMessage(aiMsg.trim(), 'ai');
-
             if (currentBucketIdx >= bucketOrder.length) setTimeout(endChallenge, 3000);
-
-        } catch (e) { addMessage("❌ 訊號不穩，等我一下喔！", "ai"); }
-
+        } catch (e) { addMessage("❌ 訊號不穩，等我一下！", "ai"); }
     }
-
-
-
-    // --- 4. 輔助函數 ---
 
     function addMessage(text, role) {
-
         const div = document.createElement('div');
-
         div.className = `msg ${role === 'user' ? 'user' : 'ai'}`;
-
         div.innerHTML = text;
-
         const chatMsgs = document.getElementById('chatMsgs');
-
         chatMsgs.appendChild(div);
-
         chatMsgs.scrollTo(0, chatMsgs.scrollHeight);
-
         conversationHistory.push({ role: role === 'user' ? 'user' : 'assistant', content: text });
-
     }
-
-
 
     function startTimer() {
-
         timerId = setInterval(() => {
-
             timeLeft--;
-
             document.getElementById('timerDisplay').innerText = timeLeft + 's';
-
             if (timeLeft <= 0) endChallenge();
-
         }, 1000);
-
     }
 
+    async function endChallenge() {
+        clearInterval(timerId);
+        state = "FINISHED";
+        document.getElementById('chatInput').disabled = true;
+        addMessage("🚨 結束了！看我怎麼評價你...", "ai");
 
-
-   async function endChallenge() {
-    clearInterval(timerId);
-    state = "FINISHED";
-    document.getElementById('chatInput').disabled = true;
-    addMessage("🚨 結束了！看我怎麼評價你...", "ai");
-
-    const apiKey = sessionStorage.getItem('GROQ_KEY');
-    if (!apiKey) return;
-
-    try {
-        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json', 
-                'Authorization': `Bearer ${apiKey}` 
-            },
-            body: JSON.stringify({
-                model: "llama-3.3-70b-versatile",
-                messages: [
-                    { 
-                        role: "system", 
-                        content: "你是專業溝通導師。請針對剛才的對話紀錄，給用戶一個 1-100 的評分，並用繁體中文在 50 字內給出具體的社交建議。" 
-                    },
-                    ...conversationHistory
-                ]
-            })
-        });
-        const data = await res.json();
-        const evaluation = data.choices[0].message.content;
-        addMessage(`<b>【實戰評價】</b><br>${evaluation}`, 'ai');
-    } catch (e) {
-        addMessage("評分系統暫時斷訊，但剛才的交流很有趣喔！", "ai");
+        const apiKey = sessionStorage.getItem('GROQ_KEY');
+        try {
+            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+                body: JSON.stringify({
+                    model: "llama-3.3-70b-versatile",
+                    messages: [
+                        { role: "system", content: "你是專業導師。請給對話評分 1-100 並給予 50 字內繁體中文社交建議。" },
+                        ...conversationHistory
+                    ]
+                })
+            });
+            const data = await res.json();
+            addMessage(`<b>【實戰評價】</b><br>${data.choices[0].message.content}`, 'ai');
+        } catch (e) { addMessage("評分失敗。", "ai"); }
     }
-}
 
-
-    
-
+    // --- 4. 綁定按鈕 ---
     document.getElementById('sendBtn').onclick = handleSend;
-
     document.getElementById('chatInput').onkeydown = (e) => { if(e.key === 'Enter') handleSend(); };
-
 </script>
 
 
