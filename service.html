@@ -529,6 +529,7 @@
     let timeLeft = 120;
     let timerId = null;
 
+    // --- 2. 介面控制 ---
     const chatWindow = document.getElementById('chatWindow');
     const dollTrigger = document.getElementById('openChat');
     const chatInput = document.getElementById('chatInput');
@@ -536,7 +537,6 @@
     const chatMsgs = document.getElementById('chatMsgs');
     const timerDisplay = document.getElementById('timerDisplay');
 
-    // --- 2. 控制邏輯 ---
     if (dollTrigger) dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
     const closeBtn = document.getElementById('closeChat');
     if (closeBtn) closeBtn.onclick = () => { chatWindow.style.display = 'none'; if(dollTrigger) dollTrigger.style.display = 'flex'; };
@@ -550,7 +550,7 @@
         } else { alert('Key 格式錯誤'); }
     };
 
-    // --- 3. 核心修正：讓機器人「先讀再接」 ---
+    // --- 3. 核心修正：動態銜接語與語境理解 ---
     async function handleSend() {
         const val = chatInput.value.trim();
         if (!val) return;
@@ -571,7 +571,7 @@
 
             const apiKey = sessionStorage.getItem('GROQ_KEY');
             try {
-                // 重點：要求 AI 閱讀用戶的話，生成「有意義的回應」並用「那麼」轉場
+                // 重點：AI 現在會根據用戶的話選擇最適合的轉折詞
                 const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
@@ -579,17 +579,12 @@
                         model: "llama-3.3-70b-versatile",
                         messages: [{ 
                             role: "system", 
-                            content: "你是一個正在跟人聊天的傲嬌女生。用戶剛剛回應了你的評論，請你：1. 先針對用戶的話給出一句真誠或有情緒的回應（例如：『原來你是會計師喔，感覺好專業』）。 2. 在結尾加上『那麼...』來銜接下一個問題。字數限制 20 字內。" 
+                            content: "你是一個傲嬌少女。請閱讀用戶的話並給出一句有情緒的回應。接著，根據語境選擇一個最自然的轉折詞（例如：不過、對了、話說回來、先不聊這個、那、倒是你...）來結束這句話，以便銜接下一個話題。字數極簡。" 
                         }, { role: "user", content: val }]
                     })
                 });
                 const data = await res.json();
                 let aiReaction = data.choices[0].message.content;
-
-                // 強制確保有轉折詞
-                if (!aiReaction.includes("那麼") && !aiReaction.includes("那麽")) {
-                    aiReaction += "，那麼...";
-                }
 
                 currentStep++;
                 if (dialogueFlow[currentStep]) {
@@ -620,7 +615,7 @@
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
                     messages: [
-                        { role: "system", content: "判斷用戶語意並回傳 JSON：{\"sentiment\": \"yes/no\", \"prefix\": \"像真人的短情緒詞（如：真的喔、真的假的、喔？）\"}" }, 
+                        { role: "system", content: "判斷用戶語意並回傳 JSON：{\"sentiment\": \"yes/no\", \"prefix\": \"像真人的情緒詞（如：喔？、是喔、真的假的、好吧）\"}" }, 
                         { role: "user", content: userText }
                     ],
                     response_format: { type: "json_object" }
@@ -641,7 +636,7 @@
     async function endChallenge() {
         if (state === "FINISHED") return;
         clearInterval(timerId); state = "FINISHED"; chatInput.disabled = true;
-        addMessage("🚨 <b>結束！</b> 正在進行評審...", 'ai');
+        addMessage("🚨 <b>結束！</b> 正在進行嚴格評審...", 'ai');
         const apiKey = sessionStorage.getItem('GROQ_KEY');
         try {
             const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -649,12 +644,12 @@
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
-                    messages: [{ role: "system", content: "你是極度毒舌的專家。用一小句話極端挑剔地給分。格式：[點評] [X/10]。低於 5 分為常態。" }, { role: "user", content: JSON.stringify(conversationHistory) }]
+                    messages: [{ role: "system", content: "你是極端挑剔的毒舌專家。請根據對話質量給分。格式：[犀利點評] [X/10]。低於 5 分是正常的。" }, { role: "user", content: JSON.stringify(conversationHistory) }]
                 })
             });
             const data = await res.json();
             addMessage(`🎯 <b>評核：</b><br>${data.choices[0].message.content}`, 'ai');
-        } catch (e) { addMessage("無法生成評分", 'ai'); }
+        } catch (e) { addMessage("評分失敗", 'ai'); }
     }
 
     function addMessage(text, side) {
