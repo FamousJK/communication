@@ -512,7 +512,6 @@
 </div>
 
 <script>
-    // --- 1. 核心話題資料庫 (僅保留問題，不設固定回覆) ---
     const dialogueFlow = [
         "你玩交友 App 很久了嗎？",
         "我很怕無聊的，感覺我們沒有什麽話題。",
@@ -524,25 +523,19 @@
     ];
 
     let currentStep = 0;
+    let usedSteps = new Set(); // 紀錄已聊過的話題索引
     let state = "READY"; 
-    let conversationHistory = []; // 儲存所有對話，讓 AI 有記憶
+    let conversationHistory = [];
     let timeLeft = 120;
     let timerId = null;
 
-    // --- 2. 介面元件 ---
     const chatWindow = document.getElementById('chatWindow');
     const dollTrigger = document.getElementById('openChat');
     const chatInput = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
     const chatMsgs = document.getElementById('chatMsgs');
 
-    // 啟動彈窗邏輯
-    if (dollTrigger) {
-        dollTrigger.onclick = () => {
-            chatWindow.style.display = 'flex';
-            dollTrigger.style.display = 'none';
-        };
-    }
+    if (dollTrigger) dollTrigger.onclick = () => { chatWindow.style.display = 'flex'; dollTrigger.style.display = 'none'; };
 
     window.saveKey = function() {
         const key = document.getElementById('temp-key').value.trim();
@@ -553,7 +546,6 @@
         }
     };
 
-    // --- 3. 核心邏輯：具備「閱讀理解」與「自然轉場」的 handleSend ---
     async function handleSend() {
         const val = chatInput.value.trim();
         if (!val) return;
@@ -565,6 +557,7 @@
             startTimer();
             const firstMsg = `嗨，你好，我叫小S。${dialogueFlow[0]}`;
             addMessage(firstMsg, 'assistant');
+            usedSteps.add(0);
             chatInput.value = '';
             return;
         }
@@ -573,10 +566,17 @@
         chatInput.value = '';
         
         const loading = document.createElement('div');
-        loading.className = 'msg ai'; loading.innerHTML = '正在思考...'; chatMsgs.appendChild(loading);
+        loading.className = 'msg ai'; loading.innerHTML = '...'; chatMsgs.appendChild(loading);
 
         const apiKey = sessionStorage.getItem('GROQ_KEY');
         try {
+            // 找出下一個還沒聊過的話題
+            let nextTopicIndex = currentStep + 1;
+            while (usedSteps.has(nextTopicIndex) && nextTopicIndex < dialogueFlow.length) {
+                nextTopicIndex++;
+            }
+            const nextQuestion = dialogueFlow[nextTopicIndex] || "我們聊得真投緣。";
+
             const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
@@ -585,64 +585,39 @@
                     messages: [
                         { 
                             role: "system", 
-                            content: `你是傲嬌少女小S。你的任務：
-                            1. **閱讀與共情**：針對用戶的話給出有邏輯的回應（例如：用戶說也是會計師，你要給出相關的社交回應，不要像機器人）。
-                            2. **話題引導**：
-                               - 若用戶話沒說完，請**追問**細節，不要換題。
-                               - 若話題結束，請選用適合的轉場詞（如：不過、對了、話說回來、那...）帶入下一題：『${dialogueFlow[currentStep + 1] || "結尾"}』。
-                            3. **狀態標記**：若你決定進入下一題，結尾加上 [NEXT]；若繼續聊原話題，加上 [KEEP]。`
+                            content: `你是小S，一個感性、真實且傲嬌的少女。
+                            核心規則：
+                            1. **深度閱讀**：根據用戶剛才的話給予真誠、有邏輯的回應。
+                            2. **記憶檢查**：如果用戶已經主動提到了某些訊息（如職業、興趣），不要再問清單上的重複問題。
+                            3. **轉場邏輯**：當你覺得目前話題聊夠了，使用自然的轉折詞帶入下一題：『${nextQuestion}』。
+                            4. 如果你提問了下一題，結尾加上 [NEXT]，否則加上 [KEEP]。`
                         },
-                        ...conversationHistory.slice(-6)
+                        ...conversationHistory.slice(-8)
                     ]
                 })
             });
             const data = await res.json();
             let aiText = data.choices[0].message.content;
 
-            // 判斷 AI 是否執行了「轉場」
             if (aiText.includes("[NEXT]")) {
-                currentStep++;
+                currentStep = nextTopicIndex;
+                usedSteps.add(currentStep);
             }
             
-            // 清理標記並顯示
             const finalCleanText = aiText.replace(/\[KEEP\]|\[NEXT\]/g, '').trim();
             loading.innerHTML = finalCleanText;
             conversationHistory.push({ role: 'assistant', content: finalCleanText });
 
-            if (currentStep >= dialogueFlow.length) {
+            if (currentStep >= dialogueFlow.length - 1 && aiText.includes("[NEXT]")) {
                 setTimeout(endChallenge, 2000);
             }
-        } catch (e) { loading.innerHTML = "❌ 連線錯誤"; }
-    }
-
-    // --- 4. 輔助函數 ---
-    function addMessage(text, role) {
-        const div = document.createElement('div'); 
-        div.className = `msg ${role === 'user' ? 'user' : 'ai'}`;
-        // 為了確保顯示，簡單給點樣式
-        div.style.alignSelf = role === 'user' ? "flex-end" : "flex-start";
-        div.style.background = role === 'user' ? "#ff9800" : "#e0e0e0";
-        div.style.padding = "10px";
-        div.style.margin = "5px";
-        div.style.borderRadius = "10px";
-        div.innerHTML = text;
-        chatMsgs.appendChild(div); 
-        chatMsgs.scrollTo({ top: chatMsgs.scrollHeight, behavior: 'smooth' });
-        conversationHistory.push({ role: role === 'user' ? 'user' : 'assistant', content: text });
-    }
-
-    function startTimer() {
-        timerId = setInterval(() => {
-            timeLeft--;
-            document.getElementById('timerDisplay').innerText = timeLeft + 's';
-            if (timeLeft <= 0) endChallenge();
-        }, 1000);
+        } catch (e) { loading.innerHTML = "❌ 系統錯誤"; }
     }
 
     async function endChallenge() {
         if (state === "FINISHED") return;
         clearInterval(timerId); state = "FINISHED"; chatInput.disabled = true;
-        addMessage("🚨 結束！正在生成嚴格評核...", 'assistant');
+        addMessage("🚨 結束！正在進行專業社交評核...", 'assistant');
         
         const apiKey = sessionStorage.getItem('GROQ_KEY');
         try {
@@ -652,20 +627,38 @@
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
                     messages: [
-                        { role: "system", content: "你是極度毒舌的社交專家。請用一句話點評並給分。格式：[點評] X/10。" },
+                        { role: "system", content: "你是一位社交教練。請分析這段對話。如果用戶展現了幽默感、成功達成約會、或提供了高品質的情緒價值，請給予高分。若出現邏輯重複或生硬對話則扣分。格式：[點評] X/10。" },
                         { role: "user", content: JSON.stringify(conversationHistory) }
                     ]
                 })
             });
             const data = await res.json();
             addMessage(`🎯 <b>評核：</b><br>${data.choices[0].message.content}`, 'assistant');
-        } catch (e) { addMessage("評分出錯", 'assistant'); }
+        } catch (e) { addMessage("評分失敗", 'assistant'); }
+    }
+
+    function addMessage(text, role) {
+        const div = document.createElement('div'); 
+        div.className = `msg ${role === 'user' ? 'user' : 'ai'}`;
+        div.style.alignSelf = role === 'user' ? "flex-end" : "flex-start";
+        div.style.background = role === 'user' ? "orange" : "#f0f0f0";
+        div.style.padding = "10px"; div.style.margin = "5px"; div.style.borderRadius = "10px";
+        div.innerHTML = text;
+        chatMsgs.appendChild(div); 
+        chatMsgs.scrollTo({ top: chatMsgs.scrollHeight, behavior: 'smooth' });
+        conversationHistory.push({ role: role === 'user' ? 'user' : 'assistant', content: text });
+    }
+
+    function startTimer() {
+        timerId = setInterval(() => {
+            timeLeft--; document.getElementById('timerDisplay').innerText = timeLeft + 's';
+            if (timeLeft <= 0) endChallenge();
+        }, 1000);
     }
 
     sendBtn.onclick = handleSend;
     chatInput.onkeydown = (e) => { if (e.key === 'Enter') handleSend(); };
 </script>
-
 
 
     
