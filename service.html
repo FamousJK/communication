@@ -964,7 +964,7 @@
 
 
 
-<button id="openChat" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 25px; cursor: pointer;">開始挑戰</button>
+<button id="challengeBtn" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 25px; cursor: pointer;">開始挑戰</button>
 
     
 
@@ -1062,286 +1062,165 @@
 
 HTML
 
-<button id="openChat" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 25px; cursor: pointer; margin: 20px;">開始挑戰</button>
+<button id="challengeBtn" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 25px; cursor: pointer;">開始挑戰</button>
 
 
 
 <script>
 
-    // --- 1. 初始化與分桶數據 ---
+// --- 1. 初始化與分桶數據 ---
+const topicBuckets = {
+    "人際關係": ["你玩交友 App 很久了嗎？", "我很怕無聊的，你會怕囉嗦的女生嗎？", "你會有很多女生的朋友嗎？"],
+    "工作": ["你從事什麽樣的工作呀？", "平時上班都是挺忙的。你上班會忙嗎？"],
+    "生活": ["你喜歡去旅行嗎？", "你喜歡吃東西嗎？", "你喜歡聽音樂嗎？"]
+};
 
-    const topicBuckets = {
+let bucketOrder = ["人際關係", "工作", "生活"];
+let currentBucketIdx = 0;
+let currentQuestionIdx = 0;
+let state = "READY"; 
+let conversationHistory = [];
+let timeLeft = 120;
+let timerId = null;
 
-        "人際關係": ["你玩交友 App 很久了嗎？", "我很怕無聊的，你會怕囉嗦的女生嗎？", "你會有很多女生的朋友嗎？"],
+// --- 2. 視窗控制邏輯 (修正：確保所有觸發器都有效) ---
+const chatWindow = document.getElementById('chatWindow');
+const dollTrigger = document.getElementById('openChat');      // 橘色小人
+const challengeBtn = document.getElementById('challengeBtn'); // 開始挑戰按鈕
+const closeBtn = document.getElementById('closeChat');
 
-        "工作": ["你從事什麽樣的工作呀？", "平時上班都是挺忙的。你上班會忙嗎？"],
+[dollTrigger, challengeBtn].forEach(el => {
+    if (el) {
+        el.onclick = () => {
+            chatWindow.style.display = 'flex';
+        };
+    }
+});
 
-        "生活": ["你喜歡去旅行嗎？", "你喜歡吃東西嗎？", "你喜歡聽音樂嗎？"]
-
+if (closeBtn) {
+    closeBtn.onclick = () => {
+        chatWindow.style.display = 'none';
     };
+}
 
-
-
-    let bucketOrder = ["人際關係", "工作", "生活"];
-
-    let currentBucketIdx = 0;
-
-    let currentQuestionIdx = 0;
-
-    let state = "READY"; 
-
-    let conversationHistory = [];
-
-    let timeLeft = 120;
-
-    let timerId = null;
-
-
-
-    // --- 2. 彈窗邏輯修復 (關鍵：控制 Display) ---
-
-    const chatWindow = document.getElementById('chatWindow');
-
-    const openBtn = document.getElementById('openChat');
-
-    const closeBtn = document.getElementById('closeChat');
-
-
-
-    if (openBtn) {
-
-        openBtn.onclick = () => {
-
-            chatWindow.style.display = 'flex'; // 顯示視窗
-
-            openBtn.style.display = 'none';    // 隱藏啟動按鈕
-
-        };
-
+// --- 3. 啟動按鈕邏輯 ---
+function saveKey() {
+    const key = document.getElementById('temp-key').value.trim();
+    if(key.startsWith('gsk_')) {
+        sessionStorage.setItem('GROQ_KEY', key);
+        document.getElementById('key-auth-area').style.display = 'none';
+        alert("系統已啟動！請在對話框輸入「開始」來啟動挑戰。");
+    } else {
+        alert("請輸入有效的 Groq API Key");
     }
+}
 
+// --- 4. 核心發送邏輯 (含 30% 留白機制) ---
+async function handleSend() {
+    const input = document.getElementById('chatInput');
+    const val = input.value.trim();
+    if (!val) return;
 
-
-    if (closeBtn) {
-
-        closeBtn.onclick = () => {
-
-            chatWindow.style.display = 'none'; // 隱藏視窗
-
-            if(openBtn) openBtn.style.display = 'block'; // 顯示啟動按鈕
-
-        };
-
-    }
-
-
-
-    // --- 3. 核心發送邏輯 ---
-
-    async function handleSend() {
-
-        const input = document.getElementById('chatInput');
-
-        const val = input.value.trim();
-
-        if (!val) return;
-
-
-
-        if (state === "READY" && val === "開始") {
-
-            state = "CHALLENGING";
-
-            addMessage(val, 'user');
-
-            startTimer();
-
-            addMessage(`嗨，你好，我叫小S。很高興認識你！${topicBuckets["人際關係"][0]}`, 'ai');
-
-            input.value = '';
-
+    // 處理啟動指令
+    if (state === "READY" && val === "開始") {
+        const apiKey = sessionStorage.getItem('GROQ_KEY');
+        if(!apiKey) {
+            alert("請先輸入 API Key 並點擊啟動");
             return;
+        }
+        state = "CHALLENGING";
+        addMessage(val, 'user');
+        startTimer();
+        addMessage(`嗨，你好，我叫小S。很高興認識你！${topicBuckets["人際關係"][0]}`, 'ai');
+        input.value = '';
+        return;
+    }
 
+    addMessage(val, 'user');
+    input.value = '';
+    
+    const apiKey = sessionStorage.getItem('GROQ_KEY');
+    if (!apiKey) return;
+
+    try {
+        let nextTopic = bucketOrder[currentBucketIdx];
+        let nextQuestion = topicBuckets[nextTopic][currentQuestionIdx + 1];
+        let isTransition = false;
+
+        if (!nextQuestion) {
+            currentBucketIdx++;
+            currentQuestionIdx = 0;
+            if (currentBucketIdx < bucketOrder.length) {
+                nextQuestion = topicBuckets[bucketOrder[currentBucketIdx]][0];
+                isTransition = true;
+            }
+        } else {
+            currentQuestionIdx++;
         }
 
-
-
-        addMessage(val, 'user');
-
-        input.value = '';
-
-        
-
-        const apiKey = sessionStorage.getItem('GROQ_KEY');
-
-        try {
-
-            // 找出當前應問的問題
-
-            let nextTopic = bucketOrder[currentBucketIdx];
-
-            let nextQuestion = topicBuckets[nextTopic][currentQuestionIdx + 1];
-
-            let isTransition = false;
-
-
-
-            if (!nextQuestion) {
-
-                currentBucketIdx++;
-
-                currentQuestionIdx = 0;
-
-                if (currentBucketIdx < bucketOrder.length) {
-
-                    nextQuestion = topicBuckets[bucketOrder[currentBucketIdx]][0];
-
-                    isTransition = true;
-
-                }
-
-            } else {
-
-                currentQuestionIdx++;
-
-            }
-
-
-
-            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-
-                method: 'POST',
-
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-
-                body: JSON.stringify({
-
-                    model: "llama-3.3-70b-versatile",
-
-                    messages: [
-
-                        { 
-
-                            role: "system", 
-
-                            content: `你是傲嬌少女小S。
-
-                            
-
-                            當前話題：【${nextTopic}】。下一題：『${nextQuestion || "結尾"}』。
-
-                            
-
-                            規則：
-
-                            1. **拒絕冷淡**：回應要豐富（40-80字），分享你的工作或生活細節。
-
-                            2. **提問策略**：
-
-                               - 70% 機率：給予回饋並自然引出下一題：『${nextQuestion}』。
-
-                               - 30% 機率：只給感想，結尾加 [SILENCE] 讓用戶發揮。
-
-                            3. **約會連動**：若用戶邀約且話題具備連貫性（例如聊到節目約探班），則害羞答應。` 
-
-                        },
-
-                        ...conversationHistory.slice(-6)
-
-                    ]
-
-                })
-
-            });
-
-            const data = await res.json();
-
-            let aiMsg = data.choices[0].message.content;
-
-
-
-            // 代碼層級控制 30% 留白機率
-
-            if (Math.random() < 0.3 && !isTransition && nextQuestion) {
-
-                aiMsg = aiMsg.replace(/\[.*?\]/g, '').split('？')[0] + "。";
-
-                currentQuestionIdx--; // 留白時，問題進度不往前推，保留到下一輪
-
-            } else {
-
-                aiMsg = aiMsg.replace(/\[.*?\]/g, '');
-
-            }
-
-
-
-            addMessage(aiMsg.trim(), 'ai');
-
-            if (currentBucketIdx >= bucketOrder.length) setTimeout(endChallenge, 3000);
-
-        } catch (e) { addMessage("❌ 訊號不穩，等我一下喔！", "ai"); }
-
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+            body: JSON.stringify({
+                model: "llama-3.3-70b-versatile",
+                messages: [
+                    { 
+                        role: "system", 
+                        content: `你是傲嬌少女小S。
+                        規則：
+                        1. 拒絕冷淡：回應要豐富（40-80字）。
+                        2. 提問策略：
+                           - 70% 機率：給予回饋並自然引出下一題：『${nextQuestion || "無"}』。
+                           - 30% 機率：只給感想，結尾加 [SILENCE] 絕對不准提問。` 
+                    },
+                    ...conversationHistory.slice(-6)
+                ]
+            })
+        });
+
+        const data = await res.json();
+        let aiMsg = data.choices[0].message.content;
+
+        // 強制執行 30% 留白（截斷 AI 的提問）
+        if (aiMsg.includes("[SILENCE]") && !isTransition) {
+            aiMsg = aiMsg.replace("[SILENCE]", "").split('？')[0] + "。";
+            currentQuestionIdx--; // 進度倒退一格，下次再問
+        }
+
+        addMessage(aiMsg.replace("[SILENCE]", "").trim(), 'ai');
+        if (currentBucketIdx >= bucketOrder.length && currentQuestionIdx === 0) setTimeout(endChallenge, 3000);
+    } catch (e) { 
+        addMessage("❌ 訊號不穩，等我一下喔！", "ai"); 
     }
+}
 
+function addMessage(text, role) {
+    const div = document.createElement('div');
+    div.className = `msg ${role === 'user' ? 'user' : 'ai'}`;
+    div.innerHTML = text;
+    const chatMsgs = document.getElementById('chatMsgs');
+    chatMsgs.appendChild(div);
+    chatMsgs.scrollTo(0, chatMsgs.scrollHeight);
+    conversationHistory.push({ role: role === 'user' ? 'user' : 'assistant', content: text });
+}
 
+function startTimer() {
+    timerId = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timerDisplay').innerText = timeLeft + 's';
+        if (timeLeft <= 0) endChallenge();
+    }, 1000);
+}
 
-    // --- 4. 輔助函數 ---
+function endChallenge() {
+    clearInterval(timerId);
+    state = "FINISHED";
+    document.getElementById('chatInput').disabled = true;
+    addMessage("🚨 挑戰結束！想知道 JK 老師對你的評價嗎？歡迎點擊頁面按鈕預約諮詢！", "ai");
+}
 
-    function addMessage(text, role) {
-
-        const div = document.createElement('div');
-
-        div.className = `msg ${role === 'user' ? 'user' : 'ai'}`;
-
-        div.innerHTML = text;
-
-        const chatMsgs = document.getElementById('chatMsgs');
-
-        chatMsgs.appendChild(div);
-
-        chatMsgs.scrollTo(0, chatMsgs.scrollHeight);
-
-        conversationHistory.push({ role: role === 'user' ? 'user' : 'assistant', content: text });
-
-    }
-
-
-
-    function startTimer() {
-
-        timerId = setInterval(() => {
-
-            timeLeft--;
-
-            document.getElementById('timerDisplay').innerText = timeLeft + 's';
-
-            if (timeLeft <= 0) endChallenge();
-
-        }, 1000);
-
-    }
-
-
-
-    function endChallenge() {
-
-        clearInterval(timerId);
-
-        state = "FINISHED";
-
-        document.getElementById('chatInput').disabled = true;
-
-        addMessage("🚨 結束了！看我怎麼評價你...", "ai");
-
-    }
-
-
-
-    document.getElementById('sendBtn').onclick = handleSend;
-
-    document.getElementById('chatInput').onkeydown = (e) => { if(e.key === 'Enter') handleSend(); };
-
+document.getElementById('sendBtn').onclick = handleSend;
+document.getElementById('chatInput').onkeydown = (e) => { if(e.key === 'Enter') handleSend(); };
 </script>
 
 
