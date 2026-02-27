@@ -366,31 +366,37 @@
 
         /* --- AI 聊天視窗樣式 --- */
 
-        .ai-doll-trigger { 
+/* --- 統一修復後的 Bot 圖示樣式 --- */
+/* 確保這個區塊覆蓋掉之前的舊設定 */
+.ai-doll-trigger {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2000;
+    cursor: pointer;
+    transform-origin: center;
+    will-change: transform;
+    /* 動畫微調：縮小幅度改為 1.05 避免像素重算導致的閃爍 */
+    animation: orange-glow 3s infinite ease-in-out;
+}
 
-            position: fixed; bottom: 20px; right: 20px; width: 90px; height: 90px; z-index: 2000; cursor: pointer;
-
-            animation: orange-glow 2s infinite ease-in-out; border-radius: 50%;
-
-        }
-
-        @keyframes orange-glow {
-
-            0% { box-shadow: 0 0 5px rgba(243, 156, 18, 0.4); transform: scale(1); }
-
-            50% { box-shadow: 0 0 30px rgba(243, 156, 18, 0.9); transform: scale(1.08); }
-
-            100% { box-shadow: 0 0 5px rgba(243, 156, 18, 0.4); transform: scale(1); }
-
-        }
-
-        
-
-        .ai-doll-trigger img { 
-
-            width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; background: var(--ai-orange); padding: 5px; 
-
-        }
+.ai-doll-trigger img { 
+    width: 80px !important; 
+    height: 80px !important; 
+    border-radius: 50% !important; 
+    border: 4px solid white !important; 
+    background: var(--ai-orange); 
+    padding: 0 !important;           /* 絕對不要內邊距，否則圖片會縮小變形 */
+    object-fit: cover !important;    /* 裁切多餘部分，保持比例 */
+    display: block;
+    image-rendering: -webkit-optimize-contrast; 
+    image-rendering: crisp-edges;    /* 增強邊緣清晰度 */
+}
+@keyframes orange-glow {
+    0% { box-shadow: 0 0 5px rgba(243, 156, 18, 0.4); transform: scale(1); }
+    50% { box-shadow: 0 0 30px rgba(243, 156, 18, 0.9); transform: scale(1.05); } /* 縮小幅度減少至 1.05 較不易失真 */
+    100% { box-shadow: 0 0 5px rgba(243, 156, 18, 0.4); transform: scale(1); }
+}
 
 
 
