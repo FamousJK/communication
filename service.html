@@ -532,9 +532,10 @@
 </div>
 
 <script>
-    // --- 定義對話資料庫 (您的表格邏輯) ---
+    // --- 1. 您的表格邏輯資料庫 ---
     const dialogueFlow = {
         1: {
+            topic: "生活",
             question: "你玩交友 App 很久了嗎？",
             responses: {
                 "yes": ["我就剛剛開始玩 App 的，感覺很多騙子。", "你遇到過奇怪的人嗎？"],
@@ -542,6 +543,7 @@
             }
         },
         2: {
+            topic: "生活",
             question: "我很怕無聊的，感覺我們沒有什麽話題。",
             responses: {
                 "yes": ["嗯"],
@@ -549,6 +551,7 @@
             }
         },
         3: {
+            topic: "生活",
             question: "你會有很多女生的朋友嗎？",
             responses: {
                 "yes": ["看來你是多情種。", "那麽多女生朋友還在網上認識其他女生嗎？"],
@@ -556,13 +559,15 @@
             }
         },
         4: {
+            topic: "工作",
             question: "你從事什麽樣的工作呀？",
             responses: {
                 "yes": ["我是一個會計師。"],
-                "no": ["我是一個會計師。"] // 根據表格，此題均回覆會計師
+                "no": ["我是一個會計師。"]
             }
         },
         5: {
+            topic: "工作",
             question: "平時上班都是挺忙的。你上班會忙嗎？",
             responses: {
                 "yes": ["大家工作太辛苦了，我每個季度還需要加班。", "那麽你怎麼安排你的時間呀？"],
@@ -570,6 +575,7 @@
             }
         },
         6: {
+            topic: "旅行",
             question: "你喜歡去旅行嗎？",
             responses: {
                 "yes": ["你都去過哪裏旅行呀？", "我最喜歡日本。", "我最喜歡歐洲。"],
@@ -577,6 +583,7 @@
             }
         },
         7: {
+            topic: "食物",
             question: "你喜歡吃東西嗎？",
             responses: {
                 "yes": ["我就喜歡吃日料，尤其是刺身！", "我喜歡吃意大利菜，你呢？"],
@@ -585,89 +592,50 @@
         }
     };
 
-    let currentStep = 1; // 追蹤目前進行到第幾題
+    // --- 2. 全域變數 ---
+    let currentStep = 1;
     let state = "READY";
     let conversationHistory = [];
+    let timeLeft = 120;
+    let timerId = null;
 
-    // UI 相關宣告 (與您原本的 HTML ID 對接)
+    // --- 3. DOM 元素 ---
+    const chatWindow = document.getElementById('chatWindow');
+    const dollTrigger = document.getElementById('openChat');
     const chatInput = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
     const chatMsgs = document.getElementById('chatMsgs');
+    const timerDisplay = document.getElementById('timerDisplay');
 
-    // 啟動對話
-    function handleSend() {
-        const val = chatInput.value.trim();
-        if (!val) return;
+    // --- 4. 視窗控制功能 ---
+    dollTrigger.onclick = () => { 
+        chatWindow.style.display = 'flex'; 
+        dollTrigger.style.display = 'none'; 
+    };
 
-        if (state === "READY" && val === "開始") {
-            state = "CHALLENGING";
-            chatMsgs.innerHTML = '';
-            addMessage(val, 'user');
-            // 輸出第 1 題
-            setTimeout(() => addMessage(`嗨，你好，我的名字叫 小S，很高興認識你。${dialogueFlow[currentStep].question}`, 'ai'), 500);
+    document.getElementById('closeChat').onclick = () => { 
+        chatWindow.style.display = 'none'; 
+        dollTrigger.style.display = 'flex'; 
+    };
+
+    // 儲存 API Key 並解鎖
+    window.saveKey = function() {
+        const key = document.getElementById('temp-key').value.trim();
+        if (key.startsWith('gsk_')) {
+            sessionStorage.setItem('GROQ_KEY', key);
+            document.getElementById('key-auth-area').style.display = 'none';
+            document.querySelectorAll('.style-btn').forEach(btn => btn.disabled = false);
+            chatInput.disabled = false;
+            sendBtn.disabled = false;
+            chatInput.placeholder = "輸入「開始」啟動挑戰...";
+            chatInput.value = "開始";
         } else {
-            addMessage(val, 'user');
-            processAIResponse(val);
+            alert('請輸入正確的 Groq Key');
         }
-        chatInput.value = '';
-    }
+    };
 
-    async function processAIResponse(userText) {
-        const loadingDiv = document.createElement('div');
-        loadingDiv.className = 'msg ai';
-        loadingDiv.innerHTML = '正在分析你的回答...';
-        chatMsgs.appendChild(loadingDiv);
-        
-        const apiKey = sessionStorage.getItem('GROQ_KEY');
-        const currentData = dialogueFlow[currentStep];
-
-        try {
-            // 1. 先叫 AI 判斷用戶的回答是「正向/肯定」還是「負向/否定」
-            const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-                body: JSON.stringify({
-                    model: "llama-3.3-70b-versatile",
-                    messages: [
-                        { role: "system", content: "你是一個語意判斷器。請分析用戶的話，如果用戶表示肯定、有、會、喜歡，回傳 'yes'。如果用戶表示否定、沒有、不會、不喜歡，回傳 'no'。只需回傳單字，不要解釋。" },
-                        { role: "user", content: userText }
-                    ]
-                })
-            });
-            const data = await response.json();
-            const sentiment = data.choices[0].message.content.toLowerCase().includes('yes') ? 'yes' : 'no';
-
-            // 2. 根據判斷結果，從對應類別隨機挑選一個回應
-            const possibleReplies = currentData.responses[sentiment];
-            const aiComment = possibleReplies[Math.floor(Math.random() * possibleReplies.length)];
-
-            // 3. 前進到下一題
-            currentStep++;
-            
-            if (dialogueFlow[currentStep]) {
-                const nextQuestion = dialogueFlow[currentStep].question;
-                loadingDiv.innerHTML = `${aiComment}<br><br>${nextQuestion}`;
-            } else {
-                loadingDiv.innerHTML = `${aiComment}<br><br>挑戰結束！這是我對你的最後一個問題了。`;
-                endChallenge();
-            }
-
-            conversationHistory.push({ role: 'assistant', content: loadingDiv.innerHTML });
-
-        } catch (error) {
-            loadingDiv.innerHTML = "❌ 連線失敗，請檢查 Key。";
-        }
-    }
-
-    // 評分邏輯 (延續之前的評分)
-    async function endChallenge() {
-        state = "FINISHED";
-        chatInput.disabled = true;
-        // ... (這裡可以接您原本的 endChallenge 評分程式碼)
-    }
-
-    // 將 addMessage 改為單純顯示，不處理邏輯
-    function addMessage(text, side) {
+    // --- 5. 對話核心邏輯 ---
+    async function addMessage(text, side) {
         const div = document.createElement('div');
         div.className = `msg ${side}`;
         div.innerHTML = text;
@@ -676,8 +644,107 @@
         conversationHistory.push({ role: side === 'user' ? 'user' : 'assistant', content: text });
     }
 
+    async function handleSend() {
+        const val = chatInput.value.trim();
+        if (!val) return;
+
+        if (state === "READY" && val === "開始") {
+            state = "CHALLENGING";
+            chatMsgs.innerHTML = '';
+            document.getElementById('mbtiBar').classList.add('shrunk');
+            document.getElementById('topicBar').classList.add('shrunk');
+            addMessage(val, 'user');
+            startTimer();
+            
+            // 第一題開場
+            setTimeout(() => {
+                addMessage(`嗨，你好，我的名字叫 小S，很高興認識你。<br><br>${dialogueFlow[1].question}`, 'ai');
+            }, 500);
+        } else if (state === "CHALLENGING") {
+            addMessage(val, 'user');
+            await processLogic(val);
+        }
+        chatInput.value = '';
+    }
+
+    async function processLogic(userText) {
+        const apiKey = sessionStorage.getItem('GROQ_KEY');
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'msg ai';
+        loadingDiv.innerHTML = '小S 正在思考...';
+        chatMsgs.appendChild(loadingDiv);
+
+        try {
+            // STEP 1: 讓 AI 判斷這句話是 Yes 還是 No
+            const senseResponse = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+                body: JSON.stringify({
+                    model: "llama-3.3-70b-versatile",
+                    messages: [
+                        { role: "system", content: "你是一個語意判斷器。分析用戶的話，如果用戶表示肯定、有、會、喜歡，回傳 'yes'。如果表示否定、沒有、不會、不喜歡，回傳 'no'。只需回傳單字。" },
+                        { role: "user", content: userText }
+                    ]
+                })
+            });
+            const senseData = await senseResponse.json();
+            const sentiment = senseData.choices[0].message.content.toLowerCase().includes('yes') ? 'yes' : 'no';
+
+            // STEP 2: 從表格邏輯中選取回應
+            const currentData = dialogueFlow[currentStep];
+            const possibleReplies = currentData.responses[sentiment];
+            const aiComment = possibleReplies[Math.floor(Math.random() * possibleReplies.length)];
+
+            // STEP 3: 前進下一題
+            currentStep++;
+            if (dialogueFlow[currentStep]) {
+                const nextQuestion = dialogueFlow[currentStep].question;
+                loadingDiv.innerHTML = `${aiComment}<br><br><b>${nextQuestion}</b>`;
+            } else {
+                loadingDiv.innerHTML = `${aiComment}`;
+                endChallenge();
+            }
+        } catch (e) {
+            loadingDiv.innerHTML = "❌ 發生錯誤，請檢查網路或 Key。";
+        }
+    }
+
+    function startTimer() {
+        timerId = setInterval(() => {
+            timeLeft--;
+            timerDisplay.innerText = timeLeft + 's';
+            if (timeLeft <= 0) endChallenge();
+        }, 1000);
+    }
+
+    async function endChallenge() {
+        clearInterval(timerId);
+        state = "FINISHED";
+        chatInput.disabled = true;
+        addMessage("🚨 <b>挑戰結束！</b>正在生成溝通分析報告...", 'ai');
+        
+        const apiKey = sessionStorage.getItem('GROQ_KEY');
+        try {
+            const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+                body: JSON.stringify({
+                    model: "llama-3.3-70b-versatile",
+                    messages: [
+                        { role: "system", content: "你是一位溝通顧問。請分析對話紀錄，針對用戶的社交表現給予 100 字內的評價與一個 10 分制的分數（如：7/10）。" },
+                        { role: "user", content: JSON.stringify(conversationHistory) }
+                    ]
+                })
+            });
+            const data = await response.json();
+            addMessage(`🎯 <b>評核報告：</b><br>${data.choices[0].message.content}`, 'ai');
+        } catch (e) {
+            addMessage("報告生成失敗。", 'ai');
+        }
+    }
+
     sendBtn.onclick = handleSend;
-    chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSend(); });
+    chatInput.onkeydown = (e) => { if (e.key === 'Enter') handleSend(); };
 </script>
     
 </body>
