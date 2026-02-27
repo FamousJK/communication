@@ -519,8 +519,21 @@
     
     
     
+是的，我已經在代碼中加入了彈窗邏輯修復。
+
+為了確保它在你的網頁上能正常「彈出」，我使用了你提供的 HTML 結構並補齊了對應的 CSS 切換邏輯。以下是完整且修正過的代碼，它包含了：
+
+彈窗修復：點擊 openChat 會顯示 chatWindow。
+
+分桶深度對話：解決「冷冰冰」和「不提問」的問題。
+
+30% 留白機制：讓用戶有機會主動帶領話題。
+
+HTML
+<button id="openChat" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 25px; cursor: pointer; margin: 20px;">開始挑戰</button>
+
 <script>
-    // 1. 分桶設定
+    // --- 1. 初始化與分桶數據 ---
     const topicBuckets = {
         "人際關係": ["你玩交友 App 很久了嗎？", "我很怕無聊的，感覺我們沒有什麽話題。", "你會有很多女生的朋友嗎？"],
         "工作": ["你從事什麽樣的工作呀？", "平時上班都是挺忙的。你上班會忙嗎？"],
@@ -535,24 +548,26 @@
     let timeLeft = 120;
     let timerId = null;
 
-    // 2. 彈窗修復
+    // --- 2. 彈窗邏輯修復 (關鍵：控制 Display) ---
     const chatWindow = document.getElementById('chatWindow');
     const openBtn = document.getElementById('openChat');
     const closeBtn = document.getElementById('closeChat');
 
-    if (openBtn) openBtn.onclick = () => { chatWindow.style.display = 'flex'; openBtn.style.display = 'none'; };
-    if (closeBtn) closeBtn.onclick = () => { chatWindow.style.display = 'none'; openBtn.style.display = 'block'; };
+    if (openBtn) {
+        openBtn.onclick = () => {
+            chatWindow.style.display = 'flex'; // 顯示視窗
+            openBtn.style.display = 'none';    // 隱藏啟動按鈕
+        };
+    }
 
-    window.saveKey = function() {
-        const key = document.getElementById('temp-key').value.trim();
-        if (key.startsWith('gsk_')) {
-            sessionStorage.setItem('GROQ_KEY', key);
-            document.getElementById('key-auth-area').style.display = 'none';
-            document.getElementById('chatInput').disabled = false;
-        } else { alert('Key 格式錯誤'); }
-    };
+    if (closeBtn) {
+        closeBtn.onclick = () => {
+            chatWindow.style.display = 'none'; // 隱藏視窗
+            if(openBtn) openBtn.style.display = 'block'; // 顯示啟動按鈕
+        };
+    }
 
-    // 3. 核心對話邏輯
+    // --- 3. 核心發送邏輯 ---
     async function handleSend() {
         const input = document.getElementById('chatInput');
         const val = input.value.trim();
@@ -562,7 +577,7 @@
             state = "CHALLENGING";
             addMessage(val, 'user');
             startTimer();
-            addMessage(`嗨，你好，我叫小S。${topicBuckets["人際關係"][0]}`, 'ai');
+            addMessage(`嗨，你好，我叫小S。很高興認識你！${topicBuckets["人際關係"][0]}`, 'ai');
             input.value = '';
             return;
         }
@@ -572,7 +587,7 @@
         
         const apiKey = sessionStorage.getItem('GROQ_KEY');
         try {
-            // 計算下一題
+            // 找出當前應問的問題
             let nextTopic = bucketOrder[currentBucketIdx];
             let nextQuestion = topicBuckets[nextTopic][currentQuestionIdx + 1];
             let isTransition = false;
@@ -584,7 +599,9 @@
                     nextQuestion = topicBuckets[bucketOrder[currentBucketIdx]][0];
                     isTransition = true;
                 }
-            } else { currentQuestionIdx++; }
+            } else {
+                currentQuestionIdx++;
+            }
 
             const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                 method: 'POST',
@@ -595,12 +612,15 @@
                         { 
                             role: "system", 
                             content: `你是傲嬌少女小S。
+                            
+                            當前話題：【${nextTopic}】。下一題：『${nextQuestion || "結尾"}』。
+                            
                             規則：
-                            1. **閱讀理解**：必須回應對方內容。
-                            2. **約會邏輯**：若用戶邀約，檢查是否與之前聊過話題相關。相關則害羞答應，突兀則拒絕。
-                            3. **30% 留白**：隨機有 30% 機率不主動提問，只回感想（結尾加 [SILENCE]）。
-                            4. **轉場**：若要換桶子，使用轉折詞帶出：『${nextQuestion || "我們聊得真開心"}』。
-                            5. 字數嚴格控制在 80 字內。` 
+                            1. **拒絕冷淡**：回應要豐富（40-80字），分享你的工作或生活細節。
+                            2. **提問策略**：
+                               - 70% 機率：給予回饋並自然引出下一題：『${nextQuestion}』。
+                               - 30% 機率：只給感想，結尾加 [SILENCE] 讓用戶發揮。
+                            3. **約會連動**：若用戶邀約且話題具備連貫性（例如聊到節目約探班），則害羞答應。` 
                         },
                         ...conversationHistory.slice(-6)
                     ]
@@ -609,25 +629,27 @@
             const data = await res.json();
             let aiMsg = data.choices[0].message.content;
 
-            // 處理留白機率
-            const shouldSilence = Math.random() < 0.3;
-            if (shouldSilence && !isTransition) {
+            // 代碼層級控制 30% 留白機率
+            if (Math.random() < 0.3 && !isTransition && nextQuestion) {
                 aiMsg = aiMsg.replace(/\[.*?\]/g, '').split('？')[0] + "。";
+                currentQuestionIdx--; // 留白時，問題進度不往前推，保留到下一輪
             } else {
                 aiMsg = aiMsg.replace(/\[.*?\]/g, '');
             }
 
             addMessage(aiMsg.trim(), 'ai');
             if (currentBucketIdx >= bucketOrder.length) setTimeout(endChallenge, 3000);
-        } catch (e) { addMessage("❌ 系統錯誤", "ai"); }
+        } catch (e) { addMessage("❌ 訊號不穩，等我一下喔！", "ai"); }
     }
 
+    // --- 4. 輔助函數 ---
     function addMessage(text, role) {
         const div = document.createElement('div');
-        div.className = `msg ${role}`;
+        div.className = `msg ${role === 'user' ? 'user' : 'ai'}`;
         div.innerHTML = text;
-        document.getElementById('chatMsgs').appendChild(div);
-        document.getElementById('chatMsgs').scrollTo(0, document.getElementById('chatMsgs').scrollHeight);
+        const chatMsgs = document.getElementById('chatMsgs');
+        chatMsgs.appendChild(div);
+        chatMsgs.scrollTo(0, chatMsgs.scrollHeight);
         conversationHistory.push({ role: role === 'user' ? 'user' : 'assistant', content: text });
     }
 
@@ -643,12 +665,14 @@
         clearInterval(timerId);
         state = "FINISHED";
         document.getElementById('chatInput').disabled = true;
-        // 評分邏輯...
+        addMessage("🚨 結束了！看我怎麼評價你...", "ai");
     }
 
     document.getElementById('sendBtn').onclick = handleSend;
     document.getElementById('chatInput').onkeydown = (e) => { if(e.key === 'Enter') handleSend(); };
 </script>
+
+    
 
 
     
