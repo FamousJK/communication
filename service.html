@@ -1081,12 +1081,17 @@ async function handleSend() {
     const val = input.value.trim();
     if (!val) return;
 
-    if (state === "READY" && val === "開始") {
+    // Fix: Ensure we check for "開始" regardless of state if the timer hasn't started
+    if (val === "開始" && state !== "CHALLENGING") {
         state = "CHALLENGING";
-        topicTurnCount = 1; // Start count
+        window.topicTurnCount = 1; // Use window to ensure global scope
         addMessage(val, 'user');
         startTimer();
-        addMessage(`嗨，你好，我叫小S。很高興認識你！${topicBuckets["人際關係"][0]}`, 'ai');
+        
+        // Use the first question from your first bucket
+        const firstMsg = `嗨，你好，我叫小S。很高興認識你！${topicBuckets["人際關係"][0]}`;
+        addMessage(firstMsg, 'ai');
+        
         input.value = '';
         return;
     }
