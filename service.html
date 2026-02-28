@@ -1180,7 +1180,7 @@
         }, 1000);
     }
 
-    async function endChallenge() {
+async function endChallenge() {
         clearInterval(timerId);
         state = "FINISHED";
         document.getElementById('chatInput').disabled = true;
@@ -1194,14 +1194,28 @@
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
                     messages: [
-                        { role: "system", content: "你是專業導師。請給對話評分 1-100 並給予 50 字內繁體中文社交建議。" },
+                        { 
+                            role: "system", 
+                            content: "你是專業導師。請先給出一個 1-100 的原始評分，並接著給予 50 字內繁體中文社交建議。格式：[分數]分 - [建議]" 
+                        },
                         ...conversationHistory
                     ]
                 })
             });
             const data = await res.json();
-            addMessage(`<b>【實戰評價】</b><br>${data.choices[0].message.content}`, 'ai');
-        } catch (e) { addMessage("評分失敗。", "ai"); }
+            let aiResponse = data.choices[0].message.content;
+
+            // --- 核心邏輯：將分數打 8 折 ---
+            // 尋找內容中的第一個數字，並將其乘以 0.8
+            const discountedResponse = aiResponse.replace(/\d+/, (match) => {
+                const originalScore = parseInt(match);
+                return Math.round(originalScore * 0.8); 
+            });
+
+            addMessage(`<b>【實戰評價】</b><br>${discountedResponse}`, 'ai');
+        } catch (e) { 
+            addMessage("評分系統暫時斷訊，但我覺得你表現很有潛力！", "ai"); 
+        }
     }
 
     // --- 4. 綁定按鈕 ---
