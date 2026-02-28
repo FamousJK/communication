@@ -1073,113 +1073,111 @@
     if (closeBtn) closeBtn.onclick = closeChat;
 
     // --- 3. 核心邏輯 ---
-    async function handleSend() {
-        const input = document.getElementById('chatInput');
-        const val = input.value.trim();
-        if (!val) return;
+   // Add this to your global variables at the top of your script
+let topicTurnCount = 0; 
 
-        if (state === "READY" && val === "開始") {
-            state = "CHALLENGING";
-            addMessage(val, 'user');
-            startTimer();
-            addMessage(`嗨，你好，我叫小S。很高興認識你！${topicBuckets["人際關係"][0]}`, 'ai');
-            input.value = '';
-            return;
-        }
+async function handleSend() {
+    const input = document.getElementById('chatInput');
+    const val = input.value.trim();
+    if (!val) return;
 
+    if (state === "READY" && val === "開始") {
+        state = "CHALLENGING";
+        topicTurnCount = 1; // Start count
         addMessage(val, 'user');
+        startTimer();
+        addMessage(`嗨，你好，我叫小S。很高興認識你！${topicBuckets["人際關係"][0]}`, 'ai');
         input.value = '';
-        
-        const apiKey = sessionStorage.getItem('GROQ_KEY');
-        if (!apiKey) {
-            addMessage("請先輸入 API Key 並點擊啟動！", "ai");
-            return;
-        }
+        return;
+    }
 
-        try {
-            let nextTopic = bucketOrder[currentBucketIdx];
-            let nextQuestion = topicBuckets[nextTopic][currentQuestionIdx + 1];
-            let isTransition = false;
+    addMessage(val, 'user');
+    input.value = '';
+    
+    const apiKey = sessionStorage.getItem('GROQ_KEY');
+    if (!apiKey) {
+        addMessage("請先輸入 API Key 並點擊啟動！", "ai");
+        return;
+    }
 
-            if (!nextQuestion) {
+    try {
+        let nextTopic = bucketOrder[currentBucketIdx];
+        let nextQuestion = topicBuckets[nextTopic][currentQuestionIdx + 1];
+        let isTransition = false;
+
+        // --- Topic Depth Logic ---
+        topicTurnCount++;
+        let forceStay = topicTurnCount < 3;
+
+        if (!nextQuestion || forceStay) {
+            if (forceStay) {
+                // Keep the current question index so it doesn't move to the next bucket/question yet
+                isTransition = false;
+            } else {
+                // Move to next bucket after 3+ rounds and no questions left
                 currentBucketIdx++;
                 currentQuestionIdx = 0;
+                topicTurnCount = 0; 
                 if (currentBucketIdx < bucketOrder.length) {
                     nextQuestion = topicBuckets[bucketOrder[currentBucketIdx]][0];
                     isTransition = true;
                 }
-            } else {
-                currentQuestionIdx++;
             }
-
-            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-                body: JSON.stringify({
-                    model: "llama-3.3-70b-versatile",
-                    messages: [
-                        { 
-                            role: "system", 
-                            content: `你是傲嬌少女小S。回答必須在 50 字內。
-                            當前話題：【${nextTopic}】。下一題：『${nextQuestion || "結尾"}』。
-                            規則：語氣傲嬌幽默。70%機率引導至下一題，30%機率不問問題。` 
-                        },
-                        ...conversationHistory.slice(-6)
-                    ]
-                })
-            });
-
-          const data = await res.json();
-            let aiMsg = data.choices[0].message.content;
-
-            // 1. 處理 30% 留白邏輯 (完全不問問題)
-            if (Math.random() < 0.3 && !isTransition && nextQuestion) {
-                // 移除所有問句，只保留到第一個標點符號或感嘆
-                aiMsg = aiMsg.split(/[？?]/)[0] + "。";
-                currentQuestionIdx--; // 保留該問題到下一輪
-            } 
-            // 2. 嚴格限制：全對話只能出現一個問號
-            else {
-                const parts = aiMsg.split(/[？?]/);
-                if (parts.length > 2) {
-                    // 如果 AI 講太多話問了兩次，強制切斷在第一個問號處
-                    aiMsg = parts[0] + "？";
-                }
-            }
-
-            // 3. 確保字數不爆量 (二次保險)
-            if (aiMsg.length > 60) {
-                aiMsg = aiMsg.substring(0, 55) + "...";
-            }
-
-            addMessage(aiMsg.trim(), 'ai');
-            
-            if (currentBucketIdx >= bucketOrder.length) {
-                setTimeout(endChallenge, 3000);
-            }
-        } catch (e) { 
-            addMessage("❌ 訊號不穩，等我一下喔！", "ai"); 
+        } else {
+            currentQuestionIdx++;
         }
-    }
 
-    function addMessage(text, role) {
-        const div = document.createElement('div');
-        div.className = `msg ${role === 'user' ? 'user' : 'ai'}`;
-        div.innerHTML = text;
-        const chatMsgs = document.getElementById('chatMsgs');
-        chatMsgs.appendChild(div);
-        chatMsgs.scrollTo(0, chatMsgs.scrollHeight);
-        conversationHistory.push({ role: role === 'user' ? 'user' : 'assistant', content: text });
-    }
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+            body: JSON.stringify({
+                model: "llama-3.3-70b-versatile",
+                messages: [
+                    { 
+                        role: "system", 
+                        content: `你是傲嬌少女小S。回答必須在 50 字內。
+                        當前話題：【${nextTopic}】。
+                        規則：
+                        1. 語氣傲嬌幽默，請深入聊當前話題，不要急著換話題。
+                        2. **嚴禁主動約會**：除非用戶主動邀約，否則絕不提「下次一起」、「約見面」等。
+                        3. **提問限制**：全篇最多只能有一個問號。
+                        4. 只有在話題聊滿 3 輪後，才考慮引導至下一題：『${nextQuestion || "結尾"}』。` 
+                    },
+                    ...conversationHistory.slice(-6)
+                ]
+            })
+        });
 
-    function startTimer() {
-        timerId = setInterval(() => {
-            timeLeft--;
-            document.getElementById('timerDisplay').innerText = timeLeft + 's';
-            if (timeLeft <= 0) endChallenge();
-        }, 1000);
-    }
+        const data = await res.json();
+        let aiMsg = data.choices[0].message.content;
 
+        // 1. Handle 30% Silence
+        if (Math.random() < 0.3 && !isTransition && nextQuestion) {
+            aiMsg = aiMsg.split(/[？?]/)[0] + "。";
+            if (!forceStay) currentQuestionIdx--; 
+        } 
+        // 2. Strict One-Question Rule
+        else {
+            const parts = aiMsg.split(/[？?]/);
+            if (parts.length > 2) {
+                aiMsg = parts[0] + "？";
+            }
+        }
+
+        // 3. Prevent AI from mentioning "Next Time" too early
+        if (topicTurnCount < 3) {
+            aiMsg = aiMsg.replace(/下次.*/, "").replace(/一起去.*/, "");
+        }
+
+        addMessage(aiMsg.trim(), 'ai');
+        
+        if (currentBucketIdx >= bucketOrder.length) {
+            setTimeout(endChallenge, 3000);
+        }
+    } catch (e) { 
+        addMessage("❌ 訊號不穩，等我一下喔！", "ai"); 
+    }
+}
 async function endChallenge() {
         clearInterval(timerId);
         state = "FINISHED";
