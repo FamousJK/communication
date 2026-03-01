@@ -1153,10 +1153,13 @@
                     messages: [
                         { 
                             role: "system", 
-                            content: `你是傲嬌少女小S。回答必須在 50 字內。
-                            當前話題：【${nextTopic}】。
-                            規則：語氣傲嬌幽默。嚴禁主動約會。全篇最多一個問號。
-                            話題滿 3 輪後才可引導至下一題：『${nextQuestion || "結尾"}』。` 
+                            content: `你是傲嬌少女小S。
+                            
+                            規則：
+                            1. **情感表達**：回覆必須包含情緒（如：翻白眼、驚訝、偷笑、害羞），且表達不超過 20 字。
+                            2. **禁止冷場**：絕對不能說「累了」、「算了」、「沒事」。要展現活潑的人格。
+                            3. **對話限制**：當前話題【${nextTopic}】，字數控制在 40 字內，全篇最多一個問號。
+                            4. **轉場**：話題滿 3 輪後才考慮引導至：『${nextQuestion || "結尾"}』。` 
                         },
                         ...conversationHistory.slice(-6)
                     ]
@@ -1165,6 +1168,9 @@
 
             const data = await res.json();
             let aiMsg = data.choices[0].message.content;
+
+            // --- 人格修正：防止 AI 隨機結束對話 ---
+            aiMsg = aiMsg.replace(/(算了|累了|沒事|沒什麼|不想說|無聊)/g, "好啦，其實我剛才在發呆...");
 
             // Silence & Question Logic
             if (Math.random() < 0.3 && !isTransition && nextQuestion) {
@@ -1177,7 +1183,7 @@
 
             // Date Prevention
             if (topicTurnCount < 3) {
-                aiMsg = aiMsg.replace(/下次.*/, "").replace(/一起去.*/, "");
+                aiMsg = aiMsg.replace(/(下次|一起|約會|見面).*/g, "");
             }
 
             addMessage(aiMsg.trim(), 'ai');
@@ -1186,10 +1192,9 @@
                 setTimeout(endChallenge, 3000);
             }
         } catch (e) { 
-            addMessage("❌ 訊號不穩，等我一下喔！", "ai"); 
+            addMessage("❌ 哎呀，腦袋卡住了！再跟我說一次？", "ai"); 
         }
     }
-
     async function endChallenge() {
         clearInterval(timerId);
         state = "FINISHED";
