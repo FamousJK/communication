@@ -1225,29 +1225,27 @@ const topicBuckets = {
                     ]
                 })
             });
+
             const data = await res.json();
-let aiResponse = data.choices[0].message.content;
+            let aiResponse = data.choices[0].message.content;
 
-const discountedResponse = aiResponse.replace(/\d+(\.\d+)?/g, (match) => {
-    const num = parseFloat(match);
-    
-    // 1. Human Variability: Instead of exactly 10%, it varies between 7% and 13%
-    const humanFactor = 0.87 + (Math.random() * 0.06); 
-    
-    const result = num * humanFactor;
+            // --- Human-like Rating Transformation ---
+            const discountedResponse = aiResponse.replace(/\d+(\.\d+)?/g, (match) => {
+                const num = parseFloat(match);
+                const humanFactor = 0.87 + (Math.random() * 0.06); 
+                const result = num * humanFactor;
 
-    // 2. Human Preference: Humans tend to round to the nearest 5 or 10 for larger numbers
-    if (result > 10) {
-        return Math.round(result / 5) * 5; 
-    }
-    
-    // For small ratings (like 1-10), keep one decimal place (e.g., 8.4)
-    return Math.round(result * 10) / 10;
-});
+                if (result > 10) {
+                    return Math.round(result / 5) * 5; 
+                }
+                return Math.round(result * 10) / 10;
             });
 
+            // This now correctly pushes the message to the screen
             addMessage(`<b>【實戰評價】</b><br>${discountedResponse}`, 'ai');
+
         } catch (e) { 
+            console.error(e); // Added for debugging
             addMessage("評分系統暫時斷訊。", "ai"); 
         }
     }
