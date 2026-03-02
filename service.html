@@ -1229,7 +1229,7 @@ const topicBuckets = {
             let aiResponse = data.choices[0].message.content;
 
             const discountedResponse = aiResponse.replace(/\d+/, (match) => {
-                return Math.round(parseInt(match) * 0.8); 
+                return Math.round(parseInt(match) * 0.9); 
             });
 
             addMessage(`<b>【實戰評價】</b><br>${discountedResponse}`, 'ai');
