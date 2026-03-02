@@ -1210,7 +1210,7 @@ const topicBuckets = {
         clearInterval(timerId);
         state = "FINISHED";
         document.getElementById('chatInput').disabled = true;
-        addMessage("🚨 結束了！看我怎麼評價你...", "ai");
+        addMessage("🚨 結束了！正在分析你的撩妹功力...", "ai");
 
         const apiKey = sessionStorage.getItem('GROQ_KEY');
         try {
@@ -1220,7 +1220,10 @@ const topicBuckets = {
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
                     messages: [
-                        { role: "system", content: "你是專業導師。請先給出一個 1-100 的原始評分，並接著給予 50 字內繁體中文建議。格式：[分數]分 - [建議]" },
+                        { 
+                            role: "system", 
+                            content: "你是專業戀愛導師。請針對使用者跟『傲嬌少女小S』的對話表現給出評分（1-100）。評價要犀利、幽默，必須提到對話中的具體細節（如：加班、買包包等）。格式要求：[分數]分 \n\n [導師點評]" 
+                        },
                         ...conversationHistory
                     ]
                 })
@@ -1229,24 +1232,31 @@ const topicBuckets = {
             const data = await res.json();
             let aiResponse = data.choices[0].message.content;
 
-            // --- Human-like Rating Transformation ---
-            const discountedResponse = aiResponse.replace(/\d+(\.\d+)?/g, (match) => {
+            // --- 人格化分數修正 (Human-like Logic) ---
+            const processedResponse = aiResponse.replace(/\d+(\.\d+)?/g, (match) => {
                 const num = parseFloat(match);
-                const humanFactor = 0.87 + (Math.random() * 0.06); 
-                const result = num * humanFactor;
+                if (num > 100) return num; // 避免誤改年份
 
-                if (result > 10) {
-                    return Math.round(result / 5) * 5; 
-                }
-                return Math.round(result * 10) / 10;
+                const humanFactor = 0.85 + (Math.random() * 0.15); // 隨機 85%~100% 的波動
+                let result = num * humanFactor;
+
+                // 讓分數看起來更像人類打的（例如 65, 75, 80）
+                return result > 20 ? Math.round(result / 5) * 5 : Math.round(result);
             });
 
-            // This now correctly pushes the message to the screen
-            addMessage(`<b>【實戰評價】</b><br>${discountedResponse}`, 'ai');
+            // 使用 innerHTML 讓換行符號生效，並增加視覺效果
+            const finalHtml = `
+                <div style="border-left: 4px solid #ff4d4d; padding-left: 10px; margin: 5px 0;">
+                    <span style="font-size: 1.2em; color: #ff4d4d; font-weight: bold;">📊 導師實戰評定</span><br>
+                    ${processedResponse.replace(/\n/g, '<br>')}
+                </div>
+            `;
+
+            addMessage(finalHtml, 'ai');
 
         } catch (e) { 
-            console.error(e); // Added for debugging
-            addMessage("評分系統暫時斷訊。", "ai"); 
+            console.error(e);
+            addMessage("❌ 評分系統被小S拔掉插頭了...", "ai"); 
         }
     }
 
