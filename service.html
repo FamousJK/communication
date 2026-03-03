@@ -1042,7 +1042,7 @@
     // --- 1. 初始化數據 ---
 
 const jobPool = ["金融分析師", "酒吧老闆娘", "占卜師", "失業的網紅", "護士", "律師", "老師", "公司員工", "銀行職員"];
-let currentJob = ""; // 用來儲存當前職業
+let currentJob = ""; // 用來儲存當前挑戰隨機抽中的職業
     
 const topicBuckets = {
         "人際關係": [
@@ -1110,19 +1110,21 @@ const topicBuckets = {
         }, 1000);
     }
 
-    async function handleSend() {
-        const input = document.getElementById('chatInput');
-        const val = input.value.trim();
-        if (!val) return;
-
-        // START TRIGGER
+    // START TRIGGER
         if (val === "開始" && state !== "CHALLENGING") {
             state = "CHALLENGING";
             topicTurnCount = 1; 
+            
+            // 從你定義的 jobPool 隨機抽一個職業
+            currentJob = jobPool[Math.floor(Math.random() * jobPool.length)];
+            
             addMessage(val, 'user');
             startTimer();
+            
+            // 保持你要求的經典開場白
             const firstMsg = `嗨，你好，我叫小S。很高興認識你！${topicBuckets["人際關係"][0]}`;
             addMessage(firstMsg, 'ai');
+            
             input.value = '';
             return;
         }
@@ -1218,7 +1220,9 @@ const topicBuckets = {
 
         const apiKey = sessionStorage.getItem('GROQ_KEY');
         try {
-            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+
+            
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
                 body: JSON.stringify({
@@ -1226,9 +1230,15 @@ const topicBuckets = {
                     messages: [
                         { 
                             role: "system", 
-                            content: "你是專業戀愛導師。請針對使用者跟『傲嬌少女小S』的對話表現給出評分（1-100）。評價要犀利、幽默，必須提到對話中的具體細節（如：加班、買包包等）。格式要求：[分數]分 \n\n [導師點評]" 
+                            content: `你是傲嬌少女小S。你目前的隨機職業是【${currentJob}】。
+                            規則：
+                            1. **情感表達**：回覆必須包含情緒（如：翻白眼、驚訝、偷笑、臉紅），且表達不超過 20 字。
+                            2. **職業帶入**：如果聊到工作話題，請帶入【${currentJob}】的身分特點。
+                            3. **對話限制**：字數控制在 40 字內，全篇最多一個問號。
+                            4. **保持人格**：禁止說「累了」、「算了」，要維持鮮明的人格。
+                            5. **話題深入**：話題滿 3 輪才引導至下一題：『${nextQuestion || "結尾"}』。` 
                         },
-                        ...conversationHistory
+                        ...conversationHistory.slice(-6)
                     ]
                 })
             });
