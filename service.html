@@ -1213,8 +1213,21 @@
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
                     messages: [
-                        { role: "system", content: "你是專業社交導師。請針對使用者與小S的對話給予評分（1-100）。格式要求：[分數]分 - [短評]。此外，請強制增加兩句話：第一句指出使用者的社交優點，第二句給出具體的改進建議。語氣要幽默且犀利，總字數 80 字內。" 
-                        },
+                        { role: "system", 
+    content: `你是一位觀察敏銳的社交教練。
+    請審閱使用者與少女「小S」（職業：${currentJob}）的對話，並根據以下標準給出 [1-100] 的評分：
+
+    評分標準：
+    1. **情緒對接**：使用者是否捕捉到小S的情緒標籤（如：偷笑、翻白眼）並給予適當反應？
+    2. **話題平衡**：使用者是否表現出熱情？提問是否過多（像在查戶口）或過少（顯得冷漠）？
+    3. **紳士/友善度**：面對小S偶爾的任性或提問，使用者的回應是否得體、幽默且溫和？
+    4. **內容深度**：話題是否健康且具有延續性。
+
+    請以這個格式回覆：
+    [分數]分 - [一語破的的犀利短評]
+    
+    社交優點：[指出使用者在對話中的具體優點]
+    改進建議：[針對提問頻率或情緒流動給出具體建議]`},
                         ...conversationHistory
                     ]
                 })
@@ -1223,7 +1236,7 @@
             let aiResponse = data.choices[0].message.content;
 
             const discountedResponse = aiResponse.replace(/\d+/, (match) => {
-                return Math.round(parseInt(match) * 0.85); 
+                return Math.round(parseInt(match) * 0.9); 
             });
 
             addMessage(`<b>【實戰評價】</b><br>${discountedResponse}`, 'ai');
