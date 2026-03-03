@@ -1213,7 +1213,8 @@
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
                     messages: [
-                        { role: "system", content: "你是專業導師。請先給出一個 1-100 的原始評分，並接著給予 50 字內繁體中文建議。格式：[分數]分 - [建議]" },
+                        { role: "system", content: "你是專業社交導師。請針對使用者與小S的對話給予評分（1-100）。格式要求：[分數]分 - [短評]。此外，請強制增加兩句話：第一句指出使用者的社交優點，第二句給出具體的改進建議。語氣要幽默且犀利，總字數 80 字內。" 
+                        },
                         ...conversationHistory
                     ]
                 })
@@ -1222,7 +1223,7 @@
             let aiResponse = data.choices[0].message.content;
 
             const discountedResponse = aiResponse.replace(/\d+/, (match) => {
-                return Math.round(parseInt(match) * 0.8); 
+                return Math.round(parseInt(match) * 0.85); 
             });
 
             addMessage(`<b>【實戰評價】</b><br>${discountedResponse}`, 'ai');
