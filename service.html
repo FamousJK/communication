@@ -1039,42 +1039,30 @@
         }
     }
 
+    // 網頁載入時自動恢復 Key 的狀態
+    window.onload = () => {
+        const savedKey = sessionStorage.getItem('GROQ_KEY');
+        if (savedKey) {
+            const keyInput = document.getElementById('temp-key');
+            if (keyInput) {
+                keyInput.value = '********';
+                keyInput.disabled = true;
+            }
+        }
+    };
+
     // --- 1. 初始化數據 ---
     const topicBuckets = {
-    "人際關係": [
-        "你玩交友 App 很久了嗎？該不會是那種老油條吧？",
-        "我最怕那種囉嗦到爆的人，你會怕那種話很多、很吵的女生嗎？",
-        "你身邊是不是一堆紅粉知己？老實交代你有多少女性朋友！",
-        "你覺得男女之間有純友誼嗎？還是那只是留備胎的藉口？",
-        "如果你前女友突然傳訊息給你，你會回嗎？老實說喔！",
-        "你第一眼看到女生會先看哪裡？敢說謊我就直接句點你！",
-        "你覺得你是那種會見色忘友的人嗎？"
-    ],
-    "工作": [
-        "你到底是做什麼工作的呀？如果是那種超無趣的會計我真的會當場睡著喔！",
-        "每天坐在辦公室真的會讓人變醜耶！你上班是不是也忙到靈魂出竅？",
-        "你該不會是那種下班還要回工作訊息的工作狂吧？我最討厭這種人了！",
-        "如果現在突然發財不用工作了，你第一件事想做什麼？",
-        "你在公司是那種很受歡迎的人，還是那種默默躲在角落邊緣人？",
-        "你的老闆人機車嗎？如果他現在在你後面，你會想對他做什麼？",
-        "你工作時會偷魚嗎？還是那種老闆說什麼都說好的乖乖牌？"
-    ],
-    "生活": [
-        "你喜歡去旅行嗎？如果是那種要去爬山、健行的苦行僧行程，我真的會直接封鎖你！",
-        "我超愛吃的！你喜歡吃美食嗎？如果約會你帶我去吃路邊攤，我真的會翻臉喔！",
-        "音樂就是我的靈魂！你喜歡聽音樂嗎？你該不會是聽那種讓人聽不懂的重金屬吧？",
-        "你週末通常都在幹嘛？該不會是躲在家裡打電動不出門的宅男吧？",
-        "你是貓派還是狗派？如果你說你不喜歡小動物，我們可能聊不下去了。",
-        "你有什麼很奇怪的癖好嗎？像是收集指甲或是睡覺不穿衣服之類的？",
-        "如果明天是世界末日，你最後一餐想吃什麼？不准說隨便喔！"
-    ]
-};
+        "人際關係": ["你玩交友 App 很久了嗎？該不會是那種老油條吧？", "我最怕那種囉嗦到爆的人，你會怕那種話很多、很吵的女生嗎？", "你身邊是不是一堆紅粉知己？老實交代你有多少女性朋友！", "你覺得男女之間有純友誼嗎？還是那只是留備胎的藉口？", "如果你前女友突然傳訊息給你，你會回嗎？老實說喔！", "你第一眼看到女生會先看哪裡？敢說謊我就直接句點你！"],
+        "工作": ["你到底是做什麼工作的呀？如果是那種超無趣的會計我真的會當場睡著喔！", "每天坐在辦公室真的會讓人變醜耶！你上班是不是也忙到靈魂出竅？", "你該不會是那種下班還要回工作訊息的工作狂吧？我最討厭這種人了！", "你在公司是那種很受歡迎的人，還是那種默默躲在角落邊緣人？", "你工作時會偷魚嗎？還是那種老闆說什麼都說好的乖乖牌？"],
+        "生活": ["你喜歡去旅行嗎？如果是那種要去爬山、健行的苦行僧行程，我真的會直接封鎖你！", "我超愛吃的！你喜歡吃美食嗎？如果約會你帶我去吃路邊攤，我真的會翻臉喔！", "音樂就是我的靈魂！你喜歡聽音樂嗎？你該不會是聽那種讓人聽不懂的重金屬吧？", "你週末通常都在幹嘛？該不會是躲在家裡打電動不出門的宅男吧？", "你是貓派還是狗派？如果你說你不喜歡小動物，我們可能聊不下去了。"]
+    };
 
     const jobPool = ["金融分析師", "酒吧老闆娘", "占卜師", "失業的網紅", "護士", "律師", "老師", "公司員工", "銀行職員"];
     let currentJob = ""; 
     let bucketOrder = ["人際關係", "工作", "生活"];
     let currentBucketIdx = 0;
-    let currentQuestionIdx = 0;
+    let currentTopic = "人際關係";
     let state = "READY"; 
     let conversationHistory = [];
     let timeLeft = 120;
@@ -1086,15 +1074,8 @@
     const closeBtn = document.getElementById('closeChat');
     const dollTrigger = document.getElementById('openChatDoll');
 
-    const openChat = () => {
-        chatWindow.style.display = 'flex';
-        if (dollTrigger) dollTrigger.style.display = 'none';
-    };
-
-    const closeChat = () => {
-        chatWindow.style.display = 'none';
-        if (dollTrigger) dollTrigger.style.display = 'block';
-    };
+    const openChat = () => { chatWindow.style.display = 'flex'; if (dollTrigger) dollTrigger.style.display = 'none'; };
+    const closeChat = () => { chatWindow.style.display = 'none'; if (dollTrigger) dollTrigger.style.display = 'block'; };
 
     if (dollTrigger) dollTrigger.onclick = openChat;
     if (closeBtn) closeBtn.onclick = closeChat;
@@ -1122,104 +1103,86 @@
     }
 
     // --- 4. 核心對話邏輯 ---
-   async function handleSend() {
-    const input = document.getElementById('chatInput');
-    const val = input.value.trim();
-    if (!val) return;
+    async function handleSend() {
+        const input = document.getElementById('chatInput');
+        const val = input.value.trim();
+        if (!val) return;
 
-    // --- 1. 處理開始指令 ---
-    if (val === "開始" && state !== "CHALLENGING") {
-        state = "CHALLENGING";
-        topicTurnCount = 0; // 重置計數
-        currentBucketIdx = 0;
-        currentTopic = "人際關係";
-        currentJob = jobPool[Math.floor(Math.random() * jobPool.length)];
-        
-        const firstQuestions = topicBuckets["人際關係"];
-        const randomFirstQ = firstQuestions[Math.floor(Math.random() * firstQuestions.length)];
-        
+        if (val === "開始" && state !== "CHALLENGING") {
+            state = "CHALLENGING";
+            topicTurnCount = 0;
+            currentBucketIdx = 0;
+            currentTopic = "人際關係";
+            currentJob = jobPool[Math.floor(Math.random() * jobPool.length)];
+            const firstQuestions = topicBuckets["人際關係"];
+            const randomFirstQ = firstQuestions[Math.floor(Math.random() * firstQuestions.length)];
+            addMessage(val, 'user');
+            startTimer();
+            addMessage(`(微笑) 嗨，你好，我叫小S，我是職位是【${currentJob}】。很高興認識你！${randomFirstQ}`, 'ai');
+            input.value = '';
+            return;
+        }
+
+        if (state !== "CHALLENGING") return;
+
         addMessage(val, 'user');
-        startTimer();
-        const firstMsg = `(微笑) 嗨，你好，我叫小S。很高興認識你！${randomFirstQ}`;
-        addMessage(firstMsg, 'ai');
         input.value = '';
-        return;
-    }
-
-    if (state !== "CHALLENGING") return;
-
-    // --- 2. 正常對話流程 ---
-    addMessage(val, 'user');
-    input.value = '';
-    
-    const apiKey = sessionStorage.getItem('GROQ_KEY');
-    if (!apiKey) {
-        addMessage("(尷尬) 請先輸入 API Key！", "ai");
-        return;
-    }
-
-    try {
-        // 核心邏輯：先累加次數
-        topicTurnCount++; 
         
-        let nextQuestionToAsk = "";
-        
-        // 只有當聊滿 3 句，且還有下一個桶子時，才抽新題目
-        if (topicTurnCount >= 3) {
-            let nextIdx = currentBucketIdx + 1;
-            if (nextIdx < bucketOrder.length) {
-                currentBucketIdx = nextIdx;
-                currentTopic = bucketOrder[currentBucketIdx];
-                let newQuestions = topicBuckets[currentTopic];
-                nextQuestionToAsk = newQuestions[Math.floor(Math.random() * newQuestions.length)];
-                topicTurnCount = 0; // 換話題後重置，重新數 3 句
+        const apiKey = sessionStorage.getItem('GROQ_KEY');
+        if (!apiKey) { addMessage("(尷尬) 請先輸入 API Key！", "ai"); return; }
+
+        try {
+            topicTurnCount++; 
+            let nextQuestionToAsk = "";
+            
+            // 聊滿 3 句才換主題
+            if (topicTurnCount >= 3) {
+                let nextIdx = currentBucketIdx + 1;
+                if (nextIdx < bucketOrder.length) {
+                    currentBucketIdx = nextIdx;
+                    currentTopic = bucketOrder[currentBucketIdx];
+                    let newQuestions = topicBuckets[currentTopic];
+                    nextQuestionToAsk = newQuestions[Math.floor(Math.random() * newQuestions.length)];
+                    topicTurnCount = 0; 
+                }
             }
-        }
 
-        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-            body: JSON.stringify({
-                model: "llama-3.3-70b-versatile",
-                messages: [
-                    { 
-                        role: "system", 
-                        content: `你是可愛的少女小S，職業是【${currentJob}】。使用繁體中文回覆。
-                        
-                        當前任務：
-                        1. **回覆風格**：每句話開頭必須加括號標籤如 (偷笑)。語氣要生動。
-                        2. **互動性**：前兩次對話請針對當前內容深入追問，不要換話題。只有當下方的【新問題】出現時，才在結尾轉場。
-                        3. **限制**：嚴禁超過 45 字。全篇最多一個問號。
-                        4. **當前話題**：【${currentTopic}】。
-                        ${nextQuestionToAsk ? `請在回覆結尾「自然地」帶入這個新問題：『${nextQuestionToAsk}』` : "請深入挖掘當前話題，不要急著結束。"}` 
-                    },
-                    ...conversationHistory.slice(-8)
-                ]
-            })
-        });
+            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+                body: JSON.stringify({
+                    model: "llama-3.3-70b-versatile",
+                    messages: [
+                        { 
+                            role: "system", 
+                            content: `你是少女小S，職業是【${currentJob}】。用繁體中文回覆。
+                            1. **風格**：開頭加括號標籤如 (偷笑)。語氣生動感興趣。
+                            2. **互動**：前兩次對話請針對內容深入追問，禁止換話題。有【新問題】時才在結尾轉場。
+                            3. **限制**：嚴禁超過 45 字。全篇最多一個問號。
+                            4. **話題**：【${currentTopic}】。
+                            ${nextQuestionToAsk ? `請在回覆末尾帶入：『${nextQuestionToAsk}』` : "請深入挖掘當前話題，不要急著換話題。"}` 
+                        },
+                        ...conversationHistory.slice(-8)
+                    ]
+                })
+            });
 
-        const data = await res.json();
-        let aiMsg = data.choices[0].message.content;
-        aiMsg = aiMsg.replace(/(算了|累了|沒事|沒什麼|不想說|無聊)/g, "(撇嘴) 好啦，其實我剛才在發呆...");
-
-        addMessage(aiMsg.trim(), 'ai');
-        
-        // 檢查是否三個大話題都聊完了
-        if (currentBucketIdx >= bucketOrder.length - 1 && topicTurnCount >= 3) {
-            setTimeout(endChallenge, 3000);
-        }
-    } catch (e) { 
-        addMessage("❌ 訊號不穩，等我一下喔！", "ai"); 
+            const data = await res.json();
+            let aiMsg = data.choices[0].message.content;
+            aiMsg = aiMsg.replace(/(算了|累了|沒事|沒什麼|不想說|無聊)/g, "(撇嘴) 好啦，其實我剛才在發呆...");
+            addMessage(aiMsg.trim(), 'ai');
+            
+            if (currentBucketIdx >= bucketOrder.length - 1 && topicTurnCount >= 3) {
+                setTimeout(endChallenge, 2000);
+            }
+        } catch (e) { addMessage("❌ 訊號不穩，等我一下！", "ai"); }
     }
-}
-
-    
 
     async function endChallenge() {
         clearInterval(timerId);
         state = "FINISHED";
         document.getElementById('chatInput').disabled = true;
-        addMessage("🚨 結束了！看我怎麼評價你...", "ai");
+        addMessage("(眨眼) 🚨 結束了！看我怎麼評價你...", "ai");
 
         const apiKey = sessionStorage.getItem('GROQ_KEY');
         try {
@@ -1229,39 +1192,19 @@
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
                     messages: [
-                        { role: "system", 
-    content: `你是一位觀察敏銳的社交教練。
-    請審閱使用者與少女「小S」（職業：${currentJob}）的對話，並根據以下標準給出 [1-100] 的評分：
-
-    評分標準：
-    1. **情緒對接**：使用者是否捕捉到小S的情緒標籤（如：偷笑、翻白眼）並給予適當反應？
-    2. **話題平衡**：使用者是否表現出熱情？提問是否過多（像在查戶口）或過少（顯得冷漠）？
-    3. **紳士/友善度**：面對小S偶爾的任性或提問，使用者的回應是否得體、幽默且溫和？
-    4. **內容深度**：話題是否健康且具有延續性。
-
-    請以這個格式回覆：
-    [分數]分 - [一語破的的犀利短評]
-    
-    社交優點：[指出使用者在對話中的具體優點]
-    改進建議：[針對提問頻率或情緒流動給出具體建議]`},
+                        { role: "system", content: `你是一位犀利的社交教練。請審閱對話並給出 [1-100] 分。格式：[分數]分 - [短評]\n優點：...\n建議：...` },
                         ...conversationHistory
                     ]
                 })
             });
             const data = await res.json();
             let aiResponse = data.choices[0].message.content;
-
-            const discountedResponse = aiResponse.replace(/\d+/, (match) => {
-                return Math.round(parseInt(match) * 0.9); 
-            });
-
+            const randomFactor = 0.85 + (Math.random() * 0.1);
+            const discountedResponse = aiResponse.replace(/\d+/, (match) => Math.round(parseInt(match) * randomFactor));
             addMessage(`<b>【實戰評價】</b><br>${discountedResponse}`, 'ai');
-        } catch (e) { 
-            addMessage("評分系統暫時斷訊。", "ai"); 
-        }
+        } catch (e) { addMessage("評分系統斷訊。", "ai"); }
     }
 
-    // --- 5. 綁定事件 ---
     document.getElementById('sendBtn').onclick = handleSend;
     document.getElementById('chatInput').onkeydown = (e) => { if(e.key === 'Enter') handleSend(); };
 </script>
