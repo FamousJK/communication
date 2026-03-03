@@ -1104,15 +1104,20 @@
     if (!val) return;
 
     // --- 1. 開始觸發 ---
-    if (val === "開始" && state !== "CHALLENGING") {
+   if (val === "開始" && state !== "CHALLENGING") {
         state = "CHALLENGING";
         topicTurnCount = 1;
         currentBucketIdx = 0;
-        currentQuestionIdx = 0;
+        currentTopic = "人際關係"; // 確保起始主題
         currentJob = jobPool[Math.floor(Math.random() * jobPool.length)];
+        
+        // 從第一個桶子隨機挑選
+        const firstQuestions = topicBuckets["人際關係"];
+        const randomFirstQ = firstQuestions[Math.floor(Math.random() * firstQuestions.length)];
+        
         addMessage(val, 'user');
         startTimer();
-        const firstMsg = `嗨，你好，我叫小S。很高興認識你！${topicBuckets["人際關係"][0]}`;
+        const firstMsg = `嗨，你好，我叫小S。很高興認識你！${randomFirstQ}`;
         addMessage(firstMsg, 'ai');
         input.value = '';
         return;
@@ -1134,28 +1139,24 @@
         topicTurnCount++;
         
         // 判定是否該切換話題
-        let isTransitionTime = (topicTurnCount >= 3);
+    let isTransitionTime = (topicTurnCount >= 3);
         let nextQuestionToAsk = "";
 
         if (isTransitionTime) {
-            // 嘗試獲取下一個問題
-            let nextQ = topicBuckets[currentTopic][currentQuestionIdx + 1];
+            // 1. 增加主題索引
+            currentBucketIdx++; 
             
-            if (nextQ) {
-                // 同話題的下一個問題
-                currentQuestionIdx++;
-                nextQuestionToAsk = nextQ;
-                topicTurnCount = 0; // 重置計數
-            } else {
-                // 換下一個主題桶
-                currentBucketIdx++;
-                currentQuestionIdx = 0;
-                if (currentBucketIdx < bucketOrder.length) {
-                    currentTopic = bucketOrder[currentBucketIdx];
-                    nextQuestionToAsk = topicBuckets[currentTopic][0];
-                    topicTurnCount = 0;
-                }
+            // 2. 檢查是否還有下一個主題
+            if (currentBucketIdx < bucketOrder.length) {
+                currentTopic = bucketOrder[currentBucketIdx];
+                // 3. 從新主題桶隨機抽一題
+                let newQuestions = topicBuckets[currentTopic];
+                nextQuestionToAsk = newQuestions[Math.floor(Math.random() * newQuestions.length)];
+                
+                // 4. 重置該主題的對話計數
+                topicTurnCount = 0; 
             }
+        }
         }
 
         const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
