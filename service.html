@@ -1040,27 +1040,14 @@
     }
 
     // --- 1. 初始化數據 ---
-
-const jobPool = ["金融分析師", "酒吧老闆娘", "占卜師", "失業的網紅", "護士", "律師", "老師", "公司員工", "銀行職員"];
-let currentJob = ""; // 用來儲存當前挑戰隨機抽中的職業
-    
-const topicBuckets = {
-        "人際關係": [
-            "你玩交友 App 很久了嗎？該不會是那種老油條吧？", 
-            "我最怕那種囉嗦到爆的人，你會怕那種話很多、很吵的女生嗎？", 
-            "你身邊是不是一堆紅粉知己？老實交代你有多少女性朋友！"
-        ],
-        "工作": [
-            "你到底是做什麼工作的呀？如果是那種超無趣的會計我真的會當場睡著喔！", 
-            "每天坐在辦公室真的會讓人變醜耶！你上班是不是也忙到靈魂出竅？"
-        ],
-        "生活": [
-            "你喜歡去旅行嗎？如果是那種要去爬山、健行的苦行僧行程，我真的會直接封鎖你！", 
-            "我超愛吃的！你喜歡吃美食嗎？如果約會你帶我去吃路邊攤，我真的會翻臉喔！", 
-            "音樂就是我的靈魂！你喜歡聽音樂嗎？你該不會是聽那種讓人聽不懂的重金屬吧？"
-        ]
+    const topicBuckets = {
+        "人際關係": ["你玩交友 App 很久了嗎？該不會是那種老油條吧？", "我最怕那種囉嗦到爆的人，你會怕那種話很多、很吵的女生嗎？", "你身邊是不是一堆紅粉知己？老實交代你有多少女性朋友！"],
+        "工作": ["你到底是做什麼工作的呀？如果是那種超無趣的會計我真的會當場睡著喔！", "每天坐在辦公室真的會讓人變醜耶！你上班是不是也忙到靈魂出竅？"],
+        "生活": ["你喜歡去旅行嗎？如果是那種要去爬山、健行的苦行僧行程，我真的會直接封鎖你！", "我超愛吃的！你喜歡吃美食嗎？如果約會你帶我去吃路邊攤，我真的會翻臉喔！", "音樂就是我的靈魂！你喜歡聽音樂嗎？你該不會是聽那種讓人聽不懂的重金屬吧？"]
     };
 
+    const jobPool = ["金融分析師", "酒吧老闆娘", "占卜師", "失業的網紅", "護士", "律師", "老師", "公司員工", "銀行職員"];
+    let currentJob = ""; 
     let bucketOrder = ["人際關係", "工作", "生活"];
     let currentBucketIdx = 0;
     let currentQuestionIdx = 0;
@@ -1088,7 +1075,7 @@ const topicBuckets = {
     if (dollTrigger) dollTrigger.onclick = openChat;
     if (closeBtn) closeBtn.onclick = closeChat;
 
-    // --- 3. 核心邏輯 ---
+    // --- 3. 輔助函式 ---
     function addMessage(text, role) {
         const div = document.createElement('div');
         div.className = `msg ${role === 'user' ? 'user' : 'ai'}`;
@@ -1110,21 +1097,21 @@ const topicBuckets = {
         }, 1000);
     }
 
-    // START TRIGGER
+    // --- 4. 核心對話邏輯 ---
+    async function handleSend() {
+        const input = document.getElementById('chatInput');
+        const val = input.value.trim();
+        if (!val) return;
+
+        // START TRIGGER
         if (val === "開始" && state !== "CHALLENGING") {
             state = "CHALLENGING";
             topicTurnCount = 1; 
-            
-            // 從你定義的 jobPool 隨機抽一個職業
-            currentJob = jobPool[Math.floor(Math.random() * jobPool.length)];
-            
+            currentJob = jobPool[Math.floor(Math.random() * jobPool.length)]; // 抽職業
             addMessage(val, 'user');
             startTimer();
-            
-            // 保持你要求的經典開場白
             const firstMsg = `嗨，你好，我叫小S。很高興認識你！${topicBuckets["人際關係"][0]}`;
             addMessage(firstMsg, 'ai');
-            
             input.value = '';
             return;
         }
@@ -1170,13 +1157,13 @@ const topicBuckets = {
                     messages: [
                         { 
                             role: "system", 
-                            content: `你是傲嬌少女小S。
-                            
+                            content: `你是傲嬌少女小S。你目前的隨機職業是【${currentJob}】。
                             規則：
-                            1. **情感表達**：回覆必須包含情緒（如：翻白眼、驚訝、偷笑、害羞），且表達不超過 20 字。
-                            2. **禁止冷場**：絕對不能說「累了」、「算了」、「沒事」。要展現活潑的人格。
-                            3. **對話限制**：當前話題【${nextTopic}】，字數控制在 40 字內，全篇最多一個問號。
-                            4. **轉場**：話題滿 3 輪後才考慮引導至：『${nextQuestion || "結尾"}』。` 
+                            1. **情感表達**：回覆必須包含情緒（如：翻白眼、驚訝、偷笑、臉紅），且表達不超過 20 字。
+                            2. **職業帶入**：如果聊到工作話題，請帶入【${currentJob}】的身分特點。
+                            3. **對話限制**：字數控制在 40 字內，全篇最多一個問號。
+                            4. **保持人格**：禁止說「累了」、「算了」，維持鮮明人格。
+                            5. **話題深入**：話題滿 3 輪才引導至下一題：『${nextQuestion || "結尾"}』。` 
                         },
                         ...conversationHistory.slice(-6)
                     ]
@@ -1186,10 +1173,10 @@ const topicBuckets = {
             const data = await res.json();
             let aiMsg = data.choices[0].message.content;
 
-            // --- 人格修正：防止 AI 隨機結束對話 ---
-            aiMsg = aiMsg.replace(/(算了|累了|沒事|沒什麼|不想說|無聊)/g, "好啦，其實我剛才在發呆...");
+            // 防止 AI 鬧脾氣
+            aiMsg = aiMsg.replace(/(算了|累了|沒事|沒什麼|不想說|無聊)/g, "好啦，其實我剛才在想...");
 
-            // Silence & Question Logic
+            // 處理問號與提問
             if (Math.random() < 0.3 && !isTransition && nextQuestion) {
                 aiMsg = aiMsg.split(/[？?]/)[0] + "。";
                 if (!forceStay) currentQuestionIdx--; 
@@ -1198,7 +1185,7 @@ const topicBuckets = {
                 if (parts.length > 2) aiMsg = parts[0] + "？";
             }
 
-            // Date Prevention
+            // 禁止過早約會
             if (topicTurnCount < 3) {
                 aiMsg = aiMsg.replace(/(下次|一起|約會|見面).*/g, "");
             }
@@ -1212,69 +1199,40 @@ const topicBuckets = {
             addMessage("❌ 哎呀，腦袋卡住了！再跟我說一次？", "ai"); 
         }
     }
+
     async function endChallenge() {
         clearInterval(timerId);
         state = "FINISHED";
         document.getElementById('chatInput').disabled = true;
-        addMessage("🚨 結束了！正在分析你的撩妹功力...", "ai");
+        addMessage("🚨 結束了！看我怎麼評價你...", "ai");
 
         const apiKey = sessionStorage.getItem('GROQ_KEY');
         try {
-
-            
-        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
                     messages: [
-                        { 
-                            role: "system", 
-                            content: `你是傲嬌少女小S。你目前的隨機職業是【${currentJob}】。
-                            規則：
-                            1. **情感表達**：回覆必須包含情緒（如：翻白眼、驚訝、偷笑、臉紅），且表達不超過 20 字。
-                            2. **職業帶入**：如果聊到工作話題，請帶入【${currentJob}】的身分特點。
-                            3. **對話限制**：字數控制在 40 字內，全篇最多一個問號。
-                            4. **保持人格**：禁止說「累了」、「算了」，要維持鮮明的人格。
-                            5. **話題深入**：話題滿 3 輪才引導至下一題：『${nextQuestion || "結尾"}』。` 
-                        },
-                        ...conversationHistory.slice(-6)
+                        { role: "system", content: "你是專業導師。請先給出一個 1-100 的原始評分，並接著給予 50 字內繁體中文建議。格式：[分數]分 - [建議]" },
+                        ...conversationHistory
                     ]
                 })
             });
-
             const data = await res.json();
             let aiResponse = data.choices[0].message.content;
 
-            // --- 人格化分數修正 (Human-like Logic) ---
-            const processedResponse = aiResponse.replace(/\d+(\.\d+)?/g, (match) => {
-                const num = parseFloat(match);
-                if (num > 100) return num; // 避免誤改年份
-
-                const humanFactor = 0.85 + (Math.random() * 0.15); // 隨機 85%~100% 的波動
-                let result = num * humanFactor;
-
-                // 讓分數看起來更像人類打的（例如 65, 75, 80）
-                return result > 20 ? Math.round(result / 5) * 5 : Math.round(result);
+            const discountedResponse = aiResponse.replace(/\d+/, (match) => {
+                return Math.round(parseInt(match) * 0.8); 
             });
 
-            // 使用 innerHTML 讓換行符號生效，並增加視覺效果
-            const finalHtml = `
-                <div style="border-left: 4px solid #ff4d4d; padding-left: 10px; margin: 5px 0;">
-                    <span style="font-size: 1.2em; color: #ff4d4d; font-weight: bold;">📊 導師實戰評定</span><br>
-                    ${processedResponse.replace(/\n/g, '<br>')}
-                </div>
-            `;
-
-            addMessage(finalHtml, 'ai');
-
+            addMessage(`<b>【實戰評價】</b><br>${discountedResponse}`, 'ai');
         } catch (e) { 
-            console.error(e);
-            addMessage("❌ 評分系統被小S拔掉插頭了...", "ai"); 
+            addMessage("評分系統暫時斷訊。", "ai"); 
         }
     }
 
-    // --- 4. 綁定按鈕 ---
+    // --- 5. 綁定事件 ---
     document.getElementById('sendBtn').onclick = handleSend;
     document.getElementById('chatInput').onkeydown = (e) => { if(e.key === 'Enter') handleSend(); };
 </script>
