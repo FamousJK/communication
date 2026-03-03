@@ -1127,21 +1127,20 @@
     const val = input.value.trim();
     if (!val) return;
 
-    // --- 1. 開始觸發 ---
-   if (val === "開始" && state !== "CHALLENGING") {
+    // --- 1. 處理開始指令 ---
+    if (val === "開始" && state !== "CHALLENGING") {
         state = "CHALLENGING";
-        topicTurnCount = 1;
+        topicTurnCount = 0; // 重置計數
         currentBucketIdx = 0;
-        currentTopic = "人際關係"; // 確保起始主題
+        currentTopic = "人際關係";
         currentJob = jobPool[Math.floor(Math.random() * jobPool.length)];
         
-        // 從第一個桶子隨機挑選
         const firstQuestions = topicBuckets["人際關係"];
         const randomFirstQ = firstQuestions[Math.floor(Math.random() * firstQuestions.length)];
         
         addMessage(val, 'user');
         startTimer();
-        const firstMsg = `嗨，你好，我叫小S。很高興認識你！${randomFirstQ}`;
+        const firstMsg = `(微笑) 嗨，你好，我叫小S。很高興認識你！${randomFirstQ}`;
         addMessage(firstMsg, 'ai');
         input.value = '';
         return;
@@ -1149,36 +1148,31 @@
 
     if (state !== "CHALLENGING") return;
 
+    // --- 2. 正常對話流程 ---
     addMessage(val, 'user');
     input.value = '';
     
     const apiKey = sessionStorage.getItem('GROQ_KEY');
     if (!apiKey) {
-        addMessage("請先輸入 API Key 並點擊啟動！", "ai");
+        addMessage("(尷尬) 請先輸入 API Key！", "ai");
         return;
     }
 
     try {
-        let currentTopic = bucketOrder[currentBucketIdx];
-        topicTurnCount++;
+        // 核心邏輯：先累加次數
+        topicTurnCount++; 
         
-        // 判定是否該切換話題
-    let isTransitionTime = (topicTurnCount >= 3);
         let nextQuestionToAsk = "";
-
-        if (isTransitionTime) {
-            // 1. 增加主題索引
-            currentBucketIdx++; 
-            
-            // 2. 檢查是否還有下一個主題
-            if (currentBucketIdx < bucketOrder.length) {
+        
+        // 只有當聊滿 3 句，且還有下一個桶子時，才抽新題目
+        if (topicTurnCount >= 3) {
+            let nextIdx = currentBucketIdx + 1;
+            if (nextIdx < bucketOrder.length) {
+                currentBucketIdx = nextIdx;
                 currentTopic = bucketOrder[currentBucketIdx];
-                // 3. 從新主題桶隨機抽一題
                 let newQuestions = topicBuckets[currentTopic];
                 nextQuestionToAsk = newQuestions[Math.floor(Math.random() * newQuestions.length)];
-                
-                // 4. 重置該主題的對話計數
-                topicTurnCount = 0; 
+                topicTurnCount = 0; // 換話題後重置，重新數 3 句
             }
         }
 
@@ -1190,14 +1184,14 @@
                 messages: [
                     { 
                         role: "system", 
-                        content: `你是可愛的少女小S，職業是【${currentJob}】。
+                        content: `你是可愛的少女小S，職業是【${currentJob}】。使用繁體中文回覆。
                         
                         當前任務：
-                        1. **回覆風格**：語氣要對對方感興趣，說話有趣且情緒化。每句話的開頭「必須」先加上括號括起來的情緒標籤，例如：(偷笑)、(翻白眼)、(期待)、(委屈)。
-                        2. **互動性**：不要只會回答。如果我有給你【引導問題】，請自然地把它編進對話末尾。
-                        3. **限制**：回覆嚴禁超過 45 字。全篇最多一個問號。
+                        1. **回覆風格**：每句話開頭必須加括號標籤如 (偷笑)。語氣要生動。
+                        2. **互動性**：前兩次對話請針對當前內容深入追問，不要換話題。只有當下方的【新問題】出現時，才在結尾轉場。
+                        3. **限制**：嚴禁超過 45 字。全篇最多一個問號。
                         4. **當前話題**：【${currentTopic}】。
-                        ${nextQuestionToAsk ? `請在回覆結尾「自然地」帶入這個新問題：『${nextQuestionToAsk}』` : "繼續深入聊當前話題，不要急著結束。"}` 
+                        ${nextQuestionToAsk ? `請在回覆結尾「自然地」帶入這個新問題：『${nextQuestionToAsk}』` : "請深入挖掘當前話題，不要急著結束。"}` 
                     },
                     ...conversationHistory.slice(-8)
                 ]
@@ -1206,14 +1200,12 @@
 
         const data = await res.json();
         let aiMsg = data.choices[0].message.content;
-
-        // 修正 AI 可能產生的負面斷句
         aiMsg = aiMsg.replace(/(算了|累了|沒事|沒什麼|不想說|無聊)/g, "(撇嘴) 好啦，其實我剛才在發呆...");
 
         addMessage(aiMsg.trim(), 'ai');
         
-        // 如果所有主題都聊完了
-        if (currentBucketIdx >= bucketOrder.length) {
+        // 檢查是否三個大話題都聊完了
+        if (currentBucketIdx >= bucketOrder.length - 1 && topicTurnCount >= 3) {
             setTimeout(endChallenge, 3000);
         }
     } catch (e) { 
