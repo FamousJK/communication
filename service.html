@@ -1133,40 +1133,47 @@
         if (!apiKey) { addMessage("(尷尬) 請先輸入 API Key！", "ai"); return; }
 
         try {
-            topicTurnCount++; 
-            let nextQuestionToAsk = "";
-            
-            // 聊滿 3 句才準備換主題
-            if (topicTurnCount >= 5) {
-                let nextIdx = currentBucketIdx + 1;
-                if (nextIdx < bucketOrder.length) {
-                    currentBucketIdx = nextIdx;
-                    currentTopic = bucketOrder[currentBucketIdx];
-                    let newQuestions = topicBuckets[currentTopic];
-                    nextQuestionToAsk = newQuestions[Math.floor(Math.random() * newQuestions.length)];
-                    topicTurnCount = 0; 
-                }
-            }
+        topicTurnCount++; 
+        let nextQuestionToAsk = "";
+        
+        // 1. 記住「當前正在聊的舊話題」
+        let lastTopic = currentTopic; 
 
-            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-                body: JSON.stringify({
-                    model: "llama-3.3-70b-versatile",
-                    messages: [
-                        { 
-                            role: "system", 
-                            content: `你是少女小S，職業是【${currentJob}】。用繁體中文回覆。
-                            1. **風格**：開頭加括號標籤如 (偷笑)。語氣生動感興趣。
-                            2. **互動**：前兩次對話請針對內容深入追問，禁止換話題。有【新問題】時才在結尾轉場。
-                            3. **限制**：嚴禁超過 45 字。全篇最多一個問號。
-                            4. **話題**：【${currentTopic}】。
-                            ${nextQuestionToAsk ? `請在回覆結尾帶入：『${nextQuestionToAsk}』` : "請深入挖掘當前話題，不要急著換話題。"}` 
-                        },
-                        ...conversationHistory.slice(-8)
-                    ]
-                })
-            });
+        // 2. 判斷是否「該準備」新話題了 (這裡維持你想要的 5 句)
+        if (topicTurnCount >= 5) {
+            let nextIdx = currentBucketIdx + 1;
+            if (nextIdx < bucketOrder.length) {
+                currentBucketIdx = nextIdx;
+                currentTopic = bucketOrder[currentBucketIdx]; // 更新全域主題
+                
+                let newQuestions = topicBuckets[currentTopic];
+                nextQuestionToAsk = newQuestions[Math.floor(Math.random() * newQuestions.length)];
+                topicTurnCount = 0; 
+            }
+        }
+
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+            body: JSON.stringify({
+                model: "llama-3.3-70b-versatile",
+                messages: [
+                    { 
+                        role: "system", 
+                        content: `你是少女小S，職業是【${currentJob}】。用繁體中文。
+                        
+                        1. **風格**：開頭加括號情緒標籤如 (偷笑)。
+                        2. **話題邏輯**：
+                           - 目前主題是【${lastTopic}】。
+                           ${nextQuestionToAsk 
+                             ? `需轉場：先對上一句做簡短評論，再用「對了」、「說到這」自然轉向新問題：『${nextQuestionToAsk}』` 
+                             : `深挖中：請針對【${lastTopic}】繼續聊，展現好奇心，禁止換話題。`}
+                        3. **限制**：禁超 45 字。嚴格遵守全篇最多一個問號。` 
+                    },
+                    ...conversationHistory.slice(-8)
+                ]
+            })
+        });
 
             const data = await res.json();
             let aiMsg = data.choices[0].message.content;
