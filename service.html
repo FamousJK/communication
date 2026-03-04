@@ -5,33 +5,21 @@
 <head>
 
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>我們的服務 - JK 交流工作坊</title>
 
     <style>
 
         :root {
-
             --primary-navy: #2c3e50;
-
             --accent-blue: #3498db;
-
             --soft-blue: #f0f7ff;
-
             --success-green: #27ae60;
-
             --ai-orange: #f39c12;
-
             --dark-orange: #d35400;
-
             --ai-gradient: linear-gradient(135deg, #f39c12, #d35400);
-
             --text-dark: #333;
-
             --bg-light: #f4f7f9;
-
         }
 
 
@@ -41,17 +29,11 @@
 .style-btn:disabled {
 
     background: #eee !important;
-
     color: #bbb !important;
-
     border-color: #ddd !important;
-
     cursor: not-allowed !important;
-
     box-shadow: none !important;
-
     transform: none !important;
-
 }
 
         
@@ -61,45 +43,32 @@
 .style-bar.shrunk {
 
     padding: 5px 10px;
-
     gap: 4px;
-
     max-height: 40px; /* 限制高度 */
-
     overflow: hidden;
-
     transition: all 0.5s ease; /* 平滑縮小動畫 */
-
     border-bottom: 1px solid #eee;
-
 }
 
 
 
 .style-bar.shrunk p {
-
     display: none; /* 隱藏「1. 選擇人格」等文字 */
-
 }
 
 
 
 .style-bar.shrunk .style-btn:not(.active) {
-
     display: none; /* 隱藏未被選中的按鈕 */
-
 }
 
 
 
 .style-bar.shrunk .style-btn.active {
-
+    
     margin: 0 auto;
-
     font-size: 0.75rem;
-
     padding: 2px 10px;
-
 }
 
 
@@ -113,11 +82,8 @@
 #chatInput:disabled {
 
     background-color: #e9ecef;
-
     cursor: not-allowed;
-
     color: #adb5bd;
-
 }
 
 
@@ -139,23 +105,14 @@
 .reset-btn {
 
     background: rgba(255, 255, 255, 0.2);
-
     border: 1px solid rgba(255, 255, 255, 0.5);
-
     color: white;
-
     padding: 2px 8px;
-
     border-radius: 5px;
-
     font-size: 0.8rem;
-
     cursor: pointer;
-
     margin-left: 10px;
-
     transition: 0.3s;
-
 }
 
 
@@ -163,79 +120,50 @@
 .reset-btn:hover {
 
     background: white;
-
     color: var(--dark-orange);
-
 }
 
         
 
         @keyframes gradientFlow {
-
             0% { background-position: 0% 50%; }
-
             50% { background-position: 100% 50%; }
-
             100% { background-position: 0% 50%; }
-
         }
 
 
 
         .btn-animated {
-
             background: linear-gradient(-45deg, #1a2a6c, #3498db, #00b09b, #1a2a6c);
-
             background-size: 400% 400%;
-
             animation: gradientFlow 6s ease infinite;
-
             color: white !important;
-
             transition: 0.3s ease;
-
             border: none;
-
             display: inline-block;
-
             text-decoration: none;
-
             border-radius: 12px;
-
             font-weight: 800;
-
             box-shadow: 0 4px 15px rgba(0, 176, 155, 0.2);
-
         }
 
 
 
         .btn-animated:hover {
-
             transform: translateY(-3px) scale(1.02);
-
             box-shadow: 0 8px 25px rgba(0, 176, 155, 0.4);
-
         }
 
 
 
         body { 
-
             font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; 
-
             line-height: 1.6; 
-
             color: var(--text-dark); 
-
             margin: 0; 
-
             padding: 0; 
-
             background: var(--bg-light); 
-
             -webkit-font-smoothing: antialiased;
-
         }
 
 
@@ -1212,7 +1140,7 @@ window.onload = () => {
        ? `【轉場任務】：先對剛才的話題做一個精彩的總結回饋，再用「對了」帶入新問題：『${nextQuestionToAsk}』` 
        : `【深挖任務】：分享一個你（身為${currentJob}）的相關觀點，最後才順帶問一個小問題。`}
 4. **禁止機械化**：嚴禁連續追問。如果使用者回答很短，你可以先調侃他一下再繼續。
-5. **限制**：禁超 60 字，全篇最多兩個問號。`
+5. **限制**：禁超 50 字，全篇最多兩個問號。`
             },
             ...conversationHistory.slice(-8)
         ]
@@ -1231,32 +1159,55 @@ window.onload = () => {
         } catch (e) { addMessage("❌ 訊號不穩，等我一下！", "ai"); }
     }
 
-    async function endChallenge() {
-        clearInterval(timerId);
-        state = "FINISHED";
-        document.getElementById('chatInput').disabled = true;
-        addMessage("(眨眼) 🚨 結束了！看我怎麼評價你...", "ai");
+ async function endChallenge() {
+    clearInterval(timerId);
+    state = "FINISHED";
+    document.getElementById('chatInput').disabled = true;
+    addMessage("(眨眼) 🚨 挑戰結束！我正在分析你的聊天表現...", "ai");
 
-        const apiKey = sessionStorage.getItem('GROQ_KEY');
-        try {
-            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-                body: JSON.stringify({
-                    model: "llama-3.3-70b-versatile",
-                    messages: [
-                        { role: "system", content: `你是一位犀利的社交教練。請審閱對話（對象是：${aiGender === "girl" ? "少女" : "少男"}${aiName}）並給出 [1-100] 分...` },
-                        ...conversationHistory
-                    ]
-                })
-            });
-            const data = await res.json();
-            let aiResponse = data.choices[0].message.content;
-            const randomFactor = 0.85 + (Math.random() * 0.1);
-            const discountedResponse = aiResponse.replace(/\d+/, (match) => Math.round(parseInt(match) * randomFactor));
-            addMessage(`<b>【實戰評價】</b><br>${discountedResponse}`, 'ai');
-        } catch (e) { addMessage("評分系統斷訊。", "ai"); }
+    const apiKey = sessionStorage.getItem('GROQ_KEY');
+    if (!apiKey) return;
+
+    try {
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+            body: JSON.stringify({
+                model: "llama-3.3-70b-versatile",
+                messages: [
+                    { 
+                        role: "system", 
+                        content: `你是一位犀利的社交訓練導師。請根據以下五個維度對使用者的表現進行深度評分 [1-100] 並給予簡短建議：
+                        1. **回覆速度 (Speed)**：使用者是否能及時接話。
+                        2. **話題深挖 (Branching)**：是否能針對 AI 說過的細節（如酒吧、披薩、電影類型）進行延展，而非只回「喔」。
+                        3. **浪漫氛圍 (Vibe)**：是否有展現幽默感、調情或讓人心跳的語氣。
+                        4. **對話流暢度 (Flow)**：回答是否與 AI 的上一句話高度相關，有無雞同講講。
+                        5. **開拓新話題 (New Topic)**：在話題乾涸時，是否有能力主動轉場。
+
+                        請用以下格式回覆：
+                        ### 📊 實戰表現總結
+                        - **總分**：[分數]
+                        - **細項評分**：
+                          - ⚡ 回覆速度：[分]
+                          - 🌳 話題延展：[分]
+                          - 💖 浪漫氣氛：[分]
+                          - 🌊 流暢程度：[分]
+                          - 🚀 轉場能力：[分]
+                        
+                        ### 💡 老師的話
+                        [一段犀利但有幫助的建議]`
+                    },
+                    ...conversationHistory
+                ]
+            })
+        });
+        const data = await res.json();
+        let aiResponse = data.choices[0].message.content;
+        addMessage(`<b>【實戰評價報告】</b><br>${aiResponse}`, 'ai');
+    } catch (e) {
+        addMessage("❌ 評價系統暫時離線。", "ai");
     }
+}
 
     document.getElementById('sendBtn').onclick = handleSend;
     document.getElementById('chatInput').onkeydown = (e) => { if(e.key === 'Enter') handleSend(); };
