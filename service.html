@@ -966,89 +966,112 @@
     
 
 <div class="chat-window" id="chatWindow">
-
     <div class="chat-header">
-
-        <span>小S | **2分鐘** 實戰挑戰</span>
-
-        <div id="timerDisplay" class="timer-tag">120s</div>
-
+        <span>**3分鐘** 實戰挑戰</span>
+        <div id="timerDisplay" class="timer-tag">180s</div>
         <span id="closeChat" style="cursor:pointer; font-size: 20px;">✕</span>
-
     </div>
-
-
 
     <div id="key-auth-area" style="background: #fff3cd; padding: 10px; font-size: 0.8rem; border-bottom: 1px solid #ffeeba; color: #856404;">
-
-        <div style="display: flex; gap: 5px;">
-
-            <input type="password" id="temp-key" placeholder="貼入 Groq API Key..." style="flex: 1; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
-
-            <button onclick="saveKey()" style="padding: 5px 10px; cursor: pointer; background: #856404; color: white; border: none; border-radius: 4px;">啟動</button>
-
-        </div>
-
-        <p style="margin: 5px 0 0 0; font-size: 0.7rem;">*Key 僅存於此分頁，安全且重新整理即消失</p>
-
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; gap: 5px;">
+                <input type="password" id="temp-key" placeholder="貼入 Groq API Key..." style="flex: 1; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+                <button onclick="saveKey()" style="padding: 5px 10px; cursor: pointer; background: #856404; color: white; border: none; border-radius: 4px;">啟動</button>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+    <span style="font-weight: bold; color: #856404;">挑戰對象：</span>
+    <div style="display: flex; background: #eee; border-radius: 20px; padding: 2px; flex: 1;">
+        <label style="flex: 1; text-align: center;">
+            <input type="radio" name="gender-toggle" value="girl" checked 
+                   style="display: none;" onchange="document.getElementById('gender-select').value='girl'">
+            <div class="toggle-btn active" onclick="updateGender(this, 'girl')" 
+                 style="padding: 6px; cursor: pointer; border-radius: 18px; transition: 0.3s; font-size: 0.8rem;">👧 女孩-小S</div>
+        </label>
+        <label style="flex: 1; text-align: center;">
+            <input type="radio" name="gender-toggle" value="boy" 
+                   style="display: none;" onchange="document.getElementById('gender-select').value='boy'">
+            <div class="toggle-btn" onclick="updateGender(this, 'boy')" 
+                 style="padding: 6px; cursor: pointer; border-radius: 18px; transition: 0.3s; font-size: 0.8rem;">👦 男孩-小J</div>
+        </label>
     </div>
-
-
-
-    <div id="chatMsgs" class="chat-messages">
-
-    <div class="msg ai">
-
-        <b>【2分鐘實戰挑戰】</b><br><br>
-
-        1. 貼入 API Key 並點擊啟動<br>
-
-        2. 選擇下方你想挑戰的角色風格<br>
-
-        3. <b>在下方輸入「開始」即可啟動倒數！</b>
-
-    </div>
-
+    <select id="gender-select" style="display: none;">
+        <option value="girl">girl</option>
+        <option value="boy">boy</option>
+    </select>
 </div>
 
+<style>
+    .toggle-btn.active {
+        background: var(--ai-gradient);
+        color: white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .toggle-btn:not(.active) {
+        color: #666;
+    }
+</style>
 
-
-    <div class="chat-input-area">
-
-        <input type="text" id="chatInput" placeholder="輸入訊息...">
-
-        <button class="send-btn" id="sendBtn">➤</button>
-
+<script>
+    function updateGender(el, val) {
+        // 切換視覺狀態
+        document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+        el.classList.add('active');
+        // 更新隱藏選單的值供 handleSend 讀取
+        document.getElementById('gender-select').value = val;
+    }
+</script>
+            <p style="margin: 5px 0 0 0; font-size: 0.7rem;">*Key 僅存於此分頁，安全且重新整理即消失</p>
+        </div>
     </div>
 
+    <div id="chatMsgs" class="chat-messages" style="flex: 1; overflow-y: auto;">
+        <div class="msg ai">
+            <b>【3分鐘實戰挑戰】</b><br><br>
+            1. 貼入 API Key 並點擊啟動<br>
+            2. 選擇下方你想挑戰的角色風格<br>
+            3. <b>點擊啟動後會自動開始挑戰！</b>
+        </div>
+    </div>
+
+    <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="輸入訊息...">
+        <button class="send-btn" id="sendBtn">➤</button>
+    </div>
 </div>
 
 
 <script>
     // --- 0. API Key 管理 ---
     function saveKey() {
-        const keyInput = document.getElementById('temp-key');
-        const key = keyInput.value.trim();
-        if (key.startsWith('gsk_')) {
-            sessionStorage.setItem('GROQ_KEY', key);
-            keyInput.value = '********';
-            keyInput.disabled = true;
-            alert('啟動成功！現在輸入「開始」來挑戰吧。');
-        } else {
-            alert('請輸入正確的 Groq API Key');
-        }
+    const keyInput = document.getElementById('temp-key');
+    const key = keyInput.value.trim();
+    if (key.startsWith('gsk_')) {
+        sessionStorage.setItem('GROQ_KEY', key);
+        keyInput.value = '********';
+        keyInput.disabled = true;
+        
+        // 💡 加入這行：自動幫使用者送出「開始」指令
+        const input = document.getElementById('chatInput');
+        input.value = "開始";
+        handleSend(); 
+    } else {
+        alert('請輸入正確的 Groq API Key');
     }
+}
 
-    window.onload = () => {
-        const savedKey = sessionStorage.getItem('GROQ_KEY');
-        if (savedKey) {
-            const keyInput = document.getElementById('temp-key');
-            if (keyInput) {
-                keyInput.value = '********';
-                keyInput.disabled = true;
-            }
-        }
-    };
+window.onload = () => {
+    const savedKey = sessionStorage.getItem('GROQ_KEY');
+    const keyInput = document.getElementById('temp-key');
+    if (savedKey && keyInput) {
+        keyInput.value = '********'; // 顯示已儲存狀態
+        keyInput.placeholder = "點擊以更換 Key...";
+        // 移除 keyInput.disabled = true; 讓使用者可以點擊更換
+        keyInput.onclick = function() {
+            this.value = '';
+            this.disabled = false;
+        };
+    }
+};
 
     // --- 1. 初始化數據 ---
     const topicBuckets = {
@@ -1058,13 +1081,15 @@
     };
 
     const jobPool = ["金融分析師", "酒吧老闆娘", "占卜師", "失業的網紅", "護士", "律師", "老師", "公司員工", "銀行職員"];
+    let aiGender = "girl"; 
+    let aiName = "小S";    
     let currentJob = ""; 
     let bucketOrder = ["人際關係", "工作", "生活"];
     let currentBucketIdx = 0;
     let currentTopic = "人際關係";
     let state = "READY"; 
     let conversationHistory = [];
-    let timeLeft = 120;
+    let timeLeft = 180;
     let timerId = null;
     let topicTurnCount = 0; 
 
@@ -1102,27 +1127,43 @@
     }
 
     // --- 4. 核心對話邏輯 ---
-    async function handleSend() {
-        const input = document.getElementById('chatInput');
-        const val = input.value.trim();
-        if (!val) return;
+ async function handleSend() {
+    const input = document.getElementById('chatInput');
+    const val = input.value.trim();
+    if (!val) return;
 
-        // --- 處理開始 ---
-        if (val === "開始" && state !== "CHALLENGING") {
-            state = "CHALLENGING";
-            topicTurnCount = 0;
-            currentBucketIdx = 0;
-            currentTopic = "人際關係";
-            currentJob = jobPool[Math.floor(Math.random() * jobPool.length)];
-            const firstQuestions = topicBuckets["人際關係"];
-            const randomFirstQ = firstQuestions[Math.floor(Math.random() * firstQuestions.length)];
-            
-            addMessage(val, 'user');
-            startTimer();
-            addMessage(`(微笑) 嗨，你好，我叫小S。很高興認識你！${randomFirstQ}`, 'ai');
-            input.value = '';
-            return;
-        }
+    if (val === "開始" && state !== "CHALLENGING") {
+        state = "CHALLENGING";
+
+        // 讀取 HTML 選單的值
+        const genderSelect = document.getElementById('gender-select');
+        aiGender = genderSelect ? genderSelect.value : "girl"; 
+        
+        // 【修正重點：確保名稱與性別完全同步】
+        aiName = (aiGender === "girl") ? "小S" : "小J"; // 原本可能是 阿S，這裡改為 小J
+
+        topicTurnCount = 0;
+        currentBucketIdx = 0;
+        currentTopic = "人際關係";
+        currentJob = jobPool[Math.floor(Math.random() * jobPool.length)];
+        
+        const firstQuestions = topicBuckets["人際關係"];
+        const randomFirstQ = firstQuestions[Math.floor(Math.random() * firstQuestions.length)];
+        
+        addMessage(val, 'user');
+        startTimer();
+        
+        // 使用修正後的 aiName
+        const introEmoji = (aiGender === "girl") ? "👧" : "👦";
+        addMessage(`(微笑) 嗨，你好！我是${aiName}。很高興認識你！${randomFirstQ}`, 'ai');
+        
+        const authArea = document.getElementById('key-auth-area');
+        if (authArea) authArea.style.display = 'none';
+
+        input.value = '';
+        return;
+    }
+
 
         if (state !== "CHALLENGING") return;
 
@@ -1153,27 +1194,30 @@
         }
 
         const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-            body: JSON.stringify({
-                model: "llama-3.3-70b-versatile",
-                messages: [
-                    { 
-                        role: "system", 
-                        content: `你是少女小S，職業是【${currentJob}】。用繁體中文回覆。
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+    body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+            { 
+                role: "system", 
+                content: `你是${aiGender === "girl" ? "活潑可愛的少女" : "陽光率性的男孩"}${aiName}，職業是【${currentJob}】。用繁體中文回覆。
 
-                        1. **風格**：開頭必加括號標籤如 (偷笑)、(撇嘴)。說話要俏皮、帶點可愛，展現妳的個性。
-                        2. **話題分支 (Branching Out)**：目前話題是【${lastTopic}】。
-                           ${nextQuestionToAsk 
-                             ? `需轉場：先對上一句做有趣的短結尾，再用「對了」、「說到這」自然帶入新問題：『${nextQuestionToAsk}』` 
-                             : `深挖中：請針對使用者的話發表意見或分享感受。如果覺得對話快斷了，可以適度反問一個相關的小問題。`}
-                        3. **禁止重複**：絕對不准重複使用者說過的話。
-                        4. **限制**：禁超 50 字。**全篇最多兩個問號**。不准重複使用者的話。`
-                    },
-                    ...conversationHistory.slice(-8)
-                ]
-            })
-        });
+1. **對話靈魂**：不要只會問問題！請先針對使用者的話給予【強烈的情緒回饋】（如：驚訝、認同、吐槽或分享你的職業小故事），展現你的個性。
+2. **語氣風格**：
+   - 女孩：俏皮、愛開玩笑、會用「喔」、「耶」等語助詞。
+   - 男孩：直率、幽默、會像兄弟一樣稱兄道弟或開點小玩笑。
+3. **話題引導**：
+   ${nextQuestionToAsk 
+       ? `【轉場任務】：先對剛才的話題做一個精彩的總結回饋，再用「對了」帶入新問題：『${nextQuestionToAsk}』` 
+       : `【深挖任務】：分享一個你（身為${currentJob}）的相關觀點，最後才順帶問一個小問題。`}
+4. **禁止機械化**：嚴禁連續追問。如果使用者回答很短，你可以先調侃他一下再繼續。
+5. **限制**：禁超 60 字，全篇最多兩個問號。`
+            },
+            ...conversationHistory.slice(-8)
+        ]
+    })
+});
 
             const data = await res.json();
             let aiMsg = data.choices[0].message.content;
@@ -1201,7 +1245,7 @@
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
                     messages: [
-                        { role: "system", content: `你是一位犀利的社交教練。請審閱對話並給出 [1-100] 分。格式：[分數]分 - [短評]\n優點：...\n建議：...` },
+                        { role: "system", content: `你是一位犀利的社交教練。請審閱對話（對象是：${aiGender === "girl" ? "少女" : "少男"}${aiName}）並給出 [1-100] 分...` },
                         ...conversationHistory
                     ]
                 })
