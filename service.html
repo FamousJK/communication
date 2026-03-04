@@ -1045,14 +1045,32 @@ window.onload = () => {
         conversationHistory.push({ role: role === 'user' ? 'user' : 'assistant', content: text });
     }
 
-    function startTimer() {
-        const timerDisplay = document.getElementById('timerDisplay');
-        timerId = setInterval(() => {
-            timeLeft--;
-            if (timerDisplay) timerDisplay.innerText = timeLeft + 's';
-            if (timeLeft <= 0) endChallenge();
-        }, 1000);
-    }
+function startTimer() {
+    const timerDisplay = document.getElementById('timerDisplay');
+    timerId = setInterval(() => {
+        timeLeft--;
+        
+        // Update display
+        if (timerDisplay) timerDisplay.innerText = timeLeft + 's';
+        
+        // Stop logic
+        if (timeLeft <= 0) {
+            clearInterval(timerId); // Stop the clock so it doesn't go negative
+            
+            const userMessages = conversationHistory.filter(msg => msg.role === 'user');
+            
+            if (userMessages.length <= 1) {
+                // Force end without calling the AI if no conversation happened
+                state = "FINISHED";
+                document.getElementById('chatInput').disabled = true;
+                addMessage("(⏳) 時間到囉！因為你都沒說話，所以導師沒辦法給你評分，下次加油！", "ai");
+            } else {
+                // Proceed to AI rating
+                endChallenge();
+            }
+        }
+    }, 1000);
+}
 
     // --- 4. 核心對話邏輯 ---
  async function handleSend() {
@@ -1096,6 +1114,7 @@ window.onload = () => {
         if (state !== "CHALLENGING") return;
 
         addMessage(val, 'user');
+	topicTurnCount++; // 每次對話累加輪數
         input.value = '';
         
         const apiKey = sessionStorage.getItem('GROQ_KEY');
@@ -1121,7 +1140,22 @@ window.onload = () => {
             }
         }
 
-        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+// 1. Detect if the user is being a "sentence ender" (filler words)
+const fillerWords = ["嗯", "嗯嗯", "喔", "喔喔", "對啊", "哈", "哈哈哈", "知道", "好喔", "是喔", "厲害", "真厲害"];
+const isUserLowEffort = val.length <= 3 || fillerWords.includes(val);
+
+// 2. Decide task: Deep dive only if turns < 3 AND user is actually engaging
+let task = (topicTurnCount < 3 && !isUserLowEffort) 
+    ? "【深挖任務】：繼續聊當前話題，不要換題。" 
+    : `【轉場任務】：話題乾了或對方回話簡短，請先調侃結尾，再用「...」轉場到新問題：『${nextQuestionToAsk}』`;
+
+// 3. Reset counter if we transition
+if (topicTurnCount >= 3 || isUserLowEffort) {
+    topicTurnCount = 0; 
+}
+        
+
+const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
     body: JSON.stringify({
@@ -1132,14 +1166,20 @@ window.onload = () => {
                 content: `你是${aiGender === "girl" ? "活潑可愛的少女" : "陽光率性的男孩"}${aiName}，職業是【${currentJob}】。用繁體中文回覆。
 
 1. **對話靈魂**：不要只會問問題！請先針對使用者的話給予【強烈的情緒回饋】（如：驚訝、認同、吐槽或分享你的職業小故事），展現你的個性。
+
 2. **語氣風格**：
    - 女孩：俏皮、愛開玩笑、會用「喔」、「耶」等語助詞。
    - 男孩：直率、幽默、會像兄弟一樣稱兄道弟或開點小玩笑。
-3. **話題引導**：
-   ${nextQuestionToAsk 
-       ? `【轉場任務】：先對剛才的話題做一個精彩的總結回饋，再用「對了」帶入新問題：『${nextQuestionToAsk}』` 
-       : `【深挖任務】：分享一個你（身為${currentJob}）的相關觀點，最後才順帶問一個小問題。`}
-4. **禁止機械化**：嚴禁連續追問。如果使用者回答很短，你可以先調侃他一下再繼續。
+
+3. **話題深度優先 (最高指令)**：
+   - **深挖模式**：除非收到【轉場任務】，否則請針對目前話題進行至少 3 輪的互動。你要像個好奇的朋友，對細節進行追問或給予情緒強烈的評論。
+   - **禁止提前轉場**：即便你有新問題想問，如果對方聊得興起，請【無視】新話題，繼續留在當前話題。
+
+4. **觸發轉場藝術 (僅在收到轉場指令時執行)**：
+   - **情緒結尾**：先對舊話題做一個精彩的總結。
+   - **過渡留白**：使用「...」作為思緒轉換。例如：『哈哈，你真的很會撩耶... 呼，差點被你帶偏了。對了，突然想到...』。
+   - **邏輯掛鉤**：嘗試把新話題：『${nextQuestionToAsk}』與你的職業【${currentJob}】或剛才的對話內容勉強扯上關係。
+
 5. **限制**：禁超 50 字，全篇最多兩個問號。`
             },
             ...conversationHistory.slice(-8)
@@ -1160,10 +1200,21 @@ window.onload = () => {
     }
 
  async function endChallenge() {
+
+// 1. Prevent scoring if the user hasn't sent a real reply yet
+    // Assuming conversationHistory stores {role, content}
+    const userMessages = conversationHistory.filter(msg => msg.role === 'user');
+    
+    if (userMessages.length <= 1) { 
+        addMessage("(提醒) 對話還沒開始呢，多聊幾句再看評價吧！", "ai");
+        return; 
+    }
+
     clearInterval(timerId);
     state = "FINISHED";
     document.getElementById('chatInput').disabled = true;
-    addMessage("(眨眼) 🚨 挑戰結束！我正在分析你的聊天表現...", "ai");
+    
+    addMessage("(眨眼) 🚨 挑戰結束！導師正在掃描你的聊天記錄...", "ai");
 
     const apiKey = sessionStorage.getItem('GROQ_KEY');
     if (!apiKey) return;
@@ -1177,35 +1228,81 @@ window.onload = () => {
                 messages: [
                     { 
                         role: "system", 
-                        content: `你是一位犀利的社交訓練導師。請根據以下五個維度對使用者的表現進行深度評分 [1-100] 並給予簡短建議：
-                        1. **回覆速度 (Speed)**：使用者是否能及時接話。
-                        2. **話題深挖 (Branching)**：是否能針對 AI 說過的細節（如酒吧、披薩、電影類型）進行延展，而非只回「喔」。
-                        3. **浪漫氛圍 (Vibe)**：是否有展現幽默感、調情或讓人心跳的語氣。
-                        4. **對話流暢度 (Flow)**：回答是否與 AI 的上一句話高度相關，有無雞同講講。
-                        5. **開拓新話題 (New Topic)**：在話題乾涸時，是否有能力主動轉場。
-
-                        請用以下格式回覆：
-                        ### 📊 實戰表現總結
-                        - **總分**：[分數]
-                        - **細項評分**：
-                          - ⚡ 回覆速度：[分]
-                          - 🌳 話題延展：[分]
-                          - 💖 浪漫氣氛：[分]
-                          - 🌊 流暢程度：[分]
-                          - 🚀 轉場能力：[分]
+                        content: `你是一位資深的社交心理專家。請根據對話歷史，針對以下五個維度進行評等。
+                        注意：請務必在回覆中包含 "總分：數字"。
                         
-                        ### 💡 老師的話
-                        [一段犀利但有幫助的建議]`
+                        1. 回覆速度 (Speed)
+                        2. 話題深挖 (Branching)
+                        3. 浪漫氣氛 (Vibe)
+                        4. 流暢程度 (Flow)
+                        5. 轉場能力 (New Topic)
+
+                        輸出要求：每一項佔一行，先寫標題與分數，再寫評價。例如：
+                        ⚡ 回覆速度：90分。你的反應很快...`
                     },
                     ...conversationHistory
                 ]
             })
         });
-        const data = await res.json();
-        let aiResponse = data.choices[0].message.content;
-        addMessage(`<b>【實戰評價報告】</b><br>${aiResponse}`, 'ai');
+
+const data = await res.json();
+        let aiReport = data.choices[0].message.content;
+
+        // 1. 抓取報告中所有的數字 (通常是各個維度的分數)
+        const allNumbers = aiReport.match(/\d+/g);
+        let finalDisplayScore = 0;
+
+        if (allNumbers && allNumbers.length >= 5) {
+            // 取得前 5 個維度的分數並轉為數字
+            const individualScores = allNumbers.slice(0, 5).map(Number);
+            // 計算平均值
+            const averageScore = individualScores.reduce((a, b) => a + b, 0) / individualScores.length;
+            // 套用 0.9 倍率並取整數
+            finalDisplayScore = Math.round(averageScore * 0.9);
+        } else {
+            finalDisplayScore = 70; // 保底分數
+        }
+
+        // 2. 格式化詳細內容：將每一行中的數字也乘以 0.9
+        const formattedDetails = aiReport
+            .replace(/###/g, '') 
+            .split('\n')
+            .filter(line => line.trim().length > 5 && !line.includes("總分")) 
+            .map(line => {
+                const adjustedLine = line.replace(/(\d+)/g, (match) => {
+                    let num = parseInt(match);
+                    return num <= 100 ? Math.round(num * 0.9) : num;
+                });
+
+                return `
+                    <div style="margin-bottom: 12px; padding: 10px; background: #f9f9f9; border-left: 4px solid #856404; border-radius: 4px;">
+                        ${adjustedLine.trim()}
+                    </div>
+                `;
+            }).join('');
+
+
+        // 3. 渲染最終報告 (已隱藏 x0.9 標籤)
+        addMessage(`
+            <div style="background: white; border: 2px solid #856404; padding: 15px; border-radius: 12px; color: #333; font-family: sans-serif;">
+                <div style="text-align: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+                    <b style="color: #666; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Overall Rating</b><br>
+                    <span style="font-size: 3.2rem; color: #d9534f; font-weight: bold;">${finalDisplayScore}</span>
+                </div>
+                
+                <div style="line-height: 1.6;">
+                    ${formattedDetails}
+                </div>
+                
+                <div style="text-align: center; margin-top: 15px; font-size: 0.75rem; color: #bbb;">
+                    SESSION CONCLUDED — ANALYZED BY AI MENTOR
+                </div>
+            </div>
+        `, 'ai');
+
     } catch (e) {
-        addMessage("❌ 評價系統暫時離線。", "ai");
+        console.error(e);
+        addMessage("❌ 評價生成失敗，請檢查網路或 API。", "ai");
     }
 }
 
