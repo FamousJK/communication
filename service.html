@@ -999,22 +999,50 @@
     };
 
     // --- 1. Initialization ---
-    const topicBuckets = {
-        "人際關係": ["你玩交友 App 很久了嗎？該不會是那種老油條吧？", "我最怕那種囉嗦到爆的人，你會怕那種話很多、很吵的女生嗎？", "你身邊是不是一堆紅粉知己？老實交代你有多少女性朋友！", "你覺得男女之間有純友誼嗎？還是那只是留備胎的藉口？", "如果你前女友突然傳訊息給你，你會回嗎？老實說喔！", "你第一眼看到女生會先看哪裡？敢說謊我就直接句點你！"],
-        "工作": ["你到底是做什麼工作的呀？如果是那種超無趣的會計我真的會當場睡著喔！", "每天坐在辦公室真的會讓人變醜耶！你上班是不是也忙到靈魂出竅？", "你該不會是那種下班還要回工作訊息的工作狂吧？我最討厭這種人了！", "你在公司是那種很受歡迎的人，還是那種默默躲在角落邊緣人？", "你工作時會偷魚嗎？還是那種老闆說什麼都說好的乖乖牌？"],
-        "生活": ["你喜歡去旅行嗎？如果是那種要去爬山、健行的苦行僧行程，我真的會直接封鎖你！", "我超愛吃的！你喜歡吃美食嗎？如果約會你帶我去吃路邊攤，我真的會翻臉喔！", "音樂就是我的靈魂！你喜歡聽音樂嗎？你該不會是聽那種讓人聽不懂的重金屬吧？", "你週末通常都在幹嘛？該不會是躲在家裡打電動不出門的宅男吧？", "你是貓派還是狗派？如果你說你不喜歡小動物，我們可能聊不下去了。"]
+
+const topicBuckets = {
+        "人際關係": [
+            "你玩交友 App 很久了嗎？感覺這裡的人都好神祕喔。",
+            "你會怕那種一開始就聊很深的人嗎？還是你喜歡慢慢來？",
+            "老實說，你身邊異性朋友多嗎？你會介意另一半有很要好的異性朋友嗎？",
+            "你覺得男女之間真的有純友誼嗎？還是最後都會變質？",
+            "如果約會到一半突然沒話題，你會覺得尷尬嗎？還是你會努力找話題？",
+            "你第一眼看到女生通常會先注意什麼？穿搭還是眼神？"
+        ],
+        "工作": [
+            "你是做什麼工作的呀？會不會常加班到很累？",
+            "每天坐在辦公室真的會讓人靈魂出竅耶！你上班也會偷偷放空嗎？",
+            "你是那種下班後就完全不看工作訊息的人嗎？",
+            "你在公司是那種很會帶動氣氛的人，還是比較安靜的那種？",
+            "你工作壓力大嗎？通常下班後都怎麼舒壓？"
+        ],
+        "生活": [
+            "你喜歡旅行嗎？你偏好那種排滿行程的，還是隨意走走的流浪風格？",
+            "我超愛吃的！你最近有吃到什麼厲害的餐廳嗎？",
+            "音樂對我來說超重要！你平常都聽什麼類型的歌？",
+            "你週末通常都在幹嘛？會出門晃晃還是待在家充電？",
+            "你是貓派還是狗派？看到可愛的小動物會忍不住想拍張照嗎？"
+        ]
     };
 
     const jobPool = [
         "酒吧老闆 (閱人無數、聊調酒、看透深夜心事)",
         "健身教練 (聊體脂、增肌、叫你動起來)", 
-        "算命師 (聊星象、業力、命中注定)", 
         "心理醫生 (聊潛意識、防衛機制、洞察人心)",
         "幼兒園老師 (溫柔、有耐心但快崩潰了)", 
         "工程師 (邏輯魔人、聊 Bug、想下班)", 
-        "理財顧問 (聊投資組合、風險控管、資產配置)",
         "獸醫 (聊寵物、疫苗、被抓傷的日常)",
         "空服員 (聊航線、奧客、時差、保持禮貌微笑)",
+	"平面設計師 (聊審美、改稿地獄、咖啡成癮)", 
+        "行銷企劃 (聊社群趨勢、辦活動、腦力激盪)", 
+        "咖啡店店員 (聊拉花、豆子種類、觀察客人)", 
+        "電商營運 (聊雙11、物流、網購趣事)",
+        "研究助理 (聊實驗、論文、學校生活)", 
+        "介面設計師 UI/UX (聊使用習慣、配色、App 介面)", 
+        "行政秘書 (聊辦公室日常、行程規劃、細心負責)",
+        "網頁開發者 (聊程式碼、遠端工作、科技產品)",
+        "補習班老師 (聊小屁孩、備課、喉嚨痛日常)",
+        "自由接案者 (聊居家工作、時間管理、找案子)",
         "房地產仲介 (聊坪數、格局、公設比、推銷金句)"
     ];
 
@@ -1029,6 +1057,9 @@
     let timeLeft = 180;
     let timerId = null;
     let topicTurnCount = 0; 
+// Respond time logic setup.
+    let userMessageCount = 0; // 紀錄使用者發了幾次話
+    let startTime = null;     // 紀錄挑戰開始時間	
 
     // --- 2. Window Control ---
     const chatWindow = document.getElementById('chatWindow');
@@ -1041,10 +1072,10 @@
     if (dollTrigger) dollTrigger.onclick = openChat;
     if (closeBtn) closeBtn.onclick = closeChat;
 
-    // --- 3. Helper Functions ---
+// --- 3. Helper Functions ---
     function addMessage(text, role) {
         const chatContainer = document.getElementById('chatMsgs'); 
-        if (!chatContainer || !text) return;
+        if (!chatContainer || !text) return null; // 💡 沒成功建立時回傳 null
 
         const div = document.createElement('div');
         div.className = `msg ${role === 'user' ? 'user' : 'ai'}`;
@@ -1053,10 +1084,16 @@
         chatContainer.appendChild(div);
         chatContainer.scrollTop = chatContainer.scrollHeight;
 
-        conversationHistory.push({ 
-            role: role === 'user' ? 'user' : 'assistant', 
-            content: text 
-        });
+        // 💡 只有當 text 不是「打字中」的狀態時，才存入對話紀錄
+        // 否則 AI 會把「正在輸入中...」也當成對話的一部分存起來
+        if (!text.includes("輸入中")) {
+            conversationHistory.push({ 
+                role: role === 'user' ? 'user' : 'assistant', 
+                content: text 
+            });
+        }
+
+        return div; // ✨ 關鍵：回傳這個 DOM 元素，讓 setTimeout 可以直接操作它
     }
 
     function startTimer() {
@@ -1078,128 +1115,194 @@
         }, 1000);
     }
 
-    async function handleSend() {
-        const input = document.getElementById('chatInput');
-        const val = input.value.trim();
+async function handleSend() {
+    const input = document.getElementById('chatInput');
+    const val = input.value.trim();
+    
+    if (!val) return;
+    if (val !== "開始" && state !== "CHALLENGING") return;
+
+    // --- START LOGIC ---
+    if (val === "開始") {
+        state = "CHALLENGING";
+        const genderSelect = document.getElementById('gender-select');
+        aiGender = genderSelect ? genderSelect.value : "girl"; 
+        aiName = (aiGender === "girl") ? "小S" : "小J";
+        topicTurnCount = 0;
+        currentBucketIdx = 0;
+        currentTopic = "人際關係";
+        currentJob = jobPool[Math.floor(Math.random() * jobPool.length)];
+
+        const pool = topicBuckets[currentTopic];
+        const randomFirstQ = pool[Math.floor(Math.random() * pool.length)];
+        const welcomeMsg = `(微笑) 嗨，你好！我是${aiName}。很高興認識你！${randomFirstQ}`;
         
-        if (!val) return;
-        if (val !== "開始" && state !== "CHALLENGING") return;
-
-        // --- START LOGIC ---
-        if (val === "開始") {
-            state = "CHALLENGING";
-            const genderSelect = document.getElementById('gender-select');
-            aiGender = genderSelect ? genderSelect.value : "girl"; 
-            aiName = (aiGender === "girl") ? "小S" : "小J";
-            topicTurnCount = 0;
-            currentBucketIdx = 0;
-            currentTopic = "人際關係";
-            currentJob = jobPool[Math.floor(Math.random() * jobPool.length)];
-
-            const pool = topicBuckets[currentTopic];
-            const randomFirstQ = pool[Math.floor(Math.random() * pool.length)];
-            const welcomeMsg = `(微笑) 嗨，你好！我是${aiName}。很高興認識你！${randomFirstQ}`;
-            
-            addMessage(val, 'user');
-            addMessage(welcomeMsg, 'ai');
-
-            startTimer();
-            const authArea = document.getElementById('key-auth-area');
-            if (authArea) authArea.style.display = 'none';
-            input.value = '';
-            return;
-        }
-
-        // --- REGULAR CHAT LOGIC ---
         addMessage(val, 'user');
-        topicTurnCount++; 
+        addMessage(welcomeMsg, 'ai');
+
+        startTime = Date.now(); 
+        userMessageCount = 0;   
+
+        startTimer();
+        const authArea = document.getElementById('key-auth-area');
+        if (authArea) authArea.style.display = 'none';
         input.value = '';
-        
-        const apiKey = sessionStorage.getItem('GROQ_KEY');
-        if (!apiKey) { addMessage("(尷尬) 請先輸入 API Key！", "ai"); return; }
-
-        try {
-            const fillerWords = ["嗯", "嗯嗯", "喔", "喔喔", "對啊", "哈", "哈哈哈", "知道", "好喔", "是喔", "厲害", "真厲害"];
-            const isUserLowEffort = val.length <= 3 || fillerWords.includes(val);
-
-            let task = "";
-            if (topicTurnCount < 3) {
-                task = "【深挖任務】：針對目前話題深入吐槽或追問。";
-            } else {
-                let nextIdx = currentBucketIdx + 1;
-                if ((isUserLowEffort || topicTurnCount >= 5) && nextIdx < bucketOrder.length) {
-                    currentBucketIdx = nextIdx;
-                    currentTopic = bucketOrder[currentBucketIdx];
-                    let newQuestions = topicBuckets[currentTopic];
-                    let nextQ = newQuestions[Math.floor(Math.random() * newQuestions.length)];
-                    task = `【轉場任務】：先調侃結尾，再用「...」轉場到新問題：『${nextQ}』`;
-                    topicTurnCount = 0; 
-                } else {
-                    task = "【深挖任務】：分享觀點或給予強烈情緒回饋。";
-                }
-            }
-            
-            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-                body: JSON.stringify({
-                    model: "llama-3.1-8b-instant",
-                    messages: [
-                        { role: "system", content: `【限40字內】你是${aiName}，${aiGender === "girl" ? "少女" : "男孩"}。${topicTurnCount >= 4 ? `職業：${currentJob}` : ''} 任務：${task}` },
-                        ...conversationHistory.slice(-8)
-                    ]
-                })
-            });
-
-            const data = await res.json();
-            let aiMsg = data.choices[0].message.content;
-            aiMsg = aiMsg.replace(/(算了|累了|不想說)/g, "(撇嘴) 好啦，其實我剛才在發呆...");
-            addMessage(aiMsg.trim(), 'ai');
-            
-            if (currentBucketIdx >= (bucketOrder.length - 1) && topicTurnCount >= 2) {
-                setTimeout(() => { if (state !== "FINISHED") endChallenge(); }, 3000);
-            }
-
-        } catch (e) { 
-            console.error("API Error:", e);
-            addMessage("❌ 訊號不穩，等我一下！", "ai"); 
-        }
+        return;
     }
 
+    // --- REGULAR CHAT LOGIC ---
+    addMessage(val, 'user');
+    userMessageCount++; 
+    topicTurnCount++; 
+    input.value = '';
+
+    const apiKey = sessionStorage.getItem('GROQ_KEY');
+    if (!apiKey) { addMessage("(尷尬) 請先輸入 API Key！", "ai"); return; }
+
+    try {
+        const fillerWords = ["嗯", "嗯嗯", "喔", "喔喔", "對啊", "哈", "哈哈哈", "知道", "好喔", "是喔", "厲害", "真厲害"];
+        const isUserLowEffort = val.length <= 3 || fillerWords.includes(val);
+
+        let task = "";
+        if (topicTurnCount < 4) {
+            task = "【深挖任務】：針對目前話題深入吐槽、好奇追問或撒嬌，表現出你想了解對方的樣子。";
+        } else {
+            let nextIdx = currentBucketIdx + 1;
+            if ((isUserLowEffort || topicTurnCount >= 5) && nextIdx < bucketOrder.length) {
+                currentBucketIdx = nextIdx;
+                currentTopic = bucketOrder[currentBucketIdx];
+                let newQuestions = topicBuckets[currentTopic];
+                let nextQ = newQuestions[Math.floor(Math.random() * newQuestions.length)];
+                task = `【轉場任務】：先對剛才的話題做一個可愛的結尾，再用「...」順暢轉場到新問題：『${nextQ}』`;
+                topicTurnCount = 0; 
+            } else {
+                task = "【深挖任務】：分享你自己的生活小事，並給予強烈的情緒回饋，讓氣氛曖昧一點。";
+            }
+        }
+        
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+            body: JSON.stringify({
+                model: "llama-3.1-8b-instant",
+                messages: [
+                    {
+                        role: "system", 
+                        content: `你是${aiName}。App找${aiGender === "girl" ? "男友" : "對象"}。${topicTurnCount >= 3 ? `職業:${currentJob}。` : ''}語氣:自然、撒嬌、曖昧。任務:${task}。規則：一次最多只問一個問題，不要連發提問。` 
+                    },
+                    ...conversationHistory.slice(-8)
+                ]
+            })
+        });
+
+const data = await res.json();
+        let aiMsg = data.choices[0].message.content.replace(/(算了|累了|不想說)/g, "哈哈，沒事啦，剛剛突然分心了一下...");
+
+        // --- 💡 人機化延遲核心區塊 ---
+        
+        // 1. 顯示「打字中」並抓取該元素
+        const tempAiMsgElement = addMessage(`${aiName} 正在輸入中...`, 'ai'); 
+
+        // 2. 根據字數計算合理的打字時間 (1.2秒 ~ 3秒)
+        const delayTime = Math.min(Math.max(aiMsg.length * 60, 1200), 3000);
+
+        setTimeout(() => {
+            if (tempAiMsgElement) {
+                // 3. 替換文字為真正的 AI 回覆
+                tempAiMsgElement.innerText = aiMsg.trim();
+                
+                // 4. 手動將正式內容補存入對話紀錄
+                conversationHistory.push({ 
+                    role: 'assistant', 
+                    content: aiMsg.trim() 
+                });
+            }
+
+            // 5. 結束判定 (確保在回話出現後才可能觸發結算)
+            if (currentBucketIdx >= (bucketOrder.length - 1) && topicTurnCount >= 2) {
+                setTimeout(() => { if (state !== "FINISHED") endChallenge(); }, 4000);
+            }
+        }, delayTime);
+
+    } catch (e) { 
+        console.error("API Error:", e);
+        addMessage("❌ 訊號不穩，等我一下！", "ai"); 
+    }
+}
+
     let latestFullReport = ""; 
-    async function endChallenge() {
-        clearInterval(timerId); 
-        state = "FINISHED";
-        document.getElementById('chatInput').disabled = true;
-        addMessage("(眨眼) 🚨 挑戰結束！JK 老師正在計算你的終極評分...", "ai");
+    
 
-        const apiKey = sessionStorage.getItem('GROQ_KEY');
-        if (!apiKey) return;
+async function endChallenge() {
+    clearInterval(timerId); 
+    state = "FINISHED";
+    document.getElementById('chatInput').disabled = true;
+    addMessage("(眨眼) 🚨 挑戰結束！JK 老師正在計算你的終極評分...", "ai");
 
-        try {
-            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-                body: JSON.stringify({
-                    model: "llama-3.1-8b-instant",
-                    messages: [
-                        { role: "system", content: "你是一位犀利的社交導師 JK。請分析對話紀錄並按格式評分。格式：速度：[分] 氛圍：[分] 流暢：[分] 深度：[分] 優點：[內容] 改進：[內容]" },
-                        ...conversationHistory
-                    ]
-                })
-            });
+    // --- 💡 這裡新增：速度分數計算邏輯 ---
+    const totalTimeUsed = (Date.now() - startTime) / 1000; // 總耗時秒數
+    const avgResponseTime = totalTimeUsed / userMessageCount; // 平均幾秒回一則
+    
+    let speedScore = 85; // 預設分數
+    if (userMessageCount < 5 || avgResponseTime > 35) {
+        // 如果 3 分鐘內回不到 5 句，或平均每句超過 35 秒才回，強制給低分
+        speedScore = Math.floor(Math.random() * 15) + 30; // 給 30-45 分
+    } else if (avgResponseTime > 25) {
+        speedScore = 65; 
+    }
+
+    const apiKey = sessionStorage.getItem('GROQ_KEY');
+    if (!apiKey) return;
+
+    try {
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+            body: JSON.stringify({
+                model: "llama-3.1-8b-instant",
+                messages: [
+                    { 
+                        role: "system", 
+                        // 💡 這裡將算好的 speedScore 強行塞給 AI
+                        content: `你是一位嚴苛的社交導師 JK。請分析對話紀錄。
+                        【硬性規定】：本次對話的速度評分判定為：${speedScore} 分。
+                        請務必在輸出中寫「速度：${speedScore}」，並根據此分數給予評價。
+                        如果分數低於 50，請在「改進」中嚴厲批評對方互動頻率太低。
+                        必須嚴格遵守此格式輸出：
+
+			速度：[${speedScore}] - 詳細分析：(針對節奏寫一段50字建議)
+			氛圍：[0-100] - 詳細分析：(針對情緒寫一段50字建議)
+			流暢：[0-100] - 詳細分析：(針對接話寫一段50字建議)
+			深度：[0-100] - 詳細分析：(針對內容寫一段50字建議)
+	
+			---網頁顯示專區---
+			優點：[請在此寫下一句極簡短的總結]
+			改進：[請在此寫下一句極簡短的總結]` 
+                    },
+                    ...conversationHistory
+                ]
+            })
+        });
 
             const data = await res.json();
+            // 儲存原始報告供 Email 使用
             latestFullReport = data.choices[0].message.content; 
 
+            // 改進的數值抓取邏輯 (支援全形與半形冒號)
             const getVal = (label) => {
-                const m = latestFullReport.match(new RegExp(`${label}：\\s*(\\d+)`));
-                return m ? parseInt(m[1]) : 70;
+                const m = latestFullReport.match(new RegExp(`${label}[：:]\\s*(\\d+)`));
+                return m ? parseInt(m[1]) : 70; // 找不到時預設為 70 分
             };
 
+            // 計算總平均分
             const finalScore = Math.round((getVal("速度") + getVal("氛圍") + getVal("流暢") + getVal("深度")) / 4);
-            const strengthMatch = latestFullReport.match(/優點：\s*([\s\S]*?)(?=改進|$)/);
-            const weaknessMatch = latestFullReport.match(/改進：\s*([\s\S]*?)$/);
+
+            // 提取優缺點文字 (使用更強大的匹配模式)
+		const strengthMatch = latestFullReport.match(/優點[：:]\s*\[?([\s\S]*?)\]?(?=\n|改進|$)/);
+		const weaknessMatch = latestFullReport.match(/改進[：:]\s*\[?([\s\S]*?)\]?$/);
+
+		const strengthText = strengthMatch ? strengthMatch[1].trim() : "表現穩定";
+		const weaknessText = weaknessMatch ? weaknessMatch[1].trim() : "細節可再優化";
 
             addMessage(`
                 <div id="final-card" style="animation: fadeIn 0.5s ease-in;">
@@ -1214,7 +1317,7 @@
                         </p>
                         <hr style="border: 0; border-top: 1px solid #ecc94b; margin: 12px 0;">
                         <input type="email" id="userEmail" placeholder="輸入 Email" style="width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #ecc94b; border-radius: 6px; margin-bottom: 10px;">
-                        <button onclick="submitLead()" style="width: 100%; background: #744210; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer;">提交並獲取建議</button>
+                        <button onclick="submitLead()" style="width: 100%; background: #744210; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer;">提交並獲取JK老師的完整復盤</button>
                     </div>
                 </div>
             `, 'ai');
