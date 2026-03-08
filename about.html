@@ -96,19 +96,21 @@
 .back-btn { 
     display: inline-block; 
     padding: 18px 60px;
-    background: white;
-    color: var(--primary-navy);
+    background: var(--primary-navy); /* 背景改為實心深藍 */
+    color: white;                    /* 文字改為白色 */
     text-decoration: none;
-    border: 2px solid var(--primary-navy);
-    border-radius: 12px; /* Square with slightly rounded corners */
+    border: 2px solid var(--primary-navy); 
+    border-radius: 12px; 
     font-weight: bold;
-    font-size: 1.4rem; /* Desktop size */
+    font-size: 1.4rem;               /* 保持 1.4rem */
     transition: 0.3s;
 }
 
 .back-btn:hover {
-    background: var(--primary-navy);
+    background: var(--accent-blue);  /* 滑鼠移入變亮藍色 */
+    border-color: var(--accent-blue);
     color: white;
+    transform: scale(1.05);          /* 增加微放大互動感 */
 }
         }
 
@@ -137,17 +139,18 @@
         margin: 40px 0; 
     }
 
-    .back-btn { 
-        display: inline-block;        /* Required for padding and borders to work */
-        padding: 12px 50px;
-        background: white;            /* Keeps the box white */
-        color: var(--primary-navy);
-        border: 2px solid var(--primary-navy); /* Creates the "Box" look */
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 1rem !important;   /* Matches your table: 1rem */
-        border-radius: 8px;           /* Square-like feel */  }
+.back-btn { 
+    display: inline-block;
+    padding: 12px 50px;
+    background: var(--primary-navy); /* 背景實心深藍 */
+    color: white;                    /* 文字白色 */
+    border: 2px solid var(--primary-navy); 
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem !important;    /* 手機版微調為 1.1rem 較好點擊 */
+    border-radius: 8px;
 }
+
     </style>
 </head>
 <body>

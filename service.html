@@ -560,130 +560,117 @@
         .btn-orange { background: var(--ai-orange); color: white; }
 
 
-
+/* --- 桌機版優化 (769px 以上) --- */
         @media (min-width: 769px) {
-
             .hero-banner { height: 250px; }
-
             .hero-banner h1 { font-size: 3.5rem; }
-
             .nav-links a { font-size: 1.3rem; gap: 40px; }
 
-            
-
-            /* This ensures they stay side-by-side on desktop */
-
+            /* 確保卡片在桌機版併排 */
             .lure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
+            /* --- 新增：實心深藍返回按鈕桌機版 --- */
+            .back-btn-container { 
+                text-align: center; 
+                margin: 80px 0 40px; /* 增加上方間距，讓它跟內容拉開距離 */
+            }
+
+            .back-btn { 
+                display: inline-block; 
+                padding: 18px 60px;
+                background: var(--primary-navy); 
+                color: white; 
+                text-decoration: none; 
+                border-radius: 12px;
+                font-weight: bold; 
+                font-size: 1.4rem; /* 統一提升至 1.4rem */
+                transition: 0.3s;
+                border: 2px solid var(--primary-navy);
+            }
+
+            .back-btn:hover { 
+                background: var(--accent-blue); 
+                border-color: var(--accent-blue);
+                transform: scale(1.05);
+                color: white;
+            }
         }
 
         
 
-   @media (max-width: 768px) {
-
+@media (max-width: 768px) {
         /* 1. Chat Window - Full Screen */
-
         .chat-window { 
-
             width: 100% !important; 
-
             right: 0 !important; 
-
             height: 100% !important; 
-
             bottom: 0 !important; 
-
             border-radius: 0 !important; 
-
         }
-
-
 
         /* 2. Stack Boxes Vertically */
-
         .step-row-desktop {
-
             flex-direction: column;
-
             gap: 15px; 
-
         }
 
-
-
-        /* 3. Shrink Titles and Padding */
-
+        /* 3. Shrink Titles and Padding - 對齊約 1.2rem ~ 1.6rem */
         .service-box h2 {
-
             font-size: 1.6rem; 
-
             margin-bottom: 15px;
-
         }
-
-
 
         .step-a-box, .step-b-box {
-
             padding: 20px; 
-
         }
 
-
-
-        /* 4. Standardize Font Sizes */
-
+        /* 4. Standardize Font Sizes - 統一為 1rem 確保與 About.html 一致 */
         .service-box p, 
-
         .step-a-box p, 
-
         .step-b-box p {
-
-            font-size: 1.1rem !important; 
-
-            line-height: 1.5;
-
+            font-size: 1rem !important; /* 從 1.1rem 降至 1rem，對齊 about.html */
+            line-height: 1.6;
         }
 
-
-
-        /* 5. Shrink Inner Box Headers */
-
+        /* 5. Shrink Inner Box Headers - 對齊約 1.2rem */
         .step-a-box h3, .step-b-box h3 {
-
-            font-size: 1.3rem !important;
-
+            font-size: 1.2rem !important; /* 從 1.3rem 降至 1.2rem，對齊其他頁面 */
         }
-
-
 
         /* 6. Fix Buttons */
-
         .btn {
-
             padding: 12px !important;
-
             font-size: 1.1rem !important;
-
             width: 100%;
-
             box-sizing: border-box;
-
         }
-
-
 
         .btn-animated {
-
             padding: 15px 30px !important;
-
             font-size: 1.2rem !important;
-
             width: auto; 
-
         }
 
-    } /* This closing brace was missing! */
+        /* --- 新增：實心深藍返回按鈕手機版 --- */
+        .back-btn-container { 
+            margin: 40px 0 60px; /* 給底部留點空間避免被導覽條擋住 */
+            text-align: center;
+        }
+
+        .back-btn { 
+            display: inline-block;
+            padding: 12px 50px;
+            background: var(--primary-navy); 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 8px;
+            font-weight: bold; 
+            font-size: 1.1rem !important; /* 統一手機版按鈕字級 */
+            border: 2px solid var(--primary-navy);
+            transition: 0.3s;
+        }
+
+    } /* 補齊了原本遺漏的括號 */
 
 </style>
 
@@ -1360,7 +1347,9 @@ async function endChallenge() {
 
 
     
-
+<div class="back-btn-container">
+        <a href="index.html" class="back-btn">← 返回主頁</a>
+    </div>
     
 
 </body>
