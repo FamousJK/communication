@@ -50,13 +50,9 @@
     display: none; /* 隱藏「1. 選擇人格」等文字 */
 }
 
-
-
 .style-bar.shrunk .style-btn:not(.active) {
     display: none; /* 隱藏未被選中的按鈕 */
 }
-
-
 
 .style-bar.shrunk .style-btn.active {
     
@@ -64,12 +60,6 @@
     font-size: 0.75rem;
     padding: 2px 10px;
 }
-
-
-
-        
-
-        
 
 /* 禁用狀態的輸入框樣式 */
 
@@ -81,15 +71,11 @@
 }
 
 
-
 /* 禁用狀態的傳送按鈕 */
 
 #sendBtn:disabled {
-
     background-color: #ccc;
-
     cursor: not-allowed;
-
 }
 
 
@@ -109,23 +95,17 @@
     transition: 0.3s;
 }
 
-
-
 .reset-btn:hover {
 
     background: white;
     color: var(--dark-orange);
 }
 
-        
-
         @keyframes gradientFlow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-
-
 
         .btn-animated {
             background: linear-gradient(-45deg, #1a2a6c, #3498db, #00b09b, #1a2a6c);
@@ -141,14 +121,10 @@
             box-shadow: 0 4px 15px rgba(0, 176, 155, 0.2);
         }
 
-
-
         .btn-animated:hover {
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 8px 25px rgba(0, 176, 155, 0.4);
         }
-
-
 
         body { 
             font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif; 
@@ -160,131 +136,67 @@
             -webkit-font-smoothing: antialiased;
         }
 
-
-
         .top-bar { background: var(--primary-navy); padding: 8px 5%; display: flex; justify-content: space-between; align-items: center; min-height: 45px; }
-
         .logo-container img { height: 30px; width: auto; display: block; }
-
         .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
-      
-
     /* Update these specific blocks in your <style> section */
-
-
 
 /* Hero Banner */
 
         .hero-banner {
 
             background: linear-gradient(rgba(44, 62, 80, 0.6), rgba(44, 62, 80, 0.6)), url('service-banner.jpg'); 
-
             background-size: cover;
-
             background-position: center 35%; 
-
             height: 130px; 
-
             display: flex; justify-content: center; align-items: center; color: white; text-align: center;
-
         }
 
         .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; font-weight: bold; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
 
-
-
         .nav-container { 
-
             background: white; 
-
             box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
-
             border-bottom: 1px solid #e1e8ed; 
-
             position: sticky; 
-
             top: 0; 
-
             z-index: 1000;
-
             overflow-x: auto; 
-
             white-space: nowrap; 
-
             -webkit-overflow-scrolling: touch;
-
         }
 
-
-
         .nav-container::-webkit-scrollbar { height: 4px; }
-
         .nav-container::-webkit-scrollbar-thumb { background: #bdc3c7; border-radius: 10px; }
 
-
-
         .nav-links { 
-
             display: flex; 
-
             list-style: none; 
-
             gap: 25px; 
-
             margin: 0 auto; 
-
             padding: 0 20px; 
-
             justify-content: center; 
-
             width: max-content; 
 
         }
 
-
-
         .nav-links a { 
-
             text-decoration: none; 
-
             color: var(--primary-navy); 
-
             font-weight: bold; 
-
             font-size: 1.1rem; 
-
             display: block;
-
             padding: 15px 5px;
-
             transition: 0.3s;
-
             border-bottom: 3px solid transparent; 
-
         }
-
-
 
         .nav-links a:hover, 
-
         .nav-links a.active { 
-
             color: var(--accent-blue); 
-
             border-bottom: 3px solid #bdc3c7; 
-
         }
-
-
-
-
-
-
-
-
-
-        
 
         /* --- AI 聊天視窗樣式 --- */
 
@@ -457,78 +369,40 @@
 
 }
 
-
-
-/* Ensure the main sections (1, 2, 3) do NOT move */
-
 .service-box {
-
     transition: none !important;
-
     transform: none !important;
-
     box-shadow: none !important;
-
 }
 
-
-
-/* Ensure only the individual STEP boxes move */
-
 .step-a-box, .step-b-box {
-
     transition: transform 0.3s ease, box-shadow 0.3s ease !important;
-
     cursor: pointer;
-
     background: white;
-
     position: relative;
-
     z-index: 1;
 
 }
 
-
-
 .step-a-box:hover, .step-b-box:hover {
-
     transform: translateY(-8px) !important;
-
     box-shadow: 0 12px 30px rgba(0,0,0,0.15) !important;
-
     z-index: 10;
-
 }
 
-
-
-/* 讓移動端選單更易滑動 */
-
 .nav-container {
-
     -webkit-overflow-scrolling: touch;
-
     scrollbar-width: none; /* Firefox 隱藏捲軸 */
 
 }
-
 .nav-container::-webkit-scrollbar {
-
     display: none; /* Chrome 隱藏捲軸 */
 
 }
-
         .service-box h2 { color: var(--primary-navy); font-size: 2.2rem; font-weight: 900; margin-bottom: 20px; border-bottom: 2px solid var(--accent-blue); display: inline-block; padding-bottom: 5px; }
-
         .service-box p { font-size: 1.3rem; color: #555; line-height: 1.7; }
-
-
-
         .step-row-desktop { display: flex; gap: 30px; margin-top: 25px; }
-
         .step-col { flex: 1; }
-
         .step-a-box, .step-b-box { 
     padding: 30px; 
     border-radius: 15px; 
@@ -536,26 +410,17 @@
     height: auto; 
     box-sizing: border-box; 
 }
-
         .step-a-box { border-color: var(--accent-blue); }
-
         .step-b-box { border-color: var(--ai-orange); }
-
         .step-badge { background: var(--primary-navy); color: white; padding: 5px 12px; border-radius: 4px; font-weight: bold; margin-right: 10px; }
-
         .step-badge-orange { background: var(--dark-orange); color: white; padding: 5px 12px; border-radius: 4px; font-weight: bold; }
 
-
-
         .btn { display: inline-block; padding: 15px 30px; text-decoration: none; border-radius: 12px; font-weight: 800; text-align: center; width: 100%; box-sizing: border-box; }
-
         .btn-blue { background: var(--accent-blue); color: white; }
-
         .btn-orange { background: var(--ai-orange); color: white; }
 
-
 /* --- 桌機版優化 (769px 以上) --- */
-        @media (min-width: 769px) {
+@media (min-width: 769px) {
             .hero-banner { height: 250px; }
             .hero-banner h1 { font-size: 3.5rem; }
             .nav-links a { font-size: 1.3rem; gap: 40px; }
@@ -589,8 +454,6 @@
                 color: white;
             }
         }
-
-        
 
 @media (max-width: 768px) {
         /* 1. Chat Window - Full Screen */
@@ -663,64 +526,39 @@
             border: 2px solid var(--primary-navy);
             transition: 0.3s;
         }
-
-    } /* 補齊了原本遺漏的括號 */
-
+    } 
 </style>
 
 </head>
 
 <body>
-
-
-
     <div class="top-bar">
-
         <div class="logo-container"><img src="logo.png" alt="Logo"></div>
-
         <div class="top-bar-links"><a href="#">FB</a><a href="#">IG</a><a href="#">YT</a></div>
-
     </div>
-
-
-
     <header class="hero-banner">
-
         <h1>我們的服務</h1>
-
     </header>
 
-
-
-    <nav class="nav-container">
-
+<nav class="nav-container">
         <ul class="nav-links">
-
             <li><a href="index.html">主頁</a></li>
-
             <li><a href="about.html">我們的承諾</a></li>
-
             <li><a href="service.html" class="active">我們的服務</a></li>
-
-            <li><a href="issue.html">溝通問題</a></li>
-
-            <li><a href="methods.html">交流技巧</a></li>
-
             <li><a href="#">學員見證</a></li>
-
+            <li><a href="issue.html">溝通問題</a></li>
+            <li><a href="methods.html">交流技巧</a></li>
             <li><a href="#">聯絡我們</a></li>
-
         </ul>
-
     </nav>
 
-    
-
 <div class="container">
-
     <section class="service-box">
-        <h2>1. MBTI 性格與 AI 諮詢</h2>
-        <div class="step-row-desktop">
+        <h2 style="margin-bottom: 5px; border-bottom: none; color: var(--primary-navy); font-size: 2.2rem; font-weight: 900; display: inline-block; padding-bottom: 0;">
+            1. MBTI 性格與 AI 諮詢
+        </h2>
+
+        <div class="step-row-desktop" style="margin-top: 5px;">
             <div class="step-col">
                 <div class="step-a-box">
                     <div style="margin-bottom:15px;">
@@ -728,14 +566,10 @@
                         <h3 style="display:inline; font-size: 1.6rem;">獲取性格報告</h3>
                     </div>
                     <p style="font-size: 1.4rem; color: #444; margin-bottom: 25px;">
-
                         透過專業測試了解你的溝通偏好。這是精進社交技巧的重要基石。
-
                     </p>
                     <a href="https://www.16personalities.com/ch" target="_blank" class="btn btn-blue" style="font-size: 1.25rem; padding: 18px;">
-
                         前往 MBTI 測試
-
                     </a>
                 </div>
             </div>
@@ -746,78 +580,71 @@
                         <h3 style="display:inline; font-size: 1.6rem;">AI 小S/小J 實戰挑戰</h3>
                     </div>
                     <p style="font-size: 1.4rem; color: #444; margin-bottom: 25px;">
-
-                        在 30 秒模擬對話中磨練臨場反應。點擊右下角橘色圖示開始挑戰。
-
+                        在 3 分鐘模擬對話中磨練臨場反應。點擊右下角橘色圖示開始挑戰。
                     </p>
                     <div class="btn btn-orange" style="cursor:default; font-size: 1.25rem; padding: 18px;">
-
                         點擊右下角圖示模擬 ↑
-
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-
-
-
-<h2 style="color: var(--primary-navy); font-size: 2.2rem; font-weight: 900; margin-bottom: 30px; border-bottom: 2px solid #e53e3e; display: inline-block; padding-bottom: 5px;">
-    2. JK 老師免費社交健檢
-</h2>
-
-<div class="step-row-desktop" style="margin-bottom: 40px;">
-    <div class="step-col" style="flex: 0 0 100%; max-width: 100%;">
-        <div class="step-a-box" style="border-color: #e53e3e; background: #fffafb; padding: 25px; min-height: auto;">
-            <div style="margin-bottom:15px;">
-                <span class="step-badge" style="background:#e53e3e; font-size: 1.1rem; padding: 4px 10px;">STEP C</span>
-                <h3 style="display:inline; font-size: 1.6rem; font-weight: bold; margin-left: 5px;">挑戰：專業社交評測</h3>
-            </div>
-            
-<p style="font-size: 1.4rem; color: #444; margin-bottom: 20px; line-height: 1.8;">
-    完成 <span style="background: #f39c12; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 1.1rem; margin: 0 4px;">STEP B</span> 的 <strong>「小S / 小J 聊天挑戰」</strong> 後，JK 老師將根據你的對話紀錄進行深度診斷。我們將針對回話速度、情緒價值及流暢度提供即時評分，協助你找出社交盲點，跨出改善關係的第一步。
-</p>
-
-            <div style="text-align: right;">
-            </div>
-        </div>
-    </div>
 </div>
 
 
 
+<h2 style="color: var(--primary-navy); font-size: 2.2rem; font-weight: 900; margin-bottom: 5px; border-bottom: none; display: inline-block; padding-bottom: 0;">
+    2. JK 老師能提供的協助與服務
+</h2>
 
-    <h2 style="color: var(--primary-navy); font-size: 2.2rem; font-weight: 900; margin-bottom: 30px; border-bottom: 2px solid #2ecc71; display: inline-block; padding-bottom: 5px;">
-        3. JK 老師專業服務體系
-    </h2>
+<div class="step-row-desktop" style="margin-top: 5px; margin-bottom: 40px;">
+    <div class="step-col" style="flex: 0 0 100%; max-width: 100%;">
+        <div class="step-a-box" style="border: 3px solid #2ecc71; background: #f9fffb; padding: 25px; border-radius: 12px; box-sizing: border-box;">
+            
+            <div style="margin-bottom:15px;">
+                <span class="step-badge" style="background:#27ae60; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold;">STEP C</span>
+                <h3 style="display:inline; font-size: 1.6rem; margin-left: 8px;">JK 老師專業評測</h3>
+            </div>
+            
+            <p style="font-size: 1.4rem; color: #444; margin-bottom: 20px; line-height: 1.8;">
+                完成 <span style="background: #d35400; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 1.1rem; margin: 0 4px; display: inline-block; vertical-align: middle;">STEP B</span> 
+                的 <strong>「小S / 小J 實戰挑戰」</strong> 後，JK 老師將根據你的對話紀錄進行深度診斷。我們將針對回話速度、情緒價值及流暢度提供即時評分，協助你找出社交盲點，跨出改善關係的第一步。<br>
+            </p>
+        </div>
+    </div>
+</div>
 
-<section class="service-box" style="margin-top: 40px; border: 3px solid #2ecc71; padding: 20px; border-radius: 15px; background: white;">
+<section class="service-box" style="margin-top: 5px; border: 3px solid #2ecc71; padding: 10px 20px 20px 20px; border-radius: 15px; background: #f9fffb;">
+    
+    <div class="step-row-desktop" style="margin-bottom: 10px;">
+        <div class="step-col" style="flex: 0 0 100%; max-width: 100%;">
+            <div style="padding: 0;">
+                <span class="step-badge" style="background:#27ae60; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold;">STEP D</span>
+                <h3 style="display:inline; font-size: 1.6rem; margin-left: 8px;">JK 老師的核心服務</h3>
+            </div>
+        </div>
+    </div>
+
     <div class="step-row-desktop">
         <div class="step-col">
-            <div class="step-a-box" style="border-color: #2ecc71;">
+            <div class="step-a-box" style="border-color: #2ecc71; background: white;">
                 <div style="margin-bottom:15px;">
-
-
                     <span class="step-badge" style="background:#27ae60;">LEARN</span>
                     <h3 style="display:inline; font-size: 1.6rem;">溝通技巧101</h3>
                 </div>
-
                 <p style="font-size: 1.4rem; color: #444; margin-bottom: 10px;">
-                    透過 CLEAR 溝通策略及多項核心溝通原則與技巧，協助學員建立清晰、有系統及具影響力的表達能力，提升在人際關係與日常互動中的溝通效果。
+                    透過 CLEAR 溝通策略及多項核心溝通原則與技巧，協助學員建立清晰、有系統及具影響力的表達能力。
                 </p>
             </div>
         </div>
         <div class="step-col">
-            <div class="step-b-box" style="border-color: #2ecc71;">
+            <div class="step-b-box" style="border-color: #2ecc71; background: white;">
                 <div style="margin-bottom:15px;">
-
-                    <span class="step-badge" style="background:#27ae60;">Strategy</span>
+                    <span class="step-badge" style="background:#27ae60;">STRATEGY</span>
                     <h3 style="display:inline; font-size: 1.6rem;">關係溝通策略制定</h3>
                 </div>
-
                 <p style="font-size: 1.4rem; color: #444; margin-bottom: 10px;">
-                    由顧問深入分析學員及其溝通對象的性格特質與互動模式，制定具策略性的溝通方案，以系統性地改善雙方的溝通衝突與關係互動。
+                    深入分析學員及其溝通對象的性格特質與互動模式，制定具策略性的方案，系統性地改善溝通衝突。
                 </p>
             </div>
         </div>
@@ -825,37 +652,36 @@
 
     <div class="step-row-desktop" style="margin-top: 20px;">
         <div class="step-col">
-            <div class="step-a-box" style="border-color: #2ecc71;">
+            <div class="step-a-box" style="border-color: #2ecc71; background: white;">
                 <div style="margin-bottom:15px;">
                     <span class="step-badge" style="background:#27ae60;">LIVE</span>
                     <h3 style="display:inline; font-size: 1.6rem;">即時支援</h3>
                 </div>
-
                 <p style="font-size: 1.4rem; color: #444; margin-bottom: 10px;">
-                    透過 WhatsApp / WeChat 提供即時諮詢與指導，在實際溝通情境中協助學員制定合適的回應策略，以提升溝通效果並達致更理想的互動結果。
+                    透過 WhatsApp / WeChat 提供即時諮詢，在實際情境中協助制定回應策略，達致理想的互動結果。
                 </p>
             </div>
-
         </div>
         <div class="step-col">
-            <div class="step-b-box" style="border-color: #2ecc71;">
+            <div class="step-b-box" style="border-color: #2ecc71; background: white;">
                 <div style="margin-bottom:15px;">
                     <span class="step-badge" style="background:#27ae60;">MBTI</span>
                     <h3 style="display:inline; font-size: 1.6rem;">性格特質應用</h3>
                 </div>
                 <p style="font-size: 1.4rem; color: #444; margin-bottom: 10px;">
-                    結合 MBTI 報告，教你如何根據對方的性格類型「對症下藥」，優化溝通。
+                    結合 MBTI 報告，教你如何根據對方的性格類型「對症下藥」，精準優化雙向溝通效率。
                 </p>
             </div>
         </div>
     </div>
 
-<div style="text-align: center; margin-top: 20px; border-top: 1px dashed #eee; padding-top: 20px;">
-    <p style="font-size: 1.8rem; color: #444; margin-bottom: 30px;">針對高難度場景，預約專家級私人 1對1 深度服務</p>
-    <a href="#" class="btn btn-animated-waves" style="font-size: 2rem; padding: 25px 90px;">
-        預約 JK 老師諮詢    
-    </a>
-</div>
+    <div style="text-align: center; margin-top: 20px; border-top: 1px dashed #2ecc71; padding-top: 20px;">
+        <p style="font-size: 1.8rem; color: #444; margin-bottom: 30px;">針對高難度場景，預約專家級私人 1對1 深度服務</p>
+        <a href="#" class="btn btn-animated-waves" style="font-size: 2rem; padding: 25px 90px;">
+            預約 JK 老師諮詢    
+        </a>
+    </div>
+</section>
 
 </section>
 
@@ -1231,19 +1057,9 @@ function startChallenge() {
 </script>
 
 
-
-    
-
-
-
-
-
-    
 <div class="back-btn-container">
         <a href="index.html" class="back-btn">← 返回主頁</a>
     </div>
-    
 
 </body>
-
 </html>
