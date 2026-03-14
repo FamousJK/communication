@@ -3,125 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>學員見證 - JK 老師</title>
+    <title>學員見證 - JK 交流工作坊</title>
     <style>
         :root {
-            --primary-green: #2ecc71;
             --primary-navy: #2c3e50;
-            --light-bg: #f9fffb;
+            --accent-blue: #3498db;
+            --soft-blue: #f0f7ff;
+            --success-green: #27ae60;
+            --text-dark: #333;
+            --bg-light: #f9f9f9;
         }
 
-        body { font-family: 'PingFang TC', sans-serif; background-color: #fff; margin: 0; padding: 20px; color: #333; }
-
-        .container { max-width: 1000px; margin: 0 auto; }
-
-        .category-section { margin-bottom: 60px; }
-
-        .category-header {
-            border-left: 5px solid var(--primary-green);
-            padding-left: 15px;
-            margin-bottom: 25px;
+        body { 
+            font-family: 'Segoe UI', "Microsoft JhengHei", Arial, sans-serif; 
+            line-height: 1.6; 
+            color: var(--text-dark); 
+            margin: 0; padding: 0; 
+            background: var(--bg-light); 
+            overflow-x: hidden; 
         }
 
-        .category-header h2 { font-size: 1.8rem; color: var(--primary-navy); margin: 0; }
-        .category-header p { color: #666; margin-top: 5px; }
+        /* --- Top Bar --- */
+        .top-bar { 
+            background: var(--primary-navy); 
+            padding: 8px 5%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            min-height: 45px;
+        }
+        .logo-container img { height: 35px; width: auto; display: block; }
+        .top-bar-links { display: flex; gap: 15px; } 
+        .top-bar-links a { color: white; text-decoration: none; font-size: 14px; opacity: 0.9; }
 
-        /* The Flipbook/Slider Container */
+        /* --- Hero Banner --- */
+        .hero-banner {
+            background: linear-gradient(rgba(44, 62, 80, 0.6), rgba(44, 62, 80, 0.6)), url('bridge-people.jpg'); 
+            background-size: cover;
+            background-position: center 35%; 
+            height: 130px; 
+            display: flex; justify-content: center; align-items: center; color: white; text-align: center;
+        }
+        .hero-banner h1 { font-size: 2.2rem; margin: 0; padding: 0 20px; font-weight: bold; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+
+        /* --- Navigation --- */
+        .nav-container { 
+            background: white; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            text-align: center; 
+        }
+        .nav-links { 
+            display: inline-flex; 
+            list-style: none; 
+            margin: 0 auto; 
+            padding: 0;
+            justify-content: center; 
+            gap: 10px; 
+        }
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--primary-navy); 
+            font-weight: bold; 
+            font-size: 1.1rem; 
+            white-space: nowrap; 
+            display: block; 
+            padding: 15px 12px; 
+            transition: 0.3s; 
+            border-bottom: 3px solid transparent; 
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent-blue); }
+        .nav-links a.active { border-bottom: 3px solid #bdc3c7; }
+
+        /* --- Content Layout --- */
+        .testi-container { max-width: 850px; margin: 20px auto; padding: 20px 20px 40px 20px; }
+        
+        .category-section { 
+            margin-bottom: 40px; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            border-top: 5px solid var(--accent-blue);
+        }
+
+        .category-header h2 { 
+            color: var(--primary-navy); 
+            font-size: 1.6rem; 
+            margin-top: 0; 
+            border-bottom: 2px solid var(--soft-blue); 
+            display: inline-block; 
+            padding-bottom: 5px; 
+            margin-bottom: 5px; 
+        }
+        
+        .category-header p { 
+            font-size: 1.3rem; 
+            color: #444; 
+            margin-top: 5px; 
+            margin-bottom: 15px; 
+        }
+
+        /* --- Slider Logic (顯示捲軸) --- */
         .testi-slider {
             display: flex;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             gap: 20px;
-            padding: 10px 0 30px 0;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary-green) #eee;
+            padding-bottom: 15px; /* 給捲軸預留空間 */
+            scrollbar-width: thin; 
+            scrollbar-color: var(--accent-blue) #eee;
         }
 
-        .testi-slider::-webkit-scrollbar { height: 8px; }
-        .testi-slider::-webkit-scrollbar-thumb { background: var(--primary-green); border-radius: 10px; }
+        /* 自定義捲軸樣式 (Chrome/Safari) */
+        .testi-slider::-webkit-scrollbar {
+            height: 6px;
+            display: block;
+        }
+        .testi-slider::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .testi-slider::-webkit-scrollbar-thumb {
+            background: var(--accent-blue);
+            border-radius: 10px;
+        }
 
-        /* Each Screenshot Page */
         .testi-page {
-            flex: 0 0 300px; /* Width of each screenshot */
+            flex: 0 0 280px; /* 每張見證圖的固定寬度 */
             scroll-snap-align: start;
-            background: white;
-            border-radius: 15px;
             border: 1px solid #eee;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease;
+            border-radius: 12px;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .testi-img { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; display: block; }
+        .testi-caption { padding: 15px; font-size: 1rem; color: #666; background: #fafafa; border-top: 1px solid #eee; }
+
+        /* --- Media Queries --- */
+        @media (min-width: 769px) {
+            .hero-banner { height: 250px; }
+            .hero-banner h1 { font-size: 3.5rem; }
+            .nav-links { gap: 20px; }
+            .nav-links a { font-size: 1.4rem; }
         }
 
-        .testi-page:hover { transform: translateY(-5px); }
-
-        .testi-img {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 9 / 16; /* Standard phone screenshot ratio */
-            background-color: #f0f0f0;
-            object-fit: cover;
+        @media (max-width: 768px) {
+            .nav-container { overflow-x: auto; }
+            .nav-links { display: flex; justify-content: flex-start; padding: 0 10px; }
+            .nav-links a { font-size: 1rem !important; padding: 15px 8px; }
+            .category-header p { font-size: 1.1rem !important; }
+            .testi-page { flex: 0 0 250px; }
         }
-
-        .testi-caption {
-            padding: 15px;
-            font-size: 1rem;
-            color: #444;
-            line-height: 1.5;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        .hint { font-size: 0.9rem; color: #999; text-align: center; margin-top: -15px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1 style="text-align: center; color: var(--primary-navy); font-size: 2.5rem; margin-bottom: 40px;">學員實戰見證</h1>
-
-    <section class="category-section">
-        <div class="category-header">
-            <h2>即時支援 (LIVE)</h2>
-            <p>透過即時對話指導，協助學員在關鍵時刻做出最正確的回應。</p>
+    <div class="top-bar">
+        <div class="logo-container"><img src="logo.png" alt="Logo"></div>
+        <div class="top-bar-links">
+            <a href="index.html">首頁</a>
+            <a href="testi.html">學員見證</a>
+            <a href="#">FB</a>
+            <a href="#">IG</a>
         </div>
+    </div>
+
+    <header class="hero-banner">
+        <h1>學員實戰見證</h1>
+    </header>
+
+    <nav class="nav-container">
+        <ul class="nav-links">
+            <li><a href="index.html">主頁</a></li>
+            <li><a href="about.html">我們的承諾</a></li>
+            <li><a href="service.html">我們的服務</a></li>
+            <li><a href="testi.html" class="active">學員見證</a></li>
+            <li><a href="issue.html">溝通問題</a></li>
+            <li><a href="methods.html">交流技巧</a></li>
+            <li><a href="contact.html">聯絡我們</a></li>
+        </ul>
+    </nav>
+
+    <div class="testi-container">
         
-        <div class="hint">按住並左右滑動翻閱錄 ➔</div>
-
-        <div class="testi-slider">
-            <div class="testi-page">
-                <img src="placeholder-screenshot-1.png" alt="Testimonial" class="testi-img">
-                <div class="testi-caption">
-                    <strong>案例：化解僵局</strong><br>
-                    協助學員處理冷戰 48 小時後的第一次開口。
+        <section class="category-section" id="strategy">
+            <div class="category-header">
+                <h2>關係溝通策略制定</h2>
+                <p>深入分析雙方性格特質，量身打造長期的互動方案。</p>
+            </div>
+            <div class="testi-slider">
+                <div class="testi-page">
+                    <img src="testi-e01-strategy.jpeg" alt="見證" class="testi-img">
+                    <div class="testi-caption"><strong>長期策略引導</strong><br>精準分析對象特質。</div>
                 </div>
             </div>
-            <div class="testi-page">
-                <img src="placeholder-screenshot-2.png" alt="Testimonial" class="testi-img">
-                <div class="testi-caption">
-                    <strong>案例：邀約成功</strong><br>
-                    精準拿捏情緒價值，讓原本拒絕的對象轉為答應。
+        </section>
+
+        <section class="category-section" id="live" style="border-top-color: var(--success-green);">
+            <div class="category-header">
+                <h2>即時支援 (LIVE)</h2>
+                <p>陪你在關鍵對話中穩健前行，提供即時診斷。</p>
+            </div>
+            <div class="testi-slider">
+                <div class="testi-page">
+                    <img src="testi-m01-support.jpeg" alt="見證" class="testi-img">
+                    <div class="testi-caption"><strong>即時對話神救援</strong><br>關鍵時刻提供建議。</div>
                 </div>
             </div>
-            </div>
-    </section>
+        </section>
 
-    <section class="category-section">
-        <div class="category-header">
-            <h2>溝通技巧 101</h2>
-            <p>學員應用 CLEAR 策略後的系統性進步與反饋。</p>
-        </div>
-        <div class="testi-slider">
-            <div class="testi-page">
-                <img src="placeholder-101.png" alt="Testimonial" class="testi-img">
-                <div class="testi-caption">
-                    學員表示現在說話更有自信，不再害怕衝突。
+        <section class="category-section" id="basics" style="border-top-color: var(--accent-blue);">
+            <div class="category-header">
+                <h2>溝通技巧 101</h2>
+                <p>系統化學習溝通核心原則，從根本提升表達能力。</p>
+            </div>
+            <div class="testi-slider">
+                <div class="testi-page">
+                    <img src="testi-e02-custom.jpeg" alt="見證" class="testi-img">
+                    <div class="testi-caption"><strong>基礎觀念提升</strong><br>掌握核心邏輯，輕鬆自然交流。</div>
+                </div>
+                <div class="testi-page">
+                    <img src="testi-h01-session.jpeg" alt="見證" class="testi-img">
+                    <div class="testi-caption"><strong>實戰技巧應用</strong><br>將理論轉化為實際對話。</div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-</div>
+        <section class="category-section" id="others" style="border-top-color: #9b59b6;">
+            <div class="category-header">
+                <h2>其他的見證</h2>
+                <p>記錄每一段關係的蛻變與成長。</p>
+            </div>
+            <div class="testi-slider">
+                <div class="testi-page">
+                    <img src="others-1.jpg" alt="見證" class="testi-img">
+                    <div class="testi-caption"><strong>綜合回饋</strong><br>學員感謝老師的細心指引。</div>
+                </div>
+            </div>
+        </section>
+
+    </div>
 
 </body>
 </html>
