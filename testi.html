@@ -112,7 +112,6 @@
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             gap: 20px;
-            /* 修正：增加內距確保截圖邊緣文字與陰影不被切掉 */
             padding: 10px 10px 25px 10px; 
             scrollbar-width: thin; 
             scrollbar-color: var(--accent-blue) #eee;
@@ -128,7 +127,7 @@
         }
 
         .testi-page {
-            flex: 0 0 280px; 
+            flex: 0 0 320px; /* INCREASED box size */
             scroll-snap-align: start;
             border: 1px solid #eee;
             border-radius: 12px;
@@ -141,11 +140,11 @@
 
         .testi-img { 
             width: 100%; 
-            /* 修正：使用 contain 確保對話截圖內容完整顯示不被裁切 */
-            aspect-ratio: 9 / 16; 
+            height: auto; /* REMOVED rigid ratio to let photo dictate height */
             object-fit: contain; 
-            background-color: #f0f0f0; /* 圖片較小時填充灰色底 */
-            display: block; 
+            background-color: #f7f7f7; /* REDUCED visual impact of gap */
+            display: block;
+            padding: 5px; /* MINIMIZED gap around photo */
         }
 
         .testi-caption { 
@@ -163,7 +162,7 @@
             .hero-banner h1 { font-size: 3.5rem; }
             .nav-links { gap: 20px; }
             .nav-links a { font-size: 1.4rem; }
-            .testi-page { flex: 0 0 320px; }
+            .testi-page { flex: 0 0 350px; } /* WIDER on desktop */
         }
 
         @media (max-width: 768px) {
@@ -171,7 +170,7 @@
             .nav-links { display: flex; justify-content: flex-start; padding: 0 10px; }
             .nav-links a { font-size: 1rem !important; padding: 15px 8px; }
             .category-header p { font-size: 1.1rem !important; }
-            .testi-page { flex: 0 0 85%; } /* 手機版寬度佔比 */
+            .testi-page { flex: 0 0 88%; } 
         }
     </style>
 </head>
@@ -211,7 +210,7 @@
         </div>
         <div class="testi-slider">
             <div class="testi-page">
-                <img src="e-content-01-web.jpg" alt="見證" class="testi-img">
+                <img src="testi-e-content-01-web.jpg" alt="見證" class="testi-img">
                 <div class="testi-caption"><strong>長期策略引導</strong><br>精準分析對象特質。</div>
             </div>
         </div>
@@ -224,7 +223,7 @@
         </div>
         <div class="testi-slider">
             <div class="testi-page">
-                <img src="e-strategy-02-web.jpg" alt="見證" class="testi-img">
+                <img src="testi-e-strategy-02-web.jpg" alt="見證" class="testi-img">
                 <div class="testi-caption"><strong>即時對話神救援</strong><br>關鍵時刻提供建議。</div>
             </div>
         </div>
@@ -237,11 +236,11 @@
         </div>
         <div class="testi-slider">
             <div class="testi-page">
-                <img src="m-review-01-web.jpg" alt="見證" class="testi-img">
+                <img src="testi-m-review-01-web.jpg" alt="見證" class="testi-img">
                 <div class="testi-caption"><strong>基礎觀念提升</strong><br>掌握核心邏輯，輕鬆自然交流。</div>
             </div>
             <div class="testi-page">
-                <img src="testi-h01-session.jpeg" alt="見證" class="testi-img">
+                <img src="testi-m-review-01-web.jpg" alt="見證" class="testi-img">
                 <div class="testi-caption"><strong>實戰技巧應用</strong><br>將理論轉化為實際對話。</div>
             </div>
         </div>
@@ -254,11 +253,11 @@
         </div>
         <div class="testi-slider">
             <div class="testi-page">
-                <img src="m-review-01-web.jpg" alt="見證 1" class="testi-img">
+                <img src="testi-m-review-01-web.jpg" alt="見證 1" class="testi-img">
                 <div class="testi-caption"><strong>綜合回饋</strong><br>學員感謝老師的細心指引。</div>
             </div>
             <div class="testi-page">
-                <img src="h-teams-01-web.jpg" alt="見證 2" class="testi-img">
+                <img src="testi-h-teams-01-web.jpg" alt="見證 2" class="testi-img">
                 <div class="testi-caption"><strong>課程心得</strong><br>這是第二位學員的回饋內容。</div>
             </div>
         </div>
