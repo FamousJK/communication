@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學員見證 - JK 老師</title>
+    <style>
+        :root {
+            --primary-green: #2ecc71;
+            --primary-navy: #2c3e50;
+            --light-bg: #f9fffb;
+        }
+
+        body { font-family: 'PingFang TC', sans-serif; background-color: #fff; margin: 0; padding: 20px; color: #333; }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        .category-section { margin-bottom: 60px; }
+
+        .category-header {
+            border-left: 5px solid var(--primary-green);
+            padding-left: 15px;
+            margin-bottom: 25px;
+        }
+
+        .category-header h2 { font-size: 1.8rem; color: var(--primary-navy); margin: 0; }
+        .category-header p { color: #666; margin-top: 5px; }
+
+        /* The Flipbook/Slider Container */
+        .testi-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 20px;
+            padding: 10px 0 30px 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-green) #eee;
+        }
+
+        .testi-slider::-webkit-scrollbar { height: 8px; }
+        .testi-slider::-webkit-scrollbar-thumb { background: var(--primary-green); border-radius: 10px; }
+
+        /* Each Screenshot Page */
+        .testi-page {
+            flex: 0 0 300px; /* Width of each screenshot */
+            scroll-snap-align: start;
+            background: white;
+            border-radius: 15px;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .testi-page:hover { transform: translateY(-5px); }
+
+        .testi-img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 9 / 16; /* Standard phone screenshot ratio */
+            background-color: #f0f0f0;
+            object-fit: cover;
+        }
+
+        .testi-caption {
+            padding: 15px;
+            font-size: 1rem;
+            color: #444;
+            line-height: 1.5;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .hint { font-size: 0.9rem; color: #999; text-align: center; margin-top: -15px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 style="text-align: center; color: var(--primary-navy); font-size: 2.5rem; margin-bottom: 40px;">學員實戰見證</h1>
+
+    <section class="category-section">
+        <div class="category-header">
+            <h2>即時支援 (LIVE)</h2>
+            <p>透過即時對話指導，協助學員在關鍵時刻做出最正確的回應。</p>
+        </div>
+        
+        <div class="hint">按住並左右滑動翻閱錄 ➔</div>
+
+        <div class="testi-slider">
+            <div class="testi-page">
+                <img src="placeholder-screenshot-1.png" alt="Testimonial" class="testi-img">
+                <div class="testi-caption">
+                    <strong>案例：化解僵局</strong><br>
+                    協助學員處理冷戰 48 小時後的第一次開口。
+                </div>
+            </div>
+            <div class="testi-page">
+                <img src="placeholder-screenshot-2.png" alt="Testimonial" class="testi-img">
+                <div class="testi-caption">
+                    <strong>案例：邀約成功</strong><br>
+                    精準拿捏情緒價值，讓原本拒絕的對象轉為答應。
+                </div>
+            </div>
+            </div>
+    </section>
+
+    <section class="category-section">
+        <div class="category-header">
+            <h2>溝通技巧 101</h2>
+            <p>學員應用 CLEAR 策略後的系統性進步與反饋。</p>
+        </div>
+        <div class="testi-slider">
+            <div class="testi-page">
+                <img src="placeholder-101.png" alt="Testimonial" class="testi-img">
+                <div class="testi-caption">
+                    學員表示現在說話更有自信，不再害怕衝突。
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>
