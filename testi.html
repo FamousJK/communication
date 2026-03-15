@@ -139,12 +139,16 @@
         }
 
         .testi-img { 
-            width: 100%; 
-            height: auto; /* REMOVED rigid ratio to let photo dictate height */
-            object-fit: contain; 
-            background-color: #f7f7f7; /* REDUCED visual impact of gap */
-            display: block;
-            padding: 5px; /* MINIMIZED gap around photo */
+
+	    width: 100%; 
+	    /* Remove the fixed height/ratio so the box adjusts to the photo */
+	    height: auto; 
+	    aspect-ratio: auto; 
+	    /* Use cover to ensure the image fills the width of the card */
+	    object-fit: cover; 
+	    display: block;
+	    /* Optional: ensures a clean white background if the photo is slightly smaller */
+	    background-color: #fff;
         }
 
         .testi-caption { 
@@ -217,6 +221,10 @@
                 <img src="testi-e-feedback-01-web.jpg" alt="見證" class="testi-img">
                 <div class="testi-caption"><strong>翻盤分析</strong><br>陪伴學員細心回顧約會細節，在體貼處給予叮嚀，助其成功贏得對方好感。</div>
             </div>
+            <div class="testi-page">
+                <img src="testi-t-strategy-01-web.jpg" alt="見證" class="testi-img">
+                <div class="testi-caption"><strong>私人定制策略</strong><br>專屬策略規劃環節，由JK老師根據學員情況提供建議。</div>
+            </div>
         </div>
     </section>
 
@@ -265,9 +273,18 @@
                 <div class="testi-caption"><strong>綜合回饋</strong><br>學員感謝老師的細心指引。</div>
             </div>
             <div class="testi-page">
-                <img src="testi-h-teams-01-web.jpg" alt="見證 2" class="testi-img">
-                <div class="testi-caption"><strong>課程心得</strong><br>這是第二位學員的回饋內容。</div>
+                <img src="testi-e-thank-01-web.jpg" alt="見證 2" class="testi-img">
+                <div class="testi-caption"><strong>個案分析</strong><br>課程期間將進行即時個案分析，並在課程結束時向學員表達誠摯的感謝與肯定。</div>
             </div>
+            <div class="testi-page">
+                <img src="testi-e-thank-02-web.jpg" alt="見證 2" class="testi-img">
+                <div class="testi-caption"><strong>耐心提點</strong><br>為學員的實際情況提供精準提點與建議，並獲學員正面回饋。</div>
+            </div>
+            <div class="testi-page">
+                <img src="testi-t-thank-01-web.jpg" alt="見證 2" class="testi-img">
+                <div class="testi-caption"><strong>修改回復</strong><br>為學員修改回復内容，並獲學員肯定與感謝。</div>
+            </div>
+
         </div>
     </section>
 </div>
