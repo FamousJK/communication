@@ -35,8 +35,7 @@
         .logo-container img { height: 30px; width: auto; display: block; }
         .top-bar-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 14px; opacity: 0.8; }
 
-        /* Hero Banner - Synced */
-         /* Hero Banner */
+        /* Hero Banner */
         .hero-banner {
             background: linear-gradient(rgba(44, 62, 80, 0.6), rgba(44, 62, 80, 0.6)), url('about-us.jpg'); 
             background-size: cover;
@@ -89,68 +88,52 @@
             .card-final-wrap .story-card { max-width: 850px; border-top-color: var(--success-green); }
             .story-card h2 { font-size: 1.5rem; }
             .back-btn-container { 
-    text-align: center; 
-    margin: 60px 0; 
-}
+                text-align: center; 
+                margin: 60px 0; 
+            }
 
-.back-btn { 
-    display: inline-block; 
-    padding: 18px 60px;
-    background: var(--primary-navy); /* 背景改為實心深藍 */
-    color: white;                    /* 文字改為白色 */
-    text-decoration: none;
-    border: 2px solid var(--primary-navy); 
-    border-radius: 12px; 
-    font-weight: bold;
-    font-size: 1.4rem;               /* 保持 1.4rem */
-    transition: 0.3s;
-}
+            .back-btn { 
+                display: inline-block; 
+                padding: 18px 60px;
+                background: var(--primary-navy); 
+                color: white; 
+                text-decoration: none;
+                border: 2px solid var(--primary-navy); 
+                border-radius: 12px; 
+                font-weight: bold;
+                font-size: 1.4rem; 
+                transition: 0.3s;
+            }
 
-.back-btn:hover {
-    background: var(--accent-blue);  /* 滑鼠移入變亮藍色 */
-    border-color: var(--accent-blue);
-    color: white;
-    transform: scale(1.05);          /* 增加微放大互動感 */
-}
+            .back-btn:hover {
+                background: var(--accent-blue); 
+                border-color: var(--accent-blue);
+                color: white;
+                transform: scale(1.05); 
+            }
         }
 
-        /* Mobile Adjustments - Fixed Braces */
-        
-@media (max-width: 768px) {
-    .nav-container { overflow-x: auto; }
-    .nav-links { justify-content: flex-start; padding-right: 50px; }
-    
-    /* Font size updates based on your table */
-    .hero-banner h1 { font-size: 2.2rem !important; } /* Hero 標題 */
-    
-    .nav-links a { font-size: 1rem !important; } /* 導覽列連結 */
-    
-    .story-card h2 { 
-        font-size: 1.2rem !important; /* 內文標題 (h2) */
-    }
-
-    .story-card p, 
-    .story-card ul li { 
-        font-size: 1rem !important; /* 內文段落 (p, li) */
-    }
-
-.back-btn-container { 
-        text-align: center; /* Ensures the button is centered on screen */
-        margin: 40px 0; 
-    }
-
-.back-btn { 
-    display: inline-block;
-    padding: 12px 50px;
-    background: var(--primary-navy); /* 背景實心深藍 */
-    color: white;                    /* 文字白色 */
-    border: 2px solid var(--primary-navy); 
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.1rem !important;    /* 手機版微調為 1.1rem 較好點擊 */
-    border-radius: 8px;
-}
-
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .nav-container { overflow-x: auto; }
+            .nav-links { justify-content: flex-start; padding-right: 50px; }
+            .hero-banner h1 { font-size: 2.2rem !important; }
+            .nav-links a { font-size: 1rem !important; }
+            .story-card h2 { font-size: 1.2rem !important; }
+            .story-card p, .story-card ul li { font-size: 1rem !important; }
+            .back-btn-container { text-align: center; margin: 40px 0; }
+            .back-btn { 
+                display: inline-block;
+                padding: 12px 50px;
+                background: var(--primary-navy); 
+                color: white; 
+                border: 2px solid var(--primary-navy); 
+                text-decoration: none;
+                font-weight: bold;
+                font-size: 1.1rem !important; 
+                border-radius: 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -175,49 +158,80 @@
 
     <div class="story-container">
         <div class="story-row">
-            <div class="story-card">
-                <h2>🌱 我們的初衷</h2>
-                <p>在快節奏的現代生活中，我們往往學會了說話，卻忘記了如何「溝通」。JK 交流工作坊提供一個專業且溫暖的空間，讓大家重新學習如何精準表達需求，建立有溫度的連結。</p>
-            </div>
+<div class="story-card">
+        	<h2>🌱 我們的初衷｜解決你的溝通困境</h2>
+	        <p><strong>你是否也曾感到...</strong></p>
+		<ul style="margin-bottom: 25px;">
+
+	            <li><strong>表達</strong><strong style="color: red;">困難</strong> 與 <strong style="color: red;">思想混亂</strong>：心裡有話卻難以開口，聊天時思緒容易「斷片」、腦袋一片空白？</li>
+        	    <li><strong style="color: red;">缺乏</strong><strong>方向</strong>：難以延續對話，想不到新話題，更無法從現有話題中延伸？</li>
+	            <li><strong>社交</strong><strong style="color: red;">焦慮</strong>：面對對象感到害羞，或是因為恐懼說錯話而不敢真實表達自我？</li>
+		    <li><strong>心理咨詢</strong><strong style="color: red;">無效</strong>：心理諮詢卻不見成效？傳統諮商往往只停留在情緒疏解而<strong style="color: red;">沒有方案</strong>？</li>
+	        </ul>
+
+</div>
             <div class="side-image">
                 <img src="about-intent.jpg" alt="我們的初衷">
             </div>
         </div>
 
-        <div class="story-row row-reverse">
-            <div class="story-card">
-                <h2>💎 溝通的意義</h2>
-                <p>溝通不僅是訊息的傳遞，更是心靈的連結。透過有效的溝通框架，我們能將衝突轉化為彼此理解的契機，讓每一段關係都能在健康的對話中成長。</p>
-            </div>
-            <div class="side-image">
-                <img src="about-purpose.jpg" alt="溝通的意義">
-            </div>
-        </div>
+	<div class="story-row row-reverse">
+	    <div class="story-card">
+      <h2>💎 JK導師的背景</h2>
+    <p>
+        JK 是一位至深交流導師，擁有 <span style="color: #0056b3; font-weight: bold;">7年</span> 豐富經驗，<span style="color: #0056b3; font-weight: bold;">專攻男女關係諮詢</span>，專注於個人及情侶關係的溝通與互動指導。
+    </p>
+    <p>
+        擅長根據學員的個人需求運用溝通 <span style="color: #0056b3; font-weight: bold;">黃金法則</span>，涵蓋溝通 <span style="color: #0056b3; font-weight: bold;">技巧</span>、<span style="color: #0056b3; font-weight: bold;">性格分析</span> 及 <span style="color: #0056b3; font-weight: bold;">關係策略</span>。對 MBTI 及人格分析有深入研究，致力於打造貼合每位學員的定制方案。更多成果可參考 <a href="testi.html" style="color: #0056b3; font-weight: bold; text-decoration: underline;">學員見證</a>。
+    </p>
+	    </div>
+    	<div class="side-image">
+     	   <img src="about-purpose.jpg" alt="溝通的意義">
+	</div>
+	</div>
 
         <div class="story-row">
             <div class="story-card">
-                <h2>🚀 學習的益處</h2>
-                <ul>
-                    <li>掌握溝通流，確保訊息完整傳遞。</li>
-                    <li>在各種社交場合中更自信地表達自我。</li>
-                    <li>提升情緒覺察能力，減少無效爭吵。</li>
-                    <li>學會辨識溝通障礙並即時修正。</li>
-                </ul>
+                <h2>🚀 JK交流工作坊｜課程與服務</h2>
+<ul>
+        <li>
+            <strong style="color: #00a88a;">思維與邏輯重建</strong>：掌握 <strong style="color: #00a88a;">溝通流</strong> 根治思想混亂與聊天斷片，讓你隨時都能接話並延伸話題。
+        </li>
+        <li>
+            <strong style="color: #00a88a;">個人化實戰定制</strong>：提供 <strong style="color: #00a88a;">量身定制</strong> 的專屬策略，針對你的性格特質與社交焦慮，設計出一套全面的方案。
+        </li>
+        <li>
+            <strong style="color: #00a88a;">即時落地支援</strong>：不同於傳統諮商的虛擬排解，我們強調 <strong style="color: #00a88a;">即時</strong> 診斷與具體行動方案，支援與具體行動方向。
+        </li>
+    </ul>
             </div>
             <div class="side-image">
                 <img src="about-connect.jpg" alt="學習益處">
             </div>
         </div>
 
-        <div class="card-final-wrap">
-            <div class="story-card">
-                <h2>🤝 幫助有需要的人</h2>
-                <p>我們特別關注在人際關係中感到孤立或焦慮的群體。透過系統化的連結與互動訓練，幫助您建立安全感與自我肯定，讓自信在每一次成功的對話中自然萌芽。</p>
-            </div>
-        </div>
+<div class="story-row row-reverse">
+    <div class="story-card">
+        <h2>✨ 成功轉變｜學員見證</h2>
+        <p>JK 已協助多位學員克服溝通挑戰，實現從內到外的蛻變：</p>
+        <ul style="list-style: none; padding-left: 0;">
+            <li style="margin-bottom: 12px;">
+                ✅ <strong>關係重生</strong>：認清 <strong style="color: red;">溝通盲點</strong>，帶領無數情侶從分手邊緣重燃熱情。
+            </li>
+            <li style="margin-bottom: 12px;">
+                ✅ <strong>自我實現</strong>：掌握實戰 <strong style="color: #00a88a;">溝通流</strong>，將技能內化，達成真正的自信成長。
+            </li>
+        </ul>
+        <p style="margin-top: 25px; border-top: 1px solid #eee; pt-15">
+            👉 請前往我們的 <a href="service.html" style="color: #0056b3; font-weight: bold;">服務項目</a>，看看 JK 老師如何透過具體方案助你突破困境。
+        </p>
     </div>
-    
-    <div class="back-btn-container">
+    <div class="side-image">
+        <img src="about-testimonials.jpg" alt="學員成功故事">
+    </div>
+</div>
+
+    </div> <div class="back-btn-container">
         <a href="index.html" class="back-btn">← 返回主頁</a>
     </div>
 </body>
