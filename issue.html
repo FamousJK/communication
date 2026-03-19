@@ -10,6 +10,8 @@
             --accent-blue: #3498db;
             --soft-blue: #f0f7ff;
             --issue-red: #e74c3c;
+            /* New Color for Issue Card Borders */
+            --issue-orange: #ff9f43; 
             --text-dark: #333;
             --bg-light: #f9f9f9;
         }
@@ -111,7 +113,7 @@
 
         @media (min-width: 769px) {
 		.hero-banner { height: 250px; }
-    		.hero-banner h1 { 
+   		.hero-banner h1 { 
         font-size: 3rem; /* 如果 service.html 桌機版是 3rem 的話 */
     }
         }
@@ -151,16 +153,16 @@
             gap: 30px; 
         }
 
-        /* Card Style - Synced with Service.html Left Border */
+        /* Card Style - Orange Border */
         .issue-card { 
             background: #fff; 
-            padding: 30px; 
+            padding: 20px 30px; 
             border-radius: 15px; 
             text-align: left; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             width: 100%;
             box-sizing: border-box;
-            border-left: 5px solid var(--accent-blue);
+            border-left: 5px solid var(--issue-orange); /* Changed from blue to orange */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .issue-card:hover {
@@ -177,14 +179,14 @@
 
         /* Titles Size - Synced with Service.html */
         .issue-card h3 { 
-            color: var(--primary-navy); 
-            font-size: 1.6rem; 
-            margin-top: 0; 
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--accent-blue);
-            display: inline-block;
-            padding-bottom: 5px;
-        }
+		color: var(--primary-navy); 
+   	 	font-size: 1.6rem; 
+   	 	margin-top: 0;        /* Change from default to 0 */
+    		margin-bottom: 8px;   /* Reduced from 15px to 8px */
+    		border-bottom: 2px solid var(--issue-orange); 
+    		display: inline-block;
+    		padding-bottom: 3px;  /* Tighter underline */
+	}
         
         .issue-card.highlight-box h3 { 
             color: var(--issue-red); 
@@ -257,7 +259,7 @@
     <div class="top-bar">
         <div class="logo-container"><img src="logo.png" alt="Logo"></div>
         <div class="top-bar-links">
-            <a href="#">FB</a> <a href="#">IG</a> <a href="#">YT</a>
+            		<a href="#">小紅書</a> <a href="#">IG</a> <a href="#">YT</a>
         </div>
     </div>
 
@@ -265,48 +267,93 @@
 
 <nav class="nav-container">
         <ul class="nav-links">
-            <li><a href="index.html">主頁</a></li>
-            <li><a href="about.html">我們的承諾</a></li>
-            <li><a href="service.html">我們的服務</a></li>
-			<li><a href="testi.html">學員見證</a></li>
+            <li><a href="index.html">品牌首頁</a></li>
+            <li><a href="about.html">核心理念</a></li>
             <li><a href="issue.html" class="active" style="color: var(--accent-blue); border-bottom-color: #bdc3c7;">溝通問題</a></li>
-            <li><a href="methods.html">交流技巧</a></li>
-            <li><a href="#">聯絡我們</a></li>
+		<li><a href="service.html">方案+服務</a></li>            
+		<li><a href="testi.html">學員回饋</a></li>
+            <li><a href="contact.html">聯絡我們</a></li>
         </ul>
     </nav>
 
     <div class="container">
-        <div class="issue-grid">
-            <div class="issue-card highlight-box">
-                <h3>💔 你也有這些困擾嗎？</h3>
-                <p>溝通問題往往來自細微的習慣。讓我們陪你找出核心原因，重建心靈的橋樑。</p>
-            </div>
 
-            <div class="issue-card">
-                <h3>🤐 陷入「尬聊」</h3>
-                <p>明明想聊天卻找不到話題，空氣突然安靜，讓雙方都感到巨大的壓力。</p>
-            </div>
-            
-            <div class="issue-card">
-                <h3>🗣️ 只有我在說</h3>
-                <p>不小心變成單向輸出，忽略了對方的反應，導致對話失去互動與溫度。</p>
-            </div>
-            
-            <div class="issue-card">
-                <h3>🙅 習慣性否定</h3>
-                <p>當對方分享時，下意識用「可是...」來回應，無形中澆熄了對方的熱情。</p>
-            </div>
-            
-            <div class="issue-card">
-                <h3>📱 數位屏障</h3>
-                <p>過度依賴冷冰冰的文字，少了表情與語氣的傳遞，容易產生不必要的誤會。</p>
-            </div>
-        </div>
 
-        <div class="back-btn-container">
-            <a href="index.html" class="back-btn">← 返回主頁</a>
-        </div>
+<div class="issue-grid">
+
+<div class="issue-card highlight-box" style="border-top: 5px solid #E67E22; background: #fff9f9; padding: 40px 30px;">
+    <h3 style="font-size: 1.8rem; line-height: 1.5; border-bottom: none; color: #333;">
+        💔 <span style="color: red;">情感封鎖線</span>：為什麼你的努力<span style="color: red;">毫無回應</span>？<br>
+        感覺<span style="color: red;">吃力不討好</span>？甚至讓對方<span style="color: red;">討厭</span>？
+    </h3>
+    
+    <div style="margin-top: 25px; padding: 15px; border: 1px dashed red; border-radius: 10px; display: inline-block;">
+        <p style="font-size: 1.4rem; color: #333; font-weight: bold; margin: 0;">
+            👇 檢視以下診斷清單：你是否正被這些問題<span style="color: red;">『深度內耗』</span>？
+        </p>
     </div>
+
+    <p style="font-size: 1.4rem; color: #333; margin-top: 20px;">
+        這不是因為你<span style="color: red;">「不夠好」</span>，而是因為你的 <strong style="color: #00a88a;">溝通戰術</strong> 出現了結構性錯誤。
+    </p>
+    
+    <p style="font-size: 1.4rem; color: #555; line-height: 1.8;">
+        <strong>JK 導師 </strong>將根據你的<strong style="color: #0056b3;">性格測評</strong>，針對你的核心問題進行 <strong style="color: #00a88a;">專項精準打擊</strong>，重構你的溝通底層邏輯。
+    </p>
+
+
+</div>
+
+
+<div class="issue-card">
+        <h3>🤐 陷入尬聊</h3>
+        <p>在缺乏共鳴的情況下硬聊，讓對話變得無比尷尬。</p>
+    </div>
+
+	<div class="issue-card">
+        <h3>🤖 機械應對</h3>
+        <p>回應過於客套官腔，缺乏情感起伏與溫度。</p>
+    </div>
+
+    <div class="issue-card">
+        <h3>🗣️ 過度表達</h3>
+        <p>變成單向輸出，忽略對方反應，導致對話失去互動。</p>
+    </div>
+
+    <div class="issue-card">
+        <h3>🙅 慣性否定</h3>
+        <p>條件反射回復「不是這樣...」，瞬間澆熄對方的分享熱情。</p>
+    </div>
+
+    <div class="issue-card">
+        <h3>🎯 錯誤聚焦</h3>
+        <p>過度關注無關緊要的細節，卻遺漏了對方真正想傳達的情緒信號，導致雞同鴨講。</p>
+    </div>
+
+    <div class="issue-card">
+        <h3>💥 冒犯性話題</h3>
+        <p>在錯誤的時機開啟不適當的話題，引起對方反感卻無所覺察，關係迅速冷卻。</p>
+    </div>
+
+    <div class="issue-card">
+        <h3>🔍 過度解讀</h3>
+        <p>對隨口玩笑反覆琢磨，賦予負面含意，讓自己陷入焦慮懷疑。</p>
+    </div>
+
+    <div class="issue-card">
+        <h3>📱 數位屏障</h3>
+        <p>過度依賴文字，缺少語氣傳遞，容易產生毀滅性的誤會。</p>
+    </div>
+
+
+
+</div>
+
+<div style="width: 100%; clear: both; display: block; margin-top: 100px; padding-bottom: 80px; text-align: center;">
+    <div class="back-btn-container" style="display: inline-block; width: auto;">
+        <a href="index.html" class="back-btn" style="display: inline-block; min-width: 200px; text-align: center;">← 返回主頁</a>
+    </div>
+</div>
 
     <script>
         document.querySelectorAll('.trigger').forEach(el => {
